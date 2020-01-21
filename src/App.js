@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Landing from "./Components/Landing";
+import Main from "./Components/Main";
 import {Router} from "react-router-dom";
 import Sidebar from "react-sidebar";
 import history from "./utils/history";
@@ -53,7 +53,7 @@ class App extends React.Component {
 
                             styles={{sidebar: {background: "#87D333"}, content: {background: "#FFEFFF"}}}>
 
-                            <Landing menuClicked={() => this.handleClick()} buttonState={this.state.buttonOpen}/>
+                            <Main menuClicked={() => this.handleClick()} buttonState={this.state.buttonOpen}/>
 
 
                         </Sidebar>

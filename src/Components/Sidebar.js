@@ -13,7 +13,6 @@ const SidebarContent = () => (
                     exact
                     className="Nav_link"
                     activeClassName="activeRoute"
-                    activeStyle={{ color: 'red' }}
                 >
                     Home
                 </NavLink>
@@ -23,7 +22,6 @@ const SidebarContent = () => (
                     to="/About"
                     className="Nav_link"
                     activeClassName="activeRoute"
-                    activeStyle={{ color: 'red' }}
                 >
                     About
                 </NavLink>
