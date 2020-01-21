@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Components/Main.js" afterDir="false" />
+    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="Updating website title and description.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/About.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/About.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Landing.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Sidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -85,7 +80,7 @@
       <updated>1579538243703</updated>
       <workItem from="1579538245937" duration="614000" />
       <workItem from="1579617230317" duration="1273000" />
-      <workItem from="1579627734579" duration="9973000" />
+      <workItem from="1579627734579" duration="10621000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
@@ -115,7 +110,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579637278207</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Modified page structure to display home on default within Main container which will stay throughout all pages.">
+      <created>1579638894284</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1579638894284</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -139,6 +141,8 @@
     <MESSAGE value="Added npm and node versions in packages.json." />
     <MESSAGE value="Added sass package, fixed styling import." />
     <MESSAGE value="Added Sidebar, menu button and landing page." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Sidebar, menu button and landing page." />
+    <MESSAGE value="Modified page structure to display home on default within Main container which will stay throughout all pages." />
+    <MESSAGE value="Updating website title and description." />
+    <option name="LAST_COMMIT_MESSAGE" value="Updating website title and description." />
   </component>
 </project>
