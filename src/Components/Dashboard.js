@@ -1,15 +1,8 @@
-import React from 'react'
-import 'src/Styling/Dashboard.scss';
+import React from 'react';
+import '../Styling/Dashboard.scss';
 
 export default class Dashboard extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-
-        }
-    }
 
     render () {
         return (
