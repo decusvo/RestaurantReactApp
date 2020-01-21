@@ -1,0 +1,45 @@
+
+
+.Sidebar-container {
+  width:200px;
+
+  .Nav_menu {
+
+    width: 80%;
+    height: 80%;
+    list-style-type: none;
+    margin-top:80%;
+
+
+    li {
+      text-align: center;
+      margin-top:30%;
+      margin-left:20%;
+    }
+
+    .Nav_link:link {
+      font-size: 2.3rem;
+      line-height: 2rem;
+      text-decoration: none;
+    }
+
+    .Nav_link:visited {
+      text-decoration-line: underline;
+    }
+
+    .Nav_link:hover {
+      color: #FCC01A
+    }
+
+    .Nav_link:active {
+      color:  #000500
+    }
+
+    .activeRoute {
+      color: #000500
+    }
+  }
+
+  }
+
+
