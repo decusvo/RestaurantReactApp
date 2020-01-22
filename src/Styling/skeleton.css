@@ -40,6 +40,11 @@
     text-align: left;
     margin-top:2%;
 }
+
+.container-footer {
+    background-color: #e50909;
+    text-align: left;
+}
 .header-menu-button {
     margin-left:97%;
 }

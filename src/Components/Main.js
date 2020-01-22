@@ -36,6 +36,10 @@ const Main = props => (
                 </Switch>
         </div>
 
+        <div className="container-footer">
+            <p>© 2019 Wahaca</p>
+        </div>
+
     </div>
 
 

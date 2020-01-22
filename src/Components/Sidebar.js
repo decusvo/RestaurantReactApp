@@ -5,6 +5,7 @@ import "../Styling/Sidebar.scss";
 
 
 class SidebarContent extends React.Component {
+
     render() {
         return (
             <div className="Sidebar-container">
