@@ -5,6 +5,7 @@ import {Route, Switch } from "react-router-dom";
 import HamburgerMenu from "react-hamburger-menu";
 import About from "./About";
 import Home from "./Home";
+import FoodMenu from "./FoodMenu";
 
 
 const Main = props => (
@@ -26,14 +27,13 @@ const Main = props => (
 
         </div>
         <div className="Main-content">
-            <div className="page-router">
                 <Switch>
                     <Route path="/About" component={About}/>
                     <Route path="/Home" component={Home}/>
                     <Route path="/" exact />
+                    <Route path="/FoodMenu" component={FoodMenu}/>
 
                 </Switch>
-            </div>
         </div>
 
     </div>
