@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="Updating website title and description.">
-      <change afterPath="$PROJECT_DIR$/src/Components/FoodMenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Styling/FoodMenu.css" afterDir="false" />
+    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/About.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/About.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Home.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Sidebar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Styling/skeleton.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styling/skeleton.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +89,7 @@
       <updated>1579538243703</updated>
       <workItem from="1579538245937" duration="614000" />
       <workItem from="1579617230317" duration="1273000" />
-      <workItem from="1579627734579" duration="19541000" />
+      <workItem from="1579627734579" duration="19897000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
@@ -140,7 +133,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579639507822</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added menu option and menu container.">
+      <created>1579660021174</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1579660021174</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,6 +166,7 @@
     <MESSAGE value="Added Sidebar, menu button and landing page." />
     <MESSAGE value="Modified page structure to display home on default within Main container which will stay throughout all pages." />
     <MESSAGE value="Updating website title and description." />
-    <option name="LAST_COMMIT_MESSAGE" value="Updating website title and description." />
+    <MESSAGE value="Added menu option and menu container." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added menu option and menu container." />
   </component>
 </project>
