@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Components/FoodMenuItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +86,7 @@
       <updated>1579538243703</updated>
       <workItem from="1579538245937" duration="614000" />
       <workItem from="1579617230317" duration="1273000" />
-      <workItem from="1579627734579" duration="22078000" />
+      <workItem from="1579627734579" duration="22386000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
@@ -147,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579660347498</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Menu item structure.">
+      <created>1579662593865</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1579662593865</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,6 +179,7 @@
     <MESSAGE value="Updating website title and description." />
     <MESSAGE value="Added menu option and menu container." />
     <MESSAGE value="Moved Menu button." />
-    <option name="LAST_COMMIT_MESSAGE" value="Moved Menu button." />
+    <MESSAGE value="Menu item structure." />
+    <option name="LAST_COMMIT_MESSAGE" value="Menu item structure." />
   </component>
 </project>
