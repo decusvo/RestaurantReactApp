@@ -1,2 +1,2 @@
-# TeamProject2020_16
-#This is a read me file
+# Team Project (CS2810) Group 16
+# This is a read me file
