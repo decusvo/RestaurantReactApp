@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="Reduced header margin to improve logo visibility.">
+    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Styling/skeleton.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styling/skeleton.css" afterDir="false" />
     </list>
@@ -98,7 +98,7 @@
       <workItem from="1579538245937" duration="614000" />
       <workItem from="1579617230317" duration="1273000" />
       <workItem from="1579627734579" duration="25339000" />
-      <workItem from="1579798716062" duration="3647000" />
+      <workItem from="1579798716062" duration="4620000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
@@ -191,7 +191,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579802229747</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Reduced header margin to improve logo visibility.">
+      <created>1579802384210</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1579802384210</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

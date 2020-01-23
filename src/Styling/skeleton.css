@@ -38,18 +38,18 @@
 
 .container-header {
     text-align: left;
+
 }
 
 .container-footer {
-
-    margin-top:1%;
-    margin-left:-10%;
-    text-align: left;
+    left:0;
     bottom:0;
     position:fixed;
+    margin-left:1%;
+
 }
 .header-menu-button {
-    margin-left:97%;
+    margin-left:96%;
 }
 
 
