@@ -6,6 +6,6 @@ app = Flask(__name__)
 def hello_world():
 	return "hello"
 
-if __name == "__main__":
+if __name__ == "__main__":
 	app.debug = True
 	app.run(port=5000)
