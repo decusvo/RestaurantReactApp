@@ -9,6 +9,17 @@ class SidebarContent extends React.Component {
     render() {
         return (
             <div className="Sidebar-container">
+
+                <button>
+                    <NavLink
+                        to="/LogInPage"
+                        className="Log-In-Button"
+                        activeClassName="activeRoute"
+                    >
+                        Log In
+                    </NavLink>
+                </button>
+
                 <ul className="Nav_menu">
                     <li>
                         <NavLink
@@ -39,7 +50,6 @@ class SidebarContent extends React.Component {
                         </NavLink>
                     </li>
                 </ul>
-
 
             </div>
         )

@@ -6,6 +6,9 @@ import HamburgerMenu from "react-hamburger-menu";
 import About from "./About";
 import Home from "./Home";
 import FoodMenu from "./FoodMenu";
+import LogInPage from './LogInPage';
+import Logo from '../Images/Logo.png';
+import Img from 'react-image'
 
 
 const Main = props => (
@@ -15,7 +18,7 @@ const Main = props => (
 
 
         <div className="container-header">
-            <h3>Wahaca</h3>
+            <Img src={Logo} style={{width:"150px",height:"150px"}}/>
 
             <div className="header-menu-button">
                 <HamburgerMenu
@@ -32,6 +35,7 @@ const Main = props => (
                     <Route path="/Home" component={Home}/>
                     <Route path="/" exact />
                     <Route path="/FoodMenu" component={FoodMenu}/>
+                    <Route path="/LogInPage" component={LogInPage}/>
 
                 </Switch>
         </div>

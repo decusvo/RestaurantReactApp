@@ -42,9 +42,12 @@
 }
 
 .container-footer {
+
     margin-top:1%;
-    margin-left:1%;
+    margin-left:-10%;
     text-align: left;
+    bottom:0;
+    position:fixed;
 }
 .header-menu-button {
     margin-left:97%;
