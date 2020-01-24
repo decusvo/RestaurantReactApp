@@ -5,5 +5,16 @@
     margin: 1.4%;
     border-radius: 25px;
     border: 1px solid #87D333;
+}
+
+.Container-left-side {
+    margin-left : 8%;
+    margin-top : 15%;
+
+}
+
+.Container-right-side {
+    margin-top:38%;
+
 
 }

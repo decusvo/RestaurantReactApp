@@ -2,8 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Components/CustomerDashboard.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Components/LoginMenu.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Components/Registration.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Styling/skeleton.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styling/skeleton.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/LogInPage.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Styling/LogInPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styling/LoginMenu.css" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,9 +21,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="SCSS File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -40,11 +48,15 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Images" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.standard" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_interpreter_path" value="node" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="settings.github" />
+    <property name="ts.external.directory.path" value="C:\Users\HP840\WebstormProjects\team16\node_modules\typescript\lib" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -98,7 +110,8 @@
       <workItem from="1579538245937" duration="614000" />
       <workItem from="1579617230317" duration="1273000" />
       <workItem from="1579627734579" duration="25339000" />
-      <workItem from="1579798716062" duration="4620000" />
+      <workItem from="1579798716062" duration="12742000" />
+      <workItem from="1579815130154" duration="10954000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
@@ -198,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579802384210</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Repositioning footer.">
+      <created>1579803364466</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1579803364466</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -231,6 +251,7 @@
     <MESSAGE value="Updated footer." />
     <MESSAGE value="Added logo and log-in container as well as log-in button sidebar." />
     <MESSAGE value="Reduced header margin to improve logo visibility." />
-    <option name="LAST_COMMIT_MESSAGE" value="Reduced header margin to improve logo visibility." />
+    <MESSAGE value="Repositioning footer." />
+    <option name="LAST_COMMIT_MESSAGE" value="Repositioning footer." />
   </component>
 </project>

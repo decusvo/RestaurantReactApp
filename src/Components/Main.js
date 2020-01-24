@@ -6,7 +6,7 @@ import HamburgerMenu from "react-hamburger-menu";
 import About from "./About";
 import Home from "./Home";
 import FoodMenu from "./FoodMenu";
-import LogInPage from './LogInPage';
+import LoginMenu from './LoginMenu';
 import Logo from '../Images/Logo.png';
 import Img from 'react-image'
 
@@ -35,13 +35,13 @@ const Main = props => (
                     <Route path="/Home" component={Home}/>
                     <Route path="/" exact />
                     <Route path="/FoodMenu" component={FoodMenu}/>
-                    <Route path="/LogInPage" component={LogInPage}/>
+                    <Route path="/LogInPage" component={LoginMenu}/>
 
                 </Switch>
         </div>
 
         <div className="container-footer">
-            <p>© 2019 Wahaca</p>
+            <p>© 2019 Oaxaca</p>
         </div>
 
     </div>
