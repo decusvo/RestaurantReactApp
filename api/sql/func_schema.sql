@@ -58,7 +58,6 @@ $$
 
 		WHEN 'delivered' THEN
 			CASE event
-				WHEN 'cancel' THEN 'cancelled'
 				WHEN 'pay' THEN 'paid'
 				ELSE 'error'
 			END
