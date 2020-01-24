@@ -43,15 +43,17 @@ CREATE TABLE menu(
 	description varchar(512),
 	vegan boolean,
 	gluten_free boolean,
+	vegetarian boolean,
 	calories integer,
-	price integer,
+	price money,
 	available boolean,
 	food_type integer REFERENCES item_type(id)
 );
 
 CREATE TABLE orders(
 	id integer PRIMARY KEY,
-	table_number integer REFERENCES tables(table_number)
+	table_number integer REFERENCES tables(table_number),
+	state varchar(20) DEFAULT 'start'
 );
 
 CREATE TABLE ordered_items(
