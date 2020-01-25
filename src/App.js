@@ -14,7 +14,11 @@ class App extends React.Component {
             <div className="App">
                 <Router history={history}>
                     <div className="Index">
-                        <NavBar></NavBar>
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                        <NavBar>
+
+                        </NavBar>
 
                         <Switch>
                             <Route exact path="/">

@@ -1,7 +1,4 @@
 import React from 'react';
-import '../Styling/normalize.css'
-import '../Styling/skeleton.css'
-import '../Styling/LogInPage.css'
 
 
 

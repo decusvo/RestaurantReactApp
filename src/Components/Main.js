@@ -1,6 +1,4 @@
 import React from 'react';
-import '../Styling/normalize.css'
-import '../Styling/skeleton.css'
 import {Route, Switch } from "react-router-dom";
 import HamburgerMenu from "react-hamburger-menu";
 import About from "./About";

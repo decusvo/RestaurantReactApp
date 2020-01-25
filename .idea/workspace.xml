@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="Reduced header margin to improve logo visibility.">
+    <list default="true" id="5bd7248d-ca29-4c41-9e1e-ae8bde8549f8" name="Default Changelist" comment="Changed sidebar to navbar.">
+      <change afterPath="$PROJECT_DIR$/src/Components/DropDown.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Styling/skeleton.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styling/skeleton.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/About.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/About.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/FoodMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/FoodMenu.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Home.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Home.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/LogInPage.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/LogInPage.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NavBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Styling/FoodMenu.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Styling/LogInPage.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Styling/Sidebar.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Styling/normalize.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Styling/skeleton.css" beforeDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,9 +27,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="SCSS File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -26,15 +39,23 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="User-Interface" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1WfQbveOHtThQRB4jolb93Jb73o" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Images" />
@@ -58,18 +79,6 @@
       <recent name="C:\Users\HP840\WebstormProjects\team16\src" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
   <component name="RunManager" selected="npm.npm start">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
@@ -85,12 +94,24 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="" />
+      <changelist id="5bd7248d-ca29-4c41-9e1e-ae8bde8549f8" name="Default Changelist" comment="Changed sidebar to navbar." />
       <created>1579538243703</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -99,6 +120,7 @@
       <workItem from="1579617230317" duration="1273000" />
       <workItem from="1579627734579" duration="25339000" />
       <workItem from="1579798716062" duration="3647000" />
+      <workItem from="1579946899442" duration="9863000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
@@ -191,7 +213,14 @@
       <option name="project" value="LOCAL" />
       <updated>1579802229747</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Changed sidebar to navbar.">
+      <created>1579818759615</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1579818759615</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,6 +253,21 @@
     <MESSAGE value="Updated footer." />
     <MESSAGE value="Added logo and log-in container as well as log-in button sidebar." />
     <MESSAGE value="Reduced header margin to improve logo visibility." />
-    <option name="LAST_COMMIT_MESSAGE" value="Reduced header margin to improve logo visibility." />
+    <MESSAGE value="Changed sidebar to navbar." />
+    <option name="LAST_COMMIT_MESSAGE" value="Changed sidebar to navbar." />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="582" y="115" key="CommitChangelistDialog2" timestamp="1579818759086">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="582" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1579818759086" />
+    <state x="552" y="242" key="Vcs.Push.Dialog.v2" timestamp="1579818763638">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="242" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1579818763638" />
+    <state x="769" y="438" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1579952092412">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="769" y="438" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1579952092412" />
   </component>
 </project>

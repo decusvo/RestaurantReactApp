@@ -1,24 +1,14 @@
 import React from 'react';
-import '../Styling/normalize.css'
-import '../Styling/skeleton.css'
-import "../Styling/FoodMenu.css"
+import {Container} from '@material-ui/core';
 
 
 
 const FoodMenu = () => {
 
     return (
-        <div className="row">
-            <div className="twelve columns">
-                <h4>Our Menu</h4>
+        <Container>
 
-                <div className="Food-Menu-Container">
-
-                </div>
-
-
-            </div>
-        </div>
+        </Container>
     )
 
 
