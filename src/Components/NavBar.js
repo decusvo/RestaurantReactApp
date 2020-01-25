@@ -1,10 +1,24 @@
 import React from 'react';
-import {AppBar, Button, Toolbar, Typography} from '@material-ui/core';
+import {AppBar, Button, Toolbar, Typography, useScrollTrigger, Slide, CssBaseline} from '@material-ui/core';
 import Logo from '../Images/Logo.png';
 import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
-import DropDown from "./DropDown";
+import MenuDropDown from "./MenuDropDown";
+import PropTypes from "prop-types";
 
+function HideOnScroll(props) {
+    const {children, window} = props;
+
+    const trigger = useScrollTrigger({target : window ? window() : undefined});
+
+    return(<Slide appear={false} direction="down" in={!trigger}>{children}</Slide>);
+}
+
+HideOnScroll.propTypes = {
+    children: PropTypes.element.isRequired,
+
+    window: PropTypes.func,
+};
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -12,27 +26,30 @@ const useStyles = makeStyles(theme => ({
     },
     blank: {
         flexGrow: 1,
-    },
+    }
 }));
 
-export default function NavBar() {
+export default function NavBar(props) {
     const classes = useStyles();
 
     return(
         <div className={classes.root}>
-            <AppBar position="static">
-                <Toolbar>
-                    <Button href={"/Home"}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
-                    <Button href={"/Menu"} color={"inherit"}>Menu</Button>
-                    <Button href={"/About"} color={"inherit"}>About</Button>
-                    <DropDown> </DropDown>
+            <CssBaseline />
+            <HideOnScroll {...props}>
+                <AppBar style={{backgroundColor: "#ff0000"}}>
+                    <Toolbar>
+                        <Button href={"/Home"}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
+                        <Button href={"/About"} color={"inherit"}>About</Button>
+                        <MenuDropDown> </MenuDropDown>
 
-                    <Typography variant="h6" className={classes.blank}> </Typography>
+                        <Typography variant="h6" className={classes.blank}> </Typography>
 
-                    <Button color={"inherit"}>Register</Button>
-                    <Button href={"/Login"} color={"inherit"}>Login</Button>
-                </Toolbar>
-            </AppBar>
+                        <Button color={"inherit"}>Register</Button>
+                        <Button href={"/Login"} color={"inherit"}>Login</Button>
+                    </Toolbar>
+                </AppBar>
+            </HideOnScroll>
+            <Toolbar />
         </div>
         );
 }

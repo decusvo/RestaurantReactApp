@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Menu} from "@material-ui/core";
 
-export default function DropDown() {
+export default function MenuDropDown() {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = event => {
@@ -15,7 +15,7 @@ export default function DropDown() {
     return(
         <div>
             <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick} color={"inherit"}>
-                Open Menu
+                Menu
             </Button>
             <Menu
                 id="simple-menu"
