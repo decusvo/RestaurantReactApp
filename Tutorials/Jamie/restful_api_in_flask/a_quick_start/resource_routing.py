@@ -20,3 +20,8 @@ api.add_resource(TodoSimple, '/<string:todo_id>')
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+#  to run code run 'python resource_routing.py'
+#  then to test it use ' curl http://127.0.0.1:5000/todo1 -d "data=Remeber the milk" -X PUT'
+#  then then to test if it has been added 'curl http://127.0.0.1:5000/todo1'
