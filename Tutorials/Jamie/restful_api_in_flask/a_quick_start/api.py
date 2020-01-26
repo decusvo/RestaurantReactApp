@@ -10,10 +10,12 @@ TODOS = {
     'todo3': {'task': 'profit!'},
 }
 
+#  handles the error when there isn't a todo item with that id
 def abort_if_todo_doesnt_exist(todo_id):
     if todo_id not in TODOS:
         abort(404, message="Todo {} doesn't exist".format(todo_id))
 
+#  this is a built in library that validates the data
 parser = reqparse.RequestParser()
 parser.add_argument('task')
 
@@ -56,3 +58,15 @@ api.add_resource(Todo, '/todos/<todo_id>')
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+# querys to test code:
+# To see all the to do items
+# curl http://localhost:5000/todos
+# To see just a single item
+# http://localhost:5000/todos/todo3
+# To delete the item todo2 from the list
+# curl http://localhost:5000/todos/todo2 -X DELETE -v
+# To add a new task to the todo list
+# curl http://localhost:5000/todos -d "task=something new" -X POST -v
+# To update a task on the todo list
+# curl http://localhost:5000/todos/todo3 -d "task=something different" -X PUT -v
