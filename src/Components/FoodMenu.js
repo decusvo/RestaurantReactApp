@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     },
 });
 
-const FoodMenu = () => {
+export default function FoodMenu(){
     const classes = useStyles();
 
     return (
@@ -41,5 +41,3 @@ const FoodMenu = () => {
 
 
 };
-
-export default FoodMenu;
