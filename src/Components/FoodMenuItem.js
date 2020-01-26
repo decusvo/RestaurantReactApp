@@ -2,6 +2,7 @@ import React from 'react'
 import {Typography, Paper, createMuiTheme, Fab} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import MinusIcon from '@material-ui/icons/Remove';
+import FoodMenu from "./FoodMenu";
 
 
 export default class FoodMenuItem extends React.Component {
@@ -18,6 +19,7 @@ export default class FoodMenuItem extends React.Component {
 
     PlusButtonHandler = () => {
         this.setState({itemQuantity: this.state.itemQuantity + 1});
+        FoodMenu.FoodMenu.AddItemToList(["a", this.state.itemQuantity]);
     };
 
     MinusButtonHandler = () => {
