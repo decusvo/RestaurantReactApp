@@ -12,3 +12,8 @@ api.add_resource(HelloWorld, '/')  # assigns the url '/' to call the class Hello
 
 if __name__ == '__main__':
     app.run(debug=True)  # runs the server in dubugger mode
+
+
+#  to run code run 'python helloworld.py'
+#  then to test it works either copy '127.0.0.1:5000/' into browser
+#  or run 'curl 127.0.0.1:5000/'
