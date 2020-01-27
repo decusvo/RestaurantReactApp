@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS customer CASCADE;
 DROP TABLE IF EXISTS waiter CASCADE;
-DROP TABLE IF EXISTS tables CASCADE;
+DROP TABLE IF EXISTS table_details CASCADE;
 DROP TABLE IF EXISTS item_type CASCADE;
 DROP TABLE IF EXISTS menu CASCADE;
 DROP TABLE IF EXISTS orders CASCADE;
@@ -27,7 +27,7 @@ CREATE TABLE waiter(
 	password varchar(256)
 );
 
-CREATE TABLE tables(
+CREATE TABLE table_details(
 	table_number serial PRIMARY KEY,
 	waiter_id integer
 );
@@ -51,8 +51,8 @@ CREATE TABLE menu(
 );
 
 CREATE TABLE orders(
-	id integer PRIMARY KEY,
-	table_number integer REFERENCES tables(table_number),
+	id serial PRIMARY KEY,
+	table_number integer REFERENCES table_details(table_number),
 	state varchar(20) DEFAULT 'start'
 );
 

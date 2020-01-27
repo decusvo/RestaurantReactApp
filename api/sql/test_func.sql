@@ -8,3 +8,7 @@ FROM (VALUES
 ('cooking', 'cancel'),
 ('confirmed', 'cancel')
 ) AS examples(state, event);
+
+INSERT INTO orders(id, table_number) VALUES(1, 1);
+
+INSERT INTO order_events(order_id, event) VALUES(1, 'request');
