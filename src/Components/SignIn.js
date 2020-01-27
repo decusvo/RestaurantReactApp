@@ -12,6 +12,7 @@ class SignIn extends React.Component {
     constructor(props) {
         super(props);
 
+        // Need to lift state from SignInForm.
         this.state = {
             email: '',
             password: ''
@@ -24,6 +25,7 @@ class SignIn extends React.Component {
 
     render() {
         return (
+            // Sign in form components rendered here.
             <SignInForm />
         )
 

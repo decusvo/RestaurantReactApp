@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Components/CustomerDashboard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Components/LoginMenu.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Components/Registration.js" afterDir="false" />
+    <list default="true" id="d0337b2e-34c9-4c4b-a2c0-f3a6c5215934" name="Default Changelist" comment="Material UI sign in and sign up drafts.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/LogInPage.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Styling/LogInPage.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/Styling/LoginMenu.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/SignIn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SignIn.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/SignInForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SignInForm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/SignUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SignUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/SignUpForm.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/SignUpForm.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -23,8 +19,8 @@
       <list>
         <option value="SCSS File" />
         <option value="CSS File" />
-        <option value="JavaScript File" />
         <option value="TypeScript File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -43,8 +39,10 @@
   <component name="ProjectId" id="1WfQbveOHtThQRB4jolb93Jb73o" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="GitIgnore" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/Images" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -111,7 +109,9 @@
       <workItem from="1579617230317" duration="1273000" />
       <workItem from="1579627734579" duration="25339000" />
       <workItem from="1579798716062" duration="12742000" />
-      <workItem from="1579815130154" duration="10954000" />
+      <workItem from="1579815130154" duration="11719000" />
+      <workItem from="1580129486104" duration="7589000" />
+      <workItem from="1580148015390" duration="9399000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
@@ -218,7 +218,21 @@
       <option name="project" value="LOCAL" />
       <updated>1579803364466</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Added Login menu as well as styled buttons for signing in and signing up.">
+      <created>1579857249673</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1579857249673</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Material UI sign in and sign up drafts.">
+      <created>1580163971377</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1580163971377</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,6 +266,8 @@
     <MESSAGE value="Added logo and log-in container as well as log-in button sidebar." />
     <MESSAGE value="Reduced header margin to improve logo visibility." />
     <MESSAGE value="Repositioning footer." />
-    <option name="LAST_COMMIT_MESSAGE" value="Repositioning footer." />
+    <MESSAGE value="Added Login menu as well as styled buttons for signing in and signing up." />
+    <MESSAGE value="Material UI sign in and sign up drafts." />
+    <option name="LAST_COMMIT_MESSAGE" value="Material UI sign in and sign up drafts." />
   </component>
 </project>

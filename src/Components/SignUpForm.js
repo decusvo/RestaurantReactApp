@@ -7,7 +7,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import theme from "../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
@@ -15,7 +15,6 @@ import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
-import SignIn from "./SignIn";
 
 
 const useStyles = makeStyles(theme => ({
@@ -146,7 +145,7 @@ export default function SignUpForm() {
                             <Grid container justify="flex-end">
                                 <Grid item >
                                     <Link href="#" variant="body1">
-                                        <SignIn/>
+                                        Already have an account? Sign in
                                     </Link>
                                 </Grid>
                             </Grid>

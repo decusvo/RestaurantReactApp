@@ -14,6 +14,8 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Box from "@material-ui/core/Box";
 import Copyright from "./Copyright";
 
+
+// custom styles defined here.
 const useStyles = makeStyles(theme => ({
 
     paper: {
@@ -52,6 +54,8 @@ export default function SignInForm() {
                     Sign in
                 </Typography>
                 <form className={classes.form} noValidate>
+                    <Grid container spacing={1}>
+                        <Grid item xs={12}>
                     <TextField
                         variant='outlined'
                         margin="normal"
@@ -63,8 +67,9 @@ export default function SignInForm() {
                         autoComplete="email"
                         autoFocus
                         color="primary"
-
                     />
+                        </Grid>
+                        <Grid item xs={12}>
                     <TextField
                         variant='outlined'
                         margin="normal"
@@ -77,6 +82,8 @@ export default function SignInForm() {
                         autoComplete="current-password"
                         color="primary"
                     />
+                        </Grid>
+                    </Grid>
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me."

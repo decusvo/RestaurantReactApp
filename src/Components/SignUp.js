@@ -6,6 +6,8 @@ class SignUp  extends React.Component {
 
     constructor(props) {
         super(props);
+
+        // Need to lift state from SignUpForm.
         this.state = {
             first_name: '',
             last_name: '',
@@ -21,6 +23,7 @@ class SignUp  extends React.Component {
         render()
         {
             return(
+                //Content from the signUpForm will be rendered here.
                 <SignUpForm/>
             )
 
