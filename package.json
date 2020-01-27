@@ -49,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "latest"
   }
 }

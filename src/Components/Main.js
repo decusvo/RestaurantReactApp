@@ -6,7 +6,7 @@ import HamburgerMenu from "react-hamburger-menu";
 import About from "./About";
 import Home from "./Home";
 import FoodMenu from "./FoodMenu";
-import LoginMenu from './LoginMenu';
+import SignIn from './SignIn';
 import Logo from '../Images/Logo.png';
 import Img from 'react-image'
 
@@ -35,7 +35,7 @@ const Main = props => (
                     <Route path="/Home" component={Home}/>
                     <Route path="/" exact />
                     <Route path="/FoodMenu" component={FoodMenu}/>
-                    <Route path="/LogInPage" component={LoginMenu}/>
+                    <Route path="/LogInPage" component={SignIn}/>
 
                 </Switch>
         </div>
