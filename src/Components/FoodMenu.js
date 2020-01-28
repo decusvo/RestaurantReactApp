@@ -1,6 +1,7 @@
 import React from 'react';
 import {Container, CssBaseline, Typography} from '@material-ui/core';
 import FoodMenuItem from "./FoodMenuItem";
+import Button from "@material-ui/core/Button";
 
 
 export default class FoodMenu extends React.Component{
@@ -12,8 +13,12 @@ export default class FoodMenu extends React.Component{
         };
     }
 
-    AddItemToList = (item) => {
-        this.setState({items: this.state.items.add(item)});
+    AddItemToItems = () => {
+        console.log(this.message);
+    };
+
+    print = () => {
+      console.log(this.state.items);
     };
 
     render() {
@@ -24,8 +29,9 @@ export default class FoodMenu extends React.Component{
                     <Typography style={{marginTop: 10, fontSize: 25}} color="textPrimary" gutterBottom>
                         Our Menu
                     </Typography>
+                    <Button onClick={this.print}> </Button>
 
-                    <FoodMenuItem />
+                    <FoodMenuItem value={"Dish Name"} whenClicked={this.AddItemToItems}/>
                     <FoodMenuItem />
                     <FoodMenuItem />
                     <FoodMenuItem />

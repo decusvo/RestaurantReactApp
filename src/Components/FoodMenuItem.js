@@ -2,7 +2,6 @@ import React from 'react'
 import {Typography, Paper, createMuiTheme, Fab} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import MinusIcon from '@material-ui/icons/Remove';
-import FoodMenu from "./FoodMenu";
 
 
 export default class FoodMenuItem extends React.Component {
@@ -19,7 +18,6 @@ export default class FoodMenuItem extends React.Component {
 
     PlusButtonHandler = () => {
         this.setState({itemQuantity: this.state.itemQuantity + 1});
-        FoodMenu.FoodMenu.AddItemToList(["a", this.state.itemQuantity]);
     };
 
     MinusButtonHandler = () => {
@@ -30,19 +28,20 @@ export default class FoodMenuItem extends React.Component {
 
     render () {
         const theme = createMuiTheme();
+        const {whenClicked, value} = this.props;
         return (
             <div style={{display: "flex", flexWrap: "wrap"}}>
                 <Paper elevation={3} style={{margin: theme.spacing(1),
                     width: theme.spacing(1000000),
                 backgroundColor: "#87d32f"}}>
-                    <Typography >Dish name</Typography>
+                    <Typography >{value}</Typography>
                     <Typography style={{textAlign:"left"}}>Dish description</Typography>
                     <Typography style={{textAlign:"left", }}>Nutritional information</Typography>
                     <Typography style={{textAlign:"left", }}>Allergies</Typography>
                     <Fab color="primary" aria-label="minus" onClick={this.MinusButtonHandler}>
                         <MinusIcon />
                     </Fab>
-                    <Fab color="primary" aria-label="add" onClick={this.PlusButtonHandler}>
+                    <Fab color="primary" aria-label="add" onClick={whenClicked} onClickCapture={this.PlusButtonHandler}>
                         <AddIcon />
                     </Fab>
                     <Typography>{this.state.itemQuantity}</Typography>

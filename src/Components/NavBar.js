@@ -5,6 +5,8 @@ import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
 import MenuDropDown from "./MenuDropDown";
 import PropTypes from "prop-types";
+import {ShoppingBasket} from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -44,6 +46,9 @@ export default function NavBar(props) {
 
                         <Typography variant="h6" className={classes.blank}> </Typography>
 
+                        <IconButton href={"/Basket"}  edge="start" color={"inherit"} aria-label={"basket"}>
+                            <ShoppingBasket />
+                        </IconButton>
                         <Button color={"inherit"}>Register</Button>
                         <Button href={"/Login"} color={"inherit"}>Login</Button>
                     </Toolbar>
