@@ -5,7 +5,6 @@ DROP TABLE IF EXISTS item_type CASCADE;
 DROP TABLE IF EXISTS menu CASCADE;
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS ordered_items CASCADE;
-DROP TABLE IF EXISTS order_events CASCADE;
 
 -- Credit for order events and function:
 -- https://felixge.de/2017/07/27/implementing-state-machines-in-postgresql.html

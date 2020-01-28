@@ -83,7 +83,9 @@ BEGIN
 	SELECT NEW.event INTO new_event;
 	SELECT state FROM orders WHERE orders.id = NEW.order_id INTO old_state;
 	SELECT order_event_transition(old_state, new_event) INTO new_state;
-	RETURN new_state;
+	
+	UPDATE orders SET state=new_state WHERE orders.id = NEW.order_id; 
+	RETURN NEW;
 END
 $$
 LANGUAGE PLPGSQL;

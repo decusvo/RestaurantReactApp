@@ -9,6 +9,16 @@ FROM (VALUES
 ('confirmed', 'cancel')
 ) AS examples(state, event);
 
-INSERT INTO orders(id, table_number) VALUES(1, 1);
+UPDATE orders SET state='start' WHERE orders.id=1;
 
+SELECT state FROM orders;
 INSERT INTO order_events(order_id, event) VALUES(1, 'request');
+SELECT state FROM orders;
+INSERT INTO order_events(order_id, event) VALUES(1, 'confirm');
+SELECT state FROM orders;
+INSERT INTO order_events(order_id, event) VALUES(1, 'start_cook');
+SELECT state FROM orders;
+INSERT INTO order_events(order_id, event) VALUES(1, 'deliver');
+SELECT state FROM orders;
+INSERT INTO order_events(order_id, event) VALUES(1, 'pay');
+SELECT state FROM orders;
