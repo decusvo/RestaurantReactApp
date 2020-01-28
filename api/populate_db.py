@@ -1,5 +1,5 @@
 # SQL_DATA FILE LOCATION:
-db_data_loc = "../sql/db_data/"
+db_data_loc = "sql/db_data/"
 ##################################################################################################
 
 import psycopg2
@@ -7,7 +7,7 @@ import sys
 import re
 import os
 import csv
-import connector
+from common import connector
 
 # initialise new connectoin
 connection = connector.get_connection() 
@@ -86,6 +86,14 @@ if __name__ == "__main__":
 	if len(sys.argv) > 1 and sys.argv[1] == "v":
 		verbose = True
 
+	print("Initialising schema for database...")
+	cursor.execute(open("sql/db_schema.sql").read())
+	print("DB schema inserted")
+	
+	print("Initialising function schema for database...")
+	cursor.execute(open("sql/func_schema.sql").read())
+	print("Function schema inserted")
+	
 	# FOR EACH file in the source folder, pass it to insert_from_csv to decompose and insert
 	# TODO Currently no validation to check if files in source are .csv
 	print("INSERTING FILES FROM %s INTO DATABASE: %s" % (db_data_loc, connector.db_name))
