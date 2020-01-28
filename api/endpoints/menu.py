@@ -18,8 +18,14 @@ app = Flask(__name__)
 @app.route("/menu")
 def menu():
     if len(request.args) == 0:  # if there are no arguments select everything
+        #  gets the whole menu from the database and gets the menu item type i.e. side, main ect
         #  this sql query returns the result as an already formatted json
-        cur.execute("SELECT TO_JSON(t) from (SELECT * from menu) t;")
+        cur.execute("SELECT TO_JSON(t) " +
+            "FROM (SELECT menu.id, name, description, vegan, " +
+            "gluten_free, vegetarian, calories, price, available, type " +
+                "FROM menu, item_type " +
+                "WHERE item_type.id = menu.food_type)" +
+            "t;")
         #  gets the result from the database
         result = cur.fetchall()
         return jsonify(result)
