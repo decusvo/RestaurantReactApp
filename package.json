@@ -23,9 +23,7 @@
     "react-menu-list": "^6.1.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
-    "react-sidebar": "^3.0.2",
-    "react-tap-event-plugin": "^3.0.3",
-    "typescript": "^3.7.5"
+    "prop-types": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -49,6 +47,7 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/core": "^4.9.0",
     "@material-ui/icons": "^4.5.1",
     "@material-ui/styles": "latest"
   }

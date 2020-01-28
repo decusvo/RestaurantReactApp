@@ -1,80 +1,53 @@
 import React from 'react'
+import {Typography, Paper, createMuiTheme, Fab} from "@material-ui/core";
+import AddIcon from '@material-ui/icons/Add';
+import MinusIcon from '@material-ui/icons/Remove';
+
 
 export default class FoodMenuItem extends React.Component {
-
     constructor(props){
         super(props);
 
         this.state = {
             itemQuantity:0
-        }
+        };
 
         this.PlusButtonHandler.bind(this);
         this.MinusButtonHandler.bind(this);
     }
 
-    PlusButtonHandler() {
-        let newState = (this.state.itemQuantity)+1;
-        this.setState(newState);
-    }
+    PlusButtonHandler = () => {
+        this.setState({itemQuantity: this.state.itemQuantity + 1});
+    };
 
-    MinusButtonHandler() {
-        let newState = (this.state.itemQuantity)-1;
-        this.setState(newState);
-    }
-
-
-
-
+    MinusButtonHandler = () => {
+        if(this.state.itemQuantity > 0){
+            this.setState({itemQuantity: this.state.itemQuantity - 1});
+        }
+    };
 
     render () {
+        const theme = createMuiTheme();
+        const {whenClicked, value} = this.props;
         return (
-            <div className="Food-Menu-Item-Container">
-
-                <div className="Item-title">
-                    <h3>
-                        {this.props.title}
-                    </h3>
-                </div>
-
-                <div className="Item-image">
-                    <img src={require(this.props.imageUrl)}/>
-                </div>
-
-                <div className="Item-description">
-
-                    <div className="Item-sentence">
-                        <i>{this.props.sentence}</i>
-
-                    </div>
-
-                    <div className="Item-nutritional-information">
-                        <p>{this.props.nutritionalInformation}</p>
-
-                    </div>
-
-                    <div className="Item-Allergies">
-                        <p>{this.props.allergies}</p>
-                    </div>
-
-                    <div className="Item-order">
-
-                        <div className="Item-price">
-                            <b>{this.props.price}</b>
-                        </div>
-
-                        <button className="Plus-button" onClick={this.PlusButtonHandler}>+</button>
-                        <button className="Minus-button" onClick={this.MinusButtonHandler}>-</button>
-
-
-                    </div>
-
-
-                </div>
-
+            <div style={{display: "flex", flexWrap: "wrap"}}>
+                <Paper elevation={3} style={{margin: theme.spacing(1),
+                    width: theme.spacing(1000000),
+                backgroundColor: "#87d32f"}}>
+                    <Typography >{value}</Typography>
+                    <Typography style={{textAlign:"left"}}>Dish description</Typography>
+                    <Typography style={{textAlign:"left", }}>Nutritional information</Typography>
+                    <Typography style={{textAlign:"left", }}>Allergies</Typography>
+                    <Fab color="primary" aria-label="minus" onClick={this.MinusButtonHandler}>
+                        <MinusIcon />
+                    </Fab>
+                    <Fab color="primary" aria-label="add" onClick={whenClicked} onClickCapture={this.PlusButtonHandler}>
+                        <AddIcon />
+                    </Fab>
+                    <Typography>{this.state.itemQuantity}</Typography>
+                </Paper>
             </div>
-
-        )
+        );
     }
 
 };

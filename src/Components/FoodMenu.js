@@ -1,27 +1,58 @@
 import React from 'react';
-import '../Styling/normalize.css'
-import '../Styling/skeleton.css'
-import "../Styling/FoodMenu.css"
+import {Container, CssBaseline, Typography} from '@material-ui/core';
+import FoodMenuItem from "./FoodMenuItem";
+import Button from "@material-ui/core/Button";
+import Copyright from "./Copyright";
+import Box from "@material-ui/core/Box";
 
 
+export default class FoodMenu extends React.Component{
+    constructor(props) {
+        super(props);
 
-const FoodMenu = () => {
+        this.state = {
+            items: []
+        };
+    }
 
-    return (
-        <div className="row">
-            <div className="twelve columns">
-                <h4>Our Menu</h4>
+    AddItemToItems = () => {
+        console.log(this.message);
+    };
 
-                <div className="Food-Menu-Container">
+    print = () => {
+      console.log(this.state.items);
+    };
 
-                </div>
+    render() {
+        return (
+            <React.Fragment>
+                <CssBaseline />
+                <Container maxWidth={"xl"}>
+                    <Typography style={{marginTop: 10, fontSize: 25}} color="textPrimary" gutterBottom>
+                        Our Menu
+                    </Typography>
+                    <Button onClick={this.print}> </Button>
 
+                    <FoodMenuItem value={"Dish Name"} whenClicked={this.AddItemToItems}/>
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
+                    <FoodMenuItem />
 
-            </div>
-        </div>
-    )
+                    <Box mt={5}>
+                        <Copyright />
+                    </Box>
 
+                </Container>
+            </React.Fragment>
 
+        )
+    }
 };
-
-export default FoodMenu;

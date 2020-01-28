@@ -1,62 +1,44 @@
 import React from 'react';
 import './App.css';
-import Main from "./Components/Main";
-import {Router} from "react-router-dom";
-import Sidebar from "react-sidebar";
+import Home from "./Components/Home";
+import FoodMenu from "./Components/FoodMenu";
+import About from "./Components/About";
+import {Router, Route, Switch} from "react-router-dom";
 import history from "./utils/history";
-import SidebarContent from "./Components/Sidebar";
+import NavBar from "./Components/NavBar";
+import SignIn from "./Components/SignIn";
+import SignUp from "./Components/SignUp";
 
 class App extends React.Component {
-
-    constructor(props) {
-        super(props);
-        {/* sidebar is docked when the media query matches. */
-        }
-        this.state = {
-            buttonOpen: false,
-            sidebarOpen: false,
-        };
-
-        {/* binds the functions to the class. */
-        }
-        this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
-        this.handleSidebarClick = this.handleSidebarClick.bind(this);
-    }
-
-    onSetSidebarOpen(open) {
-        this.setState({sidebarOpen: open});
-        {/* Set sidebar as open.*/
-        }
-        this.setState({buttonOpen: false});
-    }
-
-    handleClick() {
-        this.setState({
-            buttonOpen: !this.state.buttonOpen,
-            sidebarOpen: !this.state.sidebarOpen,
-        });
-    }
-
-    handleSidebarClick() {
-        this.handleClick();
-    }
-
     render() {
         return (
             <div className="App">
                 <Router history={history}>
                     <div className="Index">
-                        <Sidebar
-                            sidebar={<SidebarContent onChange={this.handleSidebarClick}/>}
-                            open={this.state.sidebarOpen}
-                            onSetOpen={this.onSetSidebarOpen}
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+                        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+                        <NavBar />
 
-                            styles={{sidebar: {background: "#87D333"}, content: {background: "#FFEFFF"}}}>
-
-                            <Main menuClicked={() => this.handleClick()} buttonState={this.state.buttonOpen}/>
-
-
-                        </Sidebar>
+                        <Switch>
+                            <Route exact path="/">
+                                <Home />
+                            </Route>
+                            <Route path="/Home">
+                                <Home/>
+                            </Route>
+                            <Route path="/About">
+                                <About/>
+                            </Route>
+                            <Route path="/Menu">
+                                <FoodMenu />
+                            </Route>
+                            <Route path="/Login">
+                                <SignIn />
+                            </Route>
+                            <Route path="/Register">
+                                <SignUp />
+                            </Route>
+                        </Switch>
                     </div>
                 </Router>
             </div>
