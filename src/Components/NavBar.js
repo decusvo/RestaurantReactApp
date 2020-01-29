@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppBar, Button, Toolbar, Typography, useScrollTrigger, Slide, CssBaseline} from '@material-ui/core';
-import Logo from '../Images/Logo.png';
+import Logo from '../Images/oaxacaLogo.png';
 import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
 import MenuDropDown from "./MenuDropDown";
@@ -41,9 +41,9 @@ export default function NavBar(props) {
             <div className={classes.root}>
                 <CssBaseline />
                 <HideOnScroll {...props}>
-                    <AppBar>
+                    <AppBar style={{background: '#68a4a7'}}>
                         <Toolbar>
-                            <Button href={"/Home"}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
+                            <Button href={"/Home"}><Img src={Logo} style={{width:"70px",height:"20px"}}/></Button>
                             <Button href={"/About"} color={"inherit"}>About</Button>
                             <MenuDropDown> </MenuDropDown>
 
