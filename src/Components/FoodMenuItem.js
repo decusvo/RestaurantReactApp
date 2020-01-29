@@ -28,7 +28,7 @@ export default class FoodMenuItem extends React.Component {
 
     render () {
         const theme = createMuiTheme();
-        const {whenClicked, value} = this.props;
+        const {whenClicked, value, description} = this.props;
         return (
             <div style={{display: "flex", flexWrap: "wrap"}}>
                 <Paper elevation={3} style={{margin: theme.spacing(1),
@@ -36,6 +36,7 @@ export default class FoodMenuItem extends React.Component {
                 backgroundColor: "#87d32f"}}>
                     <Typography >{value}</Typography>
                     <Typography style={{textAlign:"left"}}>Dish description</Typography>
+                    <Typography style={{textAlign:"left"}}>{description}</Typography>
                     <Typography style={{textAlign:"left", }}>Nutritional information</Typography>
                     <Typography style={{textAlign:"left", }}>Allergies</Typography>
                     <Fab color="primary" aria-label="minus" onClick={this.MinusButtonHandler}>

@@ -23,6 +23,15 @@ export default class FoodMenu extends React.Component{
       console.log(this.state.items);
     };
 
+	async componentDidMount(){
+		fetch("//127.0.0.1:5000/api/menu").then((response) => {
+			console.log(response);
+			return response.json();
+		}).then((data) => {
+			this.setState({items : data});
+		});
+	}
+
     render() {
         return (
             <React.Fragment>
@@ -33,7 +42,7 @@ export default class FoodMenu extends React.Component{
                     </Typography>
                     <Button onClick={this.print}> </Button>
 
-                    <FoodMenuItem value={"Dish Name"} whenClicked={this.AddItemToItems}/>
+                    <FoodMenuItem value={"Dish Name"} description="TEST" whenClicked={this.AddItemToItems}/>
                     <FoodMenuItem />
                     <FoodMenuItem />
                     <FoodMenuItem />
