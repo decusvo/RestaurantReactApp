@@ -10,8 +10,7 @@ DROP TABLE IF EXISTS ordered_items CASCADE;
 -- https://felixge.de/2017/07/27/implementing-state-machines-in-postgresql.html
 
 CREATE TABLE customer(
-	customer_id serial PRIMARY KEY,
-	email varchar(128),
+	email varchar(128) PRIMARY KEY,
 	firstname varchar(64),
 	lastname varchar(64),
 	password varchar(256)
