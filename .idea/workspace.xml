@@ -4,7 +4,6 @@
     <list default="true" id="5bd7248d-ca29-4c41-9e1e-ae8bde8549f8" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/FoodMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/FoodMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/FoodMenuItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/FoodMenuItem.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,6 +43,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="GitIgnore" />
@@ -117,6 +117,7 @@
       <workItem from="1580129486104" duration="7589000" />
       <workItem from="1580148015390" duration="9399000" />
       <workItem from="1580335037162" duration="4933000" />
+      <workItem from="1580377346922" duration="2238000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
