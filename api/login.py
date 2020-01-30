@@ -1,16 +1,10 @@
 from flask import Flask, request, jsonify
 import psycopg2
+from common import connector
 
 
-###
-###  makes connection to a psql database
-###  this is temporary!!
-###
-connection = psycopg2.connect(user = "jrngriijazlzxr",
-                                  password = "655c5947f8ad0f453bfd4b5d4b80d6374a3a97f706c4533a60be75c3de343817",
-                                  host = "ec2-54-247-72-30.eu-west-1.compute.amazonaws.com",
-                                  port = "5432",
-                                  database = "d9vtdql067f73n")
+
+connection = connector.get_connection()
 cur = connection.cursor()
 
 app = Flask(__name__)
@@ -65,4 +59,4 @@ if __name__ == "__main__":
 #  this should result in the name molly and valid credentails being true
 
 #  curl -d '{"email":"waiter@waiter.com", "password":"supersecurepassword", "staff_login":false}' -H "Content-type: application/json"  -X POST "127.0.0.1:5000/login"
-#  this should result in an invalid input as it was looking at the wrong db table 
+#  this should result in an invalid input as it was looking at the wrong db table
