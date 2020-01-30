@@ -2,16 +2,9 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
 import psycopg2
-###
-###  makes connection to a psql database
-###  this is temporary!!
-###
-connection = psycopg2.connect(user = "jrngriijazlzxr",
-								  password = "655c5947f8ad0f453bfd4b5d4b80d6374a3a97f706c4533a60be75c3de343817",
-								  host = "ec2-54-247-72-30.eu-west-1.compute.amazonaws.com",
-								  port = "5432",
-								  database = "d9vtdql067f73n")
+from common import connector
 
+connection = connector.get_connection()
 cur = connection.cursor()
 
 
@@ -40,7 +33,7 @@ def menu():
 			# data_dict[idx] = value
 		# return jsonify(data_dict)
 		return jsonify(result)
-	
+
 	else:  # not implemented yet
 		# add the abilty to handle multiple arguments in the querys
 		# for example get only sides ect by adding '?item_type=side'
