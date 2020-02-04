@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import psycopg2
 from common import connector
 
@@ -8,11 +9,12 @@ connection = connector.get_connection()
 cur = connection.cursor()
 
 app = Flask(__name__)
+CORS(app)
 
 def get_table(val):
     return "waiter" if val else "customer"
 
-@app.route("/login", methods=["POST"])
+@app.route("/api/login", methods=["POST"])
 def login():
     #  Get the email and password from a post request as a json
     email = request.json.get('email')
