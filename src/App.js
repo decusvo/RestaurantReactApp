@@ -6,7 +6,7 @@ import About from "./Components/About";
 import {Router, Route, Switch} from "react-router-dom";
 import history from "./utils/history";
 import NavBar from "./Components/NavBar";
-import SignIn from "./Components/SignIn";
+import SignIn from "./Components/Login";
 import SignUp from "./Components/SignUp";
 
 class App extends React.Component {
