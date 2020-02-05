@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="5bd7248d-ca29-4c41-9e1e-ae8bde8549f8" name="Default Changelist" comment="">
+    <list default="true" id="5bd7248d-ca29-4c41-9e1e-ae8bde8549f8" name="Default Changelist" comment="MenuItem is changed to card from paper.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/FoodMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/FoodMenu.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/FoodMenuItem.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/FoodMenuItem.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/MenuDropDown.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Components/NavBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/NavBar.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +121,7 @@
       <workItem from="1580148015390" duration="9399000" />
       <workItem from="1580335037162" duration="4933000" />
       <workItem from="1580377346922" duration="2238000" />
+      <workItem from="1580941089665" duration="5845000" />
     </task>
     <task id="LOCAL-00001" summary="First commit.">
       <created>1579627877728</created>
@@ -256,7 +256,14 @@
       <option name="project" value="LOCAL" />
       <updated>1580256732111</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="updated dependencies and made mapping different menu items a function so now its not a code smell.">
+      <created>1580861121198</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1580861121198</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -293,17 +300,19 @@
     <MESSAGE value="Added Login menu as well as styled buttons for signing in and signing up." />
     <MESSAGE value="Material UI sign in and sign up drafts." />
     <MESSAGE value="Changed Oaxaca icon and header." />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed Oaxaca icon and header." />
+    <MESSAGE value="updated dependencies and made mapping different menu items a function so now its not a code smell." />
+    <MESSAGE value="MenuItem is changed to card from paper." />
+    <option name="LAST_COMMIT_MESSAGE" value="MenuItem is changed to card from paper." />
   </component>
   <component name="WindowStateProjectService">
-    <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1580339487123">
+    <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1580941265729">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580339487123" />
-    <state x="582" y="115" key="CommitChangelistDialog2" timestamp="1580256731551">
+    <state x="690" y="268" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580941265729" />
+    <state x="582" y="115" key="CommitChangelistDialog2" timestamp="1580946995987">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="582" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580256731551" />
+    <state x="582" y="115" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1580946995987" />
     <state x="740" y="276" key="FileChooserDialogImpl" timestamp="1580335092600">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -328,21 +337,21 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="725" y="237" key="VCS.ChangeListViewerDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580247944305" />
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1580256734681">
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2" timestamp="1580861123291">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1580256734681" />
-    <state x="769" y="438" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580857383258">
+    <state x="552" y="254" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1580861123291" />
+    <state x="769" y="438" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1580947093383">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="769" y="438" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1580857383258" />
+    <state x="769" y="438" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1580947093383" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Components/NavBar.js</url>
-          <line>43</line>
+          <line>42</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

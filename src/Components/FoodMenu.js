@@ -29,17 +29,15 @@ export default class FoodMenu extends React.Component{
 
     render() {
         const MapMenuItem = ({value}) => {
-            let component = '';
             return this.state.items.map(function (dishes, index) {
                 const dish = dishes["0"];
                 const type = dish.type;
 
                 if (type === value) {
-                    component = <FoodMenuItem key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>
+                    return (<FoodMenuItem key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>)
                 } else {
-                    component = <div key={index}> </div>
+                    return (<div key={index}> </div>);
                 }
-                return component;
             });
         };
 
@@ -52,28 +50,28 @@ export default class FoodMenu extends React.Component{
                     </Typography>
                     <Button onClick={this.print}> </Button>
 
-                    <Typography style={{marginTop: 10, fontSize: 20}} color={"textPrimary"} gutterBottom>
+                    <Typography style={{marginTop: 10, fontSize: 22}} color={"textPrimary"} gutterBottom>
                         Starters
                     </Typography>
                     <Grid container spacing={3}>
                         <MapMenuItem value={"starter"}/>
                     </Grid>
 
-                    <Typography style={{marginTop: 10, fontSize: 20}} color={"textPrimary"} gutterBottom>
+                    <Typography style={{marginTop: 10, fontSize: 22}} color={"textPrimary"} gutterBottom>
                         Sides
                     </Typography>
                     <Grid container spacing={3}>
                         <MapMenuItem value={"side"} />
                     </Grid>
 
-                    <Typography style={{marginTop: 10, fontSize: 20}} color={"textPrimary"} gutterBottom>
+                    <Typography style={{marginTop: 10, fontSize: 22}} color={"textPrimary"} gutterBottom>
                         Mains
                     </Typography>
                     <Grid container spacing={3}>
                         <MapMenuItem value={"main"} />
                     </Grid>
 
-                    <Typography style={{marginTop: 10, fontSize: 20}} color={"textPrimary"} gutterBottom>
+                    <Typography style={{marginTop: 10, fontSize: 22}} color={"textPrimary"} gutterBottom>
                         Desserts
                     </Typography>
                     <Grid container spacing={3}>
