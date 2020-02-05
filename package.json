@@ -7,23 +7,19 @@
     "npm": "6.13.6"
   },
   "dependencies": {
-    "@material-ui/core": "^4.9.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.2.1",
     "@typescript-eslint/parser": "^2.17.0",
-    "axios": "^0.19.2",
     "material-ui": "^0.20.2",
     "node-sass": "^4.13.1",
+    "prop-types": "latest",
     "react": "^16.12.0",
-    "react-axios": "^2.0.3",
     "react-dom": "^16.12.0",
     "react-hamburger-menu": "^1.1.1",
     "react-image": "^2.2.2",
-    "react-menu-list": "^6.1.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
-    "prop-types": "latest"
+    "react-scripts": "^3.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -47,8 +43,8 @@
     ]
   },
   "devDependencies": {
-    "@material-ui/core": "^4.9.0",
-    "@material-ui/icons": "^4.5.1",
+    "@material-ui/core": "^4.9.1",
+    "@material-ui/icons": "^4.9.1",
     "@material-ui/styles": "latest"
   }
 }

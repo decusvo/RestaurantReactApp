@@ -140,9 +140,9 @@ class Login extends React.Component {
                           color="primary"
                           className={classes.submit}
                           onClick = {() => {
-                            console.log(this.state.email)
-                            console.log(this.state.password)
-                            console.log(this.state.staff)
+                            console.log(this.state.email);
+                            console.log(this.state.password);
+                            console.log(this.state.staff);
                           }}
                       >
                           Sign In

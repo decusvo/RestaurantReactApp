@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import FoodMenuItem from "./FoodMenuItem";
+import Grid from "@material-ui/core/Grid";
 
 
 export default class FoodMenu extends React.Component{
@@ -27,6 +28,21 @@ export default class FoodMenu extends React.Component{
     }
 
     render() {
+        const MapMenuItem = ({value}) => {
+            let component = '';
+            return this.state.items.map(function (dishes, index) {
+                const dish = dishes["0"];
+                const type = dish.type;
+
+                if (type === value) {
+                    component = <FoodMenuItem key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>
+                } else {
+                    component = <div key={index}> </div>
+                }
+                return component;
+            });
+        };
+
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -39,71 +55,30 @@ export default class FoodMenu extends React.Component{
                     <Typography style={{marginTop: 10, fontSize: 20}} color={"textPrimary"} gutterBottom>
                         Starters
                     </Typography>
-                    {
-                        this.state.items.map(function (dishes, index) {
-                            const dish = dishes["0"];
-                            const type = dish.type;
+                    <Grid container spacing={3}>
+                        <MapMenuItem value={"starter"}/>
+                    </Grid>
 
-                            if (type === "starter") {
-                                return (
-                                    <FoodMenuItem key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>
-                                );
-                            } else {
-                                return (<div key={index}> </div>);
-                            }
-                        })
-                    }
                     <Typography style={{marginTop: 10, fontSize: 20}} color={"textPrimary"} gutterBottom>
                         Sides
                     </Typography>
-                    {
-                        this.state.items.map(function (dishes, index) {
-                            const dish = dishes["0"];
-                            const type = dish.type;
+                    <Grid container spacing={3}>
+                        <MapMenuItem value={"side"} />
+                    </Grid>
 
-                            if (type === "side") {
-                                return (
-                                    <FoodMenuItem key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>
-                                );
-                            } else {
-                                return (<div key={index}> </div>);
-                            }
-                        })
-                    }
                     <Typography style={{marginTop: 10, fontSize: 20}} color={"textPrimary"} gutterBottom>
                         Mains
                     </Typography>
-                    {
-                        this.state.items.map(function (dishes, index) {
-                            const dish = dishes["0"];
-                            const type = dish.type;
+                    <Grid container spacing={3}>
+                        <MapMenuItem value={"main"} />
+                    </Grid>
 
-                            if (type === "main") {
-                                return (
-                                    <FoodMenuItem key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>
-                                );
-                            } else {
-                                return (<div key={index}> </div>);
-                            }
-                        })
-                    }
                     <Typography style={{marginTop: 10, fontSize: 20}} color={"textPrimary"} gutterBottom>
                         Desserts
                     </Typography>
-                    {
-                        this.state.items.map(function (dishes, index) {
-                            const dish = dishes["0"];
-                            const type = dish.type;
-
-                            if (type === "dessert") {
-                                return (
-                                    <FoodMenuItem key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>
-                                );
-                            } else {
-                                return (<div key={index}> </div>);
-                            }
-                        })
-                    }
+                    <Grid container spacing={3}>
+                        <MapMenuItem value={"dessert"} />
+                    </Grid>
 
                     <Box mt={5}>
                         <Copyright />

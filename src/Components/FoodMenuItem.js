@@ -2,6 +2,7 @@ import React from 'react'
 import {Typography, Paper, createMuiTheme, Fab} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import MinusIcon from '@material-ui/icons/Remove';
+import Grid from "@material-ui/core/Grid";
 
 
 export default class FoodMenuItem extends React.Component {
@@ -30,10 +31,14 @@ export default class FoodMenuItem extends React.Component {
         const theme = createMuiTheme();
         const {value, description, price, calories} = this.props;
         return (
-            <div style={{display: "flex", flexWrap: "wrap"}}>
-                <Paper elevation={3} style={{margin: theme.spacing(1),
-                    width: theme.spacing(1000000),
-                backgroundColor: "#87d32f"}}>
+            <Grid item xs={3}>
+                <Paper elevation={3} style={{backgroundColor: "#fcc01a",
+                    padding: theme.spacing(1),
+                    textAlign: 'center',
+                    color: theme.palette.text.secondary,
+                    whiteSpace: 'wrap',
+                    height: theme.spacing(35),
+                    marginBottom: theme.spacing(1),}}>
                     <Typography >{value}</Typography>
                     <Typography style={{textAlign:"left"}}>Description: {description}</Typography>
                     <Typography style={{textAlign:"left"}}>Calories : {calories}</Typography>
@@ -46,7 +51,7 @@ export default class FoodMenuItem extends React.Component {
                     </Fab>
                     <Typography>{this.state.itemQuantity}</Typography>
                 </Paper>
-            </div>
+            </Grid>
         );
     }
 
