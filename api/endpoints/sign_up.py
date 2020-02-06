@@ -1,13 +1,13 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Blueprint
 import psycopg2
 from common import connector
 
 connection = connector.get_connection()
 cur = connection.cursor()
 
-app = Flask(__name__)
+bp = Blueprint("signup blueprint", __name__)
 
-@app.route("/sign_up", methods=["POST"])
+@bp.route("/signup", methods=["POST"])
 def sign_up():
     #  Get the details of the user from a post request as a json
     email = request.json.get('email')
@@ -23,11 +23,6 @@ def sign_up():
     connection.commit()
 
     return jsonify(success = True)
-
-
-if __name__ == "__main__":
-    app.debug = True
-    app.run(port=5000)
 
 
 #  Temporary test commands
