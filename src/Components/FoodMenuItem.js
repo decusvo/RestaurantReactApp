@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import {CardActions, CardHeader} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
+import {CardMedia} from "@material-ui/core";
 
 
 export default class FoodMenuItem extends React.Component {
@@ -41,6 +42,7 @@ export default class FoodMenuItem extends React.Component {
                     <CardHeader title={value} />
                     <Divider variant="middle" />
                     <CardContent>
+                        <CardMedia component={"img"} alt={value} height={"140"} title={value} img={"../Images/Logo.png"}/>
                         <Typography style={{textAlign:"left"}}>Description: {description}</Typography>
                         <Typography style={{textAlign:"left"}}>Calories : {calories}</Typography>
                         <Typography style={{textAlign:"left"}}>Price : {price}</Typography>
@@ -59,5 +61,4 @@ export default class FoodMenuItem extends React.Component {
             </Grid>
         );
     }
-
 };
