@@ -1,6 +1,9 @@
 from flask import Flask
+from endpoints import menu, login
 
 app = Flask(__name__)
+app.register_blueprint(menu.bp)
+app.register_blueprint(login.bp)
 
 @app.route("/")
 def root():
