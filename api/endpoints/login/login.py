@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, Blueprint
-from flask_cors import CORS
 import psycopg2
 from common import connector
 
