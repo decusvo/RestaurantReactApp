@@ -35,11 +35,11 @@ class Login extends React.Component {
       let change = {};
       change[event.target.type] = event.target.value;
       this.setState(change)
-    }
+    };
 
     handleStaff = () => {
       this.setState({staff: !this.state.staff})
-    }
+    };
 
     handleSubmit = (event) => {
       event.preventDefault();
