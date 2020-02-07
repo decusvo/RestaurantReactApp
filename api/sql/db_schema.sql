@@ -55,6 +55,7 @@ CREATE TABLE orders(
 );
 
 CREATE TABLE ordered_items(
+	ordered_item_id serial PRIMARY KEY,
 	order_id integer REFERENCES orders(id),
 	menu_item_id integer REFERENCES menu(id)
 );

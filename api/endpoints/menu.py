@@ -37,6 +37,3 @@ def menu():
 		# for example get only sides ect by adding '?item_type=side'
 		return jsonify(Error="arguments not implemented yet")
 
-if __name__ == "__main__":
-	app.debug = True
-	app.run(port=5000)
