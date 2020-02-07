@@ -17,6 +17,18 @@
 		- cancel
 */
 
+--EVENT TABLE
+
+DROP TABLE IF EXISTS order_events CASCADE;
+
+CREATE TABLE order_events(
+	id serial PRIMARY KEY,
+	order_id INTEGER REFERENCES orders(id) NOT NULL,
+	event varchar(20) NOT NULL
+);
+
+--FSM FUNCTION
+
 DROP FUNCTION IF EXISTS order_event_transition;
 
 CREATE FUNCTION order_event_transition(state text, event text) RETURNS text 
@@ -51,10 +63,37 @@ $$
 
 		WHEN 'delivered' THEN
 			CASE event
-				WHEN 'cancel' THEN 'cancelled'
 				WHEN 'pay' THEN 'paid'
 				ELSE 'error'
 			END
 	END
 $$;
 
+--FUNCTION TO CALL FROM TRIGGER
+
+DROP FUNCTION IF EXISTS new_event;
+
+CREATE FUNCTION new_event() RETURNS trigger AS
+$$
+DECLARE
+	old_state varchar(50);
+	new_event varchar(50);
+	new_state varchar(20);
+BEGIN
+	SELECT NEW.event INTO new_event;
+	SELECT state FROM orders WHERE orders.id = NEW.order_id INTO old_state;
+	SELECT order_event_transition(old_state, new_event) INTO new_state;
+	
+	UPDATE orders SET state=new_state WHERE orders.id = NEW.order_id; 
+	RETURN NEW;
+END
+$$
+LANGUAGE PLPGSQL;
+
+--TRIGGER
+
+CREATE TRIGGER event_trigger 
+AFTER INSERT
+ON order_events
+FOR EACH ROW
+EXECUTE PROCEDURE new_event();
