@@ -1,7 +1,9 @@
 from flask import Flask
+from flask_cors import CORS
 from endpoints import menu, login, sign_up, orders
 
 app = Flask(__name__)
+CORS(app)
 app.register_blueprint(menu.bp)
 app.register_blueprint(login.bp)
 app.register_blueprint(sign_up.bp)
