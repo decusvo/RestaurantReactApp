@@ -7,6 +7,7 @@ import FoodMenu from "./FoodMenu";
 import SignIn from './SignIn';
 import Logo from '../Images/Logo.png';
 import Img from 'react-image'
+import WaiterDashboard from "./WaiterDashboard"
 
 
 const Main = props => (
@@ -34,6 +35,7 @@ const Main = props => (
                     <Route path="/" exact />
                     <Route path="/FoodMenu" component={FoodMenu}/>
                     <Route path="/LogInPage" component={SignIn}/>
+                    <Route path="/WaiterDashboard" component={WaiterDashboard}/>
 
                 </Switch>
         </div>

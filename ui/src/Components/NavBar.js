@@ -55,6 +55,7 @@ export default function NavBar(props) {
                             </IconButton>
                             <Button href={"/Register"} color={"inherit"}>Register</Button>
                             <Button href={"/Login"} color={"inherit"}>Login</Button>
+                            <Button href={"/WaiterDashboard"} color={"inherit"}>Waiter </Button>
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>
