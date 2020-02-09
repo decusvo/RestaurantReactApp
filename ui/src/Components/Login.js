@@ -12,6 +12,8 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Box from "@material-ui/core/Box";
 import Copyright from "./Copyright";
 
+import bcrypt from 'bcryptjs';
+
 import React from 'react';
 import '../Styling/LoginMenu.css'
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -43,14 +45,21 @@ class Login extends React.Component {
 
     handleSubmit = (event) => {
       event.preventDefault();
-      let {email, password, staff} = this.state;
-      fetch("//127.0.0.1:5000/api/login", {method: 'POST',
+      let {email, password, staff, loggedIn} = this.state;
+      fetch("//127.0.0.1:5000/login", {method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({"email": email, "password": password, "staff_login": staff})
       }).then(response => {
         return response.json()
       }).then(data => {
-        this.setState({loggedIn: data.valid_credentials});
+        bcrypt.compare(password, data.password, (err, result) => {
+          if (result) {
+            this.setState({loggedIn: true})
+          } else {
+            // incorrect password
+            // TODO: display error password was incorrect
+          }
+        })
       }).catch(error => console.log(error))
     };
 

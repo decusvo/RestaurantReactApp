@@ -36,11 +36,8 @@ def login():
       "WHERE email = '{}'".format(email))
     result = cur.fetchall()
 
-    # checks if the password returned is the same as the one inputted
-    if result[0][0] != password:
-        return jsonify(valid_credentials=False)
-
-    return jsonify(name = result[0][1], valid_credentials = True)
+    # returns the name and the hashed password
+    return jsonify(name = result[0][1], password = result[0][0])
 
 
 ###  Temporary tests to run to test the file
