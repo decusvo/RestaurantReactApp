@@ -15,6 +15,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 
+import bcrypt from 'bcryptjs'
+
 import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -47,21 +49,22 @@ class SignUp extends React.Component {
     }
 
     handleSubmit = (event) => {
-      event.preventDefault()
-      console.log(this.state)
+      event.preventDefault()    // prevenets post trying to redirect to another page
       if(this.checkPasswords() && this.state.tAndC){
         let {email, firstName, lastName, password} = this.state
-        fetch("//127.0.0.1:5000/signup", {method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({firstname: firstName,
-                              "lastname": lastName,
-                              "email": email,
-                              "password": password})
-        }).then(response => {
-          return response.json()
-        }).then(data => {
-          console.log(data);
-        }).catch(error => console.log(error))
+        bcrypt.hash(password, 10, function(err, hash){
+          fetch("//127.0.0.1:5000/signup", {method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({firstname: firstName,
+                                "lastname": lastName,
+                                "email": email,
+                                "password": hash})
+          }).then(response => {
+            return response.json()
+          }).then(data => {
+            console.log(data);
+          }).catch(error => console.log(error))
+        })
       } else{
         // TODO: show error to the user i.e. the passwords are different
       }
