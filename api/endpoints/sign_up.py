@@ -18,6 +18,9 @@ def sign_up():
     try:
         cur.execute("INSERT INTO customer VALUES ('{}','{}','{}','{}')".format(email, firstname, lastname, password))
     except psycopg2.errors.UniqueViolation:
+        # if the sql INSERT doesn't work it reverts the statement to prevent data corruption
+        cur.execute("ROLLBACK")
+        connection.commit()
         return jsonify(success = False)
 
     connection.commit()
