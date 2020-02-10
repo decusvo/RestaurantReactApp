@@ -38,6 +38,9 @@ def test_remove_session():
 tests = [
 		test_server,
 		test_create_session,
+		test_create_session,
+		test_get_session_id,
+		test_remove_session,
 		test_get_session_id,
 		test_remove_session,
 		]
