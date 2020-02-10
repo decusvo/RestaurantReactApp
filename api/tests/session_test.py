@@ -44,10 +44,10 @@ tests = [
 		test_get_session_id,
 		test_remove_session,
 		]
-
-if len(sys.argv) > 1 and sys.argv[1] == "v":
-		verbose = True
-tester.run_tests(tests)
+if __name__ == "__main__":
+	if len(sys.argv) > 1 and sys.argv[1] == "v":
+			verbose = True
+	tester.run_tests(tests)
 
 
 

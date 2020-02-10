@@ -59,9 +59,10 @@ tests = [
 		test_bad_staff_login,
 		]
 
-if len(sys.argv) > 1 and sys.argv[1] == "v":
-		verbose = True
-tester.run_tests(tests)
+if __name__ == "__main__":
+	if len(sys.argv) > 1 and sys.argv[1] == "v":
+			verbose = True
+	tester.run_tests(tests)
 
 
 
