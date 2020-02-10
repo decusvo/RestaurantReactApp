@@ -4,6 +4,7 @@ import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
+import OrderItem from "./OrderItem";
 
 //basic styles
 const useStyles = theme => ({
@@ -48,7 +49,9 @@ class WaiterDashboard extends React.Component {
                             To Be Confirmed
                         </Typography>
 
-                        <Card className={classes.card}>Order</Card>
+                        <Card className={classes.card}>
+                            <OrderItem orderState={"TBF"} tableID={5} orderID={10} />
+                        </Card>
                         <Card className={classes.card}>Order</Card>
                         <Card className={classes.card}>Order</Card>
 
