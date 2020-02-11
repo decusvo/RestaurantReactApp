@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify, Blueprint, session
+from endpoints import sessions
 import psycopg2
 from common import connector
 
@@ -36,20 +37,13 @@ def login():
 		return jsonify(error={"valid_credentials" : False, "message" : "invalid email or password"})
 	else:
 		email = result[0][0]
-		session["username"] = email
+		sessions.session.create_session(email)
 		return jsonify(data = {"valid_credentials" : True, "username" : email})
 
+@bp.route("/logout", methods=["POST"])
+def logout():
+	if "username" not in session:
+		return jsonify(error={"success" : False, "message" : "No active session"})
+	sessions.session.remove_session()
+	return jsonify(data={"success" : True, "message" : "session ended"})
 
-###  Temporary tests to run to test the file
-
-#  curl -d '{"email":"example@example.com", "password":"password", "staff_login":false}' -H "Content-type: application/json"  -X POST "127.0.0.1:5000/login"
-#  this is should result in the name john and valid_credentials being true
-
-#  curl -d '{"email":"example@example.com", "password":"password", "staff_login":true}' -H "Content-type: application/json"  -X POST "127.0.0.1:5000/login"
-#  this should result in an invalid input as it was looking at the wrong db table
-
-#  curl -d '{"email":"waiter@waiter.com", "password":"supersecurepassword", "staff_login":true}' -H "Content-type: application/json"  -X POST "127.0.0.1:5000/login"
-#  this should result in the name molly and valid credentails being true
-
-#  curl -d '{"email":"waiter@waiter.com", "password":"supersecurepassword", "staff_login":false}' -H "Content-type: application/json"  -X POST "127.0.0.1:5000/login"
-#  this should result in an invalid input as it was looking at the wrong db table

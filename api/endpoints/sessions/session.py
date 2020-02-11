@@ -3,12 +3,15 @@ from flask import Flask, session, request, Blueprint, jsonify, Response
 bp = Blueprint("session blueprint", __name__)
 
 @bp.route("/create_session", methods=["POST", "GET"])
-def create_session():
+def create_session(username=None):
 	if "username" in session:
 		print("SESSION ALREADY HAS USERNAME ATTRIBUTE")
 		return jsonify(error={"message": "SESSION ALREADY HAS ID/USERNAME"})
 
-	session["username"] = request.json.get("username")
+	if not username:
+		username = request.json.get("username")
+	
+	session["username"] = username
 	return jsonify(session_id = session["username"])
 
 #  curl -d '{"username":"waiter@waiter.com"}' -H "Content-type: application/json"  -X POST "127.0.0.1:5000/make_session"
@@ -22,11 +25,10 @@ def get_session_id():
 
 @bp.route("/remove_session", methods=["POST", "GET"])
 def remove_session():
-	username_to_rm = request.json.get("username")
-	try:
+	if "username" in session:
 		session["username"]
-		session.pop("username", None)
+		username_to_rm = session.pop("username", None)
 		return jsonify(removed_session_id = username_to_rm, success = True)
-	except:
+	else:
 		return jsonify(error={"message": "SESSION WITH GIVEN ID DOES NOT EXIST"})
 
