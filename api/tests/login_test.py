@@ -1,19 +1,22 @@
 import requests, json, sys
+import session_test
 import tester
 
 session = requests.Session()
+session_test.session = session
+session_test.verbose = True
 
 verbose = False
 
 user_data = {
 			"email" : "example@example.com",
-			"password" : "password",
+			"password" : "$2a$10$xQbHESzQRiHz/bdt5QjypetA6uj.2VzpyPPyRxDsg2s4JebCfLhj2",
 			"staff_login" : False,
 			}
 
 staff_data = {
 			"email" : "waiter@waiter.com",
-			"password" : "supersecurepassword",
+			"password" : "$2a$10$n9E.j1H4IUOs.dwOqvsKhubrJVlPh0V3L/UbGE9QcsY5MqlzS8pSC",
 			"staff_login" : True,
 			}
 
@@ -57,15 +60,11 @@ tests = [
 		test_staff_login,
 		test_bad_user_login,
 		test_bad_staff_login,
+		session_test.test_get_session_id,
 		]
 
 if __name__ == "__main__":
 	if len(sys.argv) > 1 and sys.argv[1] == "v":
-			verbose = True
+		verbose = True
 	tester.run_tests(tests)
-
-
-
-
-
 
