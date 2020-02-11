@@ -17,19 +17,19 @@ def test_server():
 	return req.status_code
 
 def test_create_session():
-	req = session.get(api_url + "create_session", json={"username" : test_data["username"]})
+	req = session.post(api_url + "create_session", json={"username" : test_data["username"]})
 	if verbose:
 		print(req.text)
 	return req.status_code
 
 def test_get_session_id():
-	req = session.get(api_url + "get_session_id")
+	req = session.post(api_url + "get_session_id")
 	if verbose:
 		print(req.text)
 	return req.status_code
 
 def test_remove_session():
-	req = session.get(api_url + "remove_session", json={"username" : test_data["username"]})
+	req = session.post(api_url + "remove_session", json={"username" : test_data["username"]})
 	if verbose:
 		print(req.text)
 	req = session.get(api_url)
@@ -44,6 +44,7 @@ tests = [
 		test_get_session_id,
 		test_remove_session,
 		]
+
 if __name__ == "__main__":
 	if len(sys.argv) > 1 and sys.argv[1] == "v":
 			verbose = True
