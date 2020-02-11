@@ -26,10 +26,6 @@ def menu():
 			"t;")
 		# gets the result from the database
 		result = cur.fetchall()
-		# data_dict = {}
-		# for idx, value in enumerate(result):
-			# data_dict[idx] = value
-		# return jsonify(data_dict)
 		return jsonify(result)
 
 	else:  # not implemented yet
