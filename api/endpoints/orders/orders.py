@@ -13,7 +13,7 @@ def create_order():
 	error = validate_orders.validate(request)
 	if error:
 		return(error)
-	
+
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
 
@@ -34,13 +34,32 @@ def create_order():
 			connection.commit()
 			return jsonify({"success" : False, "message" : error_msg})
 
-	return jsonify(data={"success" : True, "order_id" : order_id, "items_added" : items_added})	
+	return jsonify(data={"success" : True, "order_id" : order_id, "items_added" : items_added})
 
 @bp.route("/order_event", methods=["POST"])
 def order_event():
 	error =	validate_orders.validate_order_event(request)
 	if error:
 		return(error)
-	
+
 	return jsonify({"success" : True})
 
+@bp.route("/get_orders", methods=["POST"])
+def get_orders():
+    error = validate_orders.validate_get_order(request)
+    if error:
+        return (error)
+
+    state = request.json.get("state")
+    # if they request all orders no matter the state
+    if state == "all":
+        # curl -X POST -H "Content-Type: application/json" -d '{"state":"all"}' 127.0.0.1:5000/get_orders
+        query = "SELECT id, table_number, state FROM orders"
+        result = connector.json_select(query)
+    else:
+        # curl -X POST -H "Content-Type: application/json" -d '{"state":"start"}' 127.0.0.1:5000/get_orders
+        query = "SELECT id, table_number, state FROM orders WHERE state = '{}'".format(state)
+        result = connector.json_select(query)
+
+
+    return jsonify(data=result)
