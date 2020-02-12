@@ -19,6 +19,7 @@ def create_order():
 
 	query = "INSERT INTO orders (table_number) VALUES (%s) RETURNING id"
 	result = connector.execute_query(query, (int(table_num),))
+	print(result)
 	order_id = result[0]
 
 	items_added = []

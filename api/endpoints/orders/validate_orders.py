@@ -30,6 +30,13 @@ def validate(request):
 		error_msg =  "Given table number is not in table_detail"
 		return jsonify(error={"success" : False, "message" : error_msg})
 
+	query = "SELECT id FROM menu"
+	result = connector.execute_query(query)
+	for id in items:
+		if id not in result:
+			error_msg = "Invalid menu_item_id given in 'items' list"
+			return jsonify(error={"success" : False, "message" : error_msg})
+
 	return None
 
 def validate_order_event(request):

@@ -33,6 +33,7 @@ def execute_query(query_string, args=None):
 			cursor.execute(query_string, args)
 		else:
 			cursor.execute(query_string)
+		connection.commit()
 		result = cursor.fetchall()
 
 	except:
@@ -40,7 +41,6 @@ def execute_query(query_string, args=None):
 		result = None
 
 	finally:
-		connection.commit()
 		cursor.close()
 
 	return result 

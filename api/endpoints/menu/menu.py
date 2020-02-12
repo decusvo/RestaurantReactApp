@@ -7,12 +7,10 @@ from common import connector
 
 bp = Blueprint("menu blueprint", __name__)
 
-@bp.route("/test")
-def test():
-	return "testing new test"
 
-@bp.route("/menu")
+@bp.route("/menu", methods=["POST"])
 def menu():
+	print(request.json)
 	if len(request.args) == 0:	# if there are no arguments select everything
 		#  gets the whole menu from the database and gets the menu item type i.e. side, main ect
 		#  this sql query returns the result as an already formatted json

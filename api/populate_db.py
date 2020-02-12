@@ -80,8 +80,8 @@ def insert_from_csv(data_location, table_name=None, serial_id=False):
 	
 	except FileNotFoundError:
 		print("ERROR\nCOULD NOT FIND: %s" % data_location)
-	
-if __name__ == "__main__":
+
+def populate():
 	# Turn on verbose mode if "v" is given as argument to give more detailed logs
 	if len(sys.argv) > 1 and sys.argv[1] == "v":
 		verbose = True
@@ -102,6 +102,6 @@ if __name__ == "__main__":
 		insert_from_csv(db_data_loc + data_file)
 		print("%s INSERTED INTO DATABASE" % data_file)
 	print("FINISHED...")
-
-
-
+	
+if __name__ == "__main__":
+	populate()
