@@ -52,7 +52,7 @@ class FoodMenu extends React.Component{
         fetch("//127.0.0.1:5000/menu").then((response) => {
             return response.json();
         }).then((data) => {
-            this.setState({items : data});
+            this.setState({items : data.data.items});
         });
     }
 
