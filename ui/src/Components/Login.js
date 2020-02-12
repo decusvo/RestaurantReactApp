@@ -45,7 +45,7 @@ class Login extends React.Component {
 
     handleSubmit = (event) => {
       event.preventDefault();
-      let {email, password, staff, loggedIn} = this.state;
+      let {email, password, staff} = this.state;
       fetch("//127.0.0.1:5000/login", {method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({"email": email, "password": password, "staff_login": staff})

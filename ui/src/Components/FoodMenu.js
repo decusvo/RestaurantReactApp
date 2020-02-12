@@ -49,7 +49,7 @@ class FoodMenu extends React.Component{
     };
 
     async componentDidMount(){
-        fetch("//127.0.0.1:5000/menu").then((response) => {
+        fetch("//127.0.0.1:5000/menu", {method: 'POST'}).then((response) => {
             return response.json();
         }).then((data) => {
             this.setState({items : data.data.items});
