@@ -26,7 +26,7 @@ def menu():
 			"t;")
 		# gets the result from the database
 		result = cur.fetchall()
-		return jsonify(result)
+		return jsonify(data={"items" : result})
 
 	else:  # not implemented yet
 		# add the abilty to handle multiple arguments in the querys
