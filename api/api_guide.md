@@ -20,8 +20,8 @@
   ```json
   {
 	error: {
-	  success : boolean,
-	  message : string
+	  "success" : False,
+	  "message" : "A description of the error"
 	}
   } 
   ```
@@ -37,8 +37,8 @@
 
   ```json
   {
-	data : {
-	  items: [ints]
+	"data" : {
+	  "items": [1, 2, 3]
 	}
   }
   ```
@@ -49,10 +49,8 @@ EXPECTS: JSON object containing a table number and a list of item ids in the for
 
   ```json
   {
-	table_num : int,
-	items : [
-	  <menu_item_ids> int
-	]
+	"table_num" : 1,
+	"items" : [1, 2, 3]
   }
   ```
 
@@ -60,12 +58,10 @@ RETURNS: JSON object
 
   ```json
   {
-    data: {
-      items_added: [
-        int
-      ], 
-      order_id: int, 
-      success: boolean
+    "data": {
+      "items_added": [1, 2, 3], 
+      "order_id" : 1, 
+      "success" : true
     }
   }
    ```
@@ -77,8 +73,8 @@ EXPECTS: JSON object containing an order id and an event in the form:
 
   ```json
   {
-	order_id: int,
-	order_event: String
+	"order_id" : 1,
+	"order_event" : "request"
   }
   ```
 
@@ -86,8 +82,8 @@ RETURNS: JSON object containing whether or not event was successfuly performed:
 
   ```json
   {
-	data : {
-	  success: boolean
+	"data" : {
+	  "success" : true
 	}
   }
   ```
@@ -99,20 +95,20 @@ EXPECTS: JSON object containg username:password pair, and whether or not it is a
 should be a valid sha256 hash:
 
   ```json
-  {
-	email: string,
-	password: string (sha256 hash),
-	staff_login: boolean
-  }
+  	{
+	  "email" : "example@example.com",
+  	  "password" : "sha256hash",
+	  "staff_login" : true
+  	}
   ```
 
 RETURNS: JSON object containing username of the account that was logged in and a boolean for success 
 
   ```json
   {
-	data : {
-	  username: string,
-	  valid_credentials: boolean
+	"data" : {
+	  "username" : "example_username",
+	  "valid_credentials" : true
 	}
   }
   ```
@@ -126,9 +122,9 @@ RETURNS: JSON object describing success and a message:
 
   ```json
   {
-	data: {
-	  success: boolean,
-	  message: string
+	"data": {
+	  "success" : true,
+	  "message" : "Message describing what happened"
 	}
   }
   ```
