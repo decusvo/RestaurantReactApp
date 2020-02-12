@@ -14,12 +14,10 @@ def menu():
 	if len(request.args) == 0:	# if there are no arguments select everything
 		#  gets the whole menu from the database and gets the menu item type i.e. side, main ect
 		#  this sql query returns the result as an already formatted json
-		result = connector.execute_query("SELECT TO_JSON(t) " +
-			"FROM (SELECT menu.id, name, description, vegan, " +
+		result = connector.json_select("SELECT menu.id, name, description, vegan, " +
 			"gluten_free, vegetarian, calories, price, available, type " +
 				"FROM menu, item_type " +
-				"WHERE item_type.id = menu.food_type)" +
-			"t;")
+				"WHERE item_type.id = menu.food_type")
 		# gets the result from the database
 		return jsonify(data={"items" : result})
 
@@ -27,4 +25,3 @@ def menu():
 		# add the abilty to handle multiple arguments in the querys
 		# for example get only sides ect by adding '?item_type=side'
 		return jsonify(Error="arguments not implemented yet")
-

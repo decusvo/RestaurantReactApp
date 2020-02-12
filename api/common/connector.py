@@ -19,7 +19,7 @@ connection = None
 def exit():
 	global connection
 	if connection:
-		connection.close()	
+		connection.close()
 		connection = None
 
 def execute_query(query_string, args=None):
@@ -43,16 +43,24 @@ def execute_query(query_string, args=None):
 	finally:
 		cursor.close()
 
-	return result 
+	return result
+
+def json_select(query):
+    global connection
+    connection = get_connection()
+    cursor = connection.cursor()
+    # cant use %s and pass the query as an arugment to execute_query
+    # because it thinks its an sql injection
+    json_query = "SELECT TO_JSON(json_result) FROM ({})json_result;".format(query)
+    return execute_query(json_query)
 
 def get_connection():
 	global connection
 	if connection:
 		return connection
-	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)	
-	return connection 
+	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)
+	return connection
 
 def __init__():
 	global connection
-	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)	
-
+	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)
