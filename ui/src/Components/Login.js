@@ -51,7 +51,7 @@ class Login extends React.Component {
       }).then(response => {
         return response.json()
       }).then(data => {
-        if (data.data != undefined) {
+        if (data.data !== undefined) {
           this.setState({loggedIn: data.data.valid_credentials})
           // display success message
         } else {
