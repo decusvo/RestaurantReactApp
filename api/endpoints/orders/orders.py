@@ -4,8 +4,6 @@ import psycopg2
 from . import validate_orders
 from common import connector
 
-connection = connector.get_connection()
-cur = connection.cursor()
 
 bp = Blueprint("order blueprint", __name__)
 
@@ -20,16 +18,15 @@ def create_order():
 	items = request.json.get("items")
 
 	query = "INSERT INTO orders (table_number) VALUES (%s) RETURNING id"
-	cur.execute(query, (int(table_num),))
-	connection.commit()
-	order_id = cur.fetchall()[0]
+	result = connector.execute_query(query, (int(table_num),))
+	order_id = result[0]
 
 	items_added = []
 
 	for menu_item_id in items:
 		try:
 			query = "INSERT INTO ordered_items (order_id, menu_item_id) VALUES (%s, %s)"
-			cur.execute(query, (order_id, menu_item_id))
+			connector.execute_query(query, (order_id, menu_item_id))
 			items_added.append(menu_item_id)
 		except:
 			error_msg = "Problem adding items to ordered_items, likely an invalid menu_item_id"

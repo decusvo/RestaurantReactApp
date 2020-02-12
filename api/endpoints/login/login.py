@@ -4,9 +4,6 @@ import psycopg2
 from common import connector
 
 
-connection = connector.get_connection()
-cur = connection.cursor()
-
 bp = Blueprint("login blueprint", __name__)
 
 def get_table(val):
@@ -29,8 +26,7 @@ def login():
 	else:
 		query = "SELECT email, password FROM customer WHERE email = %s AND password = %s"
 		
-	cur.execute(query, (email, password))
-	result = cur.fetchall()
+	result = connector.execute_query(query, (email, password))
 
 	# if the result retruns nothing return invalid response
 	if(not result):

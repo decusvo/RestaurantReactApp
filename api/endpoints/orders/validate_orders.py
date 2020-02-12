@@ -3,8 +3,6 @@ import json
 import psycopg2
 from common import connector
 
-connection = connector.get_connection()
-cur = connection.cursor()
 
 def validate(request):
 	if "table_num" not in request.json:
@@ -27,8 +25,8 @@ def validate(request):
 		return jsonify(error={"success" : False, "message" : error_msg})
 	
 	query = "SELECT * FROM table_details WHERE table_number = %s"
-	cur.execute(query, (table_num,))
-	if not cur.fetchall():
+	result = connector.execute_query(query, (table_num,))
+	if not result:
 		error_msg =  "Given table number is not in table_detail"
 		return jsonify(error={"success" : False, "message" : error_msg})
 
@@ -61,8 +59,8 @@ def validate_order_event(request):
 		error_msg += " for a list of valid events"
 		return jsonify({"success" : False, "message" : error_msg, "valid_events" : valid_events})
 
-	cur.execute("SELECT * FROM orders WHERE id=%s", (order_id,))
-	if not cur.fetchall():
+	result = connector.execute_query("SELECT * FROM orders WHERE id=%s", (order_id,))
+	if not result:
 		error_msg = "Invalid order_id, given order_id is not in orders table"
 		return jsonify({"success" : False, "message" : error_msg})
 	

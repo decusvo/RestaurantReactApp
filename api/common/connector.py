@@ -13,7 +13,46 @@ port = "5432"
 
 import psycopg2
 
-# This method should be called from all other locations when a new connection to the database is needed
+val = None
+connection = None
+
+def exit():
+	global connection
+	if connection:
+		connection.close()	
+		connection = None
+
+def execute_query(query_string, args=None):
+	global connection
+	if not connection:
+		connection = get_connection()
+	cursor = connection.cursor()
+	result = None
+	try:
+		if args:
+			cursor.execute(query_string, args)
+		else:
+			cursor.execute(query_string)
+		result = cursor.fetchall()
+
+	except:
+		print("Query failed")
+		result = None
+
+	finally:
+		connection.commit()
+		cursor.close()
+
+	return result 
+
 def get_connection():
-	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)
-	return connection
+	global connection
+	if connection:
+		return connection
+	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)	
+	return connection 
+
+def __init__():
+	global connection
+	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)	
+
