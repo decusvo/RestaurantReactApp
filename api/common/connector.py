@@ -45,7 +45,7 @@ def execute_query(query_string, args=None):
 
 	return result
 
-def json_select(query):
+def json_select(query, args=None):
     global connection
     connection = get_connection()
     cursor = connection.cursor()
