@@ -1,5 +1,5 @@
 import requests, json, sys
-import tester
+from . import tester
 
 session = requests.Session()
 

@@ -1,5 +1,5 @@
-import login_test, session_test, menu_test, order_test
-import tester
+from . import login_test, session_test, menu_test, order_test
+from . import tester
 import sys
 
 if len(sys.argv) > 1 and sys.argv[1] == "v":

@@ -1,6 +1,5 @@
 import requests, json, sys
-import session_test
-import tester
+from . import tester, session_test
 
 session = requests.Session()
 session_test.session = session
