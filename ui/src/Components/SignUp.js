@@ -54,7 +54,6 @@ class SignUp extends React.Component {
         let {email, firstName, lastName, password} = this.state
         // hash password
         let hashedPassword = hash.sha512().update(password).digest('hex')
-        console.log(hashedPassword)
         fetch("//127.0.0.1:5000/signup", {method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({firstname: firstName,
@@ -64,7 +63,11 @@ class SignUp extends React.Component {
         }).then(response => {
           return response.json()
         }).then(data => {
-          console.log(data);
+          if (data.success) {
+            // display success message
+          } else {
+            // display failure message
+          }
         }).catch(error => console.log(error))
 
       } else{
