@@ -19,8 +19,8 @@
 
   ```json
   {
-	error: {
-	  "success" : False,
+	"error": {
+	  "success" : false,
 	  "message" : "A description of the error"
 	}
   } 
