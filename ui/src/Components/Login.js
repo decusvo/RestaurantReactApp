@@ -12,7 +12,7 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Box from "@material-ui/core/Box";
 import Copyright from "./Copyright";
 
-import bcrypt from 'bcryptjs';
+import hash from 'hash.js'
 
 import React from 'react';
 import '../Styling/LoginMenu.css'
@@ -20,8 +20,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 
 // custom styles defined here.
-
-
 class Login extends React.Component {
 	constructor(props) {
 				super(props);
@@ -45,21 +43,21 @@ class Login extends React.Component {
 
     handleSubmit = (event) => {
       event.preventDefault();
-      let {email, password, staff, loggedIn} = this.state;
+      let {email, password, staff} = this.state;
+      let hashedPassword = hash.sha512().update(password).digest('hex')
       fetch("//127.0.0.1:5000/login", {method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({"email": email, "password": password, "staff_login": staff})
+      body: JSON.stringify({"email": email, "password": hashedPassword, "staff_login": staff})
       }).then(response => {
         return response.json()
       }).then(data => {
-        bcrypt.compare(password, data.password, (err, result) => {
-          if (result) {
-            this.setState({loggedIn: true})
-          } else {
-            // incorrect password
-            // TODO: display error password was incorrect
-          }
-        })
+        if (data.data != undefined) {
+          this.setState({loggedIn: data.data.valid_credentials})
+          // display success message
+        } else {
+          // display failure message using data.data.message
+        }
+
       }).catch(error => console.log(error))
     };
 
