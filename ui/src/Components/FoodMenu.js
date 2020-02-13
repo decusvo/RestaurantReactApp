@@ -59,6 +59,8 @@ class FoodMenu extends React.Component{
     render() {
         const {classes} = this.props;
         const {handlerPlus, handlerMinus} = this;
+
+
         const MapMenuItem = ({value}) => {
             return this.state.items.map(function (dishes, index) {
                 const dish = dishes["0"];

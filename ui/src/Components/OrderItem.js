@@ -16,8 +16,9 @@ export default class OrderItem extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            // To be confirmed (TBF) -> In Progress (IP) -> To Be Complete (TBC) -> Confirmed
-            orderState: "TBF"
+            // To be confirmed (TBC) -> In Progress (IP) -> To Be Served (TBS) -> Complete
+            // 0 -> 1 -> 2 - > 3
+            orderState:0,
         }
 
         this.viewOrderHandler.bind(this);
@@ -30,25 +31,17 @@ export default class OrderItem extends React.Component {
     }
 
     moveStateRight = () => {
-        if(this.state.orderState == "TBF") {
-            this.setState({
-                orderState:'IP',
-            });
-        }
-        else if(this.state.orderState == "IP") {
-            this.setState({
-                orderState:"TBC",
-            });
-        } else {
-            this.setState({
-                orderState:"Confirmed"
-            })
-        }
+        this.setState((state, props) => ({
+            counter: state.counter + 1
+        }));
         alert(this.state.orderState);
     }
 
     moveStateLeft = () => {
-        alert("Moving state left.");
+        this.setState((state, props) => ({
+            counter: state.counter - 1
+        }));
+        alert(this.state.orderState);
     }
 
 

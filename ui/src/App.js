@@ -8,7 +8,7 @@ import history from "./utils/history";
 import NavBar from "./Components/NavBar";
 import SignIn from "./Components/Login";
 import SignUp from "./Components/SignUp";
-import WaiterDashboard from "./Components/WaiterDashboard";
+import WaiterDashboardV2 from "./Components/WaiterDashboardV2";
 
 class App extends React.Component {
     render() {
@@ -39,8 +39,8 @@ class App extends React.Component {
                             <Route path="/Register">
                                 <SignUp />
                             </Route>
-                            <Route path="/WaiterDashboard">
-                                <WaiterDashboard />
+                            <Route path="/WaiterDashboardV2">
+                                <WaiterDashboardV2 />
                             </Route>
                         </Switch>
                     </div>
