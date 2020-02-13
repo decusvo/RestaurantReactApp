@@ -17,11 +17,11 @@ const App = () => {
     const currentUser = useSelector(state => state.currentUser);
 
     const dispatch = useDispatch();
-    const user = {name: "Deniz"};
-
-    useEffect(() => {
-        dispatch(allActions.userActions.logIn(user))
-    }, []);
+    // const user = {name: "Deniz"};
+    //
+    // useEffect(() => {
+    //     dispatch(allActions.userActions.logIn(user))
+    // }, []);
 
     return (
             <div className="App">
@@ -44,6 +44,7 @@ const App = () => {
                             <Route path="/Menu">
                                 <FoodMenu />
                             </Route>
+
                             {currentUser.loggedIn ?
                                 <>
                                 <Route path="/Order">

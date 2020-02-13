@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Container, CssBaseline, Typography, withStyles} from '@material-ui/core';
 import Button from "@material-ui/core/Button";
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import FoodMenuItem from "./FoodMenuItem";
 import Grid from "@material-ui/core/Grid";
+import currentItems from "../reducers/currentItems";
+import {useSelector} from "react-redux";
 
 
 const useStyles = ({
@@ -13,33 +15,21 @@ const useStyles = ({
     }
 });
 
+const FoodMenu = (props) => {
+    const [items, setItems] = useState([]);
 
-class FoodMenu extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: [],
-            addedItems: []
-        };
-    }
-
-    print = () => {
-      console.log(this.state.addedItems);
-    };
-
-    async componentDidMount(){
+    useEffect(() => {
         fetch("//127.0.0.1:5000/menu", {method: 'POST'}).then((response) => {
             return response.json();
         }).then((data) => {
-            this.setState({items : data.data.items});
+            setItems(data.data.items);
         });
-    }
+    }, []);
 
-    render() {
-        const {classes} = this.props;
-        const {handlerPlus, handlerMinus} = this;
+    const {classes} = props;
+        const {handlerPlus, handlerMinus} = props;
         const MapMenuItem = ({value}) => {
-            return this.state.items.map(function (dishes, index) {
+            return items.map(function (dishes, index) {
                 const dish = dishes["0"];
                 const type = dish.type;
 
@@ -50,7 +40,6 @@ class FoodMenu extends React.Component{
                 }
             });
         };
-
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -58,7 +47,6 @@ class FoodMenu extends React.Component{
                     <Typography style={{marginTop: 10, fontSize: 30}} color="textPrimary" gutterBottom>
                         Our Menu
                     </Typography>
-                    <Button onClick={this.print}> </Button>
 
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Starters
@@ -96,7 +84,6 @@ class FoodMenu extends React.Component{
             </React.Fragment>
 
         )
-    }
-}
+};
 
 export default withStyles(useStyles)(FoodMenu);
