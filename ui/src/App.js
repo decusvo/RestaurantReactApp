@@ -11,8 +11,7 @@ import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
 
 const App = () => {
-    render() {
-        return (
+    return (
             <div className="App">
                 <Router history={history}>
                     <div className="Index">
@@ -47,7 +46,6 @@ const App = () => {
                 </Router>
             </div>
         );
-    }
-}
+};
 
 export default App;
