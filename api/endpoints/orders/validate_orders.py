@@ -77,6 +77,7 @@ def validate_get_order(request):
         "requested",
         "confirm",
         "cooking",
+        "ready_to_deliver",
         "delivered",
         "paid",
         "cancelled",
