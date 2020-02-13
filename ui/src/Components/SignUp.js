@@ -15,7 +15,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 
-import bcrypt from 'bcryptjs'
+import hash from 'hash.js';
 
 import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -38,33 +38,38 @@ class SignUp extends React.Component {
       this.setState({tAndC: !this.state.tAndC})
     }
 
-    handleTextChange = (event) => {
-      let change = {};
-      change[event.target.name] = event.target.value;
-      this.setState(change)
-    }
-
     checkPasswords() {
       return this.state.password === this.state.confirmPassword
+    }
+
+    handleTextChange = (event) => {
+      let change = {}
+      change[event.target.name] = event.target.value
+      this.setState(change)
     }
 
     handleSubmit = (event) => {
       event.preventDefault()    // prevenets post trying to redirect to another page
       if(this.checkPasswords() && this.state.tAndC){
         let {email, firstName, lastName, password} = this.state
-        bcrypt.hash(password, 10, function(err, hash){
-          fetch("//127.0.0.1:5000/signup", {method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({firstname: firstName,
-                                "lastname": lastName,
-                                "email": email,
-                                "password": hash})
-          }).then(response => {
-            return response.json()
-          }).then(data => {
-            console.log(data);
-          }).catch(error => console.log(error))
-        })
+        // hash password
+        let hashedPassword = hash.sha512().update(password).digest('hex')
+        fetch("//127.0.0.1:5000/signup", {method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({firstname: firstName,
+                              "lastname": lastName,
+                              "email": email,
+                              "password": hashedPassword})
+        }).then(response => {
+          return response.json()
+        }).then(data => {
+          if (data.success) {
+            // display success message
+          } else {
+            // display failure message
+          }
+        }).catch(error => console.log(error))
+
       } else{
         // TODO: show error to the user i.e. the passwords are different
       }
