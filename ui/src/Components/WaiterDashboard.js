@@ -57,43 +57,39 @@ class WaiterDashboard extends React.Component {
     render() {
         const {classes} = this.props;
 
+        const MapOrderItem = ({value}) => {
+          return value.map((ele, index) => {
+            const order = ele["0"]
+            let {state, id, table_number} = order
+            return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
+          })
+        }
+
         return (
             <React.Fragment>
                 <CssBaseline />
 
-                <Grid container xs spacing={3}>
+                <Grid container spacing={3}>
                     {/*Grid for the to be confirmed, order objects will later be loaded in dynamically*/}
                     <Grid item xs>
-
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                             To Be Confirmed
                         </Typography>
-
-                        <Card className={classes.card}>
-                            <OrderItem orderState={"TBF"} tableID={5} orderID={10} />
-                        </Card>
-                        <Card className={classes.card}>Order</Card>
-                        <Card className={classes.card}>Order</Card>
-
-                    </Grid>
+                        <MapOrderItem value={this.state.requested}/>
+                      </Grid>
 
                     <Grid item xs>
-
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                             In Progress
                         </Typography>
-                        <Card className={classes.card}>Order</Card>
-                        <Card className={classes.card}>Order</Card>
-
+                        <MapOrderItem value={this.state.cooking}/>
                     </Grid>
 
                     <Grid item xs>
-
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                             To Be Served
                         </Typography>
-                        <Card className={classes.card}>Order</Card>
-
+                        <MapOrderItem value={this.state.ready_to_deliver}/>
                     </Grid>
                 </Grid>
 
