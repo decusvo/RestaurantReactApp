@@ -4,6 +4,7 @@
 		- requested
 		- confirmed
 		- cooking
+    - ready_to_deliver
 		- delivered
 		- paid
 		- cancelled
@@ -12,6 +13,7 @@
 		- request
 		- confirm
 		- start_cook
+    - cooked
 		- deliver
 		- pay
 		- cancel
@@ -31,10 +33,10 @@ CREATE TABLE order_events(
 
 DROP FUNCTION IF EXISTS order_event_transition;
 
-CREATE FUNCTION order_event_transition(state text, event text) RETURNS text 
+CREATE FUNCTION order_event_transition(state text, event text) RETURNS text
 LANGUAGE sql AS
 $$
-	SELECT CASE state	
+	SELECT CASE state
 		WHEN 'start' THEN
 			CASE event
 				WHEN 'request' THEN 'requested'
@@ -46,21 +48,24 @@ $$
 				WHEN 'confirm' THEN 'confirmed'
 				ELSE 'error'
 			END
-	
+
 		WHEN 'confirmed' THEN
 			CASE event
 				WHEN 'cancel' THEN 'cancelled'
 				WHEN 'start_cook' THEN 'cooking'
 				ELSE 'error'
 			END
-
 		WHEN 'cooking' THEN
 			CASE event
 				WHEN 'cancel' THEN 'cancelled'
-				WHEN 'deliver' THEN 'delivered'
+				WHEN 'cooked' THEN 'ready_to_deliver'
 				ELSE 'error'
 			END
-
+    WHEN 'ready_to_deliver' THEN
+      CASE event
+        WHEN 'deliver' THEN 'delivered'
+        ELSE 'error'
+      END
 		WHEN 'delivered' THEN
 			CASE event
 				WHEN 'pay' THEN 'paid'
@@ -83,8 +88,8 @@ BEGIN
 	SELECT NEW.event INTO new_event;
 	SELECT state FROM orders WHERE orders.id = NEW.order_id INTO old_state;
 	SELECT order_event_transition(old_state, new_event) INTO new_state;
-	
-	UPDATE orders SET state=new_state WHERE orders.id = NEW.order_id; 
+
+	UPDATE orders SET state=new_state WHERE orders.id = NEW.order_id;
 	RETURN NEW;
 END
 $$
@@ -92,7 +97,7 @@ LANGUAGE PLPGSQL;
 
 --TRIGGER
 
-CREATE TRIGGER event_trigger 
+CREATE TRIGGER event_trigger
 AFTER INSERT
 ON order_events
 FOR EACH ROW
