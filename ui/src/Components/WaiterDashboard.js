@@ -31,7 +31,27 @@ class WaiterDashboard extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+          requested: [],
+          cooking: [],
+          ready_to_deliver: []
+        };
+    }
+
+    async componentDidMount(){
+      var orderStates = ["requested", "ready_to_deliver", "cooking"]
+      orderStates.forEach(state => {
+        fetch("//127.0.0.1:5000/get_orders", {method:'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({"state": state})
+        }).then(response => {
+          return response.json()
+        }).then(data => {
+          let change = {}
+          change[state] = data.data
+          this.setState(change)
+        })
+      });
     }
 
     render() {
