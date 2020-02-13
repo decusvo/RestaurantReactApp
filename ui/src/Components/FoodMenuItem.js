@@ -21,11 +21,11 @@ export default class FoodMenuItem extends React.Component {
         this.MinusButtonHandler.bind(this);
     }
 
-    PlusButtonHandler = (value) => {
-        const newItem = this.state.itemQuantity + 1;
-        this.setState({itemQuantity: newItem}, function () {
-            this.props.handlerPlus(this.state.itemQuantity, value);
+    PlusButtonHandler(value) {
+        this.setState((prevState, props) => {
+            return {itemQuantity: prevState.itemQuantity + 1}
         });
+        console.log(this.state.itemQuantity)
     };
 
     MinusButtonHandler = () => {
@@ -56,7 +56,7 @@ export default class FoodMenuItem extends React.Component {
                                 <MinusIcon />
                             </Fab>
                             <Typography style={{marginRight: "auto", marginLeft: "auto"}}>{this.state.itemQuantity}</Typography>
-                            <Fab color="primary" aria-label="add" onClick={() => {this.PlusButtonHandler(value);}}>
+                            <Fab color="primary" aria-label="add" onDoubleClick={() => {this.props.handlerPlus(this.state.itemQuantity, value);}} onClick={() => {this.PlusButtonHandler(value);}}>
                                 <AddIcon />
                             </Fab>
                     </CardActions>

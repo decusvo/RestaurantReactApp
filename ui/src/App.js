@@ -9,11 +9,8 @@ import NavBar from "./Components/NavBar";
 import SignIn from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
-import {withStore} from 'react-redux';
 
-const initialState = {addedItems: []};
-
-class App extends React.Component {
+const App = () => {
     render() {
         return (
             <div className="App">
@@ -53,4 +50,4 @@ class App extends React.Component {
     }
 }
 
-export default withStore(App, initialState);
+export default App;
