@@ -4,39 +4,35 @@ import {useDispatch, useSelector} from "react-redux";
 import allActions from "./actions";
 
 
-class App extends React.Component{
-    counter = useSelector(state => state.counter);
-    currentUser = useSelector(state => state.currentUser);
+const App = () => {
+    const counter = useSelector(state => state.counter);
+    const currentUser = useSelector(state => state.currentUser);
 
-    dispatch = useDispatch();
-    user = {name: "Deniz"};
+    const dispatch = useDispatch();
+    const user = {name: "Deniz"};
 
-    constructor(props) {
-        super(props);
-        useEffect(() => {
-            this.dispatch(allActions.userActions.setUser(this.user))
-        }, []);
-    }
-  render() {
-    return(
+    useEffect(() => {
+        dispatch(allActions.userActions.setUser(user))
+    }, []);
+
+  return(
         <div className="App">
-            {this.currentUser.loggedIn ?
+            {currentUser.loggedIn ?
             <>
-            <h1>Hello, {this.currentUser.user.name}</h1>
-            <button onClick={() => this.dispatch(allActions.userActions.logOut())}>Logout</button>
+            <h1>Hello, {currentUser.user.name}</h1>
+            <button onClick={() => dispatch(allActions.userActions.logOut())}>Logout</button>
             </>
             :
             <>
             <h1>Login</h1>
-            <button onClick={() => this.dispatch(allActions.userActions.setUser(this.user))}>Login as Deniz</button>
+            <button onClick={() => dispatch(allActions.userActions.setUser(user))}>Login as Deniz</button>
             </>
             }
-            <h1>Counter: {this.counter}</h1>
-            <button onClick={() => this.dispatch(allActions.counterActions.increment())}>Increase Counter</button>
-            <button onClick={() => this.dispatch(allActions.counterActions.decrement())}>Decrease Counter</button>
+            <h1>Counter: {counter}</h1>
+            <button onClick={() => dispatch(allActions.counterActions.increment("a"))}>Increase Counter</button>
+            <button onClick={() => dispatch(allActions.counterActions.decrement("a"))}>Decrease Counter</button>
         </div>
         )
-  }
-}
+};
 
 export default App;

@@ -1,12 +1,14 @@
-const increment = () => {
+const increment = (item) => {
     return {
-        type: "INCREMENT"
+        type: "INCREMENT",
+        payload: item
     }
 };
 
-const decrement = () => {
+const decrement = (item) => {
     return {
-        type: "DECREMENT"
+        type: "DECREMENT",
+        payload: item
     }
 };
 
