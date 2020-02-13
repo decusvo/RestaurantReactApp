@@ -13,6 +13,7 @@ const useStyles = ({
     }
 });
 
+
 class FoodMenu extends React.Component{
     constructor(props) {
         super(props);
@@ -21,28 +22,6 @@ class FoodMenu extends React.Component{
             addedItems: []
         };
     }
-
-    handlerPlus = (num, arg) => {
-        const pos = this.state.addedItems.indexOf(arg);
-        const {addedItems} = this.state;
-        if (pos > -1) {
-            addedItems[pos-1] += 1;
-            this.setState({addedItems: addedItems})
-        } else {
-            this.setState({addedItems: this.state.addedItems.concat(num, arg)})
-        }
-    };
-
-    handlerMinus = (num, arg) => {
-        const pos = this.state.addedItems.indexOf(arg);
-        const {addedItems} = this.state;
-        if (pos > -1) {
-            addedItems[pos-1] -= 1;
-            if (addedItems[pos-1] > 0) {
-                this.setState({addedItems: addedItems})
-            }
-        }
-    };
 
     print = () => {
       console.log(this.state.addedItems);
