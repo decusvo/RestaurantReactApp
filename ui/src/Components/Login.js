@@ -61,6 +61,26 @@ class Login extends React.Component {
       }).catch(error => console.log(error))
     };
 
+    handleSubmit = (event) => {
+      event.preventDefault();
+      let {email, password, staff} = this.state;
+      let hashedPassword = hash.sha512().update(password).digest('hex')
+      fetch("//127.0.0.1:5000/logout", {method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({"email": email, "password": hashedPassword, "staff_login": staff})
+      }).then(response => {
+        return response.json()
+      }).then(data => {
+        if (data.data == true) {
+          this.setState({loggedOut: data.data.valid_credentials})
+          // display success message
+        } else {
+          // display failure message using data.data.message
+        }
+
+      }).catch(error => console.log(error))
+    };
+
 		render() {
 			const {classes} = this.props;
 				return (
@@ -123,6 +143,15 @@ class Login extends React.Component {
 											>
 													Sign In
 											</Button>
+											<Button
+													type="submit"
+													fullWidth
+													variant="contained"
+													color="primary"
+													className={classes.submit}
+											>
+													Logout
+											</Button>
 											<Grid container direction={'row'}>
 													<Grid container justify="flex-end" >
 															<Grid item >
@@ -163,7 +192,17 @@ const useStyles = theme => ({
 
 		},
 		submit: {
-				margin: theme.spacing(3, 0, 2),
+				margin: theme.spacing(1, 0, 0),
+				background: 'linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)',
+				borderRadius: 3,
+				border: 0,
+				color: 'white',
+				height: 40,
+				padding: '0 30px',
+				boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+		},
+		logout: {
+				margin: theme.spacing(0, 0, 1),
 				background: 'linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)',
 				borderRadius: 3,
 				border: 0,
