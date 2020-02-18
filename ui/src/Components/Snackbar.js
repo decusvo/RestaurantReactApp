@@ -2,11 +2,9 @@
 // https://material-ui.com/components/snackbars/
 
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 import { makeStyles } from '@material-ui/core/styles';
-import { useEffect } from 'react';
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -27,7 +25,7 @@ export default function CustomSnackbar(props) {
 
 
   const handleClose = (event, reason) => {
-    if (reason == 'clickaway') {
+    if (reason === 'clickaway') {
       return
     }
     setOpen(false)
