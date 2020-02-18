@@ -91,8 +91,8 @@ RETURNS: JSON object containing whether or not event was successfully performed:
 	or an error object
 
 ### /get\_orders:
-EXPECTS: JSON object containing either one of the possible states and object can be in or 'all'
-which will return all orders no matter the state:
+EXPECTS: JSON object containing one of the possible states, plus an additional
+state 'all' which will return all orders no matter the state:
 
   ```json
   {
