@@ -14,7 +14,9 @@ import Copyright from "./Copyright";
 
 import hash from 'hash.js'
 
-import React from 'react';
+import Snackbar from './Snackbar'
+
+import React, {useState} from 'react';
 import '../Styling/LoginMenu.css'
 import withStyles from "@material-ui/core/styles/withStyles";
 
@@ -69,7 +71,7 @@ const Login = (props) => {
 						<Typography component="h1" variant="h5">
 								Sign in
 						</Typography>
-						<form className={classes.form} onSubmit={this.handleSubmit} method = "post">
+						<form className={classes.form} onSubmit={handleSubmit} method = "post">
 								<Grid container spacing={1}>
 										<Grid item xs={12}>
 								<TextField
@@ -84,7 +86,7 @@ const Login = (props) => {
 										autoComplete="email"
 										autoFocus
 										color="primary"
-										onChange={this.handleTextChange}
+										onChange={handleEmailInput}
 								/>
 										</Grid>
 										<Grid item xs={12}>
@@ -99,7 +101,7 @@ const Login = (props) => {
 										id="password"
 										autoComplete="current-password"
 										color="primary"
-										onChange={this.handleTextChange}
+										onChange={handlePasswordInput}
 								/>
 										</Grid>
 								</Grid>
@@ -108,7 +110,7 @@ const Login = (props) => {
 										label="Remember me."
 								/>
 								<FormControlLabel
-										control={<Checkbox value={this.state.staff} color="primary" onChange={this.handleStaff} />}
+										control={<Checkbox value={staff} color="primary" onChange={handleStaff} />}
 										label="Staff member?"
 								/>
 								<Button
@@ -119,15 +121,6 @@ const Login = (props) => {
 										className={classes.submit}
 								>
 										Sign In
-								</Button>
-								<Button
-										type="submit"
-										fullWidth
-										variant="contained"
-										color="primary"
-										className={classes.submit}
-								>
-										Logout
 								</Button>
 								<Grid container direction={'row'}>
 										<Grid container justify="flex-end" >
