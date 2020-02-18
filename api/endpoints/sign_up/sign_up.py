@@ -19,11 +19,9 @@ def sign_up():
 	except psycopg2.errors.UniqueViolation:
 		# if the sql INSERT doesn't work it reverts the statement to prevent data corruption
 		connector.execute_query("ROLLBACK")
-		return jsonify(success = False)
+		return jsonify(error = {"success": False, message: "Query failed invalid input"})
 
-	connection.commit()
-
-	return jsonify(success = True)
+	return jsonify(data = {"success": True})
 
 
 #  Temporary test commands
