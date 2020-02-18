@@ -14,37 +14,53 @@ import Copyright from "./Copyright";
 
 import hash from 'hash.js'
 
-import Snackbar from './Snackbar'
+// Code copied and modified from material-ui website
+// https://material-ui.com/components/snackbars/
+import Snackbar from '@material-ui/core/Snackbar';
 
 import React, {useState} from 'react';
 import '../Styling/LoginMenu.css'
 import withStyles from "@material-ui/core/styles/withStyles";
+import MuiAlert from "@material-ui/lab/Alert";
 
+function Alert(props) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />
+}
 
 // custom styles defined here.
 const Login = (props) => {
   const {classes} = props;
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [staff, setStaff] = useState(false)
-  const [loggedIn, setLoggedIn] = useState(false)
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [staff, setStaff] = useState(false);
+	const [loggedIn, setLoggedIn] = useState(false);
+	const [open, setOpen] = React.useState(false);
+	const [severity, setSeverity] = React.useState("success");
+	const [message, setMessage] = React.useState("You logged in successfully");
 
   const handleEmailInput = event => {
     setEmail(event.target.value)
-  }
+  };
+
+	const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+			return
+		}
+		setOpen(false)
+	};
 
   const handlePasswordInput = event => {
     setPassword(event.target.value)
-  }
+  };
 
   const handleStaff = event => {
     setStaff(event.target.value)
-  }
+  };
 
   const handleSubmit = event => {
     event.preventDefault();
-    let hashedPassword = hash.sha512().update(password).digest('hex')
+    let hashedPassword = hash.sha512().update(password).digest('hex');
     fetch("//127.0.0.1:5000/login", {method: 'POST',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({"email": email, "password": hashedPassword, "staff_login": staff})
@@ -52,11 +68,16 @@ const Login = (props) => {
       return response.json()
     }).then(data => {
       if (data.data !== undefined) {
-        setLoggedIn(data.data.valid_credentials)
+      	setLoggedIn(data.data.valid_credentials);
         // display success message
-        return <Snackbar data={"success", "Welcome " + data.data.name}/>
+		setSeverity("success");
+		setMessage("You've logged in successfully");
+		setOpen(true)
       } else {
         // display failure message using data.data.message
+		  setSeverity("error");
+		  setMessage("Password or email incorrect");
+		  setOpen(true)
       }
 
     }).catch(error => console.log(error))
@@ -140,13 +161,18 @@ const Login = (props) => {
 								</Grid>
 						</form>
 				</div>
+				<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+					<Alert onClose={handleClose} severity={severity}>
+						{message}
+					</Alert>
+				</Snackbar>
 				<Box mt={5}>
 						<Copyright />
 				</Box>
 		</Container>
 		</ThemeProvider>
 	)
-}
+};
 
 const useStyles = theme => ({
 		paper: {
