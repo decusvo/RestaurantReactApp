@@ -22,6 +22,7 @@ import React, {useState} from 'react';
 import '../Styling/LoginMenu.css'
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiAlert from "@material-ui/lab/Alert";
+import Redirect from "react-router-dom/es/Redirect";
 
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -68,11 +69,14 @@ const Login = (props) => {
       return response.json()
     }).then(data => {
       if (data.data !== undefined) {
-      	setLoggedIn(data.data.valid_credentials);
+      	setTimeout(function () {
+			setLoggedIn(data.data.valid_credentials);
+		}, 1000);
+
         // display success message
 		setSeverity("success");
 		setMessage("You've logged in successfully");
-		setOpen(true)
+		setOpen(true);
       } else {
         // display failure message using data.data.message
 		  setSeverity("error");
@@ -87,6 +91,7 @@ const Login = (props) => {
 		<ThemeProvider theme={theme}>
 		<Container component="main" maxWidth="xs">
 				<CssBaseline />
+				{loggedIn ? <Redirect to='/Menu' /> : null}
 				<div className={classes.paper}>
 
 						<Typography component="h1" variant="h5">
