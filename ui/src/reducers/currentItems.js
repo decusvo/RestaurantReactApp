@@ -1,14 +1,7 @@
-const currentItems = (state = [], action) => {
+const currentItems = (state = {}, action) => {
     switch (action.type) {
         case "ADD_ITEM":
-            const pos = state.indexOf(action.payload);
-            if (pos > -1) {
-                state[pos-1] += 1
-            } else {
-                state = state.concat(1, action.payload);
-            }
-            console.log(state)
-            return state;
+            return {...state, item: {name: action.payload, q: 1}};
         case "REMOVE_ITEM":
             const pos1 = state.indexOf(action.payload);
             if (pos1 > -1) {

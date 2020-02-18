@@ -20,8 +20,8 @@ const useStyles = makeStyles(theme => ({
 
 const MapOrderItem = () => {
     const currentItems = useSelector(state => state.currentItems);
-    console.log(currentItems);
-    return currentItems.map(function (dish, index) {
+    console.log(currentItems.item);
+    return currentItems.item.map(function (dish, index) {
         if (typeof dish === "string") {
 
             return (<ListItem key={index} >
@@ -52,7 +52,6 @@ const Order = () => {
     const currentItems = useSelector(state => state.currentItems);
     return (
         <List className={classes.root}>
-            {console.log(currentItems)}
             <MapOrderItem />
         </List>
     )
