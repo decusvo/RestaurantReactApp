@@ -18,67 +18,115 @@ import Box from "@material-ui/core/Box";
 import hash from 'hash.js';
 
 import React from 'react';
+import Redirect from "react-router-dom/es/Redirect";
 import withStyles from "@material-ui/core/styles/withStyles";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert from "@material-ui/lab/Alert";
 
-class SignUp extends React.Component {
-    constructor(props) {
-      super(props);
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />
+}
 
-      this.state = {
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        tAndC: false
-      }
-    }
+const SignUp = (props) => {
+    const {classes} = props;
+    // state variables
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
+    const [email, setEmail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [confirmPassword, setConfirmPassword] = React.useState('');
+    const [tAndC, setTAndC] = React.useState(false);
 
-    handleTAndCChange = (event) => {
-      this.setState({tAndC: !this.state.tAndC})
-    }
+    // Snackbar variables
+    const [open, setOpen] = React.useState(false);
+    const [severity, setSeverity] = React.useState("success");
+    const [message, setMessage] = React.useState("You've registered successfully");
 
-    checkPasswords() {
-      return this.state.password === this.state.confirmPassword
-    }
+    // Redirect variables
+    const [signedUp, setSignedUp] = React.useState(false)
 
-    handleTextChange = (event) => {
-      let change = {}
-      change[event.target.name] = event.target.value
-      this.setState(change)
-    }
 
-    handleSubmit = (event) => {
-      event.preventDefault()    // prevenets post trying to redirect to another page
-      if(this.checkPasswords() && this.state.tAndC){
-        let {email, firstName, lastName, password} = this.state
+    const handleTAndCChange = () => {
+        const new_tAndC = !tAndC;
+      setTAndC(new_tAndC);
+    };
+
+    const checkPasswords = () => {
+      return password === confirmPassword
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
+        setOpen(false)
+    };
+
+    const handleTextChange = (event) => {
+        const name = event.target.name;
+        const value = event.target.value;
+        if (name === "firstName") {
+            setFirstName(value);
+        } else if (name === "lastName") {
+            setLastName(value);
+        } else if (name === "email") {
+            setEmail(value);
+        } else if (name === "password") {
+            setPassword(value);
+        } else if (name === "confirmPassword") {
+            setConfirmPassword(value);
+        }
+    };
+
+    const handleSubmit = (event) => {
+      event.preventDefault() ;   // prevenets post trying to redirect to another page
+      if (tAndC) {
+        if (checkPasswords()){
         // hash password
-        let hashedPassword = hash.sha512().update(password).digest('hex')
+        let hashedPassword = hash.sha512().update(password).digest('hex');
         fetch("//127.0.0.1:5000/signup", {method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({firstname: firstName,
+        body: JSON.stringify({"firstname": firstName,
                               "lastname": lastName,
                               "email": email,
                               "password": hashedPassword})
         }).then(response => {
           return response.json()
         }).then(data => {
-          if (data.success) {
-            // display success message
-          } else {
+          if (data.data !== undefined) {
+              //display success message
+              setSeverity("success");
+              setMessage("You've registered successfully");
+              setOpen(true);
+              setTimeout(function () {
+                setSignedUp(data.data.success)
+              }, 1000)
+          }else {
             // display failure message
+              setSeverity("error");
+              setMessage("Email already in use");
+              setOpen(true)
           }
         }).catch(error => console.log(error))
 
-      } else{
-        // TODO: show error to the user i.e. the passwords are different
+        } else{
+          // display warning message passwords not equal
+            setSeverity("warning");
+            setMessage("Passwords weren't the same");
+            setOpen(true)
+        }
+      } else {
+        // display warning message not agreeing to Terms and Condtions
+        setSeverity("warning")
+        setMessage("Please agree to the Terms and Conditions")
+        setOpen(true)
       }
-    }
+    };
 
-    render() {
-      const {classes} = this.props;
-      return (
+    return (
           <ThemeProvider theme={theme}>
+          {/*redirects user to log in once signed up successfully*/}
+          {signedUp ? <Redirect to='/Login' /> : null}
               <Container component="main" maxWidth="xs">
                   <CssBaseline />
                   <div className={classes.paper}>
@@ -88,7 +136,7 @@ class SignUp extends React.Component {
                       <Typography component="h1" variant="h5">
                           Sign up
                       </Typography>
-                      <form className={classes.form} onSubmit={this.handleSubmit} method = "post">
+                      <form className={classes.form} onSubmit={handleSubmit} method = "post">
                           <Grid container spacing={2}>
                               <Grid item xs={12} sm={6}>
                                   <TextField
@@ -100,7 +148,7 @@ class SignUp extends React.Component {
                                       id="firstName"
                                       placeholder="First Name"
                                       autoFocus
-                                      onChange={this.handleTextChange}
+                                      onChange={handleTextChange}
                                   />
                               </Grid>
                               <Grid item xs={12} sm={6}>
@@ -112,7 +160,7 @@ class SignUp extends React.Component {
                                       placeholder="Last Name"
                                       name="lastName"
                                       autoComplete="lname"
-                                      onChange={this.handleTextChange}
+                                      onChange={handleTextChange}
                                   />
                               </Grid>
                               <Grid item xs={12}>
@@ -125,7 +173,7 @@ class SignUp extends React.Component {
                                       placeholder="Email Address"
                                       name="email"
                                       autoComplete="email"
-                                      onChange={this.handleTextChange}
+                                      onChange={handleTextChange}
                                   />
                               </Grid>
                               <Grid item xs={12}>
@@ -138,7 +186,7 @@ class SignUp extends React.Component {
                                       type="password"
                                       id="password"
                                       autoComplete="current-password"
-                                      onChange={this.handleTextChange}
+                                      onChange={handleTextChange}
                                   />
                               </Grid>
                               <Grid item xs={12}>
@@ -150,14 +198,14 @@ class SignUp extends React.Component {
                                       placeholder="Confirm Password"
                                       type="password"
                                       id="passwordConfirmation"
-                                      onChange={this.handleTextChange}
+                                      onChange={handleTextChange}
                                   />
                               </Grid>
                               <Grid item xs={12}>
                                   <FormControlLabel
-                                      control={<Checkbox value={this.state.tAndC}
+                                      control={<Checkbox value={tAndC}
                                             color="primary"
-                                            onChange={this.handleTAndCChange} />}
+                                            onChange={handleTAndCChange} />}
                                       label="I have read Terms & Conditions"
                                   />
                               </Grid>
@@ -189,14 +237,18 @@ class SignUp extends React.Component {
                           </Grid>
                       </form>
                   </div>
+                  <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                      <Alert onClose={handleClose} severity={severity}>
+                          {message}
+                      </Alert>
+                  </Snackbar>
                   <Box mt={5}>
                       <Copyright />
                   </Box>
               </Container>
           </ThemeProvider>
       );
-    }
-}
+};
 
 const useStyles = makeStyles(theme => ({
     paper: {

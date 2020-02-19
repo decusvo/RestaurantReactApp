@@ -38,7 +38,7 @@ const Login = (props) => {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [open, setOpen] = React.useState(false);
 	const [severity, setSeverity] = React.useState("success");
-	const [message, setMessage] = React.useState("You logged in successfully");
+	const [message, setMessage] = React.useState("You've logged in successfully");
 
   const handleEmailInput = event => {
     setEmail(event.target.value)
@@ -93,7 +93,6 @@ const Login = (props) => {
 				<CssBaseline />
 				{loggedIn ? <Redirect to='/Menu' /> : null}
 				<div className={classes.paper}>
-
 						<Typography component="h1" variant="h5">
 								Sign in
 						</Typography>
@@ -166,7 +165,7 @@ const Login = (props) => {
 								</Grid>
 						</form>
 				</div>
-				<Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+				<Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
 					<Alert onClose={handleClose} severity={severity}>
 						{message}
 					</Alert>
