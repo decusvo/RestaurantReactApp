@@ -7,21 +7,19 @@ bp = Blueprint("signup blueprint", __name__)
 
 @bp.route("/signup", methods=["POST"])
 def sign_up():
-	#  Get the details of the user from a post request as a json
-	email = request.json.get('email')
-	password = request.json.get('password')
-	firstname = request.json.get('firstname')
-	lastname = request.json.get('lastname')
+    #  Get the details of the user from a post request as a json
+    email = request.json.get('email')
+    password = request.json.get('password')
+    firstname = request.json.get('firstname')
+    lastname = request.json.get('lastname')
 
-	try:
-		query = "INSERT INTO customer VALUES (%s, %s, %s, %s)"
-		connector.execute_query(query, (email, firstname, lastname, password))
-	except psycopg2.errors.UniqueViolation:
-		# if the sql INSERT doesn't work it reverts the statement to prevent data corruption
-		connector.execute_query("ROLLBACK")
-		return jsonify(error = {"success": False, message: "Query failed invalid input"})
+    query = "INSERT INTO customer VALUES (%s, %s, %s, %s);"
+    result = connector.execute_insert_query(query, (email, firstname, lastname, password))
+    # if the sql INSERT doesn't work it reverts the statement to prevent data corruption
+    if result is False:
+        return jsonify(error = {"success": False, "message": "Query failed invalid input"})
 
-	return jsonify(data = {"success": True})
+    return jsonify(data = {"success": True})
 
 
 #  Temporary test commands
