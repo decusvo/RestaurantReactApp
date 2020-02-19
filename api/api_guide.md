@@ -118,8 +118,8 @@ RETURNS: JSON object containing the data requested, if no data exists an empty a
     ]
   }
   ```
-
-  or an error object
+  	
+	or an error object
 
 ### /login
 EXPECTS: JSON object containing username:password pair, and whether or not it is a staff account password
