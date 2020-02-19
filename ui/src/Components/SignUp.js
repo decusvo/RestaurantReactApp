@@ -98,7 +98,6 @@ const SignUp = (props) => {
               setSeverity("success");
               setMessage("You've registered successfully");
               setOpen(true);
-              console.log(data.data.success);
               setTimeout(function () {
                 setSignedUp(data.data.success)
               }, 1000)
