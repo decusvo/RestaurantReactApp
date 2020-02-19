@@ -18,6 +18,7 @@ import Box from "@material-ui/core/Box";
 import hash from 'hash.js';
 
 import React from 'react';
+import Redirect from "react-router-dom/es/Redirect";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -28,16 +29,22 @@ function Alert(props) {
 
 const SignUp = (props) => {
     const {classes} = props;
-
+    // state variables
     const [firstName, setFirstName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [tAndC, setTAndC] = React.useState(false);
+
+    // Snackbar variables
     const [open, setOpen] = React.useState(false);
     const [severity, setSeverity] = React.useState("success");
     const [message, setMessage] = React.useState("You've registered successfully");
+
+    // Redirect variables
+    const [signedUp, setSignedUp] = React.useState(false)
+
 
     const handleTAndCChange = () => {
         const new_tAndC = !tAndC;
@@ -74,30 +81,34 @@ const SignUp = (props) => {
     const handleSubmit = (event) => {
       event.preventDefault() ;   // prevenets post trying to redirect to another page
       if (tAndC) {
-          if (checkPasswords()){
-          // hash password
-          let hashedPassword = hash.sha512().update(password).digest('hex');
-          fetch("//127.0.0.1:5000/signup", {method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({"firstname": firstName,
-                                "lastname": lastName,
-                                "email": email,
-                                "password": hashedPassword})
-          }).then(response => {
-            return response.json()
-          }).then(data => {
-            if (data.data !== undefined) {
-                //display success message
-                setSeverity("success");
-                setMessage("You've registered successfully");
-                setOpen(true);
-            }else {
-              // display failure message
-                setSeverity("error");
-                setMessage("Email already in use");
-                setOpen(true)
-            }
-          }).catch(error => console.log(error))
+        if (checkPasswords()){
+        // hash password
+        let hashedPassword = hash.sha512().update(password).digest('hex');
+        fetch("//127.0.0.1:5000/signup", {method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"firstname": firstName,
+                              "lastname": lastName,
+                              "email": email,
+                              "password": hashedPassword})
+        }).then(response => {
+          return response.json()
+        }).then(data => {
+          if (data.data !== undefined) {
+              //display success message
+              setSeverity("success");
+              setMessage("You've registered successfully");
+              setOpen(true);
+              console.log(data.data.success);
+              setTimeout(function () {
+                setSignedUp(data.data.success)
+              }, 1000)
+          }else {
+            // display failure message
+              setSeverity("error");
+              setMessage("Email already in use");
+              setOpen(true)
+          }
+        }).catch(error => console.log(error))
 
         } else{
           // display warning message passwords not equal
@@ -115,6 +126,8 @@ const SignUp = (props) => {
 
     return (
           <ThemeProvider theme={theme}>
+          {/*redirects user to log in once signed up successfully*/}
+          {signedUp ? <Redirect to='/Login' /> : null}
               <Container component="main" maxWidth="xs">
                   <CssBaseline />
                   <div className={classes.paper}>
