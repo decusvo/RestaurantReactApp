@@ -46,9 +46,11 @@ def execute_query(query_string, args=None):
 	return result
 
 # this is necessary because insert querys return None on every occasion
+# we also need to handle insert statement failures different
 def execute_insert_query(query_string, args=None):
     global connection
-    connection = get_connection()
+    if not connection:
+        connection = get_connection()
     cursor = connection.cursor()
     try:
         if args:
@@ -58,6 +60,8 @@ def execute_insert_query(query_string, args=None):
         connection.commit()
     except (Exception, psycopg2.Error) as error:
         print("Query failed")
+        cursor.execute("ROLLBACK")
+        connection.commit()
         return False
     finally:
         cursor.close()
