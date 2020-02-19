@@ -45,6 +45,25 @@ def execute_query(query_string, args=None):
 
 	return result
 
+# this is necessary because insert querys return None on every occasion
+def execute_insert_query(query_string, args=None):
+    global connection
+    connection = get_connection()
+    cursor = connection.cursor()
+    try:
+        if args:
+            cursor.execute(query_string, args)
+        else:
+            cursor.execute(query_string)
+        connection.commit()
+    except (Exception, psycopg2.Error) as error:
+        print("Query failed")
+        return False
+    finally:
+        cursor.close()
+
+    return True
+
 def json_select(query, args=None):
     global connection
     connection = get_connection()
