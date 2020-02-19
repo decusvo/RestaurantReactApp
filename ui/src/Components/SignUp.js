@@ -73,36 +73,43 @@ const SignUp = (props) => {
 
     const handleSubmit = (event) => {
       event.preventDefault() ;   // prevenets post trying to redirect to another page
-      if(checkPasswords() && tAndC){
-        // hash password
-        let hashedPassword = hash.sha512().update(password).digest('hex');
-        fetch("//127.0.0.1:5000/signup", {method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"firstname": firstName,
-                              "lastname": lastName,
-                              "email": email,
-                              "password": hashedPassword})
-        }).then(response => {
-          return response.json()
-        }).then(data => {
-          if (data.success) {
-              //display success message
-              setSeverity("success");
-              setMessage("You've registered successfully");
-              setOpen(true);
-          } else {
-            // display failure message
-              setSeverity("error");
-              setMessage("Email already in use");
-              setOpen(true)
-          }
-        }).catch(error => console.log(error))
+      if (tAndC) {
+          if (checkPasswords()){
+          // hash password
+          let hashedPassword = hash.sha512().update(password).digest('hex');
+          fetch("//127.0.0.1:5000/signup", {method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({"firstname": firstName,
+                                "lastname": lastName,
+                                "email": email,
+                                "password": hashedPassword})
+          }).then(response => {
+            return response.json()
+          }).then(data => {
+            if (data.data !== undefined) {
+                //display success message
+                setSeverity("success");
+                setMessage("You've registered successfully");
+                setOpen(true);
+            }else {
+              // display failure message
+                setSeverity("error");
+                setMessage("Email already in use");
+                setOpen(true)
+            }
+          }).catch(error => console.log(error))
 
-      } else{
-        // display failure message
-          setSeverity("warning");
-          setMessage("Passwords weren't the same");
-          setOpen(true)
+        } else{
+          // display warning message passwords not equal
+            setSeverity("warning");
+            setMessage("Passwords weren't the same");
+            setOpen(true)
+        }
+      } else {
+        // display warning message not agreeing to Terms and Condtions
+        setSeverity("warning")
+        setMessage("Please agree to the Terms and Conditions")
+        setOpen(true)
       }
     };
 
