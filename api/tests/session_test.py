@@ -1,5 +1,8 @@
 import requests, json, sys
-from . import tester
+try:
+	from . import tester
+except:
+	import tester
 
 session = requests.Session()
 
@@ -28,6 +31,12 @@ def test_get_session_id():
 		print(req.text)
 	return req.status_code
 
+def test_get_session_is_staff():
+	req = session.post(api_url + "get_session_is_staff")
+	if verbose:
+		print(req.text)
+	return req.status_code
+
 def test_remove_session():
 	req = session.post(api_url + "remove_session", json={"username" : test_data["username"]})
 	if verbose:
@@ -40,6 +49,7 @@ tests = [
 		test_create_session,
 		test_create_session,
 		test_get_session_id,
+		test_get_session_is_staff,
 		test_remove_session,
 		test_get_session_id,
 		test_remove_session,

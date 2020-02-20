@@ -1,5 +1,8 @@
 import requests, json, sys
-from . import tester
+try:
+	from . import tester
+except:
+	import tester
 
 session = requests.Session()
 

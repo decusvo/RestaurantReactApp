@@ -1,5 +1,8 @@
 import requests, json, sys
-from . import tester, session_test
+try:
+	from . import tester, session_test
+except:
+	import tester, session_test
 
 session = requests.Session()
 session_test.session = session
@@ -9,13 +12,13 @@ verbose = False
 
 user_data = {
 			"email" : "example@example.com",
-			"password" : "$2a$10$xQbHESzQRiHz/bdt5QjypetA6uj.2VzpyPPyRxDsg2s4JebCfLhj2",
+			"password" : "b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86",
 			"staff_login" : False,
 			}
 
 staff_data = {
 			"email" : "waiter@waiter.com",
-			"password" : "$2a$10$n9E.j1H4IUOs.dwOqvsKhubrJVlPh0V3L/UbGE9QcsY5MqlzS8pSC",
+			"password" : "b109f3bbbc244eb82441917ed06d618b9008dd09b3befd1b5e07394c706a8bb980b1d7785e5976ec049b46df5f1326af5a2ea6d103fd07c95385ffab0cacbc86",
 			"staff_login" : True,
 			}
 
@@ -57,12 +60,18 @@ def test_logout():
 
 tests = [
 		test_user_login,
+		session_test.test_get_session_id,
+		session_test.test_get_session_is_staff,
+		test_logout,
 		test_staff_login,
+		session_test.test_get_session_id,
+		session_test.test_get_session_is_staff,
+		test_logout,
 		test_bad_user_login,
 		test_bad_staff_login,
-		session_test.test_get_session_id,
 		test_logout,
 		session_test.test_get_session_id,
+		session_test.test_get_session_is_staff,
 		]
 
 if __name__ == "__main__":
