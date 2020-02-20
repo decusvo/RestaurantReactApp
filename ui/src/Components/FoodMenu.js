@@ -1,6 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Container, CssBaseline, Typography, withStyles} from '@material-ui/core';
-import Button from "@material-ui/core/Button";
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import FoodMenuItem from "./FoodMenuItem";
@@ -13,56 +12,21 @@ const useStyles = ({
     }
 });
 
-class FoodMenu extends React.Component{
-    constructor(props) {
-        super(props);
-        this.state = {
-            items: [],
-            addedItems: []
-        };
-    }
+const FoodMenu = (props) => {
+    const [items, setItems] = useState([]);
 
-    handlerPlus = (num, arg) => {
-        const pos = this.state.addedItems.indexOf(arg);
-        const {addedItems} = this.state;
-        if (pos > -1) {
-            addedItems[pos-1] += 1;
-            this.setState({addedItems: addedItems})
-        } else {
-            this.setState({addedItems: this.state.addedItems.concat(num, arg)})
-        }
-    };
-
-    handlerMinus = (num, arg) => {
-        const pos = this.state.addedItems.indexOf(arg);
-        const {addedItems} = this.state;
-        if (pos > -1) {
-            addedItems[pos-1] -= 1;
-            if (addedItems[pos-1] > 0) {
-                this.setState({addedItems: addedItems})
-            }
-        }
-    };
-
-    print = () => {
-      console.log(this.state.addedItems);
-    };
-
-    async componentDidMount(){
-        fetch("//127.0.0.1:5000/menu").then((response) => {
+    useEffect(() => {
+        fetch("//127.0.0.1:5000/menu", {method: 'POST'}).then((response) => {
             return response.json();
         }).then((data) => {
-            this.setState({items : data});
+            setItems(data.data.items);
         });
-    }
+    }, []);
 
-    render() {
-        const {classes} = this.props;
-        const {handlerPlus, handlerMinus} = this;
-
-
+    const {classes} = props;
+        const {handlerPlus, handlerMinus} = props;
         const MapMenuItem = ({value}) => {
-            return this.state.items.map(function (dishes, index) {
+            return items.map(function (dishes, index) {
                 const dish = dishes["0"];
                 const type = dish.type;
 
@@ -73,7 +37,6 @@ class FoodMenu extends React.Component{
                 }
             });
         };
-
         return (
             <React.Fragment>
                 <CssBaseline />
@@ -81,7 +44,6 @@ class FoodMenu extends React.Component{
                     <Typography style={{marginTop: 10, fontSize: 30}} color="textPrimary" gutterBottom>
                         Our Menu
                     </Typography>
-                    <Button onClick={this.print}> </Button>
 
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Starters
@@ -119,7 +81,6 @@ class FoodMenu extends React.Component{
             </React.Fragment>
 
         )
-    }
-}
+};
 
 export default withStyles(useStyles)(FoodMenu);

@@ -8,6 +8,7 @@ import {ShoppingBasket} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 import theme from "../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
+import {useSelector} from "react-redux";
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -34,6 +35,7 @@ const useStyles = makeStyles(({
 
 export default function NavBar(props) {
     const classes = useStyles();
+    const currentUser = useSelector(state => state.currentUser);
 
     return(
         <ThemeProvider theme={theme}>
@@ -50,12 +52,20 @@ export default function NavBar(props) {
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
 
-                            <IconButton href={"/Basket"}  edge="start" color={"inherit"} aria-label={"basket"}>
+                            <IconButton href={"/Order"}  edge="start" color={"inherit"} aria-label={"basket"}>
                                 <ShoppingBasket />
                             </IconButton>
-                            <Button href={"/Register"} color={"inherit"}>Register</Button>
-                            <Button href={"/Login"} color={"inherit"}>Login</Button>
-                            <Button href={"/WaiterDashboard"} color={"inherit"}>Waiter </Button>
+                            {currentUser.loggedIn ?
+                            <>
+                               <Button color={"inherit"}>{currentUser.user.name}</Button>
+                            </>
+                            :
+                            <>
+                                <Button href={"/Register"} color={"inherit"}>Register</Button>
+                                <Button href={"/Login"} color={"inherit"}>Login</Button>
+                                <Button href={"/WaiterDashboard"} color={"inherit"}>Waiter </Button>
+                            </>}
+
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>

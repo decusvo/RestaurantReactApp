@@ -1,19 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import Home from "./Components/Home";
 import FoodMenu from "./Components/FoodMenu";
 import About from "./Components/About";
-import {Router, Route, Switch} from "react-router-dom";
+import {Route, Router, Switch} from "react-router-dom";
 import history from "./utils/history";
 import NavBar from "./Components/NavBar";
 import SignIn from "./Components/Login";
 import SignUp from "./Components/SignUp";
-import WaiterDashboardV2 from "./Components/WaiterDashboard";
-import Basket from "./Components/Basket";
+import WaiterDashboard from "./Components/WaiterDashboard";
+import {useDispatch, useSelector} from "react-redux";
+import allActions from "./actions";
+import Order from "./Components/Order";
 
-class App extends React.Component {
-    render() {
-        return (
+const App = () => {
+    const currentUser = useSelector(state => state.currentUser);
+
+    // const dispatch = useDispatch();
+    // const user = {name: "Deniz"};
+    //
+    // useEffect(() => {
+    //     dispatch(allActions.userActions.logIn(user))
+    // }, []);
+
+    return (
             <div className="App">
                 <Router history={history}>
                     <div className="Index">
@@ -34,6 +44,20 @@ class App extends React.Component {
                             <Route path="/Menu">
                                 <FoodMenu />
                             </Route>
+
+                            {currentUser.loggedIn ?
+                                <>
+                                <Route path="/Order">
+                                    <Order />
+                                </Route>
+                                </>
+                            :
+                                <>
+                                <Route path="/Order">
+                                    <SignIn />
+                                </Route>
+                                </>}
+
                             <Route path="/Login">
                                 <SignIn />
                             </Route>
@@ -41,17 +65,13 @@ class App extends React.Component {
                                 <SignUp />
                             </Route>
                             <Route path="/WaiterDashboard">
-                                <WaiterDashboardV2 />
-                            </Route>
-                            <Route path="/Basket">
-                                <Basket />
+                                <WaiterDashboard />
                             </Route>
                         </Switch>
                     </div>
                 </Router>
             </div>
         );
-    }
-}
+};
 
 export default App;
