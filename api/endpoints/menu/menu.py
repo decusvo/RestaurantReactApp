@@ -27,11 +27,11 @@ def menu():
 		return jsonify(Error="arguments not implemented yet")
 
 
-@app.route("/menu/<string:menu.id>", methods=["POST"])
-def availabilityChange(menu_Id,setState):
-	if setState == False:
-		query = "UPDATE menu SET available = 'unavailable' WHERE menu.id = %s"
-		result = connector.execute_query(query, (menu_Id,))
-	else:
-		query = "UPDATE menu SET available = 'available' WHERE menu.id = %s"
-		result = connector.execute_query(query, (menu_Id,))
+# @app.route("/menu/<string:menu.id>", methods=["POST"])
+# def availabilityChange(menu_Id,setState):
+	# if setState == False:
+		# query = "UPDATE menu SET available = 'unavailable' WHERE menu.id = %s"
+		# result = connector.execute_query(query, (menu_Id,))
+	# else:
+		# query = "UPDATE menu SET available = 'available' WHERE menu.id = %s"
+		# result = connector.execute_query(query, (menu_Id,))
