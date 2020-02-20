@@ -44,6 +44,15 @@ const App = () => {
                             <Route path="/Menu">
                                 <FoodMenu />
                             </Route>
+                            <Route path="/Login">
+                                <SignIn />
+                            </Route>
+                            <Route path="/Register">
+                                <SignUp />
+                            </Route>
+                            <Route path="/WaiterDashboard">
+                                <WaiterDashboard />
+                            </Route>
 
                             {currentUser.loggedIn ?
                                 <>
@@ -57,16 +66,6 @@ const App = () => {
                                     <SignIn />
                                 </Route>
                                 </>}
-
-                            <Route path="/Login">
-                                <SignIn />
-                            </Route>
-                            <Route path="/Register">
-                                <SignUp />
-                            </Route>
-                            <Route path="/WaiterDashboard">
-                                <WaiterDashboard />
-                            </Route>
                         </Switch>
                     </div>
                 </Router>
