@@ -10,6 +10,7 @@ import SignIn from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import WaiterDashboardV2 from "./Components/WaiterDashboard";
 import Basket from "./Components/Basket";
+import WaiterMenu from "./Components/WaiterMenu";
 
 class App extends React.Component {
     render() {
@@ -45,6 +46,9 @@ class App extends React.Component {
                             </Route>
                             <Route path="/Basket">
                                 <Basket />
+                            </Route>
+                            <Route path="/WaiterMenu">
+                                <WaiterMenu/>
                             </Route>
                         </Switch>
                     </div>
