@@ -2,7 +2,7 @@
 import React from 'react';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import {CardActions, CssBaseline} from "@material-ui/core";
+import {CssBaseline} from "@material-ui/core";
 import ArrowForwardRounded from '@material-ui/icons/ArrowForwardRounded';
 import ArrowBackRounded from '@material-ui/icons/ArrowBackRounded';
 import Fab from '@material-ui/core/Fab';
@@ -19,7 +19,7 @@ export default class OrderItem extends React.Component {
             // To be confirmed (TBC) -> In Progress (IP) -> To Be Served (TBS) -> Complete
             // 0 -> 1 -> 2 - > 3
             orderState:0,
-        }
+        };
 
         this.viewOrderHandler.bind(this);
         this.moveStateRight.bind(this);
@@ -28,24 +28,25 @@ export default class OrderItem extends React.Component {
 
     viewOrderHandler = () => {
         alert("click detected.");
-    }
+    };
 
     moveStateRight = () => {
-        this.setState((state, props) => ({
+        this.setState((state) => ({
             counter: state.counter + 1
         }));
         alert(this.state.orderState);
-    }
+    };
 
     moveStateLeft = () => {
-        this.setState((state, props) => ({
+        this.setState((state) => ({
             counter: state.counter - 1
         }));
         alert(this.state.orderState);
-    }
+    };
 
 
     render() {
+        // eslint-disable-next-line
         const {orderState, tableID, orderID} = this.props;
         return (
             <React.Fragment>

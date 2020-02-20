@@ -18,11 +18,13 @@ import hash from 'hash.js'
 // https://material-ui.com/components/snackbars/
 import Snackbar from '@material-ui/core/Snackbar';
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import '../Styling/LoginMenu.css'
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiAlert from "@material-ui/lab/Alert";
 import Redirect from "react-router-dom/es/Redirect";
+import {useDispatch} from "react-redux";
+import allActions from "../actions";
 
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -30,7 +32,8 @@ function Alert(props) {
 
 // custom styles defined here.
 const Login = (props) => {
-  const {classes} = props;
+    const {classes} = props;
+	const dispatch = useDispatch();
 
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
@@ -72,7 +75,6 @@ const Login = (props) => {
       	setTimeout(function () {
 			setLoggedIn(data.data.valid_credentials);
 		}, 1000);
-
         // display success message
 		setSeverity("success");
 		setMessage("You've logged in successfully");
@@ -86,6 +88,14 @@ const Login = (props) => {
 
     }).catch(error => console.log(error))
   };
+
+	useEffect(() => {
+		const user = {name: email};
+		if (loggedIn === true){
+			dispatch(allActions.userActions.logIn(user))
+		}
+	// eslint-disable-next-line
+		}, [loggedIn, email]);
 
 	return (
 		<ThemeProvider theme={theme}>

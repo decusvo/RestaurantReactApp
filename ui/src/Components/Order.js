@@ -62,10 +62,10 @@ const MapOrderItem = () => {
             q:'2'
         },
 
-    ]
+    ];
 
     return array.map(function (dish, index) {
-        const itemName = dish.name;
+        // const itemName = dish.name;
         const itemQuantity = dish.q;
         return (<ListItem key={index} >
             <ListItemText
