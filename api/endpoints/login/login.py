@@ -33,8 +33,8 @@ def login():
 		return jsonify(error={"valid_credentials" : False, "message" : "invalid email or password"})
 	else:
 		email = result[0][0]
-		sessions.session.create_session(email)
-		return jsonify(data = {"valid_credentials" : True, "username" : email})
+		sessions.session.create_session(email, staff_login)
+		return jsonify(data={"valid_credentials" : True, "username" : email, "is_staff" : staff_login})
 
 @bp.route("/logout", methods=["POST"])
 def logout():

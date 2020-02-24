@@ -3,7 +3,7 @@ from flask import Flask, session, request, Blueprint, jsonify, Response
 bp = Blueprint("session blueprint", __name__)
 
 @bp.route("/create_session", methods=["POST", "GET"])
-def create_session(username=None):
+def create_session(username=None, staff=False):
 	if "username" in session:
 		print("SESSION ALREADY HAS USERNAME ATTRIBUTE")
 		return jsonify(error={"message": "SESSION ALREADY HAS ID/USERNAME"})
@@ -12,23 +12,31 @@ def create_session(username=None):
 		username = request.json.get("username")
 	
 	session["username"] = username
-	return jsonify(session_id = session["username"])
+	session["staff"] = staff
+	return jsonify(data={"session_id" : session["username"], "staff" : session["staff"]})
 
 #  curl -d '{"username":"waiter@waiter.com"}' -H "Content-type: application/json"  -X POST "127.0.0.1:5000/make_session"
 
 @bp.route("/get_session_id", methods=["POST", "GET"])
 def get_session_id():
 	try:
-		return jsonify(session_id = session["username"])
+		return jsonify(data={"session_id" : session["username"]})
 	except:
-		return jsonify(error={"message": "SESSION DOES NOT HAVE ID/USERNAME"})
+		return jsonify(error={"message": "SESSION DOES NOT HAVE ID/USERNAME", "success" : False})
+
+@bp.route("/get_session_is_staff", methods=["POST"])
+def get_sesssion_is_staff():
+	try:
+		return jsonify(data={"staff" : session["staff"]})
+	except:
+		return jsonify(error={"massage" : "NO ACTIVE SESSION", "success" : False})
 
 @bp.route("/remove_session", methods=["POST", "GET"])
 def remove_session():
 	if "username" in session:
-		session["username"]
 		username_to_rm = session.pop("username", None)
-		return jsonify(removed_session_id = username_to_rm, success = True)
+		session.pop("staff", None)
+		return jsonify(data={"removed_session_id" : username_to_rm, "success" : True})
 	else:
 		return jsonify(error={"message": "SESSION WITH GIVEN ID DOES NOT EXIST"})
 
