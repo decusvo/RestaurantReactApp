@@ -1,23 +1,14 @@
-/*
-	Order States:
-		- start
-		- requested
-		- confirmed
-		- cooking
-    - ready_to_deliver
-		- delivered
-		- paid
-		- cancelled
+DROP TYPE IF EXISTS order_event CASCADE;
 
-	Order Events:
-		- request
-		- confirm
-		- start_cook
-    - cooked
-		- deliver
-		- pay
-		- cancel
-*/
+CREATE TYPE order_event AS ENUM (
+		'request', 
+		'confirm', 
+		'start_cook', 
+		'cooked', 
+		'deliver', 
+		'pay', 
+		'cancel'
+	);
 
 --EVENT TABLE
 
@@ -33,7 +24,7 @@ CREATE TABLE order_events(
 
 DROP FUNCTION IF EXISTS order_event_transition;
 
-CREATE FUNCTION order_event_transition(state text, event text) RETURNS text
+CREATE FUNCTION order_event_transition(state order_state, event order_event) RETURNS text
 LANGUAGE sql AS
 $$
 	SELECT CASE state
@@ -81,9 +72,9 @@ DROP FUNCTION IF EXISTS new_event;
 CREATE FUNCTION new_event() RETURNS trigger AS
 $$
 DECLARE
-	old_state varchar(50);
-	new_event varchar(50);
-	new_state varchar(20);
+	old_state order_state;
+	new_event order_event;
+	new_state order_state;
 BEGIN
 	SELECT NEW.event INTO new_event;
 	SELECT state FROM orders WHERE orders.id = NEW.order_id INTO old_state;

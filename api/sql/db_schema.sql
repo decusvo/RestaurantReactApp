@@ -6,6 +6,19 @@ DROP TABLE IF EXISTS menu CASCADE;
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS ordered_items CASCADE;
 
+DROP TYPE IF EXISTS order_state CASCADE;
+
+CREATE TYPE order_state AS ENUM (
+		'start', 
+		'requested', 
+		'confirmed', 
+		'cooking', 
+		'ready_to_deliver', 
+		'delivered', 
+		'paid', 
+		'cancelled' 
+	);
+
 -- Credit for order events and function:
 -- https://felixge.de/2017/07/27/implementing-state-machines-in-postgresql.html
 
@@ -51,7 +64,7 @@ CREATE TABLE menu(
 CREATE TABLE orders(
 	id serial PRIMARY KEY,
 	table_number integer REFERENCES table_details(table_number),
-	state varchar(20) DEFAULT 'start'
+	state order_state DEFAULT 'start'
 );
 
 CREATE TABLE ordered_items(
