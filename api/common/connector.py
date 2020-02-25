@@ -38,6 +38,8 @@ def execute_query(query_string, args=None):
 
 	except:
 		print("Query failed")
+		cursor.close()
+		raise
 		result = None
 
 	finally:

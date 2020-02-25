@@ -3,6 +3,30 @@ import json
 import psycopg2
 from common import connector
 
+enum_list = connector.execute_query('''
+	SELECT type.typname,
+	enum.enumlabel AS value
+	FROM pg_enum AS enum
+	JOIN pg_type AS type
+	ON (type.oid = enum.enumtypid)
+	GROUP BY enum.enumlabel,
+	type.typname;
+	''')
+
+valid_events = []
+valid_states = []
+
+for enum_val in enum_list:
+	name = enum_val[0]
+	value = enum_val[1]
+	if name == "order_state":
+		valid_states.append(value)
+	elif name == "order_event":
+		valid_events.append(value)
+
+print("valid events: ", valid_events)
+print("valid states: ", valid_states)
+
 
 def validate(request):
 	if "table_num" not in request.json:
@@ -52,15 +76,6 @@ def validate_order_event(request):
 	order_id = request.json.get("order_id")
 	event = request.json.get("order_event")
 
-	valid_events = [
-		"request",
-		"confirm",
-		"start_cook",
-		"deliver",
-		"pay",
-		"cancel",
-	]
-
 	if event not in valid_events:
 		error_msg = "given event is not a valid event type, see this objects 'valid_events'"
 		error_msg += " for a list of valid events"
@@ -72,17 +87,6 @@ def validate_order_event(request):
 		return jsonify({"success" : False, "message" : error_msg})
 
 def validate_get_order(request):
-    valid_states = [
-        "start",
-        "requested",
-        "confirm",
-        "cooking",
-        "ready_to_deliver",
-        "delivered",
-        "paid",
-        "cancelled",
-        "all"   # added this if they want the orders no matter the state
-    ]
     if request.json is None:
         error_msg = "Expected json object, was not found"
         return jsonify({"success": False, "message": error_msg})
