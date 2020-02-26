@@ -118,7 +118,7 @@ RETURNS: JSON object containing the data requested, if no data exists an empty a
     ]
   }
   ```
-  	
+
 	or an error object
 
 ### /login
@@ -159,3 +159,19 @@ RETURNS: JSON object describing success and a message:
 	}
   }
   ```
+
+### /Signup
+EXPECTS: JSON object containing the email, password, firstname and lastname
+
+RETURNS: JSON object describing success
+
+  ```json
+  {
+    "data": {
+      "success": true
+    }
+  }
+
+  ```
+
+or an error object
