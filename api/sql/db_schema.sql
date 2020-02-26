@@ -16,7 +16,8 @@ CREATE TYPE order_state AS ENUM (
 		'ready_to_deliver', 
 		'delivered', 
 		'paid', 
-		'cancelled' 
+		'cancelled',
+		'error'
 	);
 
 -- Credit for order events and function:

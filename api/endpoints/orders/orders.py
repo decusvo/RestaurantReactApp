@@ -42,6 +42,12 @@ def order_event():
 	if error:
 		return(error)
 
+	order_id = request.json.get("order_id")
+	event = request.json.get("order_event")	
+
+	query = "INSERT INTO order_events(order_id, event) VALUES(%s, %s)"
+	connector.execute_insert_query(query, (order_id, event))
+
 	return jsonify({"success" : True})
 
 @bp.route("/get_orders", methods=["POST"])

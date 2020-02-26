@@ -84,6 +84,23 @@ def validate_order_event(request):
 	if not result:
 		error_msg = "Invalid order_id, given order_id is not in orders table"
 		return jsonify({"success" : False, "message" : error_msg})
+	
+	query = "SELECT state FROM orders WHERE id = %s"	
+	result = connector.execute_query(query, (order_id,))
+	order_state = result[0]
+	
+	query = "SELECT order_event_transition(%s, %s) AS new_state"
+	result = connector.execute_query(query, (order_state, event))
+	
+	print("PRINTING FROM VALIDATE_ORDERS: ", result[0][0])
+
+	if result[0][0] == "error":
+		print("ERROR FOUND")
+		error_msg = "Given event cannot be performed on this order."
+		return jsonify({"success" : False, "message" : error_msg})
+
+	return None
+
 
 def validate_get_order(request):
 	if request.json is None:

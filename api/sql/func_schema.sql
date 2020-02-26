@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS order_events CASCADE;
 CREATE TABLE order_events(
 	id serial PRIMARY KEY,
 	order_id INTEGER REFERENCES orders(id) NOT NULL,
-	event varchar(20) NOT NULL
+	event order_event NOT NULL
 );
 
 --FSM FUNCTION
