@@ -5,7 +5,7 @@ import MinusIcon from '@material-ui/icons/Remove';
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import allActions from "../actions";
 // import {CardMedia} from "@material-ui/core";
 
