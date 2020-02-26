@@ -39,68 +39,58 @@ const useStyles = makeStyles(theme => ({
 
 const MapOrderItem = () => {
     const currentItems = useSelector(state => state.currentItems);
-    console.log(currentItems);
+    const items = currentItems.items;
 
-    const array = [{
-        name:'Item 1',
-        q:'5'
-    },
-        {
-            name:'Item 2',
-            q:'4'
-        },
-        {
-            name:'Item 3',
-            q:'2'
-        },
-        {
-            name:'Item 4',
-            q:'4'
-        },
-        {
-            name:'Item 5',
-            q:'2'
-        },
+    if (items.length !== 0) {
+        return items.map(function (dish, index) {
+            const itemName = dish.name;
+            const itemQuantity = dish.q;
+            if (itemQuantity > 0) {
+                return (<ListItem key={index} >
+                    <ListItemText
+                        primary={
+                            <React.Fragment>
+                                <Typography
+                                    component="span"
+                                    variant="body1"
+                                    color="textPrimary"
+                                >
+                                    {itemName}
+                                </Typography>
 
-    ]
+                            </React.Fragment>
+                        }
+                        secondary={
+                            <React.Fragment>
+                                <Typography
+                                    component="span"
+                                    variant="body2"
+                                    color="textSecondary"
+                                >
+                                    Q : {itemQuantity}
+                                </Typography>
 
-    return array.map(function (dish, index) {
-        const itemName = dish.name;
-        const itemQuantity = dish.q;
-        return (<ListItem key={index} >
-            <ListItemText
-                primary={
-                    <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body1"
-                            color="textPrimary"
-                        >
-                            itemName
-                        </Typography>
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>)
+            } else {
+                return (<div key={index}> </div>)
+            }
+        });
+    } else {
+        console.log("No items")
+    }
 
-                    </React.Fragment>
-                }
-                secondary={
-                    <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body2"
-                            color="textSecondary"
-                        >
-                            Q : {itemQuantity}
-                        </Typography>
-
-                    </React.Fragment>
-                }
-            />
-        </ListItem>)
-    });
 };
 
 const Order = () => {
     const classes = useStyles();
-    const currentItems = useSelector(state => state.currentItems);
+
+    const handleClick = () => {
+
+    };
+
     return (
         <React.Fragment >
             <Typography variant="h3" className={classes.title}>
@@ -108,13 +98,13 @@ const Order = () => {
             </Typography>
 
             <List className={classes.root}>
-                {console.log(currentItems)}
                 <MapOrderItem />
             </List>
 
             <Grid container>
                 <Grid item xs={12}  >
                     <Button
+                        onClick={() => handleClick}
                         type="submit"
                         variant="contained"
                         color="primary"

@@ -5,7 +5,7 @@ import MinusIcon from '@material-ui/icons/Remove';
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import allActions from "../actions";
 // import {CardMedia} from "@material-ui/core";
 
@@ -23,8 +23,8 @@ const FoodMenuItem = (props) => {
     const MinusButtonHandler = (value) => {
         if(itemQuantity > 0){
             setItemQuantity(itemQuantity - 1);
+            dispatch(allActions.itemActions.removeItem(value));
         }
-        dispatch(allActions.itemActions.removeItem(value));
     };
 
     const theme = createMuiTheme();
