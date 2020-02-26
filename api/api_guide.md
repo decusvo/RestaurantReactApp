@@ -69,7 +69,8 @@ RETURNS: JSON object
 	or an error object, will generate an error if one of the item ids given was invalid
 
 ### /order\_event:
-EXPECTS: JSON object containing an order id and an event in the form:
+EXPECTS: JSON object containing an order id and an event in the form, the given event will
+be added to the database if it passes the event validation:
 
   ```json
   {
