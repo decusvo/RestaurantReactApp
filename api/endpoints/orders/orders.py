@@ -51,14 +51,14 @@ def get_orders():
 		return (error)
 
 	states = request.json.get("states")
-	# if they request all orders no matter the state
+
+	# handles case for getting all orders:
 	if len(states) == 0:
-		# curl -X POST -H "Content-Type: application/json" -d '{"state":"all"}' 127.0.0.1:5000/get_orders
-		query = "SELECT id, table_number, state FROM orders"
+		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders) AS order_list;"
 		result = connector.execute_query(query)
 	else:
-		query = "SELECT id, table_number, state FROM orders WHERE state = ANY('{"
-		query += ", ".join(states) + "}');"
+		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders WHERE state = ANY('{"
+		query += ", ".join(states) + "}')) AS order_list;"
 		print(query)
 		result = connector.execute_query(query)
 
