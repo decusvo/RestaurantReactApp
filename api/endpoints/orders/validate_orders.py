@@ -3,6 +3,8 @@ import json
 import psycopg2
 from common import connector
 
+
+# Fetch list of valid states/events from DB.
 enum_list = connector.execute_query('''
 	SELECT type.typname,
 	enum.enumlabel AS value
@@ -23,9 +25,6 @@ for enum_val in enum_list:
 		valid_states.append(value)
 	elif name == "order_event":
 		valid_events.append(value)
-
-print("valid events: ", valid_events)
-print("valid states: ", valid_states)
 
 
 def validate(request):
@@ -87,16 +86,20 @@ def validate_order_event(request):
 		return jsonify({"success" : False, "message" : error_msg})
 
 def validate_get_order(request):
-    if request.json is None:
-        error_msg = "Expected json object, was not found"
-        return jsonify({"success": False, "message": error_msg})
-    elif "state" not in request.json:
-        error_msg = "Expected 'state', and was not found"
-        return jsonify({"success": False, "message": error_msg})
-    elif request.json.get("state") not in valid_states:
-        error_msg = "Invalid 'state' of order was entered "
-        error_msg += "the list of all valid states are "
-        error_msg += ", ".join(map(str, valid_states))
-        return jsonify({"success": False, "message": error_msg})
+	if request.json is None:
+		error_msg = "Expected json object, was not found"
+		return jsonify({"success": False, "message": error_msg})
 
-    return None
+	if "states" not in request.json:
+		error_msg = "Expected 'states', and was not found"
+		return jsonify({"success": False, "message": error_msg})
+
+	states =  request.json.get("states")
+ 
+	for state in states:
+		if state not in valid_states:
+			error_msg = "given event is not a valid event type, see this objects 'valid_events'"
+			error_msg += " for a list of valid events"
+			return jsonify({"success" : False, "message" : error_msg, "valid_events" : valid_events})
+
+	return None

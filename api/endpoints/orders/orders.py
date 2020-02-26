@@ -46,20 +46,20 @@ def order_event():
 
 @bp.route("/get_orders", methods=["POST"])
 def get_orders():
-    error = validate_orders.validate_get_order(request)
-    if error:
-        return (error)
+	error = validate_orders.validate_get_order(request)
+	if error:
+		return (error)
 
-    state = request.json.get("state")
-    # if they request all orders no matter the state
-    if state == "all":
-        # curl -X POST -H "Content-Type: application/json" -d '{"state":"all"}' 127.0.0.1:5000/get_orders
-        query = "SELECT id, table_number, state FROM orders"
-        result = connector.json_select(query)
-    else:
-        # curl -X POST -H "Content-Type: application/json" -d '{"state":"start"}' 127.0.0.1:5000/get_orders
-        query = "SELECT id, table_number, state FROM orders WHERE state = '{}'".format(state)
-        result = connector.json_select(query)
+	states = request.json.get("states")
+	# if they request all orders no matter the state
+	if len(states) == 0:
+		# curl -X POST -H "Content-Type: application/json" -d '{"state":"all"}' 127.0.0.1:5000/get_orders
+		query = "SELECT id, table_number, state FROM orders"
+		result = connector.execute_query(query)
+	else:
+		query = "SELECT id, table_number, state FROM orders WHERE state = ANY('{"
+		query += ", ".join(states) + "}');"
+		print(query)
+		result = connector.execute_query(query)
 
-
-    return jsonify(data=result)
+	return jsonify(data={"orders" : result})
