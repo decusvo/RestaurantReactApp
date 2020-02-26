@@ -91,12 +91,12 @@ RETURNS: JSON object containing whether or not event was successfully performed:
 	or an error object
 
 ### /get\_orders:
-EXPECTS: JSON object containing one of the possible states, plus an additional
-state 'all' which will return all orders no matter the state:
+EXPECTS: JSON object containing the list of states you'd like to get orders for. If you want to
+retrieve all orders, then pass an empty array:
 
   ```json
   {
-  "state": "cooking"  
+  "states": ["cooking", "requested"] 
   }
   ```
 
@@ -107,7 +107,7 @@ RETURNS: JSON object containing the data requested, if no data exists an empty a
     "data" : [
       {
         "id": 1,
-        "start": "start",
+        "state": "start",
         "table_number": 1
       },
       {
