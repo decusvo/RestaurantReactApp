@@ -1,136 +1,98 @@
-import React from "react";
-import PropTypes from "prop-types";
-import SwipeableViews from "react-swipeable-views";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
+import React from 'react';
+import {CssBaseline, Typography, withStyles} from '@material-ui/core';
+import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
-import Card from "@material-ui/core/Card";
 import Grid from "@material-ui/core/Grid";
-import Button from '@material-ui/core/Button';
+import Card from "@material-ui/core/Card";
+import OrderItem from "./OrderItem";
 
-
-function TabPanel(props) {
-    const { children, value, index, ...other } = props;
-
-    return (
-        <Typography
-            component="div"
-            role="tabpanel"
-            hidden={value !== index}
-            id={`action-tabpanel-${index}`}
-            aria-labelledby={`action-tab-${index}`}
-            {...other}
-        >
-            {value === index && <Box p={3}>{children}</Box>}
-        </Typography>
-    );
-}
-
-TabPanel.propTypes = {
-    children: PropTypes.node,
-    index: PropTypes.any.isRequired,
-    value: PropTypes.any.isRequired
-};
-
-function a11yProps(index) {
-    return {
-        id: `action-tab-${index}`,
-        "aria-controls": `action-tabpanel-${index}`
-    };
-}
-
-const useStyles = makeStyles(theme => ({
+//basic styles
+const useStyles = theme => ({
     root: {
-        backgroundColor: theme.palette.background.paper,
-        width: "value",
-        position: "relative",
-        minHeight: 200
+        flexGrow: 1,
+    },
+
+    card: {
+        padding: theme.spacing(6),
+        marginTop: theme.spacing(6),
+        display: 'flex',
+        textAlign: 'center',
+        flexDirection: 'column',
+        alignItems: 'center',
+        fontSize: 20
+    },
+
+    typography: {
+        marginTop: 10, fontSize: 25
     }
-}));
+});
 
-export default function Kitchen() {
-    const classes = useStyles();
-    const theme = useTheme();
-    const [value, setValue] = React.useState(0);
+class WaiterDashboard extends React.Component {
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+          requested: [],
+          cooking: [],
+          ready_to_deliver: []
+        };
+    }
 
-    const handleChangeIndex = index => { // handles change of index in the <Tabs> component.
-        setValue(index);
-    };
+    async componentDidMount(){
+      var orderStates = ["requested", "ready_to_deliver", "cooking"]
+      orderStates.forEach(state => {
+        fetch("//127.0.0.1:5000/get_orders", {method:'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({"state": state})
+        }).then(response => {
+          return response.json()
+        }).then(data => {
+          let change = {}
+          change[state] = data.data
+          this.setState(change)
+        })
+      });
+    }
 
+    render() {
+        const {classes} = this.props;
 
+        const MapOrderItem = ({value}) => {
+          return value.map((ele, index) => {
+            const order = ele["0"]
+            let {state, id, table_number} = order
+            return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
+          })
+        }
 
-    return (
-        <div className={classes.root}>
-            <AppBar position="dynamic" color="default">
-                <Tabs
-                    value={value}
-                    onChange={handleChange}
-                    indicatorColor="primary"
-                    textColor="primary"
-                    variant="contained"
-                >
-                    <Tab label="To be done" {...a11yProps(0)} />
-                    <Tab label="currently cooking" {...a11yProps(1)} />
-                </Tabs>
-            </AppBar>
+        return (
+            <React.Fragment>
+                <CssBaseline />
 
-            <SwipeableViews
-                axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-                index={value}
-                onChangeIndex={handleChangeIndex}
-            >
+                <Grid container spacing={3}>
+                    {/*Grid for the to be confirmed, order objects will later be loaded in dynamically*/}
+                    <Grid item xs>
+                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                            To Be Done
+                        </Typography>
+                        <MapOrderItem value={this.state.requested}/>
+                      </Grid>
 
-                <TabPanel value={value} index={0} dir={theme.direction}>
-
-                    <Grid container xs spacing={3}>
-                        <Grid item xs>
-                    <Card className={classes.card}>
-			tacos
-                    </Card>
-                        </Grid>
+                    <Grid item xs>
+                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                            Currently Cooking
+                        </Typography>
+                        <MapOrderItem value={this.state.cooking}/>
                     </Grid>
-                    <Grid container xs spacing={3}>
-                        <Grid item xs>
-                    <Card className={classes.card}>
-			chips
-                    </Card>
-                        </Grid>
-                    </Grid>
+                </Grid>
 
+                    <Box mt={5}>
+                        <Copyright />
+                    </Box>
+            </React.Fragment>
 
-		    <Button variant="contained" color="default" CookIt>
-      	            	Cook It!
-                    </Button>
-
-                </TabPanel>
-
-
-                <TabPanel value={value} index={1} dir={theme.direction}>
-
-
-                    <Grid container xs spacing={3}>
-                        <Grid item xs>
-                    <Card className={classes.card}>
-			tacos
-                    </Card>
-                        </Grid>
-                    </Grid>
-
-
-		    <Button variant="contained" color="default" Cooked>
-      	            	Cooked!
-                    </Button>
-
-
-                </TabPanel>
-            </SwipeableViews>
-        </div>
-    );
+        )
+    }
 }
+
+export default withStyles(useStyles)(WaiterDashboard);
