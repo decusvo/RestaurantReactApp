@@ -4,7 +4,10 @@ import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import FoodMenuItem from "./FoodMenuItem";
 import Grid from "@material-ui/core/Grid";
-
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
 
 const useStyles = ({
     typography: {
@@ -44,6 +47,29 @@ const FoodMenu = (props) => {
                     <Typography style={{marginTop: 10, fontSize: 30}} color="textPrimary" gutterBottom>
                         Our Menu
                     </Typography>
+
+                    <FormControl component="fieldset">
+                      <FormGroup aria-label="position" row>
+                        <FormControlLabel
+                          value="top"
+                          control={<Switch color="primary" />}
+                          label="Vegan"
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="start"
+                          control={<Switch color="primary" />}
+                          label="Vegetarian"
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          value="bottom"
+                          control={<Switch color="primary" />}
+                          label="Gluten-Free"
+                          labelPlacement="start"
+                        />
+                      </FormGroup>
+                    </FormControl>
 
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Starters
