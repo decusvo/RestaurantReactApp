@@ -3,14 +3,14 @@ const currentItems = (state = {items: []}, action) => {
         case "ADD_ITEM":
             let found = false;
             state.items.map(function (dish) {
-                if (dish.name === action.payload) {
+                if (dish.name === action.payload.name) {
                     dish.q += 1;
                     found = true;
                 }
             });
             if (!found) {
                 return {...state,
-                    items: state.items.concat({name:action.payload, q:1})};
+                    items: state.items.concat({id:action.payload.id, name:action.payload.name, q:1})};
             } else {
                 return state
             }

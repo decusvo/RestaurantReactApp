@@ -6,6 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import currentItems from "../reducers/currentItems";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -40,7 +41,6 @@ const useStyles = makeStyles(theme => ({
 const MapOrderItem = () => {
     const currentItems = useSelector(state => state.currentItems);
     const items = currentItems.items;
-
     if (items.length !== 0) {
         return items.map(function (dish, index) {
             const itemName = dish.name;
@@ -79,15 +79,32 @@ const MapOrderItem = () => {
             }
         });
     } else {
-        console.log("No items")
+        console.log("No items");
+        return (<div> </div>)
     }
 
 };
 
 const Order = () => {
     const classes = useStyles();
+    const currentItems = useSelector(state => state.currentItems);
+    const items = currentItems.items;
 
     const handleClick = () => {
+        const apiItems = [];
+        items.map(function (dish) {
+            for (let i = 0; i < dish.q; i++) {
+                apiItems.push(dish.id.toString())
+            }
+        })
+        fetch("//127.0.0.1:5000/create_order", {method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"table_num": 1, "items": apiItems})
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            console.log(data)
+        }).catch(error => console.log(error))
 
     };
 
@@ -104,7 +121,7 @@ const Order = () => {
             <Grid container>
                 <Grid item xs={12}  >
                     <Button
-                        onClick={() => handleClick}
+                        onClick={() => handleClick()}
                         type="submit"
                         variant="contained"
                         color="primary"
