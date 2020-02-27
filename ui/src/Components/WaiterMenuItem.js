@@ -6,10 +6,12 @@ import Divider from "@material-ui/core/Divider";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 import FormControl from "@material-ui/core/FormControl";
-import InputLabel from "@material-ui/core/InputLabel";
 import Card from "@material-ui/core/Card";
-import Select from "@material-ui/core/Select";
 import {makeStyles} from "@material-ui/core/styles";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -31,14 +33,12 @@ const WaiterMenuItem = ( props ) => {
     const [availability,setAvailability] = useState(true); // default availability is true.
 
 
-    const handleChange = name => event => {
-        setAvailability({
-            ...availability
-        });
+    // Handles the change of radio button that updates the state of dish availability.
+    const handleChange = event => {
+        setAvailability(event.target.value);
     };
 
 
-    
     return (
         <div className={classes.paper} >
         <Grid item xs={3}>
@@ -46,21 +46,12 @@ const WaiterMenuItem = ( props ) => {
                 <CardHeader title={value} />
                 <Divider variant="middle" />
                 <CardActions disableSpacing>
-                    <FormControl className={classes.form}>
-                        <InputLabel htmlFor="dish-state-native-simple">Availability</InputLabel>
-                        <Select
-                            native
-                            value={availability}
-                            onChange={handleChange('dishState')}
-                            inputProps={{
-                                name : 'dishState',
-                                id: 'dish-state-native-simple',
-                            }}
-                        >
-                            <option value="" />
-                            <option value={10}>Available</option>
-                            <option value={20}>Unavailable</option>
-                        </Select>
+                    <FormControl component="fieldset" className={classes.form}>
+                        <FormLabel component="legend">Gender</FormLabel>
+                        <RadioGroup defaultValue="Available" aria-label="Availability" name="dishState" onChange={handleChange}>
+                            <FormControlLabel value="Available" control={<Radio />} label="Available" />
+                            <FormControlLabel value="Unavailable" control={<Radio />} label="Unavailable" />
+                        </RadioGroup>
                     </FormControl>
                 </CardActions>
             </Card>
