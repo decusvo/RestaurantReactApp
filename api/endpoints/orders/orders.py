@@ -19,7 +19,6 @@ def create_order():
 
 	query = "INSERT INTO orders (table_number) VALUES (%s) RETURNING id"
 	result = connector.execute_query(query, (int(table_num),))
-	print(result)
 	order_id = result[0]
 
 	items_added = []
@@ -27,11 +26,10 @@ def create_order():
 	for menu_item_id in items:
 		try:
 			query = "INSERT INTO ordered_items (order_id, menu_item_id) VALUES (%s, %s)"
-			connector.execute_query(query, (order_id, menu_item_id))
+			connector.execute_insert_query(query, (order_id, menu_item_id))
 			items_added.append(menu_item_id)
 		except:
 			error_msg = "Problem adding items to ordered_items, likely an invalid menu_item_id"
-			connection.commit()
 			return jsonify({"success" : False, "message" : error_msg})
 
 	return jsonify(data={"success" : True, "order_id" : order_id, "items_added" : items_added})
@@ -43,7 +41,7 @@ def order_event():
 		return(error)
 
 	order_id = request.json.get("order_id")
-	event = request.json.get("order_event")	
+	event = request.json.get("order_event")
 
 	query = "INSERT INTO order_events(order_id, event) VALUES(%s, %s)"
 	connector.execute_insert_query(query, (order_id, event))
@@ -65,7 +63,6 @@ def get_orders():
 	else:
 		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders WHERE state = ANY('{"
 		query += ", ".join(states) + "}')) AS order_list;"
-		print(query)
 		result = connector.execute_query(query)
 
 	return jsonify(data={"orders" : result})
