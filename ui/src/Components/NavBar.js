@@ -9,9 +9,9 @@ import IconButton from "@material-ui/core/IconButton";
 import theme from "../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import {useDispatch, useSelector} from "react-redux";
+import History from "../utils/history"
 import Avatar from "@material-ui/core/Avatar";
-import {yellow} from "@material-ui/core/colors";
-import allActions from "../actions";
+import userActions from "../actions/userActions";
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -33,14 +33,10 @@ const useStyles = makeStyles(({
     },
     blank: {
         flexGrow: 1,
-    },
-    yellow: {
-        color: theme.palette.getContrastText(yellow[500]),
-        backgroundColor: yellow[500],
     }
 }));
 
-const NavBar = (props) => {
+export default function NavBar(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.currentUser);
@@ -52,27 +48,28 @@ const NavBar = (props) => {
                 <HideOnScroll {...props}>
                     <AppBar style={{background: '#68a4a7'}}>
                         <Toolbar>
-                            <Button href={"/Home"}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
-                            <Button href={"/About"} color={"inherit"}>About</Button>
-                            <Button href={"/Menu"} color={"inherit"}>
+                            <Button onClick={() => History.push("/Home")}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
+                            <Button onClick={() => History.push("/About")} color={"inherit"}>About</Button>
+                            <Button onClick={() => History.push("/Menu")} color={"inherit"}>
                                 Menu
                             </Button>
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
 
-                            <IconButton href={"/Order"}  edge="start" color={"inherit"} aria-label={"basket"}>
+                            <IconButton onClick={() => History.push("/Order")}  edge="start" color={"inherit"} aria-label={"basket"}>
                                 <ShoppingBasket />
                             </IconButton>
                             {currentUser.loggedIn ?
-                            <>
-                               <Avatar className={classes.yellow} onClick={() => dispatch(allActions.userActions.logOut())}>{currentUser.user.name[0]}</Avatar>
-                            </>
-                            :
-                            <>
-                                <Button href={"/Register"} color={"inherit"}>Register</Button>
-                                <Button href={"/Login"} color={"inherit"}>Login</Button>
-                                <Button href={"/WaiterDashboard"} color={"inherit"}>Waiter </Button>
-                            </>}
+                                <>
+                                    <Avatar className={classes.yellow} onClick={() => dispatch(userActions.logOut())}>{currentUser.user.name[0]}</Avatar>
+                                </>
+                                :
+                                <>
+                                    <Button href={"/Register"} color={"inherit"}>Register</Button>
+                                    <Button href={"/Login"} color={"inherit"}>Login</Button>
+                                    <Button href={"/WaiterDashboard"} color={"inherit"}>Waiter </Button>
+                                </>}
+
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>
@@ -80,6 +77,4 @@ const NavBar = (props) => {
             </div>
         </ThemeProvider>
         );
-};
-
-export default NavBar;
+}

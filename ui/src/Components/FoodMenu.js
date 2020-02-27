@@ -31,7 +31,7 @@ const FoodMenu = (props) => {
                 const type = dish.type;
 
                 if (type === value) {
-                    return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>)
+                    return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>)
                 } else {
                     return (<div key={index}> </div>);
                 }

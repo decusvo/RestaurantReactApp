@@ -39,16 +39,16 @@ class WaiterDashboard extends React.Component {
     }
 
     async componentDidMount(){
-      var orderStates = ["requested", "ready_to_deliver", "cooking"]
+      var orderStates = ["requested", "ready_to_deliver", "cooking"];
       orderStates.forEach(state => {
         fetch("//127.0.0.1:5000/get_orders", {method:'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({"state": state})
+          body: JSON.stringify({"states": [state]})
         }).then(response => {
           return response.json()
         }).then(data => {
-          let change = {}
-          change[state] = data.data
+          let change = {};
+          change[state] = data.data;
           this.setState(change)
         })
       });
@@ -59,11 +59,11 @@ class WaiterDashboard extends React.Component {
 
         const MapOrderItem = ({value}) => {
           return value.map((ele, index) => {
-            const order = ele["0"]
-            let {state, id, table_number} = order
+            const order = ele["0"];
+            let {state, id, table_number} = order;
             return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
           })
-        }
+        };
 
         return (
             <React.Fragment>
