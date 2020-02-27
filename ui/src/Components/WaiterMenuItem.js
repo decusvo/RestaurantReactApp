@@ -24,6 +24,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+
     }
 }));
 
@@ -31,6 +32,8 @@ const WaiterMenuItem = ( props ) => {
     const classes = useStyles();
     const {value} = props;
     const [availability,setAvailability] = useState(true); // default availability is true.
+
+
 
 
     // Handles the change of radio button that updates the state of dish availability.
@@ -43,8 +46,10 @@ const WaiterMenuItem = ( props ) => {
         <div className={classes.paper} >
         <Grid item xs={3}>
             <Card style={{backgroundColor: "#fcc01a"}}>
+                    <div style={{display:"flex",flexDirection:"row",textAlign:"center"}} >
                 <CardHeader title={value} />
-                <Divider variant="middle" />
+                <Divider variant="horizontal" />
+                        <div style={{flexJustify:"flex-end"}}> {/* Item styling.*/}
                 <CardActions disableSpacing>
                     <FormControl component="fieldset" className={classes.form}>
                         <FormLabel component="legend">Gender</FormLabel>
@@ -54,6 +59,8 @@ const WaiterMenuItem = ( props ) => {
                         </RadioGroup>
                     </FormControl>
                 </CardActions>
+                        </div>
+                    </div>
             </Card>
         </Grid>
         </div>
