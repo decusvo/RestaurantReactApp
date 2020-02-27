@@ -58,11 +58,6 @@ const WaiterMenu = () => {
     }, []);
 
 
-   const stateHandler = () => {
-
-
-
-   }
 
     const MapWaiterMenuItem = ({value}) => {
         return items.map(function (dishes, index) {
@@ -77,6 +72,14 @@ const WaiterMenu = () => {
         });
     };
 
+   const handleSubmit = () => {
+       {/*API call to update state of dish list is not yet implemented.*/}
+        fetch("//127.0.0.1:5000/menu", {method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"dishes":items})
+        }).then(response => {
+            return response.json()
+        })};
 
     return (
         <React.Fragment>
@@ -115,16 +118,18 @@ const WaiterMenu = () => {
                 <Grid container spacing={12}>
                     <MapWaiterMenuItem value={"dessert"} />
                 </Grid>
-
+                        <form className={classes.form} onSubmit={handleSubmit} method = "post">
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+
                         >
-                            Submit availability
+                            Submit
                         </Button>
+                        </form>
                     </div>
             </Container>
             </ThemeProvider>

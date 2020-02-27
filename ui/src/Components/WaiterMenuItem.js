@@ -1,6 +1,5 @@
 
 import React, {useState} from 'react';
-
 import Grid from "@material-ui/core/Grid";
 import Divider from "@material-ui/core/Divider";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -22,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
-        flexDirection: 'column',
+        flexDirection: 'row',
         alignItems: 'center',
 
     }
@@ -33,26 +32,25 @@ const WaiterMenuItem = ( props ) => {
     const {value} = props;
     const [availability,setAvailability] = useState(true); // default availability is true.
 
-
-
-
     // Handles the change of radio button that updates the state of dish availability.
     const handleChange = event => {
         setAvailability(event.target.value);
     };
 
 
+
+
     return (
         <div className={classes.paper} >
         <Grid item xs={3}>
             <Card style={{backgroundColor: "#fcc01a"}}>
-                    <div style={{display:"flex",flexDirection:"row",textAlign:"center"}} >
+                    <div style={{padding:theme.spacing(2)}} >
                 <CardHeader title={value} />
                 <Divider variant="horizontal" />
-                        <div style={{flexJustify:"flex-end"}}> {/* Item styling.*/}
+                        <div style={{flexJustify:"flex-end"}}> {/* Flex item.*/}
                 <CardActions disableSpacing>
                     <FormControl component="fieldset" className={classes.form}>
-                        <FormLabel component="legend">Gender</FormLabel>
+                        <FormLabel component="legend">Dish state</FormLabel>
                         <RadioGroup defaultValue="Available" aria-label="Availability" name="dishState" onChange={handleChange}>
                             <FormControlLabel value="Available" control={<Radio />} label="Available" />
                             <FormControlLabel value="Unavailable" control={<Radio />} label="Unavailable" />
