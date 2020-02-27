@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import theme from "../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import {useSelector} from "react-redux";
+import History from "../utils/history"
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -44,15 +45,15 @@ export default function NavBar(props) {
                 <HideOnScroll {...props}>
                     <AppBar style={{background: '#68a4a7'}}>
                         <Toolbar>
-                            <Button href={"/Home"}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
-                            <Button href={"/About"} color={"inherit"}>About</Button>
-                            <Button href={"/Menu"} color={"inherit"}>
+                            <Button onClick={() => History.push("/Home")}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
+                            <Button onClick={() => History.push("/About")} color={"inherit"}>About</Button>
+                            <Button onClick={() => History.push("/Menu")} color={"inherit"}>
                                 Menu
                             </Button>
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
 
-                            <IconButton href={"/Order"}  edge="start" color={"inherit"} aria-label={"basket"}>
+                            <IconButton onClick={() => History.push("/Order")}  edge="start" color={"inherit"} aria-label={"basket"}>
                                 <ShoppingBasket />
                             </IconButton>
                             {currentUser.loggedIn ?
@@ -61,9 +62,9 @@ export default function NavBar(props) {
                             </>
                             :
                             <>
-                                <Button href={"/Register"} color={"inherit"}>Register</Button>
-                                <Button href={"/Login"} color={"inherit"}>Login</Button>
-                                <Button href={"/WaiterDashboard"} color={"inherit"}>Waiter </Button>
+                                <Button onClick={() => History.push("/Register")}  color={"inherit"}>Register</Button>
+                                <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
+                                <Button onClick={() => History.push("/WaiterDashboard")} color={"inherit"}>Waiter </Button>
                             </>}
 
                         </Toolbar>
