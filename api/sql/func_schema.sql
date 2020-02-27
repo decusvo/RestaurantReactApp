@@ -1,21 +1,14 @@
-/*
-	Order States:
-		- start
-		- requested
-		- confirmed
-		- cooking
-		- delivered
-		- paid
-		- cancelled
+DROP TYPE IF EXISTS order_event CASCADE;
 
-	Order Events:
-		- request
-		- confirm
-		- start_cook
-		- deliver
-		- pay
-		- cancel
-*/
+CREATE TYPE order_event AS ENUM (
+		'request', 
+		'confirm', 
+		'start_cook', 
+		'cooked', 
+		'deliver', 
+		'pay', 
+		'cancel'
+	);
 
 --EVENT TABLE
 
@@ -31,10 +24,10 @@ CREATE TABLE order_events(
 
 DROP FUNCTION IF EXISTS order_event_transition;
 
-CREATE FUNCTION order_event_transition(state text, event text) RETURNS text 
+CREATE FUNCTION order_event_transition(state order_state, event order_event) RETURNS text
 LANGUAGE sql AS
 $$
-	SELECT CASE state	
+	SELECT CASE state
 		WHEN 'start' THEN
 			CASE event
 				WHEN 'request' THEN 'requested'
@@ -46,21 +39,24 @@ $$
 				WHEN 'confirm' THEN 'confirmed'
 				ELSE 'error'
 			END
-	
+
 		WHEN 'confirmed' THEN
 			CASE event
 				WHEN 'cancel' THEN 'cancelled'
 				WHEN 'start_cook' THEN 'cooking'
 				ELSE 'error'
 			END
-
 		WHEN 'cooking' THEN
 			CASE event
 				WHEN 'cancel' THEN 'cancelled'
-				WHEN 'deliver' THEN 'delivered'
+				WHEN 'cooked' THEN 'ready_to_deliver'
 				ELSE 'error'
 			END
-
+    WHEN 'ready_to_deliver' THEN
+      CASE event
+        WHEN 'deliver' THEN 'delivered'
+        ELSE 'error'
+      END
 		WHEN 'delivered' THEN
 			CASE event
 				WHEN 'pay' THEN 'paid'
@@ -76,15 +72,15 @@ DROP FUNCTION IF EXISTS new_event;
 CREATE FUNCTION new_event() RETURNS trigger AS
 $$
 DECLARE
-	old_state varchar(50);
-	new_event varchar(50);
-	new_state varchar(20);
+	old_state order_state;
+	new_event order_event;
+	new_state order_state;
 BEGIN
 	SELECT NEW.event INTO new_event;
 	SELECT state FROM orders WHERE orders.id = NEW.order_id INTO old_state;
 	SELECT order_event_transition(old_state, new_event) INTO new_state;
-	
-	UPDATE orders SET state=new_state WHERE orders.id = NEW.order_id; 
+
+	UPDATE orders SET state=new_state WHERE orders.id = NEW.order_id;
 	RETURN NEW;
 END
 $$
@@ -92,7 +88,7 @@ LANGUAGE PLPGSQL;
 
 --TRIGGER
 
-CREATE TRIGGER event_trigger 
+CREATE TRIGGER event_trigger
 AFTER INSERT
 ON order_events
 FOR EACH ROW

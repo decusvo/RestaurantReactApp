@@ -26,12 +26,14 @@ def menu():
 		# for example get only sides ect by adding '?item_type=side'
 		return jsonify(Error="arguments not implemented yet")
 
-@bp.route("/menu/<string:menu.id>", methods=["POST"])
-#default state of available is TRUE, therefore will only change state to FALSE for time being
-#Does not take in account that an item may already be set to unavailable
-def availabilityChange(menu_Id):
-	#generate query string to update the menu item
-	 query = "UPDATE menu SET available = FALSE WHERE menu.id = (%s)"
-	 result = connector.execute_query(query, (menu_Id,))
-	 return jsonify(data={"menu item of id " : menu.id + "made unavailable"})
-	 #add validation to check if valid menu id has been passed
+@bp.route("/menu_item_availability", methods=["POST"])
+def changeAvailablty():
+    newState = request.json.get("newState")
+    menuId = request.json.get("menuId")
+    query = "UPDATE menu SET available = %s WHERE id = (%s)"
+    result=connector.execute_insert_query(query,(newState,menuId))
+    if result == False:
+        return jsonify(error={"success":False, "message":"Error MenuId does not exist"})
+    return jsonify(data={"success":True})
+# to Test this endpoint use
+# curl -X POST -H "Content-Type: application/json" -d '{"menuId": "1","newState":"False"}' 127.0.0.1:5000/menu_item_availability

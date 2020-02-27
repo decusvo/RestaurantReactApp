@@ -8,8 +8,11 @@ import {ShoppingBasket} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
 import theme from "../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import {useSelector} from "react-redux";
 import History from "../utils/history"
+import {useDispatch, useSelector} from "react-redux";
+import Avatar from "@material-ui/core/Avatar";
+import {yellow} from "@material-ui/core/colors";
+import allActions from "../actions";
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -31,11 +34,16 @@ const useStyles = makeStyles(({
     },
     blank: {
         flexGrow: 1,
+    },
+    yellow: {
+        color: theme.palette.getContrastText(yellow[500]),
+        backgroundColor: yellow[500],
     }
 }));
 
-export default function NavBar(props) {
+const NavBar = (props) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
     const currentUser = useSelector(state => state.currentUser);
 
     return(
@@ -58,7 +66,7 @@ export default function NavBar(props) {
                             </IconButton>
                             {currentUser.loggedIn ?
                             <>
-                               <Button color={"inherit"}>{currentUser.user.name}</Button>
+                               <Avatar className={classes.yellow} onClick={() => dispatch(allActions.userActions.logOut())}>{currentUser.user.name[0]}</Avatar>
                             </>
                             :
                             <>
@@ -66,7 +74,6 @@ export default function NavBar(props) {
                                 <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
                                 <Button onClick={() => History.push("/WaiterDashboard")} color={"inherit"}>Waiter </Button>
                             </>}
-
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>
@@ -74,4 +81,6 @@ export default function NavBar(props) {
             </div>
         </ThemeProvider>
         );
-}
+};
+
+export default NavBar;

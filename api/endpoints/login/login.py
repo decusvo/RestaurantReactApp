@@ -4,9 +4,6 @@ import psycopg2
 from common import connector
 
 
-connection = connector.get_connection()
-cur = connection.cursor()
-
 bp = Blueprint("login blueprint", __name__)
 
 def get_table(val):
@@ -29,16 +26,15 @@ def login():
 	else:
 		query = "SELECT email, password FROM customer WHERE email = %s AND password = %s"
 		
-	cur.execute(query, (email, password))
-	result = cur.fetchall()
+	result = connector.execute_query(query, (email, password))
 
 	# if the result retruns nothing return invalid response
 	if(not result):
 		return jsonify(error={"valid_credentials" : False, "message" : "invalid email or password"})
 	else:
 		email = result[0][0]
-		sessions.session.create_session(email)
-		return jsonify(data = {"valid_credentials" : True, "username" : email})
+		sessions.session.create_session(email, staff_login)
+		return jsonify(data={"valid_credentials" : True, "username" : email, "is_staff" : staff_login})
 
 @bp.route("/logout", methods=["POST"])
 def logout():

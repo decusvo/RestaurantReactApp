@@ -2,8 +2,6 @@ from flask import Flask, request, jsonify, Blueprint
 import psycopg2
 from common import connector
 
-connection = connector.get_connection()
-cur = connection.cursor()
 
 bp = Blueprint("signup blueprint", __name__)
 
@@ -15,17 +13,13 @@ def sign_up():
     firstname = request.json.get('firstname')
     lastname = request.json.get('lastname')
 
-    try:
-        cur.execute("INSERT INTO customer VALUES ('{}','{}','{}','{}')".format(email, firstname, lastname, password))
-    except psycopg2.errors.UniqueViolation:
-        # if the sql INSERT doesn't work it reverts the statement to prevent data corruption
-        cur.execute("ROLLBACK")
-        connection.commit()
-        return jsonify(success = False)
+    query = "INSERT INTO customer VALUES (%s, %s, %s, %s);"
+    result = connector.execute_insert_query(query, (email, firstname, lastname, password))
+    # if the sql INSERT doesn't work it reverts the statement to prevent data corruption
+    if result is False:
+        return jsonify(error = {"success": False, "message": "Query failed invalid input"})
 
-    connection.commit()
-
-    return jsonify(success = True)
+    return jsonify(data = {"success": True})
 
 
 #  Temporary test commands

@@ -1,6 +1,4 @@
-from . import session_test
-from . import login_test
-from . import menu_test
-from . import tester
+from . import menu_test, order_test, session_test, tester, login_test, order_events_test
+from . import run_tests
 
 
