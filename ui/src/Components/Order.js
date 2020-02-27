@@ -94,7 +94,7 @@ const Order = () => {
         const apiItems = [];
         items.map(function (dish) {
             for (let i = 0; i < dish.q; i++) {
-                apiItems.push(dish.id.toString())
+                apiItems.push(dish.id)
             }
         })
         fetch("//127.0.0.1:5000/create_order", {method: 'POST',
@@ -127,7 +127,7 @@ const Order = () => {
                         color="primary"
                         className={classes.checkout}
                     >
-                        Checkout
+                        Order Items
                     </Button>
                 </Grid>
             </Grid>
