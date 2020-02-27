@@ -75,6 +75,9 @@ class WaiterDashboard extends React.Component {
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                             To Be Done
                         </Typography>
+                        <Button variant="contained" color="primary">
+                            Order Cooked
+                        </Button>
                         <MapOrderItem value={this.state.requested}/>
                       </Grid>
 
