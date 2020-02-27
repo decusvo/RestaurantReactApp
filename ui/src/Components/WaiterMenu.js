@@ -74,13 +74,16 @@ const WaiterMenu = () => {
 
    const handleSubmit = () => {
        {/*API call to update state of dish list is not yet implemented.*/}
-        fetch("//127.0.0.1:5000/menu", {method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"dishes":items})
-        }).then(response => {
-            return response.json()
-        })};
-
+       let availabilityStates = ["available","unavailable"];
+       availabilityStates.forEach(item => {
+           fetch("//127.0.0.1:5000/menu", {
+               method: 'POST',
+               headers: {'Content-Type': 'application/json'},
+               body: JSON.stringify({"dishes": item})
+           }).then(response => {
+               return response.json()
+           });
+       })}
     return (
         <React.Fragment>
             <ThemeProvider theme={theme}>
