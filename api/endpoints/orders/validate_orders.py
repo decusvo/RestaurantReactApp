@@ -55,8 +55,11 @@ def validate(request):
 
 	query = "SELECT id FROM menu"
 	result = connector.execute_query(query)
+	res = []
+	for r in result:
+		res.append(int(r[0]))
 	for id in items:
-		if id not in result:
+		if id not in res:
 			error_msg = "Invalid menu_item_id given in 'items' list"
 			return jsonify(error={"success" : False, "message" : error_msg})
 
@@ -84,14 +87,14 @@ def validate_order_event(request):
 	if not result:
 		error_msg = "Invalid order_id, given order_id is not in orders table"
 		return jsonify({"success" : False, "message" : error_msg})
-	
-	query = "SELECT state FROM orders WHERE id = %s"	
+
+	query = "SELECT state FROM orders WHERE id = %s"
 	result = connector.execute_query(query, (order_id,))
 	order_state = result[0]
-	
+
 	query = "SELECT order_event_transition(%s, %s) AS new_state"
 	result = connector.execute_query(query, (order_state, event))
-	
+
 	print("PRINTING FROM VALIDATE_ORDERS: ", result[0][0])
 
 	if result[0][0] == "error":
@@ -112,7 +115,7 @@ def validate_get_order(request):
 		return jsonify({"success": False, "message": error_msg})
 
 	states =  request.json.get("states")
- 
+
 	for state in states:
 		if state not in valid_states:
 			error_msg = "given event is not a valid event type, see this objects 'valid_events'"
