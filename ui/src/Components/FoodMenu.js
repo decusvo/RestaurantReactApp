@@ -17,6 +17,9 @@ const useStyles = ({
 
 const FoodMenu = (props) => {
     const [items, setItems] = useState([]);
+    const [vegan, setVegan] = useState(false);
+    const [vegetarian, setVegetarian] = useState(false);
+    const [glutenFree, setGlutenFree] = useState(false);
 
     useEffect(() => {
         fetch("//127.0.0.1:5000/menu", {method: 'POST'}).then((response) => {
@@ -51,19 +54,22 @@ const FoodMenu = (props) => {
                     <FormControl component="fieldset">
                       <FormGroup aria-label="position" row>
                         <FormControlLabel
-                          value="top"
+                          checked={vegan}
+                          onChange={()=>setVegan(!vegan)}
                           control={<Switch color="primary" />}
                           label="Vegan"
                           labelPlacement="start"
                         />
                         <FormControlLabel
-                          value="start"
+                          checked={vegetarian}
+                          onChange={()=>setVegetarian(!vegetarian)}
                           control={<Switch color="primary" />}
                           label="Vegetarian"
                           labelPlacement="start"
                         />
                         <FormControlLabel
-                          value="bottom"
+                          checked={glutenFree}
+                          onChange={()=>setGlutenFree(!glutenFree)}
                           control={<Switch color="primary" />}
                           label="Gluten-Free"
                           labelPlacement="start"
