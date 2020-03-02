@@ -64,5 +64,5 @@ def get_orders():
 		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders WHERE state = ANY('{"
 		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
-
-	return jsonify(data={"orders" : result})
+	print(result)
+	return jsonify(data={"orders" : result[0][0]})
