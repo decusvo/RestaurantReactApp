@@ -161,7 +161,7 @@ RETURNS: JSON object describing success and a message:
   }
   ```
 
-### /Signup
+### /signup
 EXPECTS: JSON object containing the email, password, firstname and lastname
 
 RETURNS: JSON object describing success
@@ -175,4 +175,97 @@ RETURNS: JSON object describing success
 
   ```
 
-or an error object
+	or an error object
+
+## Sessions:
+
+### /
+
+## Sessions:
+
+### /create\_session
+EXPECTS: JSON object containing the email and staff:
+
+  ```json
+  	{
+	  "email" : "example@example.com",
+	  "staff : false
+  	}
+  ```
+
+RETURNS: JSON object describing success
+
+  ```json
+  {
+    "data": {
+      "session_id": "example@example.com",
+	  "staff":  false
+    }
+  }
+
+  ```
+
+	or an error object
+
+### /get\_session\_id
+EXPECTS: Does not expect any data but will return error if no session is active
+
+RETURNS: JSON 
+  ```json
+  	{
+	  "data" : {
+	    "session_id" : "example@example.com"
+  	  }
+	}
+  ```
+
+	or an error object
+
+### /get\_session\_is\_staff
+EXPECTS: Does not expect any data but will return error if no session is active
+
+RETURNS: JSON 
+  ```json
+  	{
+	  "data" : {
+	    "staff" : true
+  	  }
+	}
+  ```
+
+	or an error object
+
+### /remove\_session
+EXPECTS: Does not expect any data but will return error if no session is active
+
+RETURNS: JSON 
+  ```json
+  	{
+	  "data" : {
+	    "removed_session_id" : "example@example.com",
+		"success" : true
+  	  }
+	}
+  ```
+
+	or an error object
+
+### /order\_event
+EXPECTS: Expects the order event, and the order you'd like to have it occur on:
+  ```json
+  	{
+	  "order_id" : 1,
+	  "order_event" : "requested"
+  	}
+  ```
+
+RETURNS: JSON 
+  ```json
+  	{
+	  "data" : {
+		"success" : true
+  	  }
+	}
+  ```
+
+	or an error object
