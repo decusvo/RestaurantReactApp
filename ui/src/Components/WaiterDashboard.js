@@ -47,9 +47,13 @@ class WaiterDashboard extends React.Component {
         }).then(response => {
           return response.json()
         }).then(data => {
-          let change = {};
-          change[state] = data.data;
-          this.setState(change)
+          // if the array is not null
+          if(data.data.orders != undefined){
+            let change = {};
+            change[state] = data.data.orders;
+            this.setState(change)
+          }
+          // else do nothing
         })
       });
     }
@@ -59,7 +63,7 @@ class WaiterDashboard extends React.Component {
 
         const MapOrderItem = ({value}) => {
           return value.map((ele, index) => {
-            const order = ele["0"];
+            const order = ele;
             let {state, id, table_number} = order;
             return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
           })
