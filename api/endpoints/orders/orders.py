@@ -3,6 +3,7 @@ import json
 import psycopg2
 from . import validate_orders
 from common import connector
+import datetime
 
 
 bp = Blueprint("order blueprint", __name__)
@@ -16,9 +17,10 @@ def create_order():
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
+	time = datetime.datetime.now().strftime("%H:%M:%S")
 
-	query = "INSERT INTO orders (table_number) VALUES (%s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),))
+	query = "INSERT INTO orders (table_number, ordered_time) VALUES (%s, %s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num),time))
 	order_id = result[0]
 
 	items_added = []
