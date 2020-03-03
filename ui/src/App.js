@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import Home from "./Components/Home";
 import FoodMenu from "./Components/FoodMenu";
@@ -9,11 +9,16 @@ import NavBar from "./Components/NavBar";
 import SignIn from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Order from "./Components/Order";
+import allActions from "./actions";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
+
+    const dispatch = useDispatch();
+    useEffect(dispatch(allActions.userActions.autoLogIn()),
+        []);
 
     return (
             <div className="App">

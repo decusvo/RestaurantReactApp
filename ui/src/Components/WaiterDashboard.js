@@ -48,7 +48,7 @@ class WaiterDashboard extends React.Component {
       }).then(data => {
         // if the array is not null
         let orders = data.data.orders
-        if(orders != undefined){
+        if(orders !== undefined){
           orders.forEach(ele => {
             console.log(ele);
             let change = {};
