@@ -1,14 +1,16 @@
-const addItem = (itemId, itemName) => {
+const addItem = (itemId, itemName, price) => {
     return {
         type: "ADD_ITEM",
-        payload: {id:itemId, name:itemName}
+        payload: {id:itemId, name:itemName},
+        price: parseFloat(price.substr(1))
     }
 };
 
-const removeItem = (item) => {
+const removeItem = (item, price) => {
     return {
         type: "REMOVE_ITEM",
-        payload: item
+        payload: item,
+        price: parseFloat(price.substr(1))
     }
 };
 

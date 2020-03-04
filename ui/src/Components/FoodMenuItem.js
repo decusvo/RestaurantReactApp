@@ -15,15 +15,15 @@ const FoodMenuItem = (props) => {
 
     const dispatch = useDispatch();
 
-    const PlusButtonHandler = (id, value) => {
+    const PlusButtonHandler = (id, value, price) => {
         setItemQuantity(itemQuantity + 1);
-        dispatch(allActions.itemActions.addItem(id, value));
+        dispatch(allActions.itemActions.addItem(id, value, price));
     };
 
-    const MinusButtonHandler = (value) => {
+    const MinusButtonHandler = (value, price) => {
         if(itemQuantity > 0){
             setItemQuantity(itemQuantity - 1);
-            dispatch(allActions.itemActions.removeItem(value));
+            dispatch(allActions.itemActions.removeItem(value, price));
         }
     };
 
@@ -46,11 +46,11 @@ const FoodMenuItem = (props) => {
                      <div style={{flexJustify:"flex-end"}}>
                 <Divider variant="middle" />
                 <CardActions style={{marginTop: "auto"}}>
-                        <Fab color="primary" aria-label="minus" onClick={() => {MinusButtonHandler(value);}}>
+                        <Fab color="primary" aria-label="minus" onClick={() => {MinusButtonHandler(value, price);}}>
                             <MinusIcon />
                         </Fab>
                         <Typography style={{marginRight: "auto", marginLeft: "auto"}}>{itemQuantity}</Typography>
-                        <Fab color="primary" aria-label="add" onClick={() => {PlusButtonHandler(id, value);}}>
+                        <Fab color="primary" aria-label="add" onClick={() => {PlusButtonHandler(id, value, price);}}>
                             <AddIcon />
                         </Fab>
                 </CardActions>

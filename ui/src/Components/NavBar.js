@@ -12,6 +12,7 @@ import {useDispatch, useSelector} from "react-redux";
 import History from "../utils/history"
 import Avatar from "@material-ui/core/Avatar";
 import userActions from "../actions/userActions";
+import Snackbar from "@material-ui/core/Snackbar";
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -40,6 +41,9 @@ export default function NavBar(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const currentUser = useSelector(state => state.currentUser);
+    const total = useSelector(state => state.currentItems.total);
+    const vertical = "bottom";
+    const horizontal = "right";
 
     return(
         <ThemeProvider theme={theme}>
@@ -74,6 +78,13 @@ export default function NavBar(props) {
                     </AppBar>
                 </HideOnScroll>
                 <Toolbar />
+                {total>0? <Snackbar
+                    anchorOrigin={{ vertical, horizontal }}
+                    key={`${vertical},${horizontal}`}
+                    open={true}
+                    message={"Total price: " + total}
+                /> : null}
+
             </div>
         </ThemeProvider>
         );

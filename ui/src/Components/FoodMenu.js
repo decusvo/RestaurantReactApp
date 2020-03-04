@@ -46,7 +46,8 @@ const FoodMenu = (props) => {
                 }
             });
         };
-        return (
+
+    return (
             <React.Fragment>
                 <CssBaseline />
                 <Container maxWidth={"xl"}>
