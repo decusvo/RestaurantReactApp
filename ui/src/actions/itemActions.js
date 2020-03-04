@@ -14,6 +14,12 @@ const removeItem = (item, price) => {
     }
 };
 
+const resetItems = () => {
+    return {
+        type: "RESET_ITEMS"
+    }
+};
+
 export default {
-    addItem, removeItem
+    addItem, removeItem, resetItems
 }

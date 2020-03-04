@@ -8,6 +8,7 @@ import Switch from '@material-ui/core/Switch';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
+import {useSelector} from "react-redux";
 
 const useStyles = ({
     typography: {
@@ -32,14 +33,22 @@ const FoodMenu = (props) => {
     const {classes} = props;
         const {handlerPlus, handlerMinus} = props;
         const MapMenuItem = ({value}) => {
+            const item = useSelector(state => state.currentItems.items);
+
             return items.map(function (dishes, index) {
                 const dish = dishes["0"];
                 const type = dish.type;
+                let q = 0;
+                item.forEach(ele => {
+                    if (ele.name === dish.name) {
+                        q = ele.q;
+                    }
+                });
                 if(type === value){
                   if ((vegan && dish.vegan === vegan) || (vegetarian && dish.vegetarian === vegetarian) || (glutenFree && dish.gluten_free === glutenFree)){
-                    return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>) 
+                    return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories} quantity={q}/>)
                   }else if (!vegan && !vegetarian && !glutenFree) {
-                      return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>)
+                      return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories} quantity={q}/>)
                   }
                 } else {
                     return (<div key={index}> </div>);

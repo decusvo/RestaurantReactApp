@@ -37,7 +37,10 @@ const currentItems = (state = {items: [], total: 0}, action) => {
                 return {...state,
                     total: newTotal1}
             }
-
+        case "RESET_ITEMS":
+            return {...state,
+            total: 0,
+            items: []};
         default:
             return state
     }

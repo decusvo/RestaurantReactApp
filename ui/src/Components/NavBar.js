@@ -69,9 +69,9 @@ export default function NavBar(props) {
                                 </>
                                 :
                                 <>
-                                    <Button href={"/Register"} color={"inherit"}>Register</Button>
-                                    <Button href={"/Login"} color={"inherit"}>Login</Button>
-                                    <Button href={"/WaiterDashboard"} color={"inherit"}>Waiter </Button>
+                                    <Button onClick={() => History.push("/Register")} color={"inherit"}>Register</Button>
+                                    <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
+                                    <Button onClick={() => History.push("/WaiterDashboard")} color={"inherit"}>Waiter </Button>
                                 </>}
 
                         </Toolbar>

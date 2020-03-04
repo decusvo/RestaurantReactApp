@@ -11,8 +11,6 @@ import allActions from "../actions";
 
 
 const FoodMenuItem = (props) => {
-    const [itemQuantity, setItemQuantity] = useState(0);
-
     const dispatch = useDispatch();
 
     const PlusButtonHandler = (id, value, price) => {
@@ -28,7 +26,8 @@ const FoodMenuItem = (props) => {
     };
 
     const theme = createMuiTheme();
-    const {id, value, description, price, calories} = props;
+    const {id, value, description, price, calories, quantity} = props;
+    const [itemQuantity, setItemQuantity] = useState(quantity);
     return (
         <Grid item xs={3}>
             <Card style={{backgroundColor: "#fcc01a",
