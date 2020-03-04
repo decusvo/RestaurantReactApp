@@ -34,11 +34,14 @@ const useStyles = makeStyles(theme => ({
 const WaiterMenuItem = ( props ) => {
     const classes = useStyles();
     const {id,value} = props;
-    const [availability,setAvailability] = useState(true); // default availability is true.
-
     // Handles the change of radio button that updates the state of dish availability.
+
     const handleChange = event => {
-        setAvailability(event.target.value);
+        let itemID = id;
+        let state = event.target.value;
+        let element = [itemID,state];
+        console.log(element);
+        props.sendState(element);
     };
 
 

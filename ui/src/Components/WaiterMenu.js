@@ -54,6 +54,7 @@ const WaiterMenu = () => {
     const [vegan, setVegan] = useState(false);
     const [vegetarian, setVegetarian] = useState(false);
     const [glutenFree, setGlutenFree] = useState(false);
+    const [updatedItems,setUpdatedItems] = useState([]);
     const classes = useStyles();
     {/*Retrieves items from database.*/}
     useEffect(() => {
@@ -66,11 +67,12 @@ const WaiterMenu = () => {
 
     const handleState = (item) => {
         /*
-        - When this is triggered. Find item in items using dish ID as key.
-        - Retrieve state held inside the item, flip it.
-        - Keep the dish list locally. On submit, send back updated items list.
+        -  Item is the "ID,state" pair. that is added to the updatedArray state.
          */
-
+        let tempArray = updatedItems;
+        tempArray.push(item);
+        setUpdatedItems(tempArray);
+        console.log(tempArray);
     }
 
 
@@ -80,9 +82,10 @@ const WaiterMenu = () => {
             const type = dish.type;
             if(type === value){
                 if ((vegan && dish.vegan === vegan) || (vegetarian && dish.vegetarian === vegetarian) || (glutenFree && dish.gluten_free === glutenFree)){
-                    return (<WaiterMenuItem handleState={handleState} key={index} id={dish.id} value={dish.name} />)
+                    console.log("hit");
+                    return (<WaiterMenuItem sendState={handleState} key={index} id={dish.id} value={dish.name} />)
                 }else if (!vegan && !vegetarian && !glutenFree) {
-                    return (<WaiterMenuItem  key={index} id={dish.id} value={dish.name}/>)
+                    return (<WaiterMenuItem  sendState={handleState} key={index} id={dish.id} value={dish.name}/>)
                 }
             } else {
                 return (<div key={index}> </div>);
@@ -90,18 +93,21 @@ const WaiterMenu = () => {
         });
     };
 
-   const handleSubmit = () => {
+   const handleSubmit = event => {
        {/*API call to update state of dish list is not yet implemented.*/}
-       let availabilityStates = ["available","unavailable"];
-       availabilityStates.forEach(item => {
-           fetch("//127.0.0.1:5000/menu", {
+       event.preventDefault();
+       updatedItems.forEach(item => {
+           let state = (item[1] === "Available");
+           console.log(item[0]);
+           console.log(state);
+           fetch("/127.0.0.1:5000/menu_item_availability", {
                method: 'POST',
                headers: {'Content-Type': 'application/json'},
-               body: JSON.stringify({"dishes": item})
+               body: JSON.stringify({"menuId":item[0],"newState":state})
            }).then(response => {
                return response.json()
-           });
-       })}
+           }).catch(error => console.log(error))
+       })};
 
     return (
         <React.Fragment>
@@ -142,6 +148,7 @@ const WaiterMenu = () => {
                 <div className={classes.grid}>
                     <Grid spacing={2}
                           container
+                          maxWidth={"xs"}
 
                     >
                         <Grid item xs>
