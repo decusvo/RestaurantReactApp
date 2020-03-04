@@ -57,12 +57,15 @@ const WaiterMenu = () => {
     const [updatedItems,setUpdatedItems] = useState([]);
     const classes = useStyles();
     {/*Retrieves items from database.*/}
-    useEffect(() => {
+    const getMenu = () => {
         fetch("//127.0.0.1:5000/menu", {method: 'POST'}).then((response) => {
             return response.json();
         }).then((data) => {
             setItems(data.data.items);
         });
+    }
+    useEffect(() => {
+        getMenu()
     }, []);
 
     const handleState = (item) => {
@@ -82,10 +85,9 @@ const WaiterMenu = () => {
             const type = dish.type;
             if(type === value){
                 if ((vegan && dish.vegan === vegan) || (vegetarian && dish.vegetarian === vegetarian) || (glutenFree && dish.gluten_free === glutenFree)){
-                    console.log("hit");
                     return (<WaiterMenuItem sendState={handleState} key={index} id={dish.id} value={dish.name} />)
                 }else if (!vegan && !vegetarian && !glutenFree) {
-                    return (<WaiterMenuItem  sendState={handleState} key={index} id={dish.id} value={dish.name}/>)
+                    return (<WaiterMenuItem  sendState={handleState} key={index} id={dish.id} value={dish.name} state={dish.available}/>)
                 }
             } else {
                 return (<div key={index}> </div>);
@@ -98,16 +100,17 @@ const WaiterMenu = () => {
        event.preventDefault();
        updatedItems.forEach(item => {
            let state = (item[1] === "Available");
-           console.log(item[0]);
-           console.log(state);
-           fetch("/127.0.0.1:5000/menu_item_availability", {
+           fetch("//127.0.0.1:5000/menu_item_availability", {
                method: 'POST',
                headers: {'Content-Type': 'application/json'},
-               body: JSON.stringify({"menuId":item[0],"newState":state})
+               body: JSON.stringify({'menuId':item[0],'newState':state})
            }).then(response => {
+               setUpdatedItems([]);
+               getMenu();
                return response.json()
            }).catch(error => console.log(error))
-       })};
+       })
+   };
 
     return (
         <React.Fragment>

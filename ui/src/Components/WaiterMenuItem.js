@@ -33,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 
 const WaiterMenuItem = ( props ) => {
     const classes = useStyles();
-    const {id,value} = props;
+    const {id,value,state} = props;
     // Handles the change of radio button that updates the state of dish availability.
 
     const handleChange = event => {
@@ -43,8 +43,6 @@ const WaiterMenuItem = ( props ) => {
         console.log(element);
         props.sendState(element);
     };
-
-
 
     return (
         <div className={classes.paper} >
@@ -59,7 +57,7 @@ const WaiterMenuItem = ( props ) => {
                 <CardActions >
                     <FormControl component="fieldset" className={classes.form}>
                         <FormLabel component="legend">State</FormLabel>
-                        <RadioGroup defaultValue="Available" aria-label="Availability" name="dishState" onChange={handleChange}>
+                        <RadioGroup defaultValue="Available" aria-label="Availability" name="dishState" onChange={handleChange} defaultValue={ (state==true) ? "Available":"Unavailable"}>
                             <FormControlLabel value="Available" control={<Radio />} label="Available" />
                             <FormControlLabel value="Unavailable" control={<Radio />} label="Unavailable" />
                         </RadioGroup>
