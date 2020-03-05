@@ -8,7 +8,6 @@ import Divider from "@material-ui/core/Divider";
 import {useDispatch} from "react-redux";
 import allActions from "../actions";
 import {CardMedia} from "@material-ui/core";
-import Logo from "../Images/Green Salad.jpg";
 
 
 const FoodMenuItem = (props) => {
@@ -27,7 +26,7 @@ const FoodMenuItem = (props) => {
     };
 
     const theme = createMuiTheme();
-    const {id, value, description, price, calories, quantity} = props;
+    const {id, value, description, price, calories, image, quantity} = props;
     const [itemQuantity, setItemQuantity] = useState(quantity);
     return (
         <Grid item xs={3}>
@@ -36,7 +35,7 @@ const FoodMenuItem = (props) => {
             marginBottom: theme.spacing(2), maxWidth: 345, height: "95%"}}>
                 <CardHeader title={value} />
                 <Divider variant="middle" />
-                <CardMedia style={{height: 0, paddingTop: '56.25%'}} alt={value} height={"140"} title={value} image={Logo}/>
+                <CardMedia style={{height: 0, paddingTop: '56.25%'}} alt={value} height={"140"} title={value} image={image}/>
                 <CardContent>
                     <Typography style={{textAlign:"left"}}>Description: {description}</Typography>
                     <Typography style={{textAlign:"left"}}>Calories : {calories}</Typography>

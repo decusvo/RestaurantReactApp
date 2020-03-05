@@ -46,9 +46,9 @@ const FoodMenu = (props) => {
                 });
                 if(type === value){
                   if ((vegan && dish.vegan === vegan) || (vegetarian && dish.vegetarian === vegetarian) || (glutenFree && dish.gluten_free === glutenFree)){
-                    return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories} quantity={q}/>)
+                    return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories} image={dish.image} quantity={q}/>)
                   }else if (!vegan && !vegetarian && !glutenFree) {
-                      return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories} quantity={q}/>)
+                      return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories} image={dish.image} quantity={q}/>)
                   }
                 } else {
                     return (<div key={index}> </div>);
@@ -93,7 +93,7 @@ const FoodMenu = (props) => {
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Starters
                     </Typography>
-                    <Grid container spacing={3}>
+                    <Grid container wrap={"wrap"} spacing={3}>
                         <MapMenuItem value={"starter"}/>
                     </Grid>
 
