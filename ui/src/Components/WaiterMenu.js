@@ -4,18 +4,12 @@ import {Container} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import WaiterMenuItem from "./WaiterMenuItem";
-import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import theme from "../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider/ThemeProvider";
-import FormControl from "@material-ui/core/FormControl";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
-
-
-// OBJECTIVE: Have a menu component which will display all the dishes and have the ability to change states "Available" , "Unavailable".
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles(theme => ({
 
@@ -67,6 +61,9 @@ const WaiterMenu = () => {
     const [vegan, setVegan] = useState(false);
     const [vegetarian, setVegetarian] = useState(false);
     const [glutenFree, setGlutenFree] = useState(false);
+    const [open, setOpen] = React.useState(false);
+    const [severity, setSeverity] = React.useState("");
+    const [message, setMessage] = React.useState("");
     const [updatedItems,setUpdatedItems] = useState([]);
     const classes = useStyles();
 
@@ -109,10 +106,25 @@ const WaiterMenu = () => {
         });
     };
 
+    function Alert(props) {
+        return <MuiAlert elevation={6} variant="filled" {...props} />
+    }
+
+    const handleClose = (event, reason) => {
+        // Handles the closing of a notification.
+        if (reason === 'clickaway') {
+            return
+        }
+        setOpen(false)
+    };
+
     const handleReset = event => {
         /* Handles the reset of availability states back to default. */
         event.preventDefault();
         getMenu();
+        setSeverity("success");
+        setMessage("The changes made have been reset");
+        setOpen(true);
     };
 
     const handleSubmit = event => {
@@ -127,8 +139,17 @@ const WaiterMenu = () => {
            }).then(response => {
                setUpdatedItems([]);
                getMenu();
+               setSeverity("success");
+               setMessage("Availability has been successfully updated");
+               setOpen(true);
                return response.json()
-           }).catch(error => console.log(error))
+           }).catch(error => {
+               console.log(error);
+               setSeverity("failure");
+               setMessage("There has been an error.");
+               setOpen(true);
+
+           })
        })
    };
 
@@ -142,7 +163,6 @@ const WaiterMenu = () => {
                           container
                           maxWidth={"xs"}
                           className={classes.grid}
-
                     >
                         <Grid item xs>
                             <MapWaiterMenuItem value={"starter"} />
@@ -197,6 +217,11 @@ const WaiterMenu = () => {
 
                         </Grid>
                 </div>
+                    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+                        <Alert onClose={handleClose} severity={severity}>
+                            {message}
+                        </Alert>
+                    </Snackbar>
 
             </Container>
             </ThemeProvider>
