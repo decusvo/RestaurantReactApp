@@ -51,17 +51,7 @@ const useStyles = makeStyles(theme => ({
     },
     grid :{
         flexGrow:1
-    },
-    orderCard: {
-        margin: theme.spacing(3, 0, 2),
-        background: 'radial-gradient( circle farthest-corner at 1.3% 2.8%,  rgba(239,249,249,1) 0%, rgba(182,199,226,1) 100.2% );',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 40,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    },
+    }
 }));
 
 /*
@@ -148,38 +138,6 @@ const WaiterMenu = () => {
             <CssBaseline />
                 <Container component="main">
                     <div className={classes.paper}>
-
-                <Typography style={{marginTop: 10, fontSize: 30}} color="textPrimary" gutterBottom>
-                    Dish list
-                </Typography>
-
-                <FormControl component="fieldset">
-                    <FormGroup aria-label="position" row>
-                        <FormControlLabel
-                            checked={vegan}
-                            onChange={()=>setVegan(!vegan)}
-                            control={<Switch color="primary" />}
-                            label="Vegan"
-                            labelPlacement="start"
-                        />
-                        <FormControlLabel
-                            checked={vegetarian}
-                            onChange={()=>setVegetarian(!vegetarian)}
-                            control={<Switch color="primary" />}
-                            label="Vegetarian"
-                            labelPlacement="start"
-                        />
-                        <FormControlLabel
-                            checked={glutenFree}
-                            onChange={()=>setGlutenFree(!glutenFree)}
-                            control={<Switch color="primary" />}
-                            label="Gluten-Free"
-                            labelPlacement="start"
-                        />
-                    </FormGroup>
-                </FormControl>
-
-
                     <Grid spacing={2}
                           container
                           maxWidth={"xs"}
@@ -187,19 +145,19 @@ const WaiterMenu = () => {
 
                     >
                         <Grid item xs>
-                            <MapWaiterMenuItem value={"starter"}/>
+                            <MapWaiterMenuItem value={"starter"} />
                         </Grid>
 
                         <Grid item xs>
-                            <MapWaiterMenuItem value={"side"} />
+                            <MapWaiterMenuItem value={"side"}/>
                         </Grid>
 
                         <Grid item xs>
-                            <MapWaiterMenuItem value={"main"} />
+                            <MapWaiterMenuItem value={"main"}/>
                         </Grid>
 
                         <Grid item xs>
-                            <MapWaiterMenuItem value={"dessert"} />
+                            <MapWaiterMenuItem value={"dessert"} className={classes.itemCard} />
                         </Grid>
                     </Grid>
 
