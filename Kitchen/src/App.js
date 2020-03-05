@@ -45,7 +45,19 @@ class WaiterDashboard extends React.Component {
         };
     }
 
-    async componentDidMount(){
+    handleClick = (event) => {
+      fetch("//127.0.0.1:5000/update_order_state", {method:'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"newState": "cooking", "Id": event.target.name})
+      }).then(response => {
+        return response.json()
+      }).then(data => {
+        this.getOrders()
+        console.log(data)
+      })
+    }
+
+    getOrders = () => {
       var orderStates = ["requested", "ready_to_deliver", "cooking"]
       orderStates.forEach(state => {
         fetch("//127.0.0.1:5000/get_orders", {method:'POST',
@@ -61,6 +73,10 @@ class WaiterDashboard extends React.Component {
       });
     }
 
+    async componentDidMount(){
+      this.getOrders()
+    }
+
     render() {
         const {classes} = this.props;
 
@@ -68,7 +84,12 @@ class WaiterDashboard extends React.Component {
           return value.map((ele, index) => {
             const order = ele["0"]
             let {state, id, table_number} = order
-            return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
+            return (<Card className={classes.card} key={index}>
+              <OrderItem orderState={state} tableID={table_number} orderID={id} />
+                <Button name = {id} variant="contained" color="primary" onClick={this.handleClick}>
+                  Order Cooked
+                </Button>
+              </Card>)
           })
         }
 
@@ -96,9 +117,6 @@ class WaiterDashboard extends React.Component {
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                             To Be Done
                         </Typography>
-                        <Button variant="contained" color="primary">
-                            Order Cooked
-                        </Button>
                         <MapOrderItem value={this.state.requested}/>
                       </Grid>
 

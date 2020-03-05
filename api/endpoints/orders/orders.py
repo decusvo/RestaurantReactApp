@@ -63,3 +63,23 @@ def get_orders():
 
 
     return jsonify(data=result)
+
+
+@bp.route("/update_order_state",methods=["POST"])
+def change_cooking_state():
+	#default state of all orders is start
+	#kitchen will only be able to change state to 'cooking' and 'ready_to_deliver'
+	newState = request.json.get("newState")
+	orderId = request.json.get("Id")
+	print(newState)
+	#Prevent kitchen staff from setting orders into states that they have no control over
+	if (newState != "cooking") or (newState != "ready_to_deliver"):
+		return jsonify(error={"success":False, "message":"Please enter a valid order state"})
+	else:
+		query = "UPDATE orders SET state = %s WHERE id = %s"
+		result=connector.execute_insert_query(query,(newState,Id))
+		print(result)
+		if result == False:
+			return jsonify(error={"success":False, "message":"Error order does not exist"})
+		return jsonify(data={"success":True})
+
