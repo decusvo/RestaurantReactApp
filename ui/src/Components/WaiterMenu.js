@@ -31,7 +31,17 @@ const useStyles = makeStyles(theme => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
-        background: 'linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)',
+        background: 'linear-gradient( 109.6deg,  rgba(98,210,141,0.88) 11.2%, rgba(234,245,45,0.79) 88% )',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 40,
+        padding: '0 30px',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    },
+    reset: {
+        margin: theme.spacing(3, 0, 2),
+        background: 'linear-gradient( 109.6deg,  rgba(227,236,62,0.68) 11.2%, rgba(230,29,58,0.78) 91.3% )',
         borderRadius: 3,
         border: 0,
         color: 'white',
@@ -41,13 +51,26 @@ const useStyles = makeStyles(theme => ({
     },
     grid :{
         flexGrow:1
-    }
+    },
+    orderCard: {
+        margin: theme.spacing(3, 0, 2),
+        background: 'radial-gradient( circle farthest-corner at 1.3% 2.8%,  rgba(239,249,249,1) 0%, rgba(182,199,226,1) 100.2% );',
+        borderRadius: 3,
+        border: 0,
+        color: 'white',
+        height: 40,
+        padding: '0 30px',
+        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+    },
 }));
 
 /*
  * This menu is responsible for showing all the dishes available to the waiter.
  * Each dish will show a drop-down menu with availability choices, selected dishes will be updated once the submit button is pressed to submit the states.
  */
+
+// TODO: Add notification upon failure of submission.
+// TODO: Add notification upon success of submission.
 
 const WaiterMenu = () => {
     const [items, setItems] = useState([]);
@@ -56,7 +79,9 @@ const WaiterMenu = () => {
     const [glutenFree, setGlutenFree] = useState(false);
     const [updatedItems,setUpdatedItems] = useState([]);
     const classes = useStyles();
-    {/*Retrieves items from database.*/}
+
+
+    // Calls the API to get the current menu items.
     const getMenu = () => {
         fetch("//127.0.0.1:5000/menu", {method: 'POST'}).then((response) => {
             return response.json();
@@ -68,16 +93,15 @@ const WaiterMenu = () => {
         getMenu()
     }, []);
 
+
+    // Updates array of items that need a state update. Function is passed as a prop to be called back by child component.
     const handleState = (item) => {
-        /*
-        -  Item is the "ID,state" pair. that is added to the updatedArray state.
-         */
+        // Item is the "ID,state" pair. that is added to the updatedArray state.
         let tempArray = updatedItems;
         tempArray.push(item);
         setUpdatedItems(tempArray);
         console.log(tempArray);
-    }
-
+    };
 
     const MapWaiterMenuItem = ({value}) => {
         return items.map(function (dishes, index) {
@@ -95,7 +119,13 @@ const WaiterMenu = () => {
         });
     };
 
-   const handleSubmit = event => {
+    const handleReset = event => {
+        /* Handles the reset of availability states back to default. */
+        event.preventDefault();
+        getMenu();
+    };
+
+    const handleSubmit = event => {
        {/*API call to update state of dish list is not yet implemented.*/}
        event.preventDefault();
        updatedItems.forEach(item => {
@@ -118,6 +148,7 @@ const WaiterMenu = () => {
             <CssBaseline />
                 <Container component="main">
                     <div className={classes.paper}>
+
                 <Typography style={{marginTop: 10, fontSize: 30}} color="textPrimary" gutterBottom>
                     Dish list
                 </Typography>
@@ -148,10 +179,11 @@ const WaiterMenu = () => {
                     </FormGroup>
                 </FormControl>
 
-                <div className={classes.grid}>
+
                     <Grid spacing={2}
                           container
                           maxWidth={"xs"}
+                          className={classes.grid}
 
                     >
                         <Grid item xs>
@@ -170,19 +202,44 @@ const WaiterMenu = () => {
                             <MapWaiterMenuItem value={"dessert"} />
                         </Grid>
                     </Grid>
-                </div>
-                        <form className={classes.form} onSubmit={handleSubmit} method = "post">
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            color="primary"
-                            className={classes.submit}
+
+                        <Grid
+                            container
+                            spacing={4}
+                            className={classes.grid}
+                            maxWidth={"xs"}
                         >
-                            Submit
-                        </Button>
-                        </form>
-                    </div>
+                            <Grid item xs>
+                                <form className={classes.form} onSubmit={handleReset}>
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.reset}
+                                    >
+                                        Reset
+                                    </Button>
+                                </form>
+                            </Grid>
+
+                            <Grid item xs>
+                                <form className={classes.form} onSubmit={handleSubmit} method = "post">
+                                    <Button
+                                        type="submit"
+                                        fullWidth
+                                        variant="contained"
+                                        color="primary"
+                                        className={classes.submit}
+                                    >
+                                        Submit
+                                    </Button>
+                                </form>
+                            </Grid>
+
+                        </Grid>
+                </div>
+
             </Container>
             </ThemeProvider>
 
