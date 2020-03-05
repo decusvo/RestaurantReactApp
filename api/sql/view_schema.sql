@@ -17,3 +17,10 @@ CREATE VIEW ordered_item_and_quantity AS
   FROM ordered_items, menu
   WHERE menu_item_id = id
   GROUP BY order_id, name;
+
+CREATE VIEW ordered_item_array AS 
+  SELECT order_id, json_agg(
+      json_build_object('name', name, 'quantity', quantity)
+    ) AS items
+  FROM ordered_item_and_quantity
+  GROUP BY order_id;
