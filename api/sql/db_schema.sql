@@ -59,7 +59,8 @@ CREATE TABLE menu(
 	calories integer,
 	price money,
 	available boolean,
-	food_type integer REFERENCES item_type(id)
+	food_type integer REFERENCES item_type(id),
+	image varchar(2048)
 );
 
 CREATE TABLE orders(
