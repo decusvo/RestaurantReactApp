@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS item_type CASCADE;
 DROP TABLE IF EXISTS menu CASCADE;
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS ordered_items CASCADE;
+DROP TABLE IF EXISTS waiter_notifications CASCADE;
 
 DROP TYPE IF EXISTS order_state CASCADE;
 
@@ -37,6 +38,13 @@ CREATE TABLE waiter(
 	lastname varchar(64),
 	phone_number integer,
 	password varchar(256)
+);
+
+CREATE TABLE waiter_notifications(
+	notification_id serial PRIMARY KEY,
+	waiter_id integer REFERENCES waiter(waiter_id),
+	customer_id varchar(128) REFERENCES customer(email),
+	message varchar(256)
 );
 
 CREATE TABLE table_details(
