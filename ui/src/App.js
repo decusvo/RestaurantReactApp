@@ -11,11 +11,13 @@ import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
 import {useSelector} from "react-redux";
 import Order from "./Components/Order";
+import {StripeProvider} from 'react-stripe-elements'
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
 
-    return (
+    return(
+        <StripeProvider apiKey={'pk_test_MTamsYZIydsDS0up2ik7kVTw00FVdI3suZ'}>
             <div className="App">
                 <Router history={history}>
                     <div className="Index">
@@ -44,6 +46,9 @@ const App = () => {
                         <Route path="/WaiterDashboard">
                             <WaiterDashboard />
                         </Route>
+                        <Route path="/Checkout">
+                            {/*<CheckoutPage/>*/}
+                        </Route>
 
                         {currentUser.loggedIn ?
                             <>
@@ -61,6 +66,7 @@ const App = () => {
                     </div>
                 </Router>
             </div>
+        </StripeProvider>
         );
 };
 
