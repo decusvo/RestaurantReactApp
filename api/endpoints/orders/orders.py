@@ -60,17 +60,19 @@ def get_orders():
 
 	# handles case for getting all orders:
 	if len(states) == 0:
-		query = "SELECT json_agg (order_list) FROM " +
-					"(SELECT id, table_number, state, ordered_time, price " +
-					"FROM orders, total_order_price " +
-					"WHERE orders.id = total_order_price.order_id;) " +
+		query = "SELECT json_agg (order_list) FROM " \
+					"(SELECT id, table_number, state, ordered_time, price, items " \
+					"FROM orders, total_order_price, ordered_item_array " \
+					"WHERE orders.id = total_order_price.order_id " \
+					"AND orders.id = ordered_item_array.order_id) " \
 				"AS order_list;"
 		result = connector.execute_query(query)
 	else:
-		query = "SELECT json_agg (order_list) FROM " +
-					"(SELECT id, table_number, state, ordered_time, price " +
-					"FROM orders, total_order_price  " +
-					"WHERE orders.id = total_order_price.order_id " +
+		query = "SELECT json_agg (order_list) FROM " \
+					"(SELECT id, table_number, state, ordered_time, price, items " \
+					"FROM orders, total_order_price, ordered_item_array " \
+					"WHERE orders.id = total_order_price.order_id " \
+					"AND orders.id = ordered_item_array.order_id " \
 					"AND state = ANY('{"
 		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
