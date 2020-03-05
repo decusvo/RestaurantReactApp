@@ -1,88 +1,98 @@
-
-import React from 'react';
-import Link from '@material-ui/core/Link';
-import Typography from '@material-ui/core/Typography';
-import {CssBaseline} from "@material-ui/core";
-import ArrowForwardRounded from '@material-ui/icons/ArrowForwardRounded';
-import ArrowBackRounded from '@material-ui/icons/ArrowBackRounded';
-import Fab from '@material-ui/core/Fab';
+import React from 'react'
+import {Typography, Fab, CardContent, createMuiTheme} from "@material-ui/core";
+import AddIcon from '@material-ui/icons/Add';
+import MinusIcon from '@material-ui/icons/Remove';
 import Grid from "@material-ui/core/Grid";
+import {CardActions, CardHeader} from "@material-ui/core";
+import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
-
+import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import {ExpandMore} from "@material-ui/icons";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import MapOrderItem from "./MapOrderItem";
+// import {CardMedia} from "@material-ui/core";
 
 
 export default class OrderItem extends React.Component {
-
-    constructor(props) {
+    constructor(props){
         super(props);
-        this.state = {
-            // To be confirmed (TBC) -> In Progress (IP) -> To Be Served (TBS) -> Complete
-            // 0 -> 1 -> 2 - > 3
-            orderState:0,
-        };
 
-        this.viewOrderHandler.bind(this);
-        this.moveStateRight.bind(this);
-        this.moveStateLeft.bind(this);
+        this.NextStateHandler.bind(this);
+        this.PrevStateHandler.bind(this);
+    }
+
+    NextStateHandler = (orderState, orderID) => {
+        //check if order state is "requested" or "readytoDeliver"      var orderStates = ["requested", "ready_to_deliver", "cooking"]
+            this.setState(function () {
+                this.props.handlerNextState(orderState, orderID);
+            });
     };
 
-    viewOrderHandler = () => {
-        alert("click detected.");
+    PrevStateHandler = (orderState, orderID) => {
+        //check if order state is "cooking" or "readytoDeliver"
+        this.setState(function () {
+            this.props.handlerPrevState(orderState, orderID);
+        });
     };
 
-    moveStateRight = () => {
-        this.setState((state) => ({
-            counter: state.counter + 1
-        }));
-        alert(this.state.orderState);
+    isFabDisabled = (orderState) => {
+        return orderState === "cooking";
     };
 
-    moveStateLeft = () => {
-        this.setState((state) => ({
-            counter: state.counter - 1
-        }));
-        alert(this.state.orderState);
-    };
+    render () {
+        const theme = createMuiTheme();
+        const {orderID, tableID, orderState} = this.props;
 
-
-    render() {
-        // eslint-disable-next-line
-        const {orderState, tableID, orderID} = this.props;
+        // orderState={state} tableID={table_number} orderID={id}
         return (
-            <React.Fragment>
-                <CssBaseline/>
+            <Grid item xs justify={"center"} alignItems={"stretch"}>
 
-                <Grid container direction={'column'}>
-                    <Grid item>
-                <Typography color="textSecondary" variant="h5">
-                    Order {orderID} </Typography>
-                    </Grid>
-                    <Grid item>
-                <Typography component="p" variant="h5">
-                    Table {tableID}
-                </Typography>
-                    </Grid>
-                        <Grid item >
-                    <Link color="primary" href="#" onClick={this.viewOrderHandler}>
-                        More details
-                    </Link>
-                        </Grid>
-                    <Grid container justify={'flex-end'}>
-                        <Grid item>
-                            <Fab color="primary" aria-label="Left" onClick={() => {this.moveStateLeft()}}>
-                                <ArrowBackRounded/>
-                            </Fab>
-                        </Grid>
-                        <Divider orientation="vertical" />
-                        <Grid item>
-                        <Fab color="primary" aria-label="Right" onClick={() => {this.moveStateRight()}}>
-                            <ArrowForwardRounded/>
-                        </Fab>
-                    </Grid>
+                <Card style={{backgroundColor: "#fcc01a",
+                    padding: theme.spacing(2),
+                    marginBottom: theme.spacing(2)}}>
+                    <CardHeader title={"Order No: ".concat(orderID)} />
+                    <Divider variant="middle" />
+                    <CardContent>
 
-                    </Grid>
-                </Grid>
-            </React.Fragment>
+                        <Typography style={{textAlign:"middle"}}>Table: {tableID}</Typography>
+{/*
+                        <Typography style={{textAlign:"left"}}>list of menu items : {menuItems}</Typography>
+                        <Typography style={{textAlign:"left"}}>totalPrice : {price}</Typography>
+
+*/}
+                    </CardContent>
+                    <Divider variant="middle" />
+
+                    <CardActions disableSpacing>
+
+                                <fab color="primary" aria-label="prev" disabled={this.isFabDisabled(orderState)} onClick={() => {this.PrevStateHandler(orderState, orderID); this.props.handlerPrevState(orderState, orderID);}}>
+                                    <ArrowBackIosIcon />
+                                </fab>
+
+                                <fab color="primary" aria-label="next" disabled={this.isFabDisabled(orderState)} onClick={() => {this.NextStateHandler(orderState, orderID); this.props.handlerNextState(orderState, orderID);}}>
+                                    <ArrowForwardIosIcon />
+                                </fab>
+
+
+                    </CardActions>
+
+                    <ExpansionPanel color={"primary"}>
+                        <ExpansionPanelSummary
+                            expandIcon={<ExpandMoreIcon />}
+                        >
+                            <Typography style={{textAlign:"middle"}}>MoreInfo</Typography>
+                        </ExpansionPanelSummary>
+                        <ExpansionPanelDetails>
+                            <MapOrderItem orderID={1} />
+                        </ExpansionPanelDetails>
+                    </ExpansionPanel>
+
+                </Card>
+            </Grid>
         );
     }
-}
+};
