@@ -1,7 +1,8 @@
-const currentItems = (state = {items: []}, action) => {
+const currentItems = (state = {items: [], total: 0}, action) => {
     switch (action.type) {
         case "ADD_ITEM":
             let found = false;
+            let newTotal = parseFloat((state.total+action.price).toFixed(2));
             state.items.map(function (dish) {
                 if (dish.name === action.payload.name) {
                     dish.q += 1;
@@ -10,12 +11,15 @@ const currentItems = (state = {items: []}, action) => {
             });
             if (!found) {
                 return {...state,
+                    total: newTotal,
                     items: state.items.concat({id:action.payload.id, name:action.payload.name, q:1})};
             } else {
-                return state
+                return {...state,
+                    total: newTotal}
             }
         case "REMOVE_ITEM":
             let deleted = false;
+            let newTotal1 = parseFloat((state.total-action.price).toFixed(2));
             state.items.map(function (dish, index) {
                 if (dish.name === action.payload) {
                     dish.q -= 1;
@@ -26,11 +30,17 @@ const currentItems = (state = {items: []}, action) => {
                 }
             });
             if (deleted) {
-                return {...state, items: state.items};
+                return {...state,
+                    total: newTotal1,
+                    items: state.items};
             } else {
-                return state
+                return {...state,
+                    total: newTotal1}
             }
-
+        case "RESET_ITEMS":
+            return {...state,
+            total: 0,
+            items: []};
         default:
             return state
     }
