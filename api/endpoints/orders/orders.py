@@ -76,5 +76,4 @@ def get_orders():
 					"AND state = ANY('{"
 		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
-	print(result)
 	return jsonify(data={"orders" : result[0][0]})
