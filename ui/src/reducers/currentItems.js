@@ -8,6 +8,7 @@ const currentItems = (state = {items: [], total: 0}, action) => {
                     dish.q += 1;
                     found = true;
                 }
+                return null;
             });
             if (!found) {
                 return {...state,
@@ -28,6 +29,7 @@ const currentItems = (state = {items: [], total: 0}, action) => {
                         deleted = true;
                     }
                 }
+                return null;
             });
             if (deleted) {
                 return {...state,

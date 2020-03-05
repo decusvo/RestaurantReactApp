@@ -53,6 +53,7 @@ const FoodMenu = (props) => {
                 } else {
                     return (<div key={index}> </div>);
                 }
+                return null;
             });
         };
 

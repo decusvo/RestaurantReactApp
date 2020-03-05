@@ -97,6 +97,7 @@ const Order = () => {
             for (let i = 0; i < dish.q; i++) {
                 apiItems.push(dish.id)
             }
+            return null;
         });
         fetch("//127.0.0.1:5000/create_order", {method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -104,7 +105,7 @@ const Order = () => {
         }).then(response => {
             return response.json()
         }).then(data => {
-            console.log(data)
+            console.log(data);
             dispatch(allActions.itemActions.resetItems())
         }).catch(error => console.log(error))
 
