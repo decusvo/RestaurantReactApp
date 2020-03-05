@@ -13,14 +13,14 @@ CREATE VIEW total_order_price AS
 	GROUP BY order_id;
 
 CREATE VIEW ordered_item_and_quantity AS
-  SELECT order_id, name, count(name) AS quantity
+  SELECT order_id, name, count(name) AS quantity, count(name)*price as total
   FROM ordered_items, menu
   WHERE menu_item_id = id
-  GROUP BY order_id, name;
+  GROUP BY order_id, name, price;
 
-CREATE VIEW ordered_item_array AS 
+CREATE VIEW ordered_item_array AS
   SELECT order_id, json_agg(
-      json_build_object('name', name, 'quantity', quantity)
+      json_build_object('name', name, 'quantity', quantity, 'cumulative_price', total)
     ) AS items
   FROM ordered_item_and_quantity
   GROUP BY order_id;
