@@ -7,7 +7,8 @@ import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
 import {useDispatch} from "react-redux";
 import allActions from "../actions";
-// import {CardMedia} from "@material-ui/core";
+import {CardMedia} from "@material-ui/core";
+import Logo from "../Images/Green Salad.jpg";
 
 
 const FoodMenuItem = (props) => {
@@ -35,8 +36,8 @@ const FoodMenuItem = (props) => {
             marginBottom: theme.spacing(2), maxWidth: 345, height: "95%"}}>
                 <CardHeader title={value} />
                 <Divider variant="middle" />
+                <CardMedia style={{height: 0, paddingTop: '56.25%'}} alt={value} height={"140"} title={value} image={Logo}/>
                 <CardContent>
-                    {/*<CardMedia component={"img"} alt={value} height={"140"} title={value} img={"../Images/Logo.png"}/>*/}
                     <Typography style={{textAlign:"left"}}>Description: {description}</Typography>
                     <Typography style={{textAlign:"left"}}>Calories : {calories}</Typography>
                     <Typography style={{textAlign:"left"}}>Price : {price}</Typography>
