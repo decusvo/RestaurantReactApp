@@ -10,7 +10,12 @@ bp = Blueprint("menu blueprint", __name__)
 
 @bp.route("/menu", methods=["POST"])
 def menu():
-	getAll = request.json.get("getAll")
+	#try and get the variable from the json
+	try:
+		getAll = request.json.get("getAll")
+	except AttributeError as error:	# if getAll not provided handle error thrown
+		getAll = None
+
 	if getAll == None or getAll == False:	# if there are no arguments select everything
 		#  gets the whole menu from the database and gets the menu item type i.e. side, main ect
 		#  this sql query returns the result as an already formatted json
