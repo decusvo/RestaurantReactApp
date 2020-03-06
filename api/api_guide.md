@@ -30,8 +30,15 @@
 ## API endpoints:
 
 ### /menu:
-+EXPECTS: Currently doesn't interact with any data sent with the request. Will eventually send items
-	based on json.
++EXPECTS: JSON object containing true or false value for getAll, which determines
+if it returns all available items or not respectively. If getAll is not specified it returns only
+available menu items
+
+  ```json
+  {
+  "getAll" : true
+  }
+  ```
 
 +RETURNS: JSON object containing list of item ids in the form:
 
