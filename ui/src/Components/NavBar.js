@@ -72,6 +72,7 @@ export default function NavBar(props) {
                                     <Button onClick={() => History.push("/Register")} color={"inherit"}>Register</Button>
                                     <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
                                     <Button onClick={() => History.push("/WaiterDashboard")} color={"inherit"}>Waiter </Button>
+                                    <Button onClick={() => History.push("/OrderTracking")} color={"inherit"}>Track Order </Button>
                                 </>}
 
                         </Toolbar>

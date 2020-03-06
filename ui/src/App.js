@@ -11,6 +11,7 @@ import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
 import {useSelector} from "react-redux";
 import Order from "./Components/Order";
+import OrderTracking from "./Components/OrderTracking";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -44,12 +45,16 @@ const App = () => {
                         <Route path="/WaiterDashboard">
                             <WaiterDashboard />
                         </Route>
+                        <Route path="/OrderTracking">
+                            <OrderTracking />
+                        </Route>
 
                         {currentUser.loggedIn ?
                             <>
                                 <Route path="/Order">
                                     <Order />
                                 </Route>
+
                             </>
                             :
                             <>
