@@ -22,7 +22,7 @@ import React, {useEffect, useState} from 'react';
 import '../Styling/LoginMenu.css'
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiAlert from "@material-ui/lab/Alert";
-import Redirect from "react-router-dom/es/Redirect";
+import {Redirect} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import allActions from "../actions";
 

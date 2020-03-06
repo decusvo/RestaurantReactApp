@@ -118,8 +118,8 @@ def validate_get_order(request):
 
 	for state in states:
 		if state not in valid_states:
-			error_msg = "given event is not a valid event type, see this objects 'valid_events'"
+			error_msg = "given event is not a valid event type, see this objects 'valid_states'"
 			error_msg += " for a list of valid events"
-			return jsonify({"success" : False, "message" : error_msg, "valid_events" : valid_events})
+			return jsonify({"success" : False, "message" : error_msg, "valid_states" : valid_states})
 
 	return None

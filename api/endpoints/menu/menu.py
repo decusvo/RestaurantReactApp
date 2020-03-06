@@ -15,7 +15,7 @@ def menu():
 		#  gets the whole menu from the database and gets the menu item type i.e. side, main ect
 		#  this sql query returns the result as an already formatted json
 		result = connector.json_select("SELECT menu.id, name, description, vegan, " +
-			"gluten_free, vegetarian, calories, price, available, type " +
+			"gluten_free, vegetarian, calories, price, available, type, image " +
 				"FROM menu, item_type " +
 				"WHERE item_type.id = menu.food_type")
 		# gets the result from the database

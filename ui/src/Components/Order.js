@@ -3,9 +3,10 @@ import {List, ListItem} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import ListItemText from "@material-ui/core/ListItemText";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import allActions from "../actions";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -88,6 +89,7 @@ const Order = () => {
     const classes = useStyles();
     const currentItems = useSelector(state => state.currentItems);
     const items = currentItems.items;
+    const dispatch = useDispatch();
 
     const handleClick = () => {
         const apiItems = [];
@@ -95,6 +97,7 @@ const Order = () => {
             for (let i = 0; i < dish.q; i++) {
                 apiItems.push(dish.id)
             }
+            return null;
         });
         fetch("//127.0.0.1:5000/create_order", {method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -102,7 +105,8 @@ const Order = () => {
         }).then(response => {
             return response.json()
         }).then(data => {
-            console.log(data)
+            console.log(data);
+            dispatch(allActions.itemActions.resetItems())
         }).catch(error => console.log(error))
 
     };
