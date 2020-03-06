@@ -10,21 +10,24 @@ bp = Blueprint("menu blueprint", __name__)
 
 @bp.route("/menu", methods=["POST"])
 def menu():
-	print(request.json)
-	if len(request.args) == 0:	# if there are no arguments select everything
+	getAll = request.json.get("getAll")
+	if getAll == None or getAll == False:	# if there are no arguments select everything
 		#  gets the whole menu from the database and gets the menu item type i.e. side, main ect
 		#  this sql query returns the result as an already formatted json
 		result = connector.json_select("SELECT menu.id, name, description, vegan, " +
 			"gluten_free, vegetarian, calories, price, available, type, image " +
 				"FROM menu, item_type " +
-				"WHERE item_type.id = menu.food_type")
+				"WHERE item_type.id = menu.food_type " +
+				"AND menu.available = true")
 		# gets the result from the database
 		return jsonify(data={"items" : result})
 
-	else:  # not implemented yet
-		# add the abilty to handle multiple arguments in the querys
-		# for example get only sides ect by adding '?item_type=side'
-		return jsonify(Error="arguments not implemented yet")
+	elif getAll == True:
+		result = connector.json_select("SELECT menu.id, name, description, vegan, " +
+			"gluten_free, vegetarian, calories, price, available, type, image " +
+				"FROM menu, item_type " +
+				"WHERE item_type.id = menu.food_type ")
+		return jsonify(data={"items" : result})
 
 @bp.route("/menu_item_availability", methods=["POST"])
 def changeAvailablty():
