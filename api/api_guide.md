@@ -45,8 +45,23 @@ available menu items
   ```json
   {
 	"data" : {
-	  "items": [1, 2, 3]
-	}
+	  "items": [
+        {
+          "available": true,
+          "calories": 600,
+          "description": "Crips mexican doughnuts with rich chocolate sauce",
+          "gluten_free": false,
+          "id": 16,
+          "image": " http://personal.rhul.ac.uk/zfac/242/Team16/Churros.jpg",
+          "name": "Churros",
+          "price": "$5.25",
+          "type": "dessert",
+          "vegan": false,
+          "vegetarian": true
+        },
+        {"..."}
+      ]
+	   }
   }
   ```
 	or an error object, error object will contain a list valid_events if a bad event argument is given.
