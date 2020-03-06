@@ -13,6 +13,8 @@ def menu():
 	#try and get the variable from the json
 	try:
 		getAll = request.json.get("getAll")
+		if getAll != False || getAll != True:
+			jsonify(error={"success":False, "message":"getAll was not a boolean"})
 	except AttributeError as error:	# if getAll not provided handle error thrown
 		getAll = None
 
