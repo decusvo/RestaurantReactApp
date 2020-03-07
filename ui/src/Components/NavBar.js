@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {AppBar, Button, Toolbar, Typography, useScrollTrigger, Slide, CssBaseline} from '@material-ui/core';
 import Logo from '../Images/Logo_new.png';
 import Img from 'react-image'
@@ -13,6 +13,8 @@ import History from "../utils/history"
 import Avatar from "@material-ui/core/Avatar";
 import userActions from "../actions/userActions";
 import Snackbar from "@material-ui/core/Snackbar";
+import Notification from "./Notification";
+import NotificationsIcon from '@material-ui/icons/Notifications';
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -44,6 +46,7 @@ export default function NavBar(props) {
     const total = useSelector(state => state.currentItems.total);
     const vertical = "bottom";
     const horizontal = "right";
+    const [notificationOpen, setNotificationOpen] = useState(false);
 
     return(
         <ThemeProvider theme={theme}>
@@ -65,6 +68,9 @@ export default function NavBar(props) {
                             </IconButton>
                             {currentUser.loggedIn ?
                                 <>
+                                    <IconButton onClick={() => setNotificationOpen(true)} edge={"start"} color={"inherit"} aria-label={"notification"}>
+                                        <NotificationsIcon />
+                                    </IconButton>
                                     <Avatar className={classes.yellow} onClick={() => dispatch(userActions.logOut())}>{currentUser.user.name[0]}</Avatar>
                                 </>
                                 :
@@ -77,6 +83,7 @@ export default function NavBar(props) {
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>
+                <Notification open={notificationOpen} setOpen={setNotificationOpen}/>
                 <Toolbar />
                 {total>0? <Snackbar
                     anchorOrigin={{ vertical, horizontal }}
@@ -84,7 +91,6 @@ export default function NavBar(props) {
                     open={true}
                     message={"Total price: " + total}
                 /> : null}
-
             </div>
         </ThemeProvider>
         );
