@@ -66,8 +66,9 @@ class WaiterDashboard extends React.Component {
         const MapOrderItem = ({value}) => {
           return value.map((ele, index) => {
             const order = ele;
-            let {state, id, table_number} = order;
-            return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
+            console.log(order);
+            let {state, id, table_number, items, ordered_time, price} = order;
+            return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} />)
           })
         };
 

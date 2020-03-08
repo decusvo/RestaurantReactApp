@@ -13,42 +13,57 @@ import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {ExpandMore} from "@material-ui/icons";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import MapOrderItem from "./MapOrderItem";
+import FoodMenuItem from "./FoodMenuItem";
 // import {CardMedia} from "@material-ui/core";
 
 
-export default class OrderItem extends React.Component {
-    constructor(props){
-        super(props);
+const OrderItem = (props) => {
 
-        this.NextStateHandler.bind(this);
-        this.PrevStateHandler.bind(this);
-    }
-
-    NextStateHandler = (orderState, orderID) => {
+    const NextStateHandler = (orderState, orderID) => {
         //check if order state is "requested" or "readytoDeliver"      var orderStates = ["requested", "ready_to_deliver", "cooking"]
-            this.setState(function () {
-                this.props.handlerNextState(orderState, orderID);
-            });
+
     };
 
-    PrevStateHandler = (orderState, orderID) => {
+    const PrevStateHandler = (orderState, orderID) => {
         //check if order state is "cooking" or "readytoDeliver"
-        this.setState(function () {
-            this.props.handlerPrevState(orderState, orderID);
-        });
     };
 
-    isFabDisabled = (orderState) => {
+    const MapOrderItem = ({items}) => {
+        return items.map((dish, index) => {
+
+            let {quantity, name, cumulative_price} = dish;
+
+            return(
+                <Card style={{backgroundColor: "#fcc01a",
+                    padding: theme.spacing(2),
+                    marginBottom: theme.spacing(2)}} key={index}>
+
+                    <Typography style={{textAlign:"middle"}}>Name: {name}</Typography>
+                    <Typography style={{textAlign:"middle"}}>Price: {cumulative_price}</Typography>
+                    <Typography style={{textAlign:"middle"}}>Quantity: {quantity}</Typography>
+
+                </Card>
+            )
+            //return value.map((ele, index) => {
+            //             const order = ele;
+            //             console.log(order);
+            //             let {state, id, table_number, items} = order;
+            //             return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} />)
+            //           })
+
+        })
+    };
+
+    const isFabDisabled = (orderState) => {
         return orderState === "cooking";
     };
 
-    render () {
-        const theme = createMuiTheme();
-        const {orderID, tableID, orderState} = this.props;
+    const theme = createMuiTheme();
+    const {orderID, tableID, orderState, allItems, time, totalPrice} = props;
+
+    return (
 
         // orderState={state} tableID={table_number} orderID={id}
-        return (
             <Grid item xs justify={"center"} alignItems={"stretch"}>
 
                 <Card style={{backgroundColor: "#fcc01a",
@@ -59,23 +74,23 @@ export default class OrderItem extends React.Component {
                     <CardContent>
 
                         <Typography style={{textAlign:"middle"}}>Table: {tableID}</Typography>
-{/*
-                        <Typography style={{textAlign:"left"}}>list of menu items : {menuItems}</Typography>
-                        <Typography style={{textAlign:"left"}}>totalPrice : {price}</Typography>
+                        <Typography style={{textAlign:"middle"}}>Price: {totalPrice}</Typography>
+                        <Typography style={{textAlign:"middle"}}>Time: {time}</Typography>
 
-*/}
                     </CardContent>
                     <Divider variant="middle" />
 
                     <CardActions disableSpacing>
 
-                                <fab color="primary" aria-label="prev" disabled={this.isFabDisabled(orderState)} onClick={() => {this.PrevStateHandler(orderState, orderID); this.props.handlerPrevState(orderState, orderID);}}>
-                                    <ArrowBackIosIcon />
-                                </fab>
+                        <Fab color="primary" aria-label="prev" disabled={isFabDisabled(orderState)} onClick={() => {PrevStateHandler(orderState, orderID);}}>
+                            <ArrowBackIosIcon />
+                        </Fab>
 
-                                <fab color="primary" aria-label="next" disabled={this.isFabDisabled(orderState)} onClick={() => {this.NextStateHandler(orderState, orderID); this.props.handlerNextState(orderState, orderID);}}>
-                                    <ArrowForwardIosIcon />
-                                </fab>
+                        <Typography style={{marginRight: "auto", marginLeft: "auto"}}/> {/*separates the Fab components from each other*/}
+
+                        <Fab color="primary" aria-label="next" disabled={isFabDisabled(orderState)} onClick={() => {NextStateHandler(orderState, orderID);}}>
+                            <ArrowForwardIosIcon />
+                        </Fab>
 
 
                     </CardActions>
@@ -87,12 +102,24 @@ export default class OrderItem extends React.Component {
                             <Typography style={{textAlign:"middle"}}>MoreInfo</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
-                            <MapOrderItem orderID={1} />
+
+                            <Grid
+                                container
+                                direction="column"
+                                justify="space-evenly"
+                                alignItems="stretch"
+                            >
+                                <Divider variant="middle" />
+
+                                <MapOrderItem items={allItems}/>
+
+                            </Grid>
                         </ExpansionPanelDetails>
                     </ExpansionPanel>
 
                 </Card>
             </Grid>
         );
-    }
 };
+
+export default OrderItem;
