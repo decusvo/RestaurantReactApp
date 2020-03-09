@@ -47,7 +47,8 @@ class WaiterDashboard extends React.Component {
         return response.json()
       }).then(data => {
         // if the array is not null
-        let orders = data.data.orders
+        let orders = data.data.orders;
+          // eslint-disable-next-line
         if(orders != undefined){
           orders.forEach(ele => {
             console.log(ele);
@@ -65,9 +66,8 @@ class WaiterDashboard extends React.Component {
 
         const MapOrderItem = ({value}) => {
           return value.map((ele, index) => {
-            const order = ele;
-            let {state, id, table_number} = order;
-            return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
+              let {state, id, table_number} = ele;
+              return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
           })
         };
 
