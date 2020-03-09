@@ -47,6 +47,13 @@ CREATE TABLE waiter_notifications(
 	message varchar(256)
 );
 
+CREATE TABLE customer_notifications(
+	notification_id serial PRIMARY KEY,
+	customer_id varchar(128) REFERENCES customer(email),
+	waiter_id integer REFERENCES waiter(waiter_id),
+	message varchar(256)
+);
+
 CREATE TABLE table_details(
 	table_number serial PRIMARY KEY,
 	waiter_id integer

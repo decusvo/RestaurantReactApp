@@ -20,8 +20,19 @@ def test_add_waiter_notification():
 		print(req.text)
 	return req.status_code
 
+def test_add_customer_notification():
+	notification_json = {"waiter_id" : 1, 
+						"customer_id" : "example@example.com", 
+						"message" : "notification message for customer"}
+
+	req = session.post(api_url + "add_customer_notification", json=notification_json)
+	if verbose:
+		print(req.text)
+	return req.status_code
+
 tests = [
 		test_add_waiter_notification,
+		test_add_customer_notification,
 		]
 
 if __name__ == "__main__":

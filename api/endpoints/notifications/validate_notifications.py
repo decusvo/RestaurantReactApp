@@ -3,7 +3,7 @@ import json
 import psycopg2
 from common import connector
 
-def validate_waiter_notification(request):
+def validate_notification(request):
 	if "message" not in request.json:
 		error_msg = "Expected 'message' argument, none was given"
 		return jsonify(error={"success" : False, "message" : error_msg})
