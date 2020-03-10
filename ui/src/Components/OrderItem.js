@@ -11,23 +11,26 @@ import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import {ExpandMore} from "@material-ui/icons";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import FoodMenuItem from "./FoodMenuItem";
-// import {CardMedia} from "@material-ui/core";
+import {blue, red} from "@material-ui/core/colors";
+import ClearIcon from '@material-ui/icons/Clear';
 
 
 const OrderItem = (props) => {
 
     const NextStateHandler = (orderState, orderID) => {
         //check if order state is "requested" or "readytoDeliver"      var orderStates = ["requested", "ready_to_deliver", "cooking"]
-
     };
 
     const PrevStateHandler = (orderState, orderID) => {
         //check if order state is "cooking" or "readytoDeliver"
     };
 
+    const CancelOrderHandler = (orderID) => {
+      //cancel order
+    };
+
+    //maps all items in the order
     const MapOrderItem = ({items}) => {
         return items.map((dish, index) => {
 
@@ -44,26 +47,24 @@ const OrderItem = (props) => {
 
                 </Card>
             )
-            //return value.map((ele, index) => {
-            //             const order = ele;
-            //             console.log(order);
-            //             let {state, id, table_number, items} = order;
-            //             return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} />)
-            //           })
-
         })
     };
 
+    //checks if order is in the cooking state or not
     const isFabDisabled = (orderState) => {
         return orderState === "cooking";
     };
 
-    const theme = createMuiTheme();
+    const theme = createMuiTheme({
+        palette: {
+            primary: blue,
+            secondary: red
+        }
+    });
+
     const {orderID, tableID, orderState, allItems, time, totalPrice} = props;
 
     return (
-
-        // orderState={state} tableID={table_number} orderID={id}
             <Grid item xs justify={"center"} alignItems={"stretch"}>
 
                 <Card style={{backgroundColor: "#fcc01a",
@@ -84,6 +85,12 @@ const OrderItem = (props) => {
 
                         <Fab color="primary" aria-label="prev" disabled={isFabDisabled(orderState)} onClick={() => {PrevStateHandler(orderState, orderID);}}>
                             <ArrowBackIosIcon />
+                        </Fab>
+
+                        <Typography style={{marginRight: "auto", marginLeft: "auto"}}/> {/*separates the Fab components from each other*/}
+
+                        <Fab color="secondary" aria-label="cancel" onClick={() => {CancelOrderHandler(orderID);}}>
+                            <ClearIcon />
                         </Fab>
 
                         <Typography style={{marginRight: "auto", marginLeft: "auto"}}/> {/*separates the Fab components from each other*/}
