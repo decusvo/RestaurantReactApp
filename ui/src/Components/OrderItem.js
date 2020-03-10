@@ -63,7 +63,7 @@ const OrderItem = (props) => {
     const {orderID, tableID, orderState, allItems, time, totalPrice} = props;
 
     return (
-            <Grid item xs justify={"center"} alignItems={"stretch"}>
+            <Grid container item xs justify={"center"} alignItems={"stretch"}>
 
                 <Card style={{backgroundColor: "#fcc01a",
                     padding: theme.spacing(2),
