@@ -77,3 +77,15 @@ def get_orders():
 		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
 	return jsonify(data={"orders" : result[0][0]})
+
+@bp.route("/update_order_state",methods=["POST"])
+def change_cooking_state():
+	newState = request.json.get("newState")
+	orderId = request.json.get("Id")
+	
+	query = "UPDATE orders SET state = %s WHERE id = %s"
+	result = connector.execute.insert_query(query,(newState,orderId))
+	
+	if result == True:
+		return result
+	return jsonify(error={"success":False,"message":"Error orderId does not exist"})
