@@ -86,6 +86,7 @@ def change_cooking_state():
 	query = "UPDATE orders SET state = %s WHERE id = %s"
 	result = connector.execute.insert_query(query,(newState,orderId))
 	
-	if result == True:
+	if result == False:
+		return jsonify(error={"success":False, "message":"Error order does not exist"})
 		return result
-	return jsonify(error={"success":False,"message":"Error orderId does not exist"})
+	return jsonify(data={"success":True})
