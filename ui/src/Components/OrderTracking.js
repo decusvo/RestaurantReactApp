@@ -113,8 +113,8 @@ export default function LinearBuffer() {
         setCompleted(0);
         setBuffer(10);
       } else {
-        const diff = Math.random() * 5;
-        const diff2 = Math.random() * 5;
+        const diff = Math.random() * 6;
+        const diff2 = Math.random() * 6;
         setCompleted(completed + diff);
         setBuffer(completed + diff + diff2);
       }
