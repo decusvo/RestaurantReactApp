@@ -18,9 +18,10 @@ def create_order():
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
 	time = datetime.datetime.now().strftime("%H:%M:%S")
+	cust_id = request.json.get("custId")
 
-	query = "INSERT INTO orders (table_number, ordered_time) VALUES (%s, %s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),time))
+	query = "INSERT INTO orders (table_number, ordered_time, cust_id) VALUES (%s, %s, %s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num),time, cust_id))
 	order_id = result[0]
 
 	items_added = []
