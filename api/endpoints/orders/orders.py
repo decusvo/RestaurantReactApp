@@ -89,10 +89,9 @@ def get_cust_order():
 				"FROM orders, total_order_price, ordered_item_array " \
 				"WHERE orders.id = total_order_price.order_id " \
 				"AND orders.id = ordered_item_array.order_id " \
-				"AND orders.cust_id = '{}') " \
-			"AS order_list"
-	query = query.format(id)
-	result = connector.json_select(query)
+				"AND orders.cust_id = %s) " \
+			"AS order_list;"
+	result = connector.execute_query(query, (id,))
 	return jsonify(data={"orders":result[0][0]})
 
 @bp.route("/update_order_state",methods=["POST"])
