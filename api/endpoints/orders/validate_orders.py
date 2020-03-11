@@ -36,8 +36,13 @@ def validate(request):
 		error_msg = "Expected 'items' field, non was given"
 		return jsonify(error={"success" : False, "message" : error_msg})
 
+	if "customer" not in request.json:
+		error_msg = "Expected customer argument, none was given"
+		return jsonify(error={"success" : False, "message" : error_msg})
+
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
+	customer = request.json.get("customer") 
 
 	if not isinstance(items, (list)):
 		error_msg = "expected 'items' to be list"

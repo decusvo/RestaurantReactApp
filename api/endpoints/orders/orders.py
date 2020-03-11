@@ -16,9 +16,10 @@ def create_order():
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
+	customer = request.json.get("customer")
 
-	query = "INSERT INTO orders (table_number) VALUES (%s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),))
+	query = "INSERT INTO orders (table_number, ordered_time, cust_id) VALUES (%s, NOW(), %s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num), customer))
 	order_id = result[0]
 
 	items_added = []
