@@ -27,6 +27,6 @@ __pycache__
 */venv/
 **venv/
 
-flask_session/*
+*/flask_session/*
 
 .idea
