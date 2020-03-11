@@ -3,7 +3,6 @@ import json
 import psycopg2
 from . import validate_orders
 from common import connector
-import datetime
 
 
 bp = Blueprint("order blueprint", __name__)
@@ -17,11 +16,9 @@ def create_order():
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
-	time = datetime.datetime.now().strftime("%H:%M:%S")
-	cust_id = request.json.get("custId")
 
-	query = "INSERT INTO orders (table_number, ordered_time, cust_id) VALUES (%s, %s, %s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),time, cust_id))
+	query = "INSERT INTO orders (table_number) VALUES (%s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num),))
 	order_id = result[0]
 
 	items_added = []
@@ -61,48 +58,11 @@ def get_orders():
 
 	# handles case for getting all orders:
 	if len(states) == 0:
-		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, table_number, state, ordered_time, price, items " \
-					"FROM orders, total_order_price, ordered_item_array " \
-					"WHERE orders.id = total_order_price.order_id " \
-					"AND orders.id = ordered_item_array.order_id) " \
-				"AS order_list;"
+		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders) AS order_list;"
 		result = connector.execute_query(query)
 	else:
-		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, table_number, state, ordered_time, price, items " \
-					"FROM orders, total_order_price, ordered_item_array " \
-					"WHERE orders.id = total_order_price.order_id " \
-					"AND orders.id = ordered_item_array.order_id " \
-					"AND state = ANY('{"
+		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders WHERE state = ANY('{"
 		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
+	print(result)
 	return jsonify(data={"orders" : result[0][0]})
-
-
-@bp.route("/get_cust_order", methods=["POST"])
-def get_cust_order():
-	id = request.json.get("custId")
-
-	query = "SELECT json_agg (order_list) FROM " \
-				"(SELECT id, table_number, state, ordered_time, price, items " \
-				"FROM orders, total_order_price, ordered_item_array " \
-				"WHERE orders.id = total_order_price.order_id " \
-				"AND orders.id = ordered_item_array.order_id " \
-				"AND orders.cust_id = %s) " \
-			"AS order_list;"
-	result = connector.execute_query(query, (id,))
-	return jsonify(data={"orders":result[0][0]})
-
-@bp.route("/update_order_state",methods=["POST"])
-def change_cooking_state():
-	newState = request.json.get("newState")
-	orderId = request.json.get("Id")
-
-	query = "UPDATE orders SET state = %s WHERE id = %s"
-	result = connector.execute.insert_query(query,(newState,orderId))
-
-	if result == False:
-		return jsonify(error={"success":False, "message":"Error order does not exist"})
-		return result
-	return jsonify(data={"success":True})
