@@ -18,7 +18,7 @@ import Box from "@material-ui/core/Box";
 import hash from 'hash.js';
 
 import React from 'react';
-import Redirect from "react-router-dom/es/Redirect";
+import {Redirect} from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";

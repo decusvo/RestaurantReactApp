@@ -3,7 +3,6 @@ import {CssBaseline, Typography, withStyles} from '@material-ui/core';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
 import OrderItem from "./OrderItem";
 
 //basic styles
@@ -47,7 +46,8 @@ class WaiterDashboard extends React.Component {
         return response.json()
       }).then(data => {
         // if the array is not null
-        let orders = data.data.orders
+        let orders = data.data.orders;
+          // eslint-disable-next-line
         if(orders != undefined){
           orders.forEach(ele => {
             console.log(ele);
@@ -66,8 +66,9 @@ class WaiterDashboard extends React.Component {
         const MapOrderItem = ({value}) => {
           return value.map((ele, index) => {
             const order = ele;
-            let {state, id, table_number} = order;
-            return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
+            console.log(order);
+            let {state, id, table_number, items, ordered_time, price} = order;
+            return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} />)
           })
         };
 
