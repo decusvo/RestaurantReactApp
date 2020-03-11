@@ -88,6 +88,7 @@ const MapOrderItem = () => {
 const Order = () => {
     const classes = useStyles();
     const currentItems = useSelector(state => state.currentItems);
+    const currentUser = useSelector(state => state.currentUser);
     const items = currentItems.items;
     const dispatch = useDispatch();
 
@@ -101,7 +102,7 @@ const Order = () => {
         });
         fetch("//127.0.0.1:5000/create_order", {method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"table_num": 1, "items": apiItems})
+            body: JSON.stringify({"table_num": 1, "items": apiItems, "custId": currentUser.user.name})
         }).then(response => {
             return response.json()
         }).then(data => {
