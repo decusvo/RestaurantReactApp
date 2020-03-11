@@ -30,16 +30,38 @@
 ## API endpoints:
 
 ### /menu:
-+EXPECTS: Currently doesn't interact with any data sent with the request. Will eventually send items
-	based on json.
++EXPECTS: JSON object containing true or false value for getAll, which determines
+if it returns all available items or not respectively. If getAll is not specified it returns only
+available menu items
+
+  ```json
+  {
+  "getAll" : true
+  }
+  ```
 
 +RETURNS: JSON object containing list of item ids in the form:
 
   ```json
   {
 	"data" : {
-	  "items": [1, 2, 3]
-	}
+	  "items": [
+        {
+          "available": true,
+          "calories": 600,
+          "description": "Crips mexican doughnuts with rich chocolate sauce",
+          "gluten_free": false,
+          "id": 16,
+          "image": " http://personal.rhul.ac.uk/zfac/242/Team16/Churros.jpg",
+          "name": "Churros",
+          "price": "$5.25",
+          "type": "dessert",
+          "vegan": false,
+          "vegetarian": true
+        },
+        {"..."}
+      ]
+	   }
   }
   ```
 	or an error object, error object will contain a list valid_events if a bad event argument is given.
@@ -97,26 +119,34 @@ retrieve all orders, then pass an empty array:
 
   ```json
   {
-  "states": ["cooking", "requested"] 
+  "states": ["start", "cooking", "requested"]
   }
   ```
 
 RETURNS: JSON object containing the data requested, if no data exists an empty array will be returned
+It also returns the ordered items in a json object containing the quantity ordered and
+the price of each item times the quantity
 
   ```json
   {
-    "data" : [
+  "data": {
+    "orders": [
       {
         "id": 1,
+        "items": [
+          {
+            "cumulative_price": "$10.50",
+            "name": "Veggie nachos",
+            "quantity": 2
+          }
+        ],
+        "ordered_time": "20:46:54",
+        "price": "$10.50",
         "state": "start",
         "table_number": 1
-      },
-      {
-        "id": 2,
-        "state": "requested",
-        "table_number": 2
-      }
-    ]
+        }
+      ]
+    }
   }
   ```
 
@@ -210,7 +240,7 @@ RETURNS: JSON object describing success
 ### /get\_session\_id
 EXPECTS: Does not expect any data but will return error if no session is active
 
-RETURNS: JSON 
+RETURNS: JSON
   ```json
   	{
 	  "data" : {
@@ -224,7 +254,7 @@ RETURNS: JSON
 ### /get\_session\_is\_staff
 EXPECTS: Does not expect any data but will return error if no session is active
 
-RETURNS: JSON 
+RETURNS: JSON
   ```json
   	{
 	  "data" : {
@@ -238,7 +268,7 @@ RETURNS: JSON
 ### /remove\_session
 EXPECTS: Does not expect any data but will return error if no session is active
 
-RETURNS: JSON 
+RETURNS: JSON
   ```json
   	{
 	  "data" : {
@@ -259,7 +289,7 @@ EXPECTS: Expects the order event, and the order you'd like to have it occur on:
   	}
   ```
 
-RETURNS: JSON 
+RETURNS: JSON
   ```json
   	{
 	  "data" : {

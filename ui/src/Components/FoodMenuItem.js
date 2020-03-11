@@ -7,28 +7,27 @@ import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
 import {useDispatch} from "react-redux";
 import allActions from "../actions";
-// import {CardMedia} from "@material-ui/core";
+import {CardMedia} from "@material-ui/core";
 
 
 const FoodMenuItem = (props) => {
-    const [itemQuantity, setItemQuantity] = useState(0);
-
     const dispatch = useDispatch();
 
-    const PlusButtonHandler = (id, value) => {
+    const PlusButtonHandler = (id, value, price) => {
         setItemQuantity(itemQuantity + 1);
-        dispatch(allActions.itemActions.addItem(id, value));
+        dispatch(allActions.itemActions.addItem(id, value, price));
     };
 
-    const MinusButtonHandler = (value) => {
+    const MinusButtonHandler = (value, price) => {
         if(itemQuantity > 0){
             setItemQuantity(itemQuantity - 1);
-            dispatch(allActions.itemActions.removeItem(value));
+            dispatch(allActions.itemActions.removeItem(value, price));
         }
     };
 
     const theme = createMuiTheme();
-    const {id, value, description, price, calories} = props;
+    const {id, value, description, price, calories, image, quantity} = props;
+    const [itemQuantity, setItemQuantity] = useState(quantity);
     return (
         <Grid item xs={3}>
             <Card style={{backgroundColor: "#fcc01a",
@@ -36,8 +35,8 @@ const FoodMenuItem = (props) => {
             marginBottom: theme.spacing(2), maxWidth: 345, height: "95%"}}>
                 <CardHeader title={value} />
                 <Divider variant="middle" />
+                <CardMedia style={{height: 0, paddingTop: '56.25%'}} alt={value} height={"140"} title={value} image={image}/>
                 <CardContent>
-                    {/*<CardMedia component={"img"} alt={value} height={"140"} title={value} img={"../Images/Logo.png"}/>*/}
                     <Typography style={{textAlign:"left"}}>Description: {description}</Typography>
                     <Typography style={{textAlign:"left"}}>Calories : {calories}</Typography>
                     <Typography style={{textAlign:"left"}}>Price : {price}</Typography>
@@ -46,11 +45,11 @@ const FoodMenuItem = (props) => {
                      <div style={{flexJustify:"flex-end"}}>
                 <Divider variant="middle" />
                 <CardActions style={{marginTop: "auto"}}>
-                        <Fab color="primary" aria-label="minus" onClick={() => {MinusButtonHandler(value);}}>
+                        <Fab color="primary" aria-label="minus" onClick={() => {MinusButtonHandler(value, price);}}>
                             <MinusIcon />
                         </Fab>
                         <Typography style={{marginRight: "auto", marginLeft: "auto"}}>{itemQuantity}</Typography>
-                        <Fab color="primary" aria-label="add" onClick={() => {PlusButtonHandler(id, value);}}>
+                        <Fab color="primary" aria-label="add" onClick={() => {PlusButtonHandler(id, value, price);}}>
                             <AddIcon />
                         </Fab>
                 </CardActions>
