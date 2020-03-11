@@ -10,8 +10,9 @@ import SignIn from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
 import {useSelector} from "react-redux";
-import Order from "./Components/Payment/Order";
+import Order from "./Components/Order";
 import Checkout from "./Components/Payment/Checkout";
+import Tracking from "./Components/Payment/Tracking";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -54,13 +55,18 @@ const App = () => {
                                 <Route path="/Order">
                                     <Order />
                                 </Route>
+                                <Route path="/Tracking">
+                                    <Tracking/>
+                                </Route>
                             </>
                             :
                             <>
                                 <Route path="/Order">
                                     <SignIn />
                                 </Route>
-                            </>}
+                            </>
+
+                        }
 
                     </div>
                 </Router>

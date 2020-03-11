@@ -7,6 +7,8 @@ import {useDispatch, useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import allActions from "../actions";
+import Link from "@material-ui/core/Link";
+import {Redirect} from "react-router";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -89,6 +91,7 @@ const Order = () => {
     const classes = useStyles();
     const currentItems = useSelector(state => state.currentItems);
     const currentUser = useSelector(state => state.currentUser);
+    const [orderButtonClicked,setOrderButtonClicked] = React.useState(false);
     const items = currentItems.items;
     const dispatch = useDispatch();
 
@@ -108,12 +111,14 @@ const Order = () => {
         }).then(data => {
             console.log(data);
             dispatch(allActions.itemActions.resetItems())
+            setOrderButtonClicked(true);
         }).catch(error => console.log(error))
 
     };
 
     return (
         <React.Fragment >
+            {orderButtonClicked ? <Redirect to={"/Tracking"} />: null}
             <Typography variant="h3" className={classes.title}>
                 Your order list
             </Typography>
@@ -124,6 +129,7 @@ const Order = () => {
 
             <Grid container>
                 <Grid item xs={12}  >
+
                     <Button
                         onClick={() => handleClick()}
                         type="submit"
@@ -131,8 +137,9 @@ const Order = () => {
                         color="primary"
                         className={classes.checkout}
                     >
-                        Order Items
+                        Order
                     </Button>
+
                 </Grid>
             </Grid>
         </React.Fragment>

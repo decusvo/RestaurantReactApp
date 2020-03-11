@@ -1,8 +1,10 @@
-import React, {useEffect} from "react";
-import {List} from "@material-ui/core";
+import React from "react";
+import {List, ListItem} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useSelector} from "react-redux";
+import Paper from "@material-ui/core/Paper";
+import ListItemText from "@material-ui/core/ListItemText";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,25 +37,73 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-const getTracking = () => {
-    const currentUser = useSelector(state => state.currentUser);
 
-    fetch("//127.0.0.1:5000/get_custs_order", {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'custId':currentUser.})
-    }).then((response) => {
-        return response.json();
-    }).then((data) => {
-    //
-    });
-}
-useEffect(() => {
-    getMenu()
-}, []);
+const MapOrderItem = ({items}) => {
+    if (items.length !== 0) {
+        return items.map(function (dish, index) {
+            const itemName = dish.name;
+            const itemQuantity = dish.q;
+            if (itemQuantity > 0) {
+                return (<ListItem key={index} >
+                    <ListItemText
+                        primary={
+                            <React.Fragment>
+                                <ListItem>
+                                <Typography
+                                    component="span"
+                                    variant="body1"
+                                    color="textPrimary"
+                                >
+                                    {itemName}
+                                </Typography>
+
+                                </ListItem>
+                            </React.Fragment>
+                        }
+                        secondary={
+                            <React.Fragment>
+                                <Typography
+                                    component="span"
+                                    variant="body2"
+                                    color="textSecondary"
+                                >
+                                    Q : {itemQuantity}
+                                </Typography>
+
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>)
+            } else {
+                return (<div key={index}> </div>)
+            }
+        });
+    } else {
+        console.log("No items");
+        return (<div> </div>)
+    }
+
+};
+
 
 const Tracking = () => {
     const classes = useStyles();
+    const currentUser = useSelector(state => state.currentUser);
+
+    const getTracking = () => {
+        fetch("//127.0.0.1:5000/get_custs_order", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'custId':currentUser.user.name})
+        }).then((response) => {
+            return response.json();
+        }).then((data) => {
+            return data;
+        });
+    };
+
+    const items = getTracking();
+    console.log(items);
 
 
 
@@ -63,6 +113,14 @@ const Tracking = () => {
             <Typography variant="h3" className={classes.title}>
                 Tracking
             </Typography>
+
+            <Paper className={classes.orderContainer}>
+
+                <List>
+                   <MapOrderItem value={items}/>
+                </List>
+
+            </Paper>
 
         <List className={classes.root}>
          {/*Checkout form.*/}
