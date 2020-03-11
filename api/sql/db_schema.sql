@@ -81,6 +81,7 @@ CREATE TABLE menu(
 
 CREATE TABLE orders(
 	id serial PRIMARY KEY,
+	cust_id varchar(128) REFERENCES customer(email),
 	table_number integer REFERENCES table_details(table_number),
 	state order_state DEFAULT 'start',
 	ordered_time TIME
