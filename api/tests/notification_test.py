@@ -42,10 +42,29 @@ def test_get_customer_notifications():
 		print(req.text)
 	return req.status_code
 
+
+def test_clear_customer_notifications():
+	req = session.post(api_url + "clear_customer_notifications", json={"customer" : "example@example.com"})
+	if verbose:
+		print(req.text)
+	return req.status_code
+
+
+def test_clear_waiter_notifications():
+	req = session.post(api_url + "clear_waiter_notifications", json={"waiter_id" : 1})
+	if verbose:
+		print(req.text)
+	return req.status_code
+
+
 tests = [
 		test_add_waiter_notification,
 		test_add_customer_notification,
 		test_get_waiter_notifications,
+		test_clear_waiter_notifications,
+		test_get_waiter_notifications,
+		test_get_customer_notifications,
+		test_clear_customer_notifications,
 		test_get_customer_notifications,
 		]
 
