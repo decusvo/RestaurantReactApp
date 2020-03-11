@@ -4,7 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useSelector} from "react-redux";
 import Paper from "@material-ui/core/Paper";
-import ListItemText from "@material-ui/core/ListItemText";
+import OrderItem from "../OrderItem";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -38,67 +38,29 @@ const useStyles = makeStyles(theme => ({
 
 
 
-const MapOrderItem = ({items}) => {
-    if (items.length !== 0) {
-        return items.map(function (dish, index) {
-            const itemName = dish.name;
-            const itemQuantity = dish.q;
-            if (itemQuantity > 0) {
-                return (<ListItem key={index} >
-                    <ListItemText
-                        primary={
-                            <React.Fragment>
-                                <ListItem>
-                                <Typography
-                                    component="span"
-                                    variant="body1"
-                                    color="textPrimary"
-                                >
-                                    {itemName}
-                                </Typography>
-
-                                </ListItem>
-                            </React.Fragment>
-                        }
-                        secondary={
-                            <React.Fragment>
-                                <Typography
-                                    component="span"
-                                    variant="body2"
-                                    color="textSecondary"
-                                >
-                                    Q : {itemQuantity}
-                                </Typography>
-
-                            </React.Fragment>
-                        }
-                    />
-                </ListItem>)
-            } else {
-                return (<div key={index}> </div>)
-            }
-        });
-    } else {
-        console.log("No items");
-        return (<div> </div>)
-    }
-
+const MapOrderItem = ({value}) => {
+    return value.map((ele, index) => {
+        const order = ele;
+        console.log(order);
+        let {state, id, table_number, items, ordered_time, price} = order;
+        return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} refreshHandler={this.refresh} />)
+    })
 };
 
 
 const Tracking = () => {
     const classes = useStyles();
-    const currentUser = useSelector(state => state.currentUser);
+    const currentUser = useSelector(state => state.currentUser); // Get username.
 
     const getTracking = () => {
-        fetch("//127.0.0.1:5000/get_custs_order", {
+        fetch("//127.0.0.1:5000/get_cust_order", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({'custId':currentUser.user.name})
         }).then((response) => {
             return response.json();
         }).then((data) => {
-            return data;
+            console.log(data);
         });
     };
 

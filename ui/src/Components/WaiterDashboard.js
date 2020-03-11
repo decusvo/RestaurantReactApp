@@ -74,14 +74,14 @@ class WaiterDashboard extends React.Component {
     render() {
         const {classes} = this.props;
 
-        const MapOrderItem = ({value}) => {
-          return value.map((ele, index) => {
-            const order = ele;
-            console.log(order);
-            let {state, id, table_number, items, ordered_time, price} = order;
-            return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} refreshHandler={this.refresh} />)
-          })
-        };
+            const MapOrderItem = ({value}) => {
+              return value.map((ele, index) => {
+                const order = ele;
+                console.log(order);
+                let {state, id, table_number, items, ordered_time, price} = order;
+                return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} refreshHandler={this.refresh} />)
+              })
+            };
 
         return (
             <React.Fragment>
