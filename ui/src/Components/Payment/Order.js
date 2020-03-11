@@ -6,6 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -35,6 +36,10 @@ const useStyles = makeStyles(theme => ({
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
         minWidth: 200
     },
+    orderContainer :{
+        maxHeight: 300,
+        overflow: 'auto'
+    }
 }));
 
 const MapOrderItem = () => {
@@ -113,9 +118,12 @@ const Order = () => {
                 Your order list
             </Typography>
 
-            <List className={classes.root}>
-                <MapOrderItem />
-            </List>
+
+            <Paper className={classes.orderContainer}>
+                <List className={classes.root}>
+                    <MapOrderItem />
+                </List>
+            </Paper>
 
             <Grid container>
                 <Grid item xs={12}  >
@@ -126,7 +134,7 @@ const Order = () => {
                         color="primary"
                         className={classes.checkout}
                     >
-                        Order Items
+                        Order
                     </Button>
                 </Grid>
             </Grid>
