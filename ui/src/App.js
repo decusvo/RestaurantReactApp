@@ -11,13 +11,14 @@ import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
 import {useDispatch, useSelector} from "react-redux";
 import Order from "./Components/Order";
-import allActions from "./actions";
+import WaiterMenu from "./Components/WaiterMenu";
+import userActions from "./actions/userActions";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
 
     const dispatch = useDispatch();
-    useEffect(dispatch(allActions.userActions.autoLogIn()),
+    useEffect(() => dispatch(userActions.autoLogIn()),
         []);
 
     return (
@@ -48,6 +49,9 @@ const App = () => {
                         </Route>
                         <Route path="/WaiterDashboard">
                             <WaiterDashboard />
+                        </Route>
+                        <Route path="/WaiterMenu">
+                            <WaiterMenu />
                         </Route>
 
                         {currentUser.loggedIn ?

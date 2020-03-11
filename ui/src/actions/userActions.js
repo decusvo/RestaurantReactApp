@@ -12,14 +12,18 @@ const logOut = () => {
 };
 
 const autoLogIn = () => {
-    fetch("//127.0.0.1:5000/get_session_id", {method: 'POST'})
-        .then((response) => {
-            return response.json()
-        })
-        .then((data) => {
-            console.log(data);
-            return {type: "LOG_IN", payload: data};
-        })
+    return dispatch => {fetch("//127.0.0.1:5000/get_session_id", {method: 'POST'})
+            .then((response) => {
+                return response.json()
+            })
+            .then((data) => {
+                if (data.data !== undefined) {
+                    let user;
+                    user = {name:data.data.session_id};
+                    dispatch(logIn(user))
+                }
+            });
+        };
 };
 
 export default {
