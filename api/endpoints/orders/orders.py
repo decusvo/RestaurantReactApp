@@ -18,9 +18,10 @@ def create_order():
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
 	time = datetime.datetime.now().strftime("%H:%M:%S")
+	cust_id = request.json.get("custId")
 
-	query = "INSERT INTO orders (table_number, ordered_time) VALUES (%s, %s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),time))
+	query = "INSERT INTO orders (table_number, ordered_time, cust_id) VALUES (%s, %s, %s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num),time, cust_id))
 	order_id = result[0]
 
 	items_added = []
@@ -87,10 +88,11 @@ def get_cust_order():
 				"(SELECT id, table_number, state, ordered_time, price, items " \
 				"FROM orders, total_order_price, ordered_item_array " \
 				"WHERE orders.id = total_order_price.order_id " \
-				"AND orders.id = ordered_item_array.order_id" \
-				"AND cust_id = %s) " \
-			"AS order_list;"
-	result = connector.json_select(query, id)
+				"AND orders.id = ordered_item_array.order_id " \
+				"AND orders.cust_id = '{}') " \
+			"AS order_list"
+	query = query.format(id)
+	result = connector.json_select(query)
 	return jsonify(data={"orders":result[0][0]})
 
 @bp.route("/update_order_state",methods=["POST"])
