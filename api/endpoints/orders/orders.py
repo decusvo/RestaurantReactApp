@@ -78,14 +78,29 @@ def get_orders():
 		result = connector.execute_query(query)
 	return jsonify(data={"orders" : result[0][0]})
 
+
+@bp.route("/get_cust_order", methods=["POST"])
+def get_cust_order():
+	id = request.json.get("custId")
+
+	query = "SELECT json_agg (order_list) FROM " \
+				"(SELECT id, table_number, state, ordered_time, price, items " \
+				"FROM orders, total_order_price, ordered_item_array " \
+				"WHERE orders.id = total_order_price.order_id " \
+				"AND orders.id = ordered_item_array.order_id" \
+				"AND cust_id = %s) " \
+			"AS order_list;"
+	result = connector.json_select(query, id)
+	return jsonify(data={"orders":result[0][0]})
+
 @bp.route("/update_order_state",methods=["POST"])
 def change_cooking_state():
 	newState = request.json.get("newState")
 	orderId = request.json.get("Id")
-	
+
 	query = "UPDATE orders SET state = %s WHERE id = %s"
 	result = connector.execute.insert_query(query,(newState,orderId))
-	
+
 	if result == False:
 		return jsonify(error={"success":False, "message":"Error order does not exist"})
 		return result
