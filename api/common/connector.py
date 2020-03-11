@@ -38,6 +38,8 @@ def execute_query(query_string, args=None):
 
 	except:
 		print("Query failed")
+		cursor.close()
+		raise
 		result = None
 
 	finally:
@@ -45,8 +47,8 @@ def execute_query(query_string, args=None):
 
 	return result
 
-# this is necessary because insert querys return None on every occasion
-# we also need to handle insert statement failures different
+# this is necessary because insert querys return None on mosts occasions
+# we also need to handle insert statement failures differently
 def execute_insert_query(query_string, args=None):
     global connection
     if not connection:

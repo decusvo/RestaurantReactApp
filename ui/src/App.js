@@ -3,7 +3,7 @@ import './App.css';
 import Home from "./Components/Home";
 import FoodMenu from "./Components/FoodMenu";
 import About from "./Components/About";
-import {Route, Router, Switch} from "react-router-dom";
+import {Route, Router} from "react-router-dom";
 import history from "./utils/history";
 import NavBar from "./Components/NavBar";
 import SignIn from "./Components/Login";
@@ -11,6 +11,7 @@ import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
 import {useSelector} from "react-redux";
 import Order from "./Components/Order";
+import WaiterMenu from "./Components/WaiterMenu";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -23,42 +24,44 @@ const App = () => {
                         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
                         <NavBar />
 
-                        <Switch>
-                            <Route exact path="/">
-                                <Home />
-                            </Route>
-                            <Route path="/Home">
-                                <Home/>
-                            </Route>
-                            <Route path="/About">
-                                <About/>
-                            </Route>
-                            <Route path="/Menu">
-                                <FoodMenu />
-                            </Route>
-                            <Route path="/Login">
-                                <SignIn />
-                            </Route>
-                            <Route path="/Register">
-                                <SignUp />
-                            </Route>
-                            <Route path="/WaiterDashboard">
-                                <WaiterDashboard />
-                            </Route>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+                        <Route path="/Home">
+                            <Home/>
+                        </Route>
+                        <Route path="/About">
+                            <About/>
+                        </Route>
+                        <Route path="/Menu">
+                            <FoodMenu />
+                        </Route>
+                        <Route path="/Login">
+                            <SignIn />
+                        </Route>
+                        <Route path="/Register">
+                            <SignUp />
+                        </Route>
+                        <Route path="/WaiterDashboard">
+                            <WaiterDashboard />
+                        </Route>
+                        <Route path="/WaiterMenu">
+                            <WaiterMenu />
+                        </Route>
 
-                            {currentUser.loggedIn ?
-                                <>
+                        {currentUser.loggedIn ?
+                            <>
                                 <Route path="/Order">
                                     <Order />
                                 </Route>
-                                </>
+                            </>
                             :
-                                <>
+                            <>
                                 <Route path="/Order">
                                     <SignIn />
                                 </Route>
-                                </>}
-                        </Switch>
+                            </>}
+
                     </div>
                 </Router>
             </div>

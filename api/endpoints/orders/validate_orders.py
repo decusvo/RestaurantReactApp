@@ -4,6 +4,29 @@ import psycopg2
 from common import connector
 
 
+# Fetch list of valid states/events from DB.
+enum_list = connector.execute_query('''
+	SELECT type.typname,
+	enum.enumlabel AS value
+	FROM pg_enum AS enum
+	JOIN pg_type AS type
+	ON (type.oid = enum.enumtypid)
+	GROUP BY enum.enumlabel,
+	type.typname;
+	''')
+
+valid_events = []
+valid_states = []
+
+for enum_val in enum_list:
+	name = enum_val[0]
+	value = enum_val[1]
+	if name == "order_state":
+		valid_states.append(value)
+	elif name == "order_event":
+		valid_events.append(value)
+
+
 def validate(request):
 	if "table_num" not in request.json:
 		error_msg = "Expected 'table_num' argument, none was given"
@@ -32,8 +55,11 @@ def validate(request):
 
 	query = "SELECT id FROM menu"
 	result = connector.execute_query(query)
+	res = []
+	for r in result:
+		res.append(int(r[0]))
 	for id in items:
-		if id not in result:
+		if id not in res:
 			error_msg = "Invalid menu_item_id given in 'items' list"
 			return jsonify(error={"success" : False, "message" : error_msg})
 
@@ -52,15 +78,6 @@ def validate_order_event(request):
 	order_id = request.json.get("order_id")
 	event = request.json.get("order_event")
 
-	valid_events = [
-		"request",
-		"confirm",
-		"start_cook",
-		"deliver",
-		"pay",
-		"cancel",
-	]
-
 	if event not in valid_events:
 		error_msg = "given event is not a valid event type, see this objects 'valid_events'"
 		error_msg += " for a list of valid events"
@@ -71,28 +88,38 @@ def validate_order_event(request):
 		error_msg = "Invalid order_id, given order_id is not in orders table"
 		return jsonify({"success" : False, "message" : error_msg})
 
-def validate_get_order(request):
-    valid_states = [
-        "start",
-        "requested",
-        "confirm",
-        "cooking",
-        "ready_to_deliver",
-        "delivered",
-        "paid",
-        "cancelled",
-        "all"   # added this if they want the orders no matter the state
-    ]
-    if request.json is None:
-        error_msg = "Expected json object, was not found"
-        return jsonify({"success": False, "message": error_msg})
-    elif "state" not in request.json:
-        error_msg = "Expected 'state', and was not found"
-        return jsonify({"success": False, "message": error_msg})
-    elif request.json.get("state") not in valid_states:
-        error_msg = "Invalid 'state' of order was entered "
-        error_msg += "the list of all valid states are "
-        error_msg += ", ".join(map(str, valid_states))
-        return jsonify({"success": False, "message": error_msg})
+	query = "SELECT state FROM orders WHERE id = %s"
+	result = connector.execute_query(query, (order_id,))
+	order_state = result[0]
 
-    return None
+	query = "SELECT order_event_transition(%s, %s) AS new_state"
+	result = connector.execute_query(query, (order_state, event))
+
+	print("PRINTING FROM VALIDATE_ORDERS: ", result[0][0])
+
+	if result[0][0] == "error":
+		print("ERROR FOUND")
+		error_msg = "Given event cannot be performed on this order."
+		return jsonify({"success" : False, "message" : error_msg})
+
+	return None
+
+
+def validate_get_order(request):
+	if request.json is None:
+		error_msg = "Expected json object, was not found"
+		return jsonify({"success": False, "message": error_msg})
+
+	if "states" not in request.json:
+		error_msg = "Expected 'states', and was not found"
+		return jsonify({"success": False, "message": error_msg})
+
+	states =  request.json.get("states")
+
+	for state in states:
+		if state not in valid_states:
+			error_msg = "given event is not a valid event type, see this objects 'valid_states'"
+			error_msg += " for a list of valid events"
+			return jsonify({"success" : False, "message" : error_msg, "valid_states" : valid_states})
+
+	return None

@@ -3,6 +3,7 @@ import json
 import psycopg2
 from . import validate_orders
 from common import connector
+import datetime
 
 
 bp = Blueprint("order blueprint", __name__)
@@ -16,10 +17,10 @@ def create_order():
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
+	time = datetime.datetime.now().strftime("%H:%M:%S")
 
-	query = "INSERT INTO orders (table_number) VALUES (%s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),))
-	print(result)
+	query = "INSERT INTO orders (table_number, ordered_time) VALUES (%s, %s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num),time))
 	order_id = result[0]
 
 	items_added = []
@@ -27,11 +28,10 @@ def create_order():
 	for menu_item_id in items:
 		try:
 			query = "INSERT INTO ordered_items (order_id, menu_item_id) VALUES (%s, %s)"
-			connector.execute_query(query, (order_id, menu_item_id))
+			connector.execute_insert_query(query, (order_id, menu_item_id))
 			items_added.append(menu_item_id)
 		except:
 			error_msg = "Problem adding items to ordered_items, likely an invalid menu_item_id"
-			connection.commit()
 			return jsonify({"success" : False, "message" : error_msg})
 
 	return jsonify(data={"success" : True, "order_id" : order_id, "items_added" : items_added})
@@ -42,43 +42,51 @@ def order_event():
 	if error:
 		return(error)
 
+	order_id = request.json.get("order_id")
+	event = request.json.get("order_event")
+
+	query = "INSERT INTO order_events(order_id, event) VALUES(%s, %s)"
+	connector.execute_insert_query(query, (order_id, event))
+
 	return jsonify({"success" : True})
 
 @bp.route("/get_orders", methods=["POST"])
 def get_orders():
-    error = validate_orders.validate_get_order(request)
-    if error:
-        return (error)
+	error = validate_orders.validate_get_order(request)
+	if error:
+		return (error)
 
-    state = request.json.get("state")
-    # if they request all orders no matter the state
-    if state == "all":
-        # curl -X POST -H "Content-Type: application/json" -d '{"state":"all"}' 127.0.0.1:5000/get_orders
-        query = "SELECT id, table_number, state FROM orders"
-        result = connector.json_select(query)
-    else:
-        # curl -X POST -H "Content-Type: application/json" -d '{"state":"start"}' 127.0.0.1:5000/get_orders
-        query = "SELECT id, table_number, state FROM orders WHERE state = '{}'".format(state)
-        result = connector.json_select(query)
+	states = request.json.get("states")
 
-
-    return jsonify(data=result)
-
+	# handles case for getting all orders:
+	if len(states) == 0:
+		query = "SELECT json_agg (order_list) FROM " \
+					"(SELECT id, table_number, state, ordered_time, price, items " \
+					"FROM orders, total_order_price, ordered_item_array " \
+					"WHERE orders.id = total_order_price.order_id " \
+					"AND orders.id = ordered_item_array.order_id) " \
+				"AS order_list;"
+		result = connector.execute_query(query)
+	else:
+		query = "SELECT json_agg (order_list) FROM " \
+					"(SELECT id, table_number, state, ordered_time, price, items " \
+					"FROM orders, total_order_price, ordered_item_array " \
+					"WHERE orders.id = total_order_price.order_id " \
+					"AND orders.id = ordered_item_array.order_id " \
+					"AND state = ANY('{"
+		query += ", ".join(states) + "}')) AS order_list;"
+		result = connector.execute_query(query)
+	return jsonify(data={"orders" : result[0][0]})
 
 @bp.route("/update_order_state",methods=["POST"])
 def change_cooking_state():
-	#default state of all orders is start
-	#kitchen will only be able to change state to 'cooking' and 'ready_to_deliver'
 	newState = request.json.get("newState")
 	orderId = request.json.get("Id")
-	#Prevent kithen staff from setting orders into states that they have no control over
-	if (1<0):
-		return jsonify(error={"success":False, "message":"Please enter a valid order state"})
-	else:
-		query = "UPDATE orders SET state = %s WHERE id = %s"
-		result=connector.execute_insert_query(query,(newState,orderId))
-		if result == False:
-			return result
-			#jsonify(error={"success":False, "message":"Error order does not exist"})
-		return jsonify(data={"success":True})
 
+	query = "UPDATE orders SET state = %s WHERE id = %s"
+	result = connector.execute.insert_query(query,(newState,orderId))
+
+	if result == False:
+		return jsonify(error={"success":False, "message":"Error order does not exist"})
+		return result
+	return jsonify(data={"success":True})

@@ -4,7 +4,11 @@ import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import FoodMenuItem from "./FoodMenuItem";
 import Grid from "@material-ui/core/Grid";
-
+import Switch from '@material-ui/core/Switch';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import {useSelector} from "react-redux";
 
 const useStyles = ({
     typography: {
@@ -14,6 +18,9 @@ const useStyles = ({
 
 const FoodMenu = (props) => {
     const [items, setItems] = useState([]);
+    const [vegan, setVegan] = useState(false);
+    const [vegetarian, setVegetarian] = useState(false);
+    const [glutenFree, setGlutenFree] = useState(false);
 
     useEffect(() => {
         fetch("//127.0.0.1:5000/menu", {method: 'POST'}).then((response) => {
@@ -26,18 +33,31 @@ const FoodMenu = (props) => {
     const {classes} = props;
         const {handlerPlus, handlerMinus} = props;
         const MapMenuItem = ({value}) => {
+            const item = useSelector(state => state.currentItems.items);
+
             return items.map(function (dishes, index) {
                 const dish = dishes["0"];
                 const type = dish.type;
-
-                if (type === value) {
-                    return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories}/>)
+                let q = 0;
+                item.forEach(ele => {
+                    if (ele.name === dish.name) {
+                        q = ele.q;
+                    }
+                });
+                if(type === value){
+                  if ((vegan && dish.vegan === vegan) || (vegetarian && dish.vegetarian === vegetarian) || (glutenFree && dish.gluten_free === glutenFree)){
+                    return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories} image={dish.image} quantity={q}/>)
+                  }else if (!vegan && !vegetarian && !glutenFree) {
+                      return (<FoodMenuItem handlerMinus={handlerMinus} handlerPlus={handlerPlus} key={index} id={dish.id} value={dish.name} description={dish.description} price={dish.price} calories={dish.calories} image={dish.image} quantity={q}/>)
+                  }
                 } else {
                     return (<div key={index}> </div>);
                 }
+                return null;
             });
         };
-        return (
+
+    return (
             <React.Fragment>
                 <CssBaseline />
                 <Container maxWidth={"xl"}>
@@ -45,10 +65,36 @@ const FoodMenu = (props) => {
                         Our Menu
                     </Typography>
 
+                    <FormControl component="fieldset">
+                      <FormGroup aria-label="position" row>
+                        <FormControlLabel
+                          checked={vegan}
+                          onChange={()=>setVegan(!vegan)}
+                          control={<Switch color="primary" />}
+                          label="Vegan"
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          checked={vegetarian}
+                          onChange={()=>setVegetarian(!vegetarian)}
+                          control={<Switch color="primary" />}
+                          label="Vegetarian"
+                          labelPlacement="start"
+                        />
+                        <FormControlLabel
+                          checked={glutenFree}
+                          onChange={()=>setGlutenFree(!glutenFree)}
+                          control={<Switch color="primary" />}
+                          label="Gluten-Free"
+                          labelPlacement="start"
+                        />
+                      </FormGroup>
+                    </FormControl>
+
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Starters
                     </Typography>
-                    <Grid container spacing={3}>
+                    <Grid container wrap={"wrap"} spacing={3}>
                         <MapMenuItem value={"starter"}/>
                     </Grid>
 

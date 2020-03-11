@@ -5,7 +5,6 @@ bp = Blueprint("session blueprint", __name__)
 @bp.route("/create_session", methods=["POST", "GET"])
 def create_session(username=None, staff=False):
 	if "username" in session:
-		print("SESSION ALREADY HAS USERNAME ATTRIBUTE")
 		return jsonify(error={"message": "SESSION ALREADY HAS ID/USERNAME"})
 
 	if not username:
@@ -25,7 +24,7 @@ def get_session_id():
 		return jsonify(error={"message": "SESSION DOES NOT HAVE ID/USERNAME", "success" : False})
 
 @bp.route("/get_session_is_staff", methods=["POST"])
-def get_sesssion_is_staff():
+def get_session_is_staff():
 	try:
 		return jsonify(data={"staff" : session["staff"]})
 	except:

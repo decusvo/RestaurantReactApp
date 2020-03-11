@@ -56,35 +56,23 @@ def test_create_order():
 		print(req.text)
 	return req.status_code
 
-def test_order_event_no_order_id():
-	req = session.post(api_url + "order_event", json={"order_event" : "request"})
+def test_get_all_orders():
+	req = session.post(api_url + "get_orders", json={"states" : []})
 	if verbose:
 		print(req.text)
 	return req.status_code
 
-
-# TODO Fix these tests
-def test_order_event_no_order_event():
-	order_id = get_valid_order_id()
-	req = session.post(api_url + "order_event", json={"order_id" : order_id})
+def test_get_requested_orders():
+	req = session.post(api_url + "get_orders", json={"states" : ["requested"]})
 	if verbose:
 		print(req.text)
 	return req.status_code
 
-def test_order_event_invalid_event():
-	order_id = get_valid_order_id()
-	req = session.post(api_url + "order_event", json={"order_id" : order_id, "order_event" : "no!"})
+def test_get_requested_and_cooking_orders():
+	req = session.post(api_url + "get_orders", json={"states" : ["requested", "cooking"]})
 	if verbose:
 		print(req.text)
 	return req.status_code
-
-def test_order_event_invalid_order_id():
-	order_id = get_valid_order_id()
-	req = session.post(api_url + "order_event", json={"order_id" : -1, "order_event" : "request"})
-	if verbose:
-		print(req.text)
-	return req.status_code
-
 
 tests = [
 		test_create_order_without_table_num,
@@ -94,7 +82,9 @@ tests = [
 		test_create_order_invalid_table_num,
 		test_create_order_invalid_menu_item_id,
 		test_create_order,
-		test_order_event_no_order_id,
+		test_get_all_orders,
+		test_get_requested_orders,
+		test_get_requested_and_cooking_orders,
 		]
 
 valid_order_id = None

@@ -3,9 +3,10 @@ import {List, ListItem} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import ListItemText from "@material-ui/core/ListItemText";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import allActions from "../actions";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -39,68 +40,77 @@ const useStyles = makeStyles(theme => ({
 
 const MapOrderItem = () => {
     const currentItems = useSelector(state => state.currentItems);
-    console.log(currentItems);
+    const items = currentItems.items;
+    if (items.length !== 0) {
+        return items.map(function (dish, index) {
+            const itemName = dish.name;
+            const itemQuantity = dish.q;
+            if (itemQuantity > 0) {
+                return (<ListItem key={index} >
+                    <ListItemText
+                        primary={
+                            <React.Fragment>
+                                <Typography
+                                    component="span"
+                                    variant="body1"
+                                    color="textPrimary"
+                                >
+                                    {itemName}
+                                </Typography>
 
-    const array = [{
-        name:'Item 1',
-        q:'5'
-    },
-        {
-            name:'Item 2',
-            q:'4'
-        },
-        {
-            name:'Item 3',
-            q:'2'
-        },
-        {
-            name:'Item 4',
-            q:'4'
-        },
-        {
-            name:'Item 5',
-            q:'2'
-        },
+                            </React.Fragment>
+                        }
+                        secondary={
+                            <React.Fragment>
+                                <Typography
+                                    component="span"
+                                    variant="body2"
+                                    color="textSecondary"
+                                >
+                                    Q : {itemQuantity}
+                                </Typography>
 
-    ];
+                            </React.Fragment>
+                        }
+                    />
+                </ListItem>)
+            } else {
+                return (<div key={index}> </div>)
+            }
+        });
+    } else {
+        console.log("No items");
+        return (<div> </div>)
+    }
 
-    return array.map(function (dish, index) {
-        // const itemName = dish.name;
-        const itemQuantity = dish.q;
-        return (<ListItem key={index} >
-            <ListItemText
-                primary={
-                    <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body1"
-                            color="textPrimary"
-                        >
-                            itemName
-                        </Typography>
-
-                    </React.Fragment>
-                }
-                secondary={
-                    <React.Fragment>
-                        <Typography
-                            component="span"
-                            variant="body2"
-                            color="textSecondary"
-                        >
-                            Q : {itemQuantity}
-                        </Typography>
-
-                    </React.Fragment>
-                }
-            />
-        </ListItem>)
-    });
 };
 
 const Order = () => {
     const classes = useStyles();
     const currentItems = useSelector(state => state.currentItems);
+    const items = currentItems.items;
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        const apiItems = [];
+        items.map(function (dish) {
+            for (let i = 0; i < dish.q; i++) {
+                apiItems.push(dish.id)
+            }
+            return null;
+        });
+        fetch("//127.0.0.1:5000/create_order", {method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"table_num": 1, "items": apiItems})
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            console.log(data);
+            dispatch(allActions.itemActions.resetItems())
+        }).catch(error => console.log(error))
+
+    };
+
     return (
         <React.Fragment >
             <Typography variant="h3" className={classes.title}>
@@ -108,19 +118,19 @@ const Order = () => {
             </Typography>
 
             <List className={classes.root}>
-                {console.log(currentItems)}
                 <MapOrderItem />
             </List>
 
             <Grid container>
                 <Grid item xs={12}  >
                     <Button
+                        onClick={() => handleClick()}
                         type="submit"
                         variant="contained"
                         color="primary"
                         className={classes.checkout}
                     >
-                        Checkout
+                        Order Items
                     </Button>
                 </Grid>
             </Grid>
