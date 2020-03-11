@@ -105,6 +105,8 @@ def populate():
 		print("FOUND FILE: %s" % data_file)
 		insert_from_csv(db_data_loc + data_file)
 		print("%s INSERTED INTO DATABASE" % data_file)
+	
+	cursor.execute("INSERT INTO orders(table_number, ordered_time) VALUES(1, NOW())")
 	print("FINISHED...")
 	
 if __name__ == "__main__":

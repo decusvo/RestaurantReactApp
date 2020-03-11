@@ -11,9 +11,7 @@ DROP TABLE IF EXISTS customer_notifications CASCADE;
 DROP TYPE IF EXISTS order_state CASCADE;
 
 CREATE TYPE order_state AS ENUM (
-		'start',
 		'requested',
-		'confirmed',
 		'cooking',
 		'ready_to_deliver',
 		'delivered',
@@ -83,7 +81,7 @@ CREATE TABLE orders(
 	id serial PRIMARY KEY,
 	cust_id varchar(128) REFERENCES customer(email),
 	table_number integer REFERENCES table_details(table_number),
-	state order_state DEFAULT 'start',
+	state order_state DEFAULT 'requested',
 	ordered_time TIME
 );
 

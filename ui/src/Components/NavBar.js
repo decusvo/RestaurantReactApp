@@ -45,6 +45,14 @@ export default function NavBar(props) {
     const vertical = "bottom";
     const horizontal = "right";
 
+    function logOut() {
+        dispatch(userActions.logOut())
+        fetch("//127.0.0.1:5000/remove_session", {method: 'POST'})
+            .then((response) => {
+            return response.json();
+        })
+    }
+
     return(
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
@@ -65,7 +73,7 @@ export default function NavBar(props) {
                             </IconButton>
                             {currentUser.loggedIn ?
                                 <>
-                                    <Avatar className={classes.yellow} onClick={() => dispatch(userActions.logOut())}>{currentUser.user.name[0]}</Avatar>
+                                    <Avatar className={classes.yellow} onClick={() => logOut()}>{currentUser.user.name[0]}</Avatar>
                                 </>
                                 :
                                 <>

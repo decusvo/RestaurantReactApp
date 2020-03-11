@@ -1,8 +1,6 @@
 DROP TYPE IF EXISTS order_event CASCADE;
 
 CREATE TYPE order_event AS ENUM (
-		'request', 
-		'confirm', 
 		'start_cook', 
 		'cooked', 
 		'deliver', 
@@ -28,35 +26,23 @@ CREATE FUNCTION order_event_transition(state order_state, event order_event) RET
 LANGUAGE sql AS
 $$
 	SELECT CASE state
-		WHEN 'start' THEN
-			CASE event
-				WHEN 'request' THEN 'requested'
-				ELSE 'error'
-			END
-
 		WHEN 'requested' THEN
 			CASE event
-				WHEN 'confirm' THEN 'confirmed'
-				ELSE 'error'
-			END
-
-		WHEN 'confirmed' THEN
-			CASE event
-				WHEN 'cancel' THEN 'cancelled'
 				WHEN 'start_cook' THEN 'cooking'
 				ELSE 'error'
 			END
+
 		WHEN 'cooking' THEN
 			CASE event
 				WHEN 'cancel' THEN 'cancelled'
 				WHEN 'cooked' THEN 'ready_to_deliver'
 				ELSE 'error'
 			END
-    WHEN 'ready_to_deliver' THEN
-      CASE event
-        WHEN 'deliver' THEN 'delivered'
-        ELSE 'error'
-      END
+   		WHEN 'ready_to_deliver' THEN
+      		CASE event
+       			WHEN 'deliver' THEN 'delivered'
+        		ELSE 'error'
+      		END
 		WHEN 'delivered' THEN
 			CASE event
 				WHEN 'pay' THEN 'paid'
