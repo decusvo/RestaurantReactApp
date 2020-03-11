@@ -1,11 +1,11 @@
 # CHANGE DB NAME:
-db_name = "d9vtdql067f73n"
+db_name = "det863at6goa6t"
 # CHANGE USER:
-user = "jrngriijazlzxr"
+user = "gqyafrbphewugd"
 # CHANGE DB PASSWORD:
-password = "655c5947f8ad0f453bfd4b5d4b80d6374a3a97f706c4533a60be75c3de343817"
+password = "f1365952e1828e5775397e682500bd1fd1a04297effd3eb40c240c0884a28cfb"
 # CHANGE DB HOST:
-host  = "ec2-54-247-72-30.eu-west-1.compute.amazonaws.com"
+host  = "ec2-54-217-204-34.eu-west-1.compute.amazonaws.com"
 # CHANGE PORT:
 port = "5432"
 

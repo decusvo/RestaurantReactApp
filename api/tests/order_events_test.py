@@ -82,8 +82,6 @@ tests = [
 	test_order_event_no_event,
 	test_order_event_invalid_id,
 	test_order_event_invalid_event,
-	test_order_event_request,
-	test_order_event_confirm,
 	test_order_event_start_cook,
 	test_order_event_cooked,
 	test_order_event_deliver,
