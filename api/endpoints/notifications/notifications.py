@@ -42,3 +42,30 @@ def add_customer_notification():
 	connector.execute_insert_query(query, (waiter_id, customer_id, message))
 
 	return jsonify(data={"success" : True})
+
+@bp.route("/get_waiter_notifications", methods=["POST"])
+def get_waiter_notifications():
+	error = vn.validate_get_waiter_notifications(request)
+	if error:
+		return(error)
+
+	waiter_id = request.json.get("waiter_id")
+
+	query = "SELECT * FROM waiter_notifications WHERE waiter_id=%s"
+	notifications = connector.execute_query(query, (waiter_id,))[0]
+	
+	return jsonify(data={"notifications" : notifications, "success" : True})
+	
+		
+@bp.route("/get_customer_notifications", methods=["POST"])
+def get_customer_notifications():
+	error = vn.validate_get_customer_notifications(request)
+	if error:
+		return(error)
+
+	customer = request.json.get("customer")
+
+	query = "SELECT * FROM customer_notifications WHERE customer_id=%s"
+	notifications = connector.execute_query(query, (customer,))[0]
+	
+	return jsonify(data={"notifications" : notifications, "success" : True})
