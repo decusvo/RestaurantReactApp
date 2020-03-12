@@ -102,7 +102,7 @@ const Order = () => {
         });
         fetch("//127.0.0.1:5000/create_order", {method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"table_num": 1, "items": apiItems, "custId": currentUser.user.name})
+            body: JSON.stringify({"table_num": 1, "items": apiItems, "customer": currentUser.user.name})
         }).then(response => {
             return response.json()
         }).then(data => {
