@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {List, ListItem} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -7,6 +7,9 @@ import {useDispatch, useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import allActions from "../actions";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -89,8 +92,32 @@ const Order = () => {
     const classes = useStyles();
     const currentItems = useSelector(state => state.currentItems);
     const currentUser = useSelector(state => state.currentUser);
+    const [table, setTable] = React.useState(1);
     const items = currentItems.items;
     const dispatch = useDispatch();
+    const [tables, setTables] = React.useState([]);
+
+    useEffect(() => {
+        loadTables();
+    }, []);
+
+    const loadTables = () => {
+
+        fetch("//127.0.0.1:5000/get_tables", {
+            method: 'POST'
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            setTables(data.data.tables);
+        }).catch(err => {
+            console.log(err)
+        });
+
+    };
+
+    const handleTableChange = event => {
+      setTable(event.target.value);
+    };
 
     const handleClick = () => {
         const apiItems = [];
@@ -102,7 +129,7 @@ const Order = () => {
         });
         fetch("//127.0.0.1:5000/create_order", {method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"table_num": 1, "items": apiItems, "customer": currentUser.user.name})
+            body: JSON.stringify({"table_num": table, "items": apiItems, "customer": currentUser.user.name})
         }).then(response => {
             return response.json()
         }).then(data => {
@@ -118,12 +145,27 @@ const Order = () => {
                 Your order list
             </Typography>
 
+            <FormControl className={classes.formControl}>
+                <Select
+                    value={table}
+                    onChange={handleTableChange}>
+
+                    {
+                        tables.map((ele) => {
+                        return(<MenuItem value={ele}> Table {ele} </MenuItem>)
+                    })}
+
+                </Select>
+            </FormControl>
+
             <List className={classes.root}>
                 <MapOrderItem />
             </List>
 
             <Grid container>
+
                 <Grid item xs={12}  >
+
                     <Button
                         onClick={() => handleClick()}
                         type="submit"
@@ -133,6 +175,7 @@ const Order = () => {
                     >
                         Order Items
                     </Button>
+
                 </Grid>
             </Grid>
         </React.Fragment>
