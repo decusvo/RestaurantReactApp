@@ -1,6 +1,6 @@
 from flask import Flask, session
 from flask_cors import CORS
-from endpoints import menu_bp, login_bp, sign_up_bp, orders_bp, sessions_bp, notifications_bp
+from endpoints import menu_bp, login_bp, sign_up_bp, orders_bp, sessions_bp, notifications_bp, tables_bp
 from datetime import timedelta
 from flask_session import Session
 import os
@@ -17,6 +17,7 @@ app.register_blueprint(sign_up_bp)
 app.register_blueprint(orders_bp)
 app.register_blueprint(sessions_bp)
 app.register_blueprint(notifications_bp)
+app.register_blueprint(tables_bp)
 
 @app.before_request
 def make_session_permanent():
