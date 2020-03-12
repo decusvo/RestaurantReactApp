@@ -7,6 +7,10 @@ import TrackingItem from "./TrackingItem";
 import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
+
+// TODO: Conditional rendering of pay/cancel options on each of items when "delivered" state is reached.
+
+
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(8),

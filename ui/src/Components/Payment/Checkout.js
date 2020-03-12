@@ -34,6 +34,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+// TODO: Create a payment form component.
+// TODO: Validate payment details and redirect to success/failure page.
+
 const Checkout = () => {
   const classes = useStyles();
 

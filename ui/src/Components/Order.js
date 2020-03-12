@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import allActions from "../actions";
-import Link from "@material-ui/core/Link";
 import {Redirect} from "react-router";
 
 const useStyles = makeStyles(theme => ({
@@ -27,7 +26,7 @@ const useStyles = makeStyles(theme => ({
         variant:"h2",
         color:"textSecondary"
     },
-    checkout: {
+    order: {
         margin: theme.spacing(3, 0, 2),
         background: 'linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)',
         borderRadius: 3,
@@ -135,7 +134,7 @@ const Order = () => {
                         type="submit"
                         variant="contained"
                         color="primary"
-                        className={classes.checkout}
+                        className={classes.order}
                     >
                         Order
                     </Button>
