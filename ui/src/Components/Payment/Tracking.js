@@ -45,11 +45,31 @@ const Tracking = () => {
     getTracking();
   }, []);
 
+  const updateState = (id, state) => {
+    fetch("//127.0.0.1:5000/order_event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ order_id: id, order_event: state })
+    })
+        .then(response => {
+          getTracking();
+          console.log("updated");
+          return response.json();
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .then(data => {
+          console.log(data);
+        });
+  };
+
   const MapOrderItem = ({ value }) => {
     return value.map((ele, index) => {
       const {id, items, ordered_time, price, state, table_number} = ele;
       return (
         <TrackingItem
+          sendState={updateState}
           key={index}
           orderState={state}
           tableID={table_number}

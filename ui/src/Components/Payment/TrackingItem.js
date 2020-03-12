@@ -36,32 +36,10 @@ const TrackingItem = props => {
   const textCardContentStyles = useN01TextInfoContentStyles();
   const shadowStyles = useBouncyShadowStyles();
 
-  const CancelOrderHandler = orderID => {
-    updateState(orderID, "cancel");
-    console.log("cancel");
-  };
-
-  const updateState = (id, state) => {
-    fetch("//127.0.0.1:5000/order_event", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ order_id: id, order_event: state })
-    })
-      .then(response => {
-        refreshHandler();
-        return response.json();
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      .then(data => {
-        console.log(data);
-      });
-  };
 
   const MapOrderItem = ({ items }) => {
     return items.map((dish, index) => {
-      let { quantity, name, cumulative_price } = dish;
+      let {name, cumulative_price } = dish;
       return (
         <Grid item xs>
           <Card key={index} className={classes.root}>
@@ -84,7 +62,6 @@ const TrackingItem = props => {
     allItems,
     totalPrice,
     orderState,
-    refreshHandler
   } = props;
 
   if (orderState === "delivered") {
@@ -99,7 +76,7 @@ else {
     <Button
       color={"secondary"}
       onClick={() => {
-        CancelOrderHandler(orderID);
+        props.sendState(orderID, "cancel");
       }}
       fullWidth
       className={classes.cta}
