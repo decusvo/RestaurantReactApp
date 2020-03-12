@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import Home from "./Components/Home";
 import FoodMenu from "./Components/FoodMenu";
@@ -9,12 +9,17 @@ import NavBar from "./Components/NavBar";
 import SignIn from "./Components/Login";
 import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Order from "./Components/Order";
 import WaiterMenu from "./Components/WaiterMenu";
+import userActions from "./actions/userActions";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
+
+    const dispatch = useDispatch();
+    useEffect(() => dispatch(userActions.autoLogIn()),
+        []);
 
     return (
             <div className="App">
@@ -42,12 +47,27 @@ const App = () => {
                         <Route path="/Register">
                             <SignUp />
                         </Route>
-                        <Route path="/WaiterDashboard">
-                            <WaiterDashboard />
-                        </Route>
-                        <Route path="/WaiterMenu">
-                            <WaiterMenu />
-                        </Route>
+
+                        {currentUser.staff ?
+                            <>
+                                <Route path="/WaiterDashboard">
+                                    <WaiterDashboard />
+                                </Route>
+                                <Route path="/WaiterMenu">
+                                    <WaiterMenu />
+                                </Route>
+                            </>
+                            :
+                            <>
+                                <Route path="/WaiterDashboard">
+                                    <FoodMenu />
+                                </Route>
+                                <Route path="/WaiterMenu">
+                                    <FoodMenu />
+                                </Route>
+                            </>
+                        }
+
 
                         {currentUser.loggedIn ?
                             <>

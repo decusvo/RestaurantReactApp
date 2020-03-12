@@ -58,6 +58,15 @@ class WaiterDashboard extends React.Component {
     }
 
     getOrders = () => {
+
+      var orderStates = ["requested", "ready_to_deliver", "cooking"];
+
+      this.setState(this.state.requested = []);
+      this.setState(this.state.cooking = []);
+      this.setState(this.state.ready_to_deliver = []);
+
+
+
       var orderStates = ["requested", "ready_to_deliver", "cooking"]
       orderStates.forEach(state => {
         fetch("//127.0.0.1:5000/get_orders", {method:'POST',
@@ -72,6 +81,8 @@ class WaiterDashboard extends React.Component {
         })
       });
     }
+
+
 
     async componentDidMount(){
       this.getOrders()

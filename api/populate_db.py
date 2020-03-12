@@ -105,6 +105,7 @@ def populate():
 		print("FOUND FILE: %s" % data_file)
 		insert_from_csv(db_data_loc + data_file)
 		print("%s INSERTED INTO DATABASE" % data_file)
+	
 	print("FINISHED...")
 	
 if __name__ == "__main__":

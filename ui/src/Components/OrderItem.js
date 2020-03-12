@@ -4,7 +4,6 @@ import Grid from "@material-ui/core/Grid";
 import {CardActions, CardHeader} from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
-import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
@@ -13,20 +12,38 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import {blue, red} from "@material-ui/core/colors";
 import ClearIcon from '@material-ui/icons/Clear';
 
-
 const OrderItem = (props) => {
 
     const NextStateHandler = (orderState, orderID) => {
-        //check if order state is "requested" or "readytoDeliver"      var orderStates = ["requested", "ready_to_deliver", "cooking"]
-    };
+        //check if order state is "requested" or "readytoDeliver"
+        if (orderState === "requested") {
+            let newState = "start_cook";
+            updateState(orderID, newState);
+        } else if (orderState === "ready_to_deliver") {
+            let newState = "deliver";
+            updateState(orderID, newState);
+        }
 
-    const PrevStateHandler = (orderState, orderID) => {
-        //check if order state is "cooking" or "readytoDeliver"
     };
 
     const CancelOrderHandler = (orderID) => {
-      //cancel order
+        updateState(orderID, "cancel");
     };
+
+    const updateState = (id, state) => {
+
+        fetch("//127.0.0.1:5000/order_event", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"order_id": id, "order_event": state})
+        }).then(response => {
+            refreshHandler();
+            return response.json()
+        }).catch(error => {
+            console.log(error)
+        });
+    };
+
 
     //maps all items in the order
     const MapOrderItem = ({items}) => {
@@ -60,14 +77,17 @@ const OrderItem = (props) => {
         }
     });
 
-    const {orderID, tableID, orderState, allItems, time, totalPrice} = props;
+    const {orderID, tableID, orderState, allItems, time, totalPrice, refreshHandler} = props;
 
     return (
             <Grid container item xs justify={"center"} alignItems={"stretch"}>
 
                 <Card style={{backgroundColor: "#fcc01a",
                     padding: theme.spacing(2),
-                    marginBottom: theme.spacing(2)}}>
+                    marginBottom: theme.spacing(2),
+                    minWidth: "95%",
+                    maxWidth: "95%",
+                    height: "95%"}}>
                     <CardHeader title={"Order No: ".concat(orderID)} />
                     <Divider variant="middle" />
                     <CardContent>
@@ -80,12 +100,6 @@ const OrderItem = (props) => {
                     <Divider variant="middle" />
 
                     <CardActions disableSpacing>
-
-                        <Fab color="primary" aria-label="prev" disabled={isFabDisabled(orderState)} onClick={() => {PrevStateHandler(orderState, orderID);}}>
-                            <ArrowBackIosIcon />
-                        </Fab>
-
-                        <Typography style={{marginRight: "auto", marginLeft: "auto"}}/> {/*separates the Fab components from each other*/}
 
                         <Fab color="secondary" aria-label="cancel" onClick={() => {CancelOrderHandler(orderID);}}>
                             <ClearIcon />

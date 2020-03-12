@@ -28,30 +28,30 @@ def test_create_order_without_items():
 	return req.status_code
 
 def test_create_order_invalid_items():
-	req = session.post(api_url + "create_order", json={"table_num" : 2, "items" : 4})
+	req = session.post(api_url + "create_order", json={"table_num" : 2, "items" : 4, "customer" : "example@example.com"})
 	if verbose:
 		print(req.text)
 	return req.status_code
 def test_create_order_excessive_items():
-	req = session.post(api_url + "create_order", json={"table_num" : 2, "items" : ([1] * 101)})
+	req = session.post(api_url + "create_order", json={"table_num" : 2, "items" : ([1] * 101), "customer" : "example@example.com"})
 	if verbose:
 		print(req.text)
 	return req.status_code
 
 def test_create_order_invalid_table_num():
-	req = session.post(api_url + "create_order", json={"table_num" : -1, "items" : [1]})
+	req = session.post(api_url + "create_order", json={"table_num" : -1, "items" : [1], "customer" : "example@example.com"})
 	if verbose:
 		print(req.text)
 	return req.status_code
 	
 def test_create_order_invalid_menu_item_id():
-	req = session.post(api_url + "create_order", json={"table_num" : 1, "items" : [100]})
+	req = session.post(api_url + "create_order", json={"table_num" : 1, "items" : [100], "customer" : "example@example.com"})
 	if verbose:
 		print(req.text)
 	return req.status_code
 
 def test_create_order():
-	req = session.post(api_url + "create_order", json={"table_num" : 1, "items" : [1,5, 10, 7, 7]})
+	req = session.post(api_url + "create_order", json={"table_num" : 1, "items" : [1,5, 10, 7, 7], "customer" : "example@example.com"})
 	if verbose:
 		print(req.text)
 	return req.status_code

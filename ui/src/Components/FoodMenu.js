@@ -94,28 +94,28 @@ const FoodMenu = (props) => {
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Starters
                     </Typography>
-                    <Grid container wrap={"wrap"} spacing={3}>
+                    <Grid container spacing={2}>
                         <MapMenuItem value={"starter"}/>
                     </Grid>
 
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Sides
                     </Typography>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={2}>
                         <MapMenuItem value={"side"} />
                     </Grid>
 
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Mains
                     </Typography>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={2}>
                         <MapMenuItem value={"main"} />
                     </Grid>
 
                     <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                         Desserts
                     </Typography>
-                    <Grid container spacing={3}>
+                    <Grid container spacing={2}>
                         <MapMenuItem value={"dessert"} />
                     </Grid>
 

@@ -17,10 +17,11 @@ def create_order():
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
+	customer = request.json.get("customer")
 	time = datetime.datetime.now().strftime("%H:%M:%S")
 
-	query = "INSERT INTO orders (table_number, ordered_time) VALUES (%s, %s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),time))
+	query = "INSERT INTO orders (table_number, ordered_time, cust_id) VALUES (%s, %s, %s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num), time, customer))
 	order_id = result[0]
 
 	items_added = []
@@ -77,6 +78,21 @@ def get_orders():
 		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
 	return jsonify(data={"orders" : result[0][0]})
+
+
+@bp.route("/get_cust_order", methods=["POST"])
+def get_cust_order():
+	id = request.json.get("custId")
+
+	query = "SELECT json_agg (order_list) FROM " \
+				"(SELECT id, table_number, state, ordered_time, price, items " \
+				"FROM orders, total_order_price, ordered_item_array " \
+				"WHERE orders.id = total_order_price.order_id " \
+				"AND orders.id = ordered_item_array.order_id " \
+				"AND orders.cust_id = %s) " \
+			"AS order_list;"
+	result = connector.execute_query(query, (id,))
+	return jsonify(data={"orders":result[0][0]})
 
 @bp.route("/update_order_state",methods=["POST"])
 def change_cooking_state():
