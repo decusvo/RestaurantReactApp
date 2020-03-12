@@ -3,7 +3,6 @@ import json
 import psycopg2
 from . import validate_orders
 from common import connector
-import datetime
 
 
 bp = Blueprint("order blueprint", __name__)
@@ -17,10 +16,9 @@ def create_order():
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
-	time = datetime.datetime.now().strftime("%H:%M:%S")
 
-	query = "INSERT INTO orders (table_number, ordered_time) VALUES (%s, %s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),time))
+	query = "INSERT INTO orders (table_number) VALUES (%s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num),))
 	order_id = result[0]
 
 	items_added = []
@@ -47,6 +45,28 @@ def order_event():
 
 	query = "INSERT INTO order_events(order_id, event) VALUES(%s, %s)"
 	connector.execute_insert_query(query, (order_id, event))
+	
+
+#if event is cooked is should create a waiter notification
+#it should pull the table details from the order table, then pulling the waiterId from the
+#table details table, will be able to pull customerID from order table
+
+	if event == "cooked":
+# retrieving necessary information for waiter notification  
+		query = "SELECT cust_id FROM orders WHERE id = %s"
+		customer_id = connector.json_select(query,(order_id))
+		query = "SELECT table_number FROM orders WHERE id = %s"
+		table_number = connector.json_select(query,(order_id))
+		query = "SELECT waiter_od FROM table_details WHERE table_number = %s"
+		waiter_id = connector.json_select(query,(table_number))
+		message = "order number " + order_id + " is ready to be delivered"
+	
+# the json to be passed to add_waiter_notification()
+		payload = {"waiter_id" : waiter_id, 
+							"customer_id" : customer_id,
+							"message" : message}
+#		add_waiter_notification(payload)
+		r = requests.post("",json= payload)
 
 	return jsonify({"success" : True})
 
@@ -60,32 +80,11 @@ def get_orders():
 
 	# handles case for getting all orders:
 	if len(states) == 0:
-		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, table_number, state, ordered_time, price, items " \
-					"FROM orders, total_order_price, ordered_item_array " \
-					"WHERE orders.id = total_order_price.order_id " \
-					"AND orders.id = ordered_item_array.order_id) " \
-				"AS order_list;"
+		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders) AS order_list;"
 		result = connector.execute_query(query)
 	else:
-		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, table_number, state, ordered_time, price, items " \
-					"FROM orders, total_order_price, ordered_item_array " \
-					"WHERE orders.id = total_order_price.order_id " \
-					"AND orders.id = ordered_item_array.order_id " \
-					"AND state = ANY('{"
+		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders WHERE state = ANY('{"
 		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
+	print(result)
 	return jsonify(data={"orders" : result[0][0]})
-
-@bp.route("/update_order_state",methods=["POST"])
-def change_cooking_state():
-	newState = request.json.get("newState")
-	orderId = request.json.get("Id")
-	
-	query = "UPDATE orders SET state = %s WHERE id = %s"
-	result = connector.execute.insert_query(query,(newState,orderId))
-	
-	if result == False:
-		return jsonify(error={"success":False,"message":"Error orderId does not exist"})
-	return jsonify(data={"success":True})
