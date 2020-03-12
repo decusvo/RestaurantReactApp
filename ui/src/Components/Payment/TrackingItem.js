@@ -1,24 +1,39 @@
 import React from "react";
-import {
-  Typography,
-  Fab,
-  CardContent,
-  createMuiTheme
-} from "@material-ui/core";
+import { Typography, CardContent } from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
-import { CardActions, CardHeader } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import Divider from "@material-ui/core/Divider";
-import ArrowForwardIosIcon from "@material-ui/icons/ArrowForwardIos";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import { blue, red } from "@material-ui/core/colors";
-import ClearIcon from "@material-ui/icons/Clear";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
+import { useN01TextInfoContentStyles } from "@mui-treasury/styles/textInfoContent/n01";
+import { useBouncyShadowStyles } from "@mui-treasury/styles/shadow/bouncy";
+import cx from "clsx";
+import Button from "@material-ui/core/Button";
+
+const useStyles = makeStyles(() => ({
+  root: {
+    maxWidth: 304,
+    margin: "auto",
+    boxShadow: "none",
+    borderRadius: 0
+  },
+  content: {
+    padding: 24
+  },
+  cta: {
+    marginTop: 24,
+    textTransform: "initial"
+  }
+}));
 
 const TrackingItem = props => {
-
+  const classes = useStyles();
+  const textCardContentStyles = useN01TextInfoContentStyles();
+  const shadowStyles = useBouncyShadowStyles();
 
   const CancelOrderHandler = orderID => {
     updateState(orderID, "cancel");
@@ -43,40 +58,25 @@ const TrackingItem = props => {
       });
   };
 
-  //maps all items in the order
   const MapOrderItem = ({ items }) => {
     return items.map((dish, index) => {
       let { quantity, name, cumulative_price } = dish;
-
       return (
-        <Card
-          style={{
-            backgroundColor: "#fcc01a",
-            padding: theme.spacing(2),
-            marginBottom: theme.spacing(2)
-          }}
-          key={index}
-        >
-          <Typography style={{ textAlign: "middle" }}>Name: {name}</Typography>
-          <Typography style={{ textAlign: "middle" }}>
-            Price: {cumulative_price}
-          </Typography>
-          <Typography style={{ textAlign: "middle" }}>
-            Quantity: {quantity}
-          </Typography>
-        </Card>
+        <Grid item xs>
+          <Card key={index} className={cx(classes.root, shadowStyles.root)}>
+            <CardContent className={classes.content}>
+              <TextInfoContent
+                classes={textCardContentStyles}
+                overline={name}
+                heading={"Q: ".concat(quantity)}
+                body={"Price ".concat(cumulative_price)}
+              />
+            </CardContent>
+          </Card>
+        </Grid>
       );
     });
   };
-
-
-
-  const theme = createMuiTheme({
-    palette: {
-      primary: blue,
-      secondary: red
-    }
-  });
 
   const {
     orderID,
@@ -88,39 +88,33 @@ const TrackingItem = props => {
   } = props;
 
   return (
-    <Grid item xs alignItems={"stretch"}>
-      <Card
-        style={{
-          backgroundColor: "#fcc01a",
-          padding: theme.spacing(2),
-          marginBottom: theme.spacing(2)
-        }}
-      >
-        <CardHeader title={"Order No: ".concat(orderID)} />
-        <Divider variant="middle" />
-        <CardContent>
-          <Typography>Table: {tableID}</Typography>
-          <Typography>Price: {totalPrice}</Typography>
-          <Typography>Time: {time}</Typography>
-        </CardContent>
-        <Divider variant="middle" />
+    <Grid item xs>
+      <Card className={cx(classes.root, shadowStyles.root)}>
+        <CardContent className={classes.content}>
+          <TextInfoContent
+            classes={textCardContentStyles}
+            overline={"Placed at".concat(time)}
+            heading={"Order ".concat(orderID)}
+            body={"Table ".concat(tableID) + "\n Price ".concat(totalPrice)}
+          />
 
-        <CardActions disableSpacing>
-          <Fab
-            color="secondary"
-            aria-label="cancel"
+          <Button
+            color={"secondary"}
             onClick={() => {
               CancelOrderHandler(orderID);
             }}
+            fullWidth
+            className={classes.cta}
           >
-            <ClearIcon />
-          </Fab>
-        </CardActions>
+            Cancel
+          </Button>
+        </CardContent>
 
         <ExpansionPanel color={"primary"}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography style={{ textAlign: "middle" }}>Read more</Typography>
+            <Typography className={classes.typography}>Read more</Typography>
           </ExpansionPanelSummary>
+
           <ExpansionPanelDetails>
             <Grid
               container

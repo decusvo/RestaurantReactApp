@@ -1,40 +1,20 @@
 import React, { useEffect } from "react";
-import { List, ListItem } from "@material-ui/core";
+import { List} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useSelector } from "react-redux";
-import Paper from "@material-ui/core/Paper";
 import TrackingItem from "./TrackingItem";
 import Grid from "@material-ui/core/Grid";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-    alignItems: "center",
-    justify: "center",
-    marginLeft: theme.spacing(2)
+    marginTop: theme.spacing(8),
+    alignItems: "center"
   },
-  inline: {
-    display: "inline"
-  },
-  title: {
-    marginTop: theme.spacing(2),
-    variant: "h2",
-    color: "textSecondary"
-  },
-  checkout: {
-    margin: theme.spacing(3, 0, 2),
-    background:
-      "linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)",
-    borderRadius: 3,
-    border: 0,
-    color: "white",
-    height: 40,
-    padding: "0 30px",
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    minWidth: 200
+  orderContainer: {},
+  grid: {
+    flexGrow: 0
   }
 }));
 
@@ -60,14 +40,9 @@ const Tracking = () => {
     getTracking();
   }, []);
 
-  console.log("Current orders");
-  console.log(currentOrders);
-
   const MapOrderItem = ({ value }) => {
     return value.map((ele, index) => {
-      const order = ele;
-      console.log(order);
-      let { state, id, table_number, items, ordered_time, price } = order;
+      const {id, items, ordered_time, price, state, table_number} = ele;
       return (
         <TrackingItem
           key={index}
@@ -84,17 +59,14 @@ const Tracking = () => {
 
   return (
     <React.Fragment>
+      <CssBaseline />
       <Typography variant="h3" className={classes.title}>
-        Tracking
+        Your orders
       </Typography>
 
-      <Paper className={classes.orderContainer}>
-        <List>
-          <Grid spacing={2} container maxWidth={"xs"} className={classes.grid}>
-            <MapOrderItem value={currentOrders} />
-          </Grid>
-        </List>
-      </Paper>
+      <Grid spacing={2} container maxWidth={"xs"} className={classes.grid}>
+        <MapOrderItem value={currentOrders} />
+      </Grid>
 
       <List className={classes.root}>{/*Checkout form.*/}</List>
     </React.Fragment>
