@@ -70,29 +70,31 @@ export default function NavBar(props) {
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
 
-                            <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
-                                <ShoppingBasket />
-                            </IconButton>
-                            {currentUser.staff ?
-                                <>
-                                    <IconButton onClick={() => History.push("/WaiterDashboard")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
-                                        <DashboardIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
-                                        <RestaurantMenuIcon />
-                                    </IconButton>
-
-                                </>
-                                :
-                                <>
-                                    <div> </div>
-                                </>}
                             {currentUser.loggedIn ?
                                 <>
+                                    {currentUser.staff ?
+                                        <>
+                                            <IconButton onClick={() => History.push("/WaiterDashboard")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                                <DashboardIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                                <RestaurantMenuIcon />
+                                            </IconButton>
+
+                                        </>
+                                        :
+                                        <>
+                                            <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
+                                                <ShoppingBasket />
+                                            </IconButton>
+                                        </>}
                                     <Avatar className={classes.yellow} onClick={() => logOut()}>{currentUser.user.name[0]}</Avatar>
                                 </>
                                 :
                                 <>
+                                    <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
+                                        <ShoppingBasket />
+                                    </IconButton>
                                     <Button onClick={() => History.push("/Register")} color={"inherit"}>Register</Button>
                                     <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
                                 </>}
