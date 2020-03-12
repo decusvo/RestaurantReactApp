@@ -12,7 +12,6 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import {blue, red} from "@material-ui/core/colors";
 import ClearIcon from '@material-ui/icons/Clear';
 
-
 const OrderItem = (props) => {
 
     const NextStateHandler = (orderState, orderID) => {
@@ -84,11 +83,14 @@ const OrderItem = (props) => {
     const {orderID, tableID, orderState, allItems, time, totalPrice, refreshHandler} = props;
 
     return (
-            <Grid container item xs justify={"center"} alignItems={"stretch"}>
+            <Grid container item xs fixed={true} justify={"center"} alignItems={"stretch"}>
 
                 <Card style={{backgroundColor: "#fcc01a",
                     padding: theme.spacing(2),
-                    marginBottom: theme.spacing(2)}}>
+                    marginBottom: theme.spacing(2),
+                    minWidth: "95%",
+                    maxWidth: "95%",
+                    height: "95%"}}>
                     <CardHeader title={"Order No: ".concat(orderID)} />
                     <Divider variant="middle" />
                     <CardContent>
