@@ -1,10 +1,10 @@
 DROP TYPE IF EXISTS order_event CASCADE;
 
 CREATE TYPE order_event AS ENUM (
-		'start_cook', 
-		'cooked', 
-		'deliver', 
-		'pay', 
+		'start_cook',
+		'cooked',
+		'deliver',
+		'pay',
 		'cancel'
 	);
 
@@ -29,6 +29,7 @@ $$
 		WHEN 'requested' THEN
 			CASE event
 				WHEN 'start_cook' THEN 'cooking'
+				WHEN 'cancel' THEN 'cancelled'
 				ELSE 'error'
 			END
 
