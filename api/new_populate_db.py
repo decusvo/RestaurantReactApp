@@ -2,18 +2,27 @@ import populate_db
 import requests
 
 
-def populate_db():
-
-	create_data()
+def populate_tables():
 	
 	populate_db.populate()
+	create_data()
 
 def create_data():
 	
-	# TODO STUB
+	url = "http://localhost:5000/create_order"
 
-	# add orders via api
+	print("ADDING ORDERS")
 
-	# add notifications via api
+	order_data = [
+		{"table_num" : 1, "items" : [1, 2, 3], "customer" : "example@example.com"},
+		{"table_num" : 2, "items" : [4, 4, 5], "customer" : "example@example.com"},
+		{"table_num" : 3, "items" : [11, 2, 12, 2, 10, 3], "customer" : "example@example.com"},
+		{"table_num" : 4, "items" : [10, 16, 4, 4, 5], "customer" : "example@example.com"},
+	]
 
+	for order in order_data:
+		r = requests.post(url, json=order)
+		print(r.text)
 
+if __name__ == "__main__":
+	populate_tables()

@@ -31,7 +31,7 @@ CREATE TABLE customer(
 );
 
 CREATE TABLE waiter(
-	waiter_id serial PRIMARY KEY,
+	waiter_id integer PRIMARY KEY,
 	email varchar(128) UNIQUE,
 	firstname varchar(64),
 	lastname varchar(64),
@@ -54,7 +54,7 @@ CREATE TABLE customer_notifications(
 );
 
 CREATE TABLE table_details(
-	table_number serial PRIMARY KEY,
+	table_number integer PRIMARY KEY,
 	waiter_id integer
 );
 
@@ -64,7 +64,7 @@ CREATE TABLE item_type(
 );
 
 CREATE TABLE menu(
-	id serial PRIMARY KEY,
+	id integer PRIMARY KEY,
 	name varchar(128),
 	description varchar(512),
 	vegan boolean,
@@ -79,7 +79,7 @@ CREATE TABLE menu(
 
 CREATE TABLE orders(
 	id serial PRIMARY KEY,
-	cust_id varchar(128) REFERENCES customer(email),
+	cust_id varchar(128) REFERENCES customer(email) NOT NULL,
 	table_number integer REFERENCES table_details(table_number),
 	state order_state DEFAULT 'requested',
 	ordered_time TIME
