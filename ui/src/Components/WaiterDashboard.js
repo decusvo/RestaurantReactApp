@@ -58,7 +58,7 @@ class WaiterDashboard extends React.Component {
             // if the array is not null
             let orders = data.data.orders;
             // eslint-disable-next-line
-            if(orders !== undefined){
+            if(orders){
                 orders.forEach(ele => {
                     console.log(ele);
                     let change = {};
@@ -66,7 +66,6 @@ class WaiterDashboard extends React.Component {
                     this.setState(change)
                 })
             }
-            console.log("refreshed");
             // else do nothing
         })
     };
