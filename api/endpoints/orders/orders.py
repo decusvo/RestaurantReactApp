@@ -59,11 +59,35 @@ def get_orders():
 
 	# handles case for getting all orders:
 	if len(states) == 0:
-		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders) AS order_list;"
+		query = "SELECT json_agg (order_list) FROM " \
+					"(SELECT id, table_number, state, ordered_time, price, items " \
+					"FROM orders, total_order_price, ordered_item_array " \
+					"WHERE orders.id = total_order_price.order_id " \
+					"AND orders.id = ordered_item_array.order_id) " \
+				"AS order_list;"
 		result = connector.execute_query(query)
 	else:
-		query = "SELECT json_agg (order_list) FROM (SELECT id, table_number, state FROM orders WHERE state = ANY('{"
+		query = "SELECT json_agg (order_list) FROM " \
+					"(SELECT id, table_number, state, ordered_time, price, items " \
+					"FROM orders, total_order_price, ordered_item_array " \
+					"WHERE orders.id = total_order_price.order_id " \
+					"AND orders.id = ordered_item_array.order_id " \
+					"AND state = ANY('{"
 		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
-	print(result)
 	return jsonify(data={"orders" : result[0][0]})
+
+
+@bp.route("/get_cust_order", methods=["POST"])
+def get_cust_order():
+	id = request.json.get("custId")
+
+	query = "SELECT json_agg (order_list) FROM " \
+				"(SELECT id, table_number, state, ordered_time, price, items " \
+				"FROM orders, total_order_price, ordered_item_array " \
+				"WHERE orders.id = total_order_price.order_id " \
+				"AND orders.id = ordered_item_array.order_id " \
+				"AND orders.cust_id = %s) " \
+			"AS order_list;"
+	result = connector.execute_query(query, (id,))
+	return jsonify(data={"orders":result[0][0]})
