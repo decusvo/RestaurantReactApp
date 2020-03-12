@@ -54,10 +54,8 @@ export default function NavBar(props) {
                         <Toolbar>
                             <Button onClick={() => History.push("/Home")}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
                             <Button onClick={() => History.push("/About")} color={"inherit"}>About</Button>
-                            <Button onClick={() => History.push("/Menu")} color={"inherit"}>
-                                Menu
-                            </Button>
-
+                            <Button onClick={() => History.push("/Menu")} color={"inherit"}>Menu</Button>
+                            <Button onClick={() => History.push("/ContactUs")} color={"inherit"}>Contact Us</Button>
                             <Typography variant="h6" className={classes.blank}> </Typography>
 
                             <IconButton onClick={() => History.push("/Order")}  edge="start" color={"inherit"} aria-label={"basket"}>

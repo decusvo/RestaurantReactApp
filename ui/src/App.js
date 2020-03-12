@@ -12,6 +12,7 @@ import WaiterDashboard from "./Components/WaiterDashboard";
 import {useSelector} from "react-redux";
 import Order from "./Components/Order";
 import OrderTracking from "./Components/OrderTracking";
+import ContactUs from "./Components/ContactUs";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -35,6 +36,9 @@ const App = () => {
                         </Route>
                         <Route path="/Menu">
                             <FoodMenu />
+                        </Route>
+                        <Route path="/ContactUs">
+                            <ContactUs />
                         </Route>
                         <Route path="/Login">
                             <SignIn />
