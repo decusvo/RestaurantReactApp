@@ -25,6 +25,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import {Redirect} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import allActions from "../actions";
+import History from "../utils/history";
 
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -59,7 +60,7 @@ const Login = (props) => {
   };
 
   const handleStaff = event => {
-    setStaff(event.target.value)
+	  setStaff(!staff)
   };
 
   const handleSubmit = event => {
@@ -90,7 +91,7 @@ const Login = (props) => {
   };
 
 	useEffect(() => {
-		const user = {name: email};
+		const user = {name: email, staff:staff};
 		if (loggedIn === true){
 			dispatch(allActions.userActions.logIn(user))
 		}
@@ -101,7 +102,7 @@ const Login = (props) => {
 		<ThemeProvider theme={theme}>
 		<Container component="main" maxWidth="xs">
 				<CssBaseline />
-				{loggedIn ? <Redirect to='/Menu' /> : null}
+				{loggedIn ? staff ? <Redirect to='/WaiterMenu' /> : <Redirect to='/Menu' /> : null}
 				<div className={classes.paper}>
 						<Typography component="h1" variant="h5">
 								Sign in
@@ -167,7 +168,7 @@ const Login = (props) => {
 										</Grid>
 										<Grid container justify="flex-end">
 												<Grid item >
-														<Link href="#" variant="body1">
+														<Link onClick={() => History.push("/Register")} variant="body1">
 																Don't have an account? Sign up
 														</Link>
 												</Grid>

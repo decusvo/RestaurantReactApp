@@ -19,7 +19,7 @@ const autoLogIn = () => {
             .then((data) => {
                 if (data.data !== undefined) {
                     let user;
-                    user = {name:data.data.session_id};
+                    user = {name:data.data.session_id, staff:data.data.staff};
                     dispatch(logIn(user))
                 }
             });

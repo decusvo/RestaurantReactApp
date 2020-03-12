@@ -47,12 +47,27 @@ const App = () => {
                         <Route path="/Register">
                             <SignUp />
                         </Route>
-                        <Route path="/WaiterDashboard">
-                            <WaiterDashboard />
-                        </Route>
-                        <Route path="/WaiterMenu">
-                            <WaiterMenu />
-                        </Route>
+
+                        {currentUser.staff ?
+                            <>
+                                <Route path="/WaiterDashboard">
+                                    <WaiterDashboard />
+                                </Route>
+                                <Route path="/WaiterMenu">
+                                    <WaiterMenu />
+                                </Route>
+                            </>
+                            :
+                            <>
+                                <Route path="/WaiterDashboard">
+                                    <FoodMenu />
+                                </Route>
+                                <Route path="/WaiterMenu">
+                                    <FoodMenu />
+                                </Route>
+                            </>
+                        }
+
 
                         {currentUser.loggedIn ?
                             <>

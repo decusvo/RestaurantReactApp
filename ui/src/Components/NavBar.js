@@ -13,6 +13,8 @@ import History from "../utils/history"
 import Avatar from "@material-ui/core/Avatar";
 import userActions from "../actions/userActions";
 import Snackbar from "@material-ui/core/Snackbar";
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -68,9 +70,23 @@ export default function NavBar(props) {
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
 
-                            <IconButton onClick={() => History.push("/Order")}  edge="start" color={"inherit"} aria-label={"basket"}>
+                            <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
                                 <ShoppingBasket />
                             </IconButton>
+                            {currentUser.staff ?
+                                <>
+                                    <IconButton onClick={() => History.push("/WaiterDashboard")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                        <DashboardIcon />
+                                    </IconButton>
+                                    <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                        <RestaurantMenuIcon />
+                                    </IconButton>
+
+                                </>
+                                :
+                                <>
+                                    <div> </div>
+                                </>}
                             {currentUser.loggedIn ?
                                 <>
                                     <Avatar className={classes.yellow} onClick={() => logOut()}>{currentUser.user.name[0]}</Avatar>
@@ -79,7 +95,6 @@ export default function NavBar(props) {
                                 <>
                                     <Button onClick={() => History.push("/Register")} color={"inherit"}>Register</Button>
                                     <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
-                                    <Button onClick={() => History.push("/WaiterDashboard")} color={"inherit"}>Waiter </Button>
                                 </>}
 
                         </Toolbar>
