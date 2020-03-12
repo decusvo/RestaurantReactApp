@@ -46,28 +46,26 @@ def order_event():
 	query = "INSERT INTO order_events(order_id, event) VALUES(%s, %s)"
 	connector.execute_insert_query(query, (order_id, event))
 	
-
-#if event is cooked is should create a waiter notification
-#it should pull the table details from the order table, then pulling the waiterId from the
-#table details table, will be able to pull customerID from order table
-
+	#when the event "cooked" happens it will create a waiter notification, that the order
+	#is ready to be delivered
 	if event == "cooked":
-# retrieving necessary information for waiter notification  
+		# retrieving necessary information for waiter notification  
 		query = "SELECT cust_id FROM orders WHERE id = %s"
-		customer_id = connector.json_select(query,(order_id))
+		result[0][0] = connector.json_select(query,(order_id))
+		customer_id = result[0][0].get()
 		query = "SELECT table_number FROM orders WHERE id = %s"
-		table_number = connector.json_select(query,(order_id))
+		result[0][0] = connector.json_select(query,(order_id))
+		table_number = result[0][0].get()
 		query = "SELECT waiter_od FROM table_details WHERE table_number = %s"
-		waiter_id = connector.json_select(query,(table_number))
-		message = "order number " + order_id + " is ready to be delivered"
-	
-# the json to be passed to add_waiter_notification()
+		result[0][0] = connector.json_select(query,(table_number))
+		waiter_id = result[0][0].get()
+		message = "order number " + order_id + " is ready to be delivered"	
+		# the json to be passed to add_waiter_notification()
 		payload = {"waiter_id" : waiter_id, 
 							"customer_id" : customer_id,
 							"message" : message}
-#		add_waiter_notification(payload)
-		r = requests.post("",json= payload)
-
+		#api call to create notification
+		r = requests.post("http://localhost:5000/add_waiter_notification",json= payload)
 	return jsonify({"success" : True})
 
 @bp.route("/get_orders", methods=["POST"])
