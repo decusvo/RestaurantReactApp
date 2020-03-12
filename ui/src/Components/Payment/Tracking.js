@@ -8,10 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
-
-// TODO: Conditional rendering of pay/cancel options on each of items when "delivered" state is reached.
-// TODO: Instead of expanding panel, have a pop up panel with information.Too many orders result in large panels.
-// TODO: Make order cards flex-start and also fixed number per row.
+import { Redirect } from "react-router";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,6 +27,8 @@ const Tracking = () => {
   const [currentOrders, setCurrentOrders] = React.useState([]);
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
+  const [paymentState, setPaymentState] = React.useState(false);
+  let orderInfo = null;
 
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -84,6 +83,23 @@ const Tracking = () => {
       });
   };
 
+  function paymentRedirection(
+    orderID,
+    tableID,
+    allItems,
+    totalPrice,
+    quantity
+  ) {
+    orderInfo = {
+      orderID: orderID,
+      tableID: tableID,
+      allItems: allItems,
+      totalPrice: totalPrice,
+      quantity: quantity
+    };
+    setPaymentState(true);
+  }
+
   const MapOrderItem = ({ value }) => {
     return value.map((ele, index) => {
       const { id, items, ordered_time, price, state, table_number } = ele;
@@ -91,6 +107,7 @@ const Tracking = () => {
         <TrackingItem
           sendState={updateState}
           sendAlert={userAlert}
+          paymentIntent={paymentRedirection}
           key={index}
           orderState={state}
           tableID={table_number}
@@ -106,6 +123,14 @@ const Tracking = () => {
   return (
     <React.Fragment>
       <CssBaseline />
+      {paymentState ? (
+        <Redirect
+          to={{
+            pathname: "/Checkout",
+            state: { orderInfo }
+          }}
+        />
+      ) : null}
       <Typography variant="h3" className={classes.title}>
         Your orders
       </Typography>
@@ -114,7 +139,6 @@ const Tracking = () => {
         <MapOrderItem value={currentOrders} />
       </Grid>
 
-      <List className={classes.root}>{/*Checkout form.*/}</List>
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={"info"}>
           {message}

@@ -60,12 +60,20 @@ const TrackingItem = props => {
     orderID,
     tableID,
     allItems,
+    quantity,
     totalPrice,
     orderState,
   } = props;
 
   if (orderState === "delivered") {
-    button = <Button color={"primary"} fullWidth className={classes.cta}>
+    button = <Button
+        color={"primary"}
+        fullWidth
+        className={classes.cta}
+        onClick={() => {
+          props.paymentIntent(orderID,tableID,allItems,totalPrice,quantity);
+        }}
+    >
       Pay
     </Button>;
   } else if (orderState === "paid" || orderState === "cancelled") {

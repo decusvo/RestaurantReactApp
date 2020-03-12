@@ -46,9 +46,7 @@ const App = () => {
                         <Route path="/WaiterDashboard">
                             <WaiterDashboard />
                         </Route>
-                        <Route path="/Checkout">
-                            <Checkout/>
-                        </Route>
+
 
                         {currentUser.loggedIn ?
                             <>
@@ -58,7 +56,11 @@ const App = () => {
                                 <Route path="/Tracking">
                                     <Tracking/>
                                 </Route>
+                                <Route path="/Checkout">
+                                    <Checkout/>
+                                </Route>
                             </>
+
                             :
                             <>
                                 <Route path="/Order">
