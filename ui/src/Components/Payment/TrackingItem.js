@@ -77,6 +77,7 @@ else {
       color={"secondary"}
       onClick={() => {
         props.sendState(orderID, "cancel");
+        props.sendAlert();
       }}
       fullWidth
       className={classes.cta}
