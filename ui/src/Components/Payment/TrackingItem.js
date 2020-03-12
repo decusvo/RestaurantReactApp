@@ -31,6 +31,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TrackingItem = props => {
+  let button = null;
   const classes = useStyles();
   const textCardContentStyles = useN01TextInfoContentStyles();
   const shadowStyles = useBouncyShadowStyles();
@@ -63,13 +64,12 @@ const TrackingItem = props => {
       let { quantity, name, cumulative_price } = dish;
       return (
         <Grid item xs>
-          <Card key={index} className={cx(classes.root, shadowStyles.root)}>
+          <Card key={index} className={classes.root}>
             <CardContent className={classes.content}>
               <TextInfoContent
                 classes={textCardContentStyles}
                 overline={name}
-                heading={"Q: ".concat(quantity)}
-                body={"Price ".concat(cumulative_price)}
+                body={cumulative_price}
               />
             </CardContent>
           </Card>
@@ -82,32 +82,43 @@ const TrackingItem = props => {
     orderID,
     tableID,
     allItems,
-    time,
     totalPrice,
+    orderState,
     refreshHandler
   } = props;
 
+  if (orderState === "delivered") {
+    button = <Button color={"primary"} fullWidth className={classes.cta}>
+      Pay
+    </Button>;
+  } else if (orderState === "paid" || orderState === "cancelled") {
+    button = <Button disabled={true} fullWidth className={classes.cta} >Done</Button>
+  }
+else {
+    button =
+    <Button
+      color={"secondary"}
+      onClick={() => {
+        CancelOrderHandler(orderID);
+      }}
+      fullWidth
+      className={classes.cta}
+    >
+      Cancel
+    </Button>;
+  };
+
   return (
-    <Grid item xs>
+    <Grid item xs={12} sm={6} md={3} lg={2}>
       <Card className={cx(classes.root, shadowStyles.root)}>
         <CardContent className={classes.content}>
           <TextInfoContent
             classes={textCardContentStyles}
-            overline={"Placed at".concat(time)}
-            heading={"Order ".concat(orderID)}
-            body={"Table ".concat(tableID) + "\n Price ".concat(totalPrice)}
+            overline={"Order ".concat(orderID) + " at table ".concat(tableID)}
+            heading={"Total ".concat(totalPrice)}
+            body={orderState.charAt(0).toUpperCase() + orderState.slice(1)}
           />
-
-          <Button
-            color={"secondary"}
-            onClick={() => {
-              CancelOrderHandler(orderID);
-            }}
-            fullWidth
-            className={classes.cta}
-          >
-            Cancel
-          </Button>
+          {button}
         </CardContent>
 
         <ExpansionPanel color={"primary"}>

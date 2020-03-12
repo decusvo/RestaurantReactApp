@@ -9,7 +9,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 
 // TODO: Conditional rendering of pay/cancel options on each of items when "delivered" state is reached.
-
+// TODO: Instead of expanding panel, have a pop up panel with information.Too many orders result in large panels.
+// TODO: Make order cards flex-start and also fixed number per row.
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,7 +69,7 @@ const Tracking = () => {
         Your orders
       </Typography>
 
-      <Grid spacing={2} container maxWidth={"xs"} className={classes.grid}>
+      <Grid spacing={2} container className={classes.grid}>
         <MapOrderItem value={currentOrders} />
       </Grid>
 
