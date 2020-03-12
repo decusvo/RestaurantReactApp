@@ -28,7 +28,6 @@ const OrderItem = (props) => {
 
     const CancelOrderHandler = (orderID) => {
         updateState(orderID, "cancel");
-        console.log("cancel");
     };
 
     const updateState = (id, state) => {
@@ -42,8 +41,6 @@ const OrderItem = (props) => {
             return response.json()
         }).catch(error => {
             console.log(error)
-        }).then(data => {
-            console.log(data)
         });
     };
 
@@ -83,7 +80,7 @@ const OrderItem = (props) => {
     const {orderID, tableID, orderState, allItems, time, totalPrice, refreshHandler} = props;
 
     return (
-            <Grid container item xs fixed={true} justify={"center"} alignItems={"stretch"}>
+            <Grid container item xs justify={"center"} alignItems={"stretch"}>
 
                 <Card style={{backgroundColor: "#fcc01a",
                     padding: theme.spacing(2),

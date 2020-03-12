@@ -60,7 +60,6 @@ class WaiterDashboard extends React.Component {
             // eslint-disable-next-line
             if(orders){
                 orders.forEach(ele => {
-                    console.log(ele);
                     let change = {};
                     change[ele.state] = this.state[ele.state].concat(ele);
                     this.setState(change)
@@ -76,7 +75,6 @@ class WaiterDashboard extends React.Component {
         const MapOrderItem = ({value}) => {
           return value.map((ele, index) => {
             const order = ele;
-            console.log(order);
             let {state, id, table_number, items, ordered_time, price} = order;
             return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} refreshHandler={this.refresh} />)
           })
