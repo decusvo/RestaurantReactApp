@@ -16,7 +16,7 @@ export default function PaymentForm(props) {
 
     // The response from the API is sent up to Checkout.js
 
-    fetch("//127.0.0.1:5000/make_payment", {
+    fetch("//127.0.0.1:5000/verify_payment", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
