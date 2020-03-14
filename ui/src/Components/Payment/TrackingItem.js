@@ -36,10 +36,9 @@ const TrackingItem = props => {
   const textCardContentStyles = useN01TextInfoContentStyles();
   const shadowStyles = useBouncyShadowStyles();
 
-
   const MapOrderItem = ({ items }) => {
     return items.map((dish, index) => {
-      let {name, cumulative_price } = dish;
+      let { name, cumulative_price } = dish;
       return (
         <Grid item xs>
           <Card key={index} className={classes.root}>
@@ -62,37 +61,46 @@ const TrackingItem = props => {
     allItems,
     quantity,
     totalPrice,
-    orderState,
+    orderState
   } = props;
 
+  // TODO : Pass customer ID from the tracking item to Tracking.js and then update reducers/actions to support them.
+  // TODO : Pass customer ID and order ID to Review, then fetch the specific order information and render it.
+
   if (orderState === "delivered") {
-    button = <Button
+    button = (
+      <Button
         color={"primary"}
         fullWidth
         className={classes.cta}
         onClick={() => {
-          props.paymentIntent(orderID,tableID,allItems,totalPrice,quantity);
+          props.paymentIntent(orderID);
         }}
-    >
-      Pay
-    </Button>;
+      >
+        Pay
+      </Button>
+    );
   } else if (orderState === "paid" || orderState === "cancelled") {
-    button = <Button disabled={true} fullWidth className={classes.cta} >Done</Button>
+    button = (
+      <Button disabled={true} fullWidth className={classes.cta}>
+        Done
+      </Button>
+    );
+  } else {
+    button = (
+      <Button
+        color={"secondary"}
+        onClick={() => {
+          props.sendState(orderID, "cancel");
+          props.sendAlert();
+        }}
+        fullWidth
+        className={classes.cta}
+      >
+        Cancel
+      </Button>
+    );
   }
-else {
-    button =
-    <Button
-      color={"secondary"}
-      onClick={() => {
-        props.sendState(orderID, "cancel");
-        props.sendAlert();
-      }}
-      fullWidth
-      className={classes.cta}
-    >
-      Cancel
-    </Button>;
-  };
 
   return (
     <Grid item xs={12} sm={6} md={3} lg={2}>

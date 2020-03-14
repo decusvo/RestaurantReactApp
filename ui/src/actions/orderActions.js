@@ -1,17 +1,20 @@
-const setOrderID = (orderID) => {
-    return {
-        type: "SET_ORDER",
-        payload: orderID
+const setOrder = (orderID, customerID) => {
+  return {
+    type: "SET_ORDER",
+    payload: {
+      order: orderID,
+      customer: customerID
     }
+  };
 };
 
 const resetOrderID = () => {
-    return {
-        type: "RESET_ORDER"
-    }
+  return {
+    type: "RESET_ORDER"
+  };
 };
 
-
 export default {
-    setOrderID, resetOrderID
-}
+  setOrder,
+  resetOrderID,
+};

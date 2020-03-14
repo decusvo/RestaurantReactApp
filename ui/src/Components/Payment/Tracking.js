@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
-import { Container, List } from "@material-ui/core";
+import React, {useEffect} from "react";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import { useSelector } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import TrackingItem from "./TrackingItem";
 import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
-import { Redirect } from "react-router";
+import {Redirect} from "react-router";
+import allActions from "../../actions";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -19,7 +19,11 @@ const useStyles = makeStyles(theme => ({
   grid: {
     flexGrow: 0
   }
-}));
+}))
+
+
+// TODO: Pass order information to global state.
+
 
 const Tracking = () => {
   const classes = useStyles();
@@ -28,7 +32,8 @@ const Tracking = () => {
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [paymentState, setPaymentState] = React.useState(false);
-  let orderInfo = null;
+  const [orderID,setOrderID] = React.useState();
+  const dispatch = useDispatch();
 
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -85,18 +90,8 @@ const Tracking = () => {
 
   function paymentRedirection(
     orderID,
-    tableID,
-    allItems,
-    totalPrice,
-    quantity
   ) {
-    orderInfo = {
-      orderID: orderID,
-      tableID: tableID,
-      allItems: allItems,
-      totalPrice: totalPrice,
-      quantity: quantity
-    };
+    setOrderID(orderID);
     setPaymentState(true);
   }
 
@@ -120,16 +115,19 @@ const Tracking = () => {
     });
   };
 
+
+  useEffect(() => {
+    if (paymentState === true){
+      dispatch(allActions.orderActions.setOrder(orderID,currentUser.user.name));
+    }
+    // eslint-disable-next-line
+  }, [orderID]);
+
   return (
     <React.Fragment>
       <CssBaseline />
       {paymentState ? (
-        <Redirect
-          to={{
-            pathname: "/Checkout",
-            state: { orderInfo }
-          }}
-        />
+        <Redirect to="/Checkout" />
       ) : null}
       <Typography variant="h3" className={classes.title}>
         Your orders
