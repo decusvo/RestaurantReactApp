@@ -23,7 +23,7 @@ def create_session(username=None, staff=False):
 def get_session_id():
 	try:
 		session = s
-		return jsonify(data={"session_id" : session["username"]})
+		return jsonify(data={"session_id" : session["username"], "staff": session["staff"]})
 	except:
 		return jsonify(error={"message": "SESSION DOES NOT HAVE ID/USERNAME", "success" : False})
 

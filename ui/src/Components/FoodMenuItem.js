@@ -29,7 +29,7 @@ const FoodMenuItem = (props) => {
     const {id, value, description, price, calories, image, quantity} = props;
     const [itemQuantity, setItemQuantity] = useState(quantity);
     return (
-        <Grid item xs={3}>
+        <Grid item lg={3} xs={12} sm={4}>
             <Card style={{backgroundColor: "#fcc01a",
             padding: theme.spacing(2),
             marginBottom: theme.spacing(2), maxWidth: 345, height: "95%"}}>

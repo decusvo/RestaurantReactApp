@@ -17,11 +17,11 @@ def create_order():
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
+	customer = request.json.get("customer")
 	time = datetime.datetime.now().strftime("%H:%M:%S")
-	cust_id = request.json.get("custId")
 
 	query = "INSERT INTO orders (table_number, ordered_time, cust_id) VALUES (%s, %s, %s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num),time, cust_id))
+	result = connector.execute_query(query, (int(table_num), time, customer))
 	order_id = result[0]
 
 	items_added = []
@@ -93,16 +93,3 @@ def get_cust_order():
 			"AS order_list;"
 	result = connector.execute_query(query, (id,))
 	return jsonify(data={"orders":result[0][0]})
-
-@bp.route("/update_order_state",methods=["POST"])
-def change_cooking_state():
-	newState = request.json.get("newState")
-	orderId = request.json.get("Id")
-
-	query = "UPDATE orders SET state = %s WHERE id = %s"
-	result = connector.execute.insert_query(query,(newState,orderId))
-
-	if result == False:
-		return jsonify(error={"success":False, "message":"Error order does not exist"})
-		return result
-	return jsonify(data={"success":True})

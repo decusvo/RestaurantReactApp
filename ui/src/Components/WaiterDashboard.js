@@ -58,15 +58,13 @@ class WaiterDashboard extends React.Component {
             // if the array is not null
             let orders = data.data.orders;
             // eslint-disable-next-line
-            if(orders !== undefined){
+            if(orders){
                 orders.forEach(ele => {
-                    console.log(ele);
                     let change = {};
                     change[ele.state] = this.state[ele.state].concat(ele);
                     this.setState(change)
                 })
             }
-            console.log("refreshed");
             // else do nothing
         })
     };
@@ -74,14 +72,13 @@ class WaiterDashboard extends React.Component {
     render() {
         const {classes} = this.props;
 
-            const MapOrderItem = ({value}) => {
-              return value.map((ele, index) => {
-                const order = ele;
-                console.log(order);
-                let {state, id, table_number, items, ordered_time, price} = order;
-                return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} refreshHandler={this.refresh} />)
-              })
-            };
+        const MapOrderItem = ({value}) => {
+          return value.map((ele, index) => {
+            const order = ele;
+            let {state, id, table_number, items, ordered_time, price} = order;
+            return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} refreshHandler={this.refresh} />)
+          })
+        };
 
         return (
             <React.Fragment>

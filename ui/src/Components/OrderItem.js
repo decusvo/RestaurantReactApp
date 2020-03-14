@@ -12,7 +12,6 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import {blue, red} from "@material-ui/core/colors";
 import ClearIcon from '@material-ui/icons/Clear';
 
-
 const OrderItem = (props) => {
 
     const NextStateHandler = (orderState, orderID) => {
@@ -29,7 +28,6 @@ const OrderItem = (props) => {
 
     const CancelOrderHandler = (orderID) => {
         updateState(orderID, "cancel");
-        console.log("cancel");
     };
 
     const updateState = (id, state) => {
@@ -43,8 +41,6 @@ const OrderItem = (props) => {
             return response.json()
         }).catch(error => {
             console.log(error)
-        }).then(data => {
-            console.log(data)
         });
     };
 
@@ -88,7 +84,10 @@ const OrderItem = (props) => {
 
                 <Card style={{backgroundColor: "#fcc01a",
                     padding: theme.spacing(2),
-                    marginBottom: theme.spacing(2)}}>
+                    marginBottom: theme.spacing(2),
+                    minWidth: "95%",
+                    maxWidth: "95%",
+                    height: "95%"}}>
                     <CardHeader title={"Order No: ".concat(orderID)} />
                     <Divider variant="middle" />
                     <CardContent>
