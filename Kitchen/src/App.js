@@ -3,7 +3,6 @@ import {CssBaseline, Typography, withStyles} from '@material-ui/core';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
 import OrderItem from "./OrderItem";
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -39,48 +38,40 @@ class WaiterDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          requested: [],
           cooking: [],
           ready_to_deliver: []
         };
     }
 
-    handleClick = (event) => {
-      fetch("//127.0.0.1:5000/update_order_state", {method:'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"newState": "cooking", "Id": event.target.name})
-      }).then(response => {
-        return response.json()
-      }).then(data => {
-        this.getOrders()
-        console.log(data)
-      })
-    }
+
 
     getOrders = () => {
+        var orderStates = ["ready_to_deliver", "cooking"];
+        console.log("tag");
 
-      var orderStates = ["requested", "ready_to_deliver", "cooking"];
-
-      this.setState(this.state.requested = []);
-      this.setState(this.state.cooking = []);
-      this.setState(this.state.ready_to_deliver = []);
-
+        this.setState(this.state.cooking = []);
+        this.setState(this.state.ready_to_deliver = []);
 
 
-      var orderStates = ["requested", "ready_to_deliver", "cooking"]
-      orderStates.forEach(state => {
         fetch("//127.0.0.1:5000/get_orders", {method:'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({"state": state})
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"states": orderStates})
         }).then(response => {
-          return response.json()
+            return response.json()
         }).then(data => {
-          let change = {}
-          change[state] = data.data
-          this.setState(change)
+            // if the array is not null
+            let orders = data.data.orders;
+            // eslint-disable-next-line
+            if(orders){
+                orders.forEach(ele => {
+                    let change = {};
+                    change[ele.state] = this.state[ele.state].concat(ele);
+                    this.setState(change)
+                })
+            }
+            // else do nothing
         })
-      });
-    }
+    };
 
 
 
@@ -88,19 +79,17 @@ class WaiterDashboard extends React.Component {
       this.getOrders()
     }
 
+
+
     render() {
         const {classes} = this.props;
 
         const MapOrderItem = ({value}) => {
           return value.map((ele, index) => {
-            const order = ele["0"]
+            const order = ele
             let {state, id, table_number} = order
-            return (<Card className={classes.card} key={index}>
-              <OrderItem orderState={state} tableID={table_number} orderID={id} />
-                <Button name = {id} variant="contained" color="primary" onClick={this.handleClick}>
-                  Order Cooked
-                </Button>
-              </Card>)
+            return (
+              <OrderItem orderState={state} tableID={table_number} orderID={id} index={index}/>)
           })
         }
 
@@ -126,16 +115,16 @@ class WaiterDashboard extends React.Component {
                     {/*Grid for the to be confirmed, order objects will later be loaded in dynamically*/}
                     <Grid item xs>
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            To Be Done
+                            Currently Cooking
                         </Typography>
-                        <MapOrderItem value={this.state.requested}/>
+                        <MapOrderItem value={this.state.cooking}/>
                       </Grid>
 
                     <Grid item xs>
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            Currently Cooking
+                            Ready to deliver
                         </Typography>
-                        <MapOrderItem value={this.state.cooking}/>
+                        <MapOrderItem value={this.state.ready_to_deliver}/>
                     </Grid>
                 </Grid>
 

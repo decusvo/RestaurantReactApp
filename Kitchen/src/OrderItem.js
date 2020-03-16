@@ -7,6 +7,8 @@ import ArrowForwardRounded from '@material-ui/icons/ArrowForwardRounded';
 import ArrowBackRounded from '@material-ui/icons/ArrowBackRounded';
 import Fab from '@material-ui/core/Fab';
 import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import Button from '@material-ui/core/Button';
 import Divider from "@material-ui/core/Divider";
 
 
@@ -15,59 +17,53 @@ export default class OrderItem extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            // To be confirmed (TBC) -> In Progress (IP) -> To Be Served (TBS) -> Complete
-            // 0 -> 1 -> 2 - > 3
-            orderState:0,
-        };
-
-        this.viewOrderHandler.bind(this);
-        this.moveStateRight.bind(this);
-        this.moveStateLeft.bind(this);
     };
 
-    viewOrderHandler = () => {
-        alert("click detected.");
-    };
-
-    moveStateRight = () => {
-        this.setState((state) => ({
-            counter: state.counter + 1
-        }));
-        alert(this.state.orderState);
-    };
-
-    moveStateLeft = () => {
-        this.setState((state) => ({
-            counter: state.counter - 1
-        }));
-        alert(this.state.orderState);
+    handleClick = (id) => {
+        console.log("orderstate");
+        console.log(id);
+        fetch("//127.0.0.1:5000/order_event", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"order_id":"hello", "order_event": "cooked"})
+        }).then(response => {
+            this.getOrders();
+            return response.json()
+        }).then(data => {
+            console.log(data);
+        }).catch(error => {
+            console.log(error)
+        });
     };
 
 
     render() {
         // eslint-disable-next-line
-        const {orderState, tableID, orderID} = this.props;
+        const {orderState, tableID, orderID, index} = this.props;
         return (
             <React.Fragment>
                 <CssBaseline/>
-
-                <Grid container direction={'column'}>
-                    <Grid item>
-                <Typography color="textSecondary" variant="h5">
-                    Order {orderID} </Typography>
-                    </Grid>
-
-                        <Grid item >
-                        </Grid>
-                    <Grid container justify={'flex-end'}>
+                <Card key={index}>
+                    <Grid container direction={'column'}>
                         <Grid item>
+                    <Typography color="textSecondary" variant="h5">
+                        Order {orderID} </Typography>
                         </Grid>
-                        <Grid item>
-                    </Grid>
 
+                            <Grid item >
+                            </Grid>
+                        <Grid container justify={'flex-end'}>
+                            <Grid item>
+                            </Grid>
+                            <Grid item>
+                        </Grid>
+
+                        </Grid>
                     </Grid>
-                </Grid>
+                    <Button variant="contained" color="primary" onClick={() => console.log(orderID)}>
+                      Order Cooked
+                    </Button>
+                </Card>
             </React.Fragment>
         );
     }
