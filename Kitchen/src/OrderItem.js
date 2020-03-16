@@ -20,14 +20,12 @@ export default class OrderItem extends React.Component {
     };
 
     handleClick = (id) => {
-        console.log("orderstate");
-        console.log(id);
         fetch("//127.0.0.1:5000/order_event", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"order_id":"hello", "order_event": "cooked"})
+            body: JSON.stringify({"order_id":id, "order_event": "cooked"})
         }).then(response => {
-            this.getOrders();
+            this.props.getOrders();
             return response.json()
         }).then(data => {
             console.log(data);
@@ -60,9 +58,13 @@ export default class OrderItem extends React.Component {
 
                         </Grid>
                     </Grid>
-                    <Button variant="contained" color="primary" onClick={() => console.log(orderID)}>
+                    {orderState === "cooking" ?
+                    (<Button variant="contained" color="primary" onClick={() => this.handleClick(orderID)}>
                       Order Cooked
-                    </Button>
+                    </Button>) :
+                    (<Button disabled={true} variant="contained" color="primary">
+                      Cooked
+                    </Button>)}
                 </Card>
             </React.Fragment>
         );
