@@ -27,6 +27,7 @@ const currentItems = (state = {items: [], total: 0}, action) => {
                     if (dish.q === 0) {
                         delete state.items[index];
                         deleted = true;
+
                     }
                 }
                 return null;

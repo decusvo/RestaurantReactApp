@@ -5,13 +5,13 @@ DROP TABLE IF EXISTS item_type CASCADE;
 DROP TABLE IF EXISTS menu CASCADE;
 DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS ordered_items CASCADE;
+DROP TABLE IF EXISTS waiter_notifications CASCADE;
+DROP TABLE IF EXISTS customer_notifications CASCADE;
 
 DROP TYPE IF EXISTS order_state CASCADE;
 
 CREATE TYPE order_state AS ENUM (
-		'start',
 		'requested',
-		'confirmed',
 		'cooking',
 		'ready_to_deliver',
 		'delivered',
@@ -31,7 +31,7 @@ CREATE TABLE customer(
 );
 
 CREATE TABLE waiter(
-	waiter_id serial PRIMARY KEY,
+	waiter_id integer PRIMARY KEY,
 	email varchar(128) UNIQUE,
 	firstname varchar(64),
 	lastname varchar(64),
@@ -39,8 +39,22 @@ CREATE TABLE waiter(
 	password varchar(256)
 );
 
+CREATE TABLE waiter_notifications(
+	notification_id serial PRIMARY KEY,
+	waiter_id integer REFERENCES waiter(waiter_id),
+	customer_id varchar(128) REFERENCES customer(email),
+	message varchar(256)
+);
+
+CREATE TABLE customer_notifications(
+	notification_id serial PRIMARY KEY,
+	customer_id varchar(128) REFERENCES customer(email),
+	waiter_id integer REFERENCES waiter(waiter_id),
+	message varchar(256)
+);
+
 CREATE TABLE table_details(
-	table_number serial PRIMARY KEY,
+	table_number integer PRIMARY KEY,
 	waiter_id integer
 );
 
@@ -50,7 +64,7 @@ CREATE TABLE item_type(
 );
 
 CREATE TABLE menu(
-	id serial PRIMARY KEY,
+	id integer PRIMARY KEY,
 	name varchar(128),
 	description varchar(512),
 	vegan boolean,
@@ -65,8 +79,9 @@ CREATE TABLE menu(
 
 CREATE TABLE orders(
 	id serial PRIMARY KEY,
+	cust_id varchar(128) REFERENCES customer(email) NOT NULL,
 	table_number integer REFERENCES table_details(table_number),
-	state order_state DEFAULT 'start',
+	state order_state DEFAULT 'requested',
 	ordered_time TIME
 );
 

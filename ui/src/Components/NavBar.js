@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {AppBar, Button, Toolbar, Typography, useScrollTrigger, Slide, CssBaseline} from '@material-ui/core';
 import Logo from '../Images/Logo_new.png';
 import Img from 'react-image'
@@ -13,6 +13,8 @@ import History from "../utils/history"
 import Avatar from "@material-ui/core/Avatar";
 import userActions from "../actions/userActions";
 import Snackbar from "@material-ui/core/Snackbar";
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import Notification from "./Notification";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 
@@ -48,6 +50,14 @@ export default function NavBar(props) {
     const horizontal = "right";
     const [notificationOpen, setNotificationOpen] = useState(false);
 
+    function logOut() {
+        dispatch(userActions.logOut())
+        fetch("//127.0.0.1:5000/remove_session", {method: 'POST'})
+            .then((response) => {
+            return response.json();
+        })
+    }
+
     return(
         <ThemeProvider theme={theme}>
             <div className={classes.root}>
@@ -63,18 +73,31 @@ export default function NavBar(props) {
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
 
-                            <IconButton onClick={() => History.push("/Order")}  edge="start" color={"inherit"} aria-label={"basket"}>
-                                <ShoppingBasket />
-                            </IconButton>
                             {currentUser.loggedIn ?
                                 <>
-                                    <IconButton onClick={() => setNotificationOpen(true)} edge={"start"} color={"inherit"} aria-label={"notification"}>
-                                        <NotificationsIcon />
-                                    </IconButton>
-                                    <Avatar className={classes.yellow} onClick={() => dispatch(userActions.logOut())}>{currentUser.user.name[0]}</Avatar>
+                                    {currentUser.staff ?
+                                        <>
+                                            <IconButton onClick={() => History.push("/WaiterDashboard")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                                <DashboardIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                                <RestaurantMenuIcon />
+                                            </IconButton>
+
+                                        </>
+                                        :
+                                        <>
+                                            <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
+                                                <ShoppingBasket />
+                                            </IconButton>
+                                        </>}
+                                    <Avatar className={classes.yellow} onClick={() => logOut()}>{currentUser.user.name[0]}</Avatar>
                                 </>
                                 :
                                 <>
+                                    <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
+                                        <ShoppingBasket />
+                                    </IconButton>
                                     <Button onClick={() => History.push("/Register")} color={"inherit"}>Register</Button>
                                     <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
                                     <Button onClick={() => History.push("/WaiterDashboard")} color={"inherit"}>Waiter </Button>
@@ -91,6 +114,7 @@ export default function NavBar(props) {
                     open={true}
                     message={"Total price: " + total}
                 /> : null}
+
             </div>
         </ThemeProvider>
         );

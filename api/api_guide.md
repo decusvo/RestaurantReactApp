@@ -67,12 +67,13 @@ available menu items
 	or an error object, error object will contain a list valid_events if a bad event argument is given.
 
 ### /create\_order:
-EXPECTS: JSON object containing a table number and a list of item ids in the form:
+EXPECTS: JSON object containing a table number, customer email and a list of item ids in the form:
 
   ```json
   {
 	"table_num" : 1,
-	"items" : [1, 2, 3]
+	"items" : [1, 2, 3],
+	"customer" : "example@example.com"
   }
   ```
 
@@ -207,10 +208,120 @@ RETURNS: JSON object describing success
 
 	or an error object
 
-## Sessions:
+## Notifications:
 
-### /
+### add\_waiter\_notification
+EXPECTS: JSON object containing the id of the waiter, customer email and notificiation message:
 
+  ```json
+  	{
+	  "waiter_id" : 1,
+	  "customer_id" : "example@example.com",
+	  "message" : "notif. message"
+  	}
+  ```
+
+RETURNS: JSON object describing success
+
+	or an error object
+
+### add\_customer\_notification
+EXPECTS: JSON object containing the id of the waiter, customer email and notificiation message:
+
+  ```json
+  	{
+	  "waiter_id" : 1,
+	  "customer_id" : "example@example.com",
+	  "message" : "notif. message"
+  	}
+  ```
+
+RETURNS: JSON object describing success
+
+	or an error object
+
+### get\_customer\_notifications
+EXPECTS: JSON object containing the customer email:
+
+  ```json
+  	{
+	  "customer" : "example@example.com",
+  	}
+  ```
+
+RETURNS: JSON object containing list of their notifications:
+  
+  ```json
+  {
+  "data": {
+    "notifications": [
+      [
+        2, 
+        "example@example.com", 
+        1, 
+        "notification message for customer"
+      ]
+    ], 
+    "success": true
+    }
+  }
+
+  ```
+
+	or an error object
+
+
+### get\_waiter\_notifications
+EXPECTS: JSON object containing the waiter\_id:
+
+  ```json
+  	{
+	  "waiter_id" : 1,
+  	}
+  ```
+
+RETURNS: JSON object containing list of their notifications:
+  
+  ```json
+  {
+  "data": {
+    "notifications": [
+      [
+        2, 
+        "example@example.com", 
+        1, 
+        "notification message for waiter"
+      ]
+    ], 
+    "success": true
+    }
+  }
+
+  ```
+
+	or an error object
+
+### clear\_customer\_notifications
+EXPECTS: JSON object containing the customer email:
+
+  ```json
+  	{
+	  "customer" : "example@example.com",
+  	}
+  ```
+
+RETURNS: JSON object describing success:
+
+### clear\_waiter\_notifications
+EXPECTS: JSON object containing the waiter\_id:
+
+  ```json
+  	{
+	  "waiter_id" : 1,
+  	}
+  ```
+
+RETURNS: JSON object describing success:
 ## Sessions:
 
 ### /create\_session

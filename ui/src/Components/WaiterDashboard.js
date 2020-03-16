@@ -3,7 +3,6 @@ import {CssBaseline, Typography, withStyles} from '@material-ui/core';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import Card from "@material-ui/core/Card";
 import OrderItem from "./OrderItem";
 
 //basic styles
@@ -39,35 +38,45 @@ class WaiterDashboard extends React.Component {
     }
 
     async componentDidMount(){
-      var orderStates = ["requested", "ready_to_deliver", "cooking"];
-      fetch("//127.0.0.1:5000/get_orders", {method:'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"states": orderStates})
-      }).then(response => {
-        return response.json()
-      }).then(data => {
-        // if the array is not null
-        let orders = data.data.orders;
-          // eslint-disable-next-line
-        if(orders != undefined){
-          orders.forEach(ele => {
-            console.log(ele);
-            let change = {};
-            change[ele.state] = this.state[ele.state].concat(ele);
-            this.setState(change)
-          })
-        }
-        // else do nothing
-      })
-    }
+      this.refresh();
+    };
+
+    refresh = () => {
+        var orderStates = ["requested", "ready_to_deliver", "cooking"];
+
+        this.setState(this.state.requested = []);
+        this.setState(this.state.cooking = []);
+        this.setState(this.state.ready_to_deliver = []);
+
+
+        fetch("//127.0.0.1:5000/get_orders", {method:'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"states": orderStates})
+        }).then(response => {
+            return response.json()
+        }).then(data => {
+            // if the array is not null
+            let orders = data.data.orders;
+            // eslint-disable-next-line
+            if(orders){
+                orders.forEach(ele => {
+                    let change = {};
+                    change[ele.state] = this.state[ele.state].concat(ele);
+                    this.setState(change)
+                })
+            }
+            // else do nothing
+        })
+    };
 
     render() {
         const {classes} = this.props;
 
         const MapOrderItem = ({value}) => {
           return value.map((ele, index) => {
-              let {state, id, table_number} = ele;
-              return (<Card className={classes.card} key={index}><OrderItem orderState={state} tableID={table_number} orderID={id} /></Card>)
+            const order = ele;
+            let {state, id, table_number, items, ordered_time, price} = order;
+            return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} refreshHandler={this.refresh} />)
           })
         };
 

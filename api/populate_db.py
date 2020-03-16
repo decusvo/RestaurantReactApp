@@ -94,9 +94,9 @@ def populate():
 	cursor.execute(open("sql/func_schema.sql").read())
 	print("Function schema inserted")
 
-  print("Initialising view schema for database...")
-  cusor.execute(open("sql/view_schema.sql").read())
-  print("View schema inserted")
+	print("Initialising view schema for database...")
+	cursor.execute(open("sql/view_schema.sql").read())
+	print("View schema inserted")
 	
 	# FOR EACH file in the source folder, pass it to insert_from_csv to decompose and insert
 	# TODO Currently no validation to check if files in source are .csv
@@ -105,6 +105,7 @@ def populate():
 		print("FOUND FILE: %s" % data_file)
 		insert_from_csv(db_data_loc + data_file)
 		print("%s INSERTED INTO DATABASE" % data_file)
+	
 	print("FINISHED...")
 	
 if __name__ == "__main__":
