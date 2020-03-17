@@ -51,6 +51,10 @@ def order_event():
 
 	return jsonify({"success" : True})
 
+@bp.route("/get_order", methods=["POST"])
+def get_order():
+	return None
+
 @bp.route("/get_orders", methods=["POST"])
 def get_orders():
 	error = validate_orders.validate_get_order(request)
@@ -82,6 +86,10 @@ def get_orders():
 
 @bp.route("/get_cust_order", methods=["POST"])
 def get_cust_order():
+	error = validate_orders.validate_get_cust_order(request)
+	if error:
+		return (error)
+		
 	id = request.json.get("custId")
 
 	query = "SELECT json_agg (order_list) FROM " \
