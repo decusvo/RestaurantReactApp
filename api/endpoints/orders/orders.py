@@ -53,11 +53,27 @@ def order_event():
 
 @bp.route("/get_order", methods=["POST"])
 def get_order():
-	return None
+	error = validate_orders.validate_get_order(request)
+	if error:
+		return (error)
+
+	order_id = request.json.get("orderId")
+	cust_id = request.json.get("custId")
+
+	query = "SELECT json_agg (order_list) FROM " \
+				"(SELECT id, table_number, state, ordered_time, price, items " \
+				"FROM orders, total_order_price, ordered_item_array " \
+				"WHERE orders.id = total_order_price.order_id " \
+				"AND orders.id = ordered_item_array.order_id " \
+				"AND orders.cust_id = %s"\
+				"AND orders.id = %s) " \
+			"AS order_list;"
+	result = connector.execute_query(query, (cust_id, order_id))
+	return jsonify(data = {"order": result[0][0]})
 
 @bp.route("/get_orders", methods=["POST"])
 def get_orders():
-	error = validate_orders.validate_get_order(request)
+	error = validate_orders.validate_get_orders(request)
 	if error:
 		return (error)
 
@@ -89,7 +105,7 @@ def get_cust_order():
 	error = validate_orders.validate_get_cust_order(request)
 	if error:
 		return (error)
-		
+
 	id = request.json.get("custId")
 
 	query = "SELECT json_agg (order_list) FROM " \

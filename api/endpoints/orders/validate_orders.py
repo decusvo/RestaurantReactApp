@@ -110,7 +110,7 @@ def validate_order_event(request):
 	return None
 
 
-def validate_get_order(request):
+def validate_get_orders(request):
 	if request.json is None:
 		error_msg = "Expected json object, was not found"
 		return jsonify({"success": False, "message": error_msg})
@@ -142,8 +142,26 @@ def validate_get_cust_order(request):
 
 	query = "SELECT email FROM customer where email = %s"
 	result = connector.execute_query(query, (cust_id,))
-	print(result)
 	if result is None or result == []:
 		error_msg = "No customer with id = " + cust_id
 		return jsonify({"success":False, "message": error_msg})
+	return None
+
+def validate_get_order(request):
+	error = validate_get_cust_order(request)
+	if error != None:
+		return error
+
+	if "orderId" not in request.json:
+		error_msg = "Expected 'orderId', and was not found"
+		return jsonify({"success": False, "message": error_msg})
+
+	order_id = request.json.get("orderId")
+
+	query = "SELECT id from orders where id = %s"
+	result = connector.execute_query(query, (order_id,))
+	if result is None or result == []:
+		error_msg = "No order exists with id = " + order_id
+		return ({"success": False, "message": error_msg})
+
 	return None
