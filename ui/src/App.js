@@ -68,7 +68,6 @@ const App = () => {
                             </>
                         }
 
-
                         {currentUser.loggedIn ?
                             <>
                                 <Route path="/Order">

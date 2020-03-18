@@ -29,36 +29,39 @@ const useStyles = theme => ({
 const WaiterDashboard = (props) => {
     const {classes} = props;
     const [state, setState] = useState({requested: [], cooking: [], ready_to_deliver: []});
+    const _ = require('lodash');
 
     useEffect(() => {
-        const orderStates = ["requested", "ready_to_deliver", "cooking"];
-        fetch("//127.0.0.1:5000/get_orders", {method:'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"states": orderStates})
-        }).then(response => {
-            return response.json()
-        }).then(data => {
-            // if the array is not null
-            let orders = data.data.orders;
-            // eslint-disable-next-line
-            const changedState = {"requested": [], "ready_to_deliver": [], "cooking": []}
-            if(orders){
-                orders.forEach(ele => {
-                    changedState[ele.state].push(ele)
-                })
-            }
-            console.log(state !== changedState)
-            if (state !== changedState) {
-                setState(changedState)
-            }
-            // else do nothing
-        })
-    }, []);
+        const interval = setInterval(() => {
+            const orderStates = ["requested", "ready_to_deliver", "cooking"];
+            fetch("//127.0.0.1:5000/get_orders", {method:'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"states": orderStates})
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                // if the array is not null
+                let orders = data.data.orders;
+                // eslint-disable-next-line
+                const changedState = {"requested": [], "ready_to_deliver": [], "cooking": []};
+                if(orders){
+                    orders.forEach(ele => {
+                        changedState[ele.state].push(ele)
+                    })
+                }
+                if (!_.isEqual(state, changedState)) {
+                    setState(changedState)
+                }
+                // else do nothing
+            });
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, [state, useState]);
 
     const MapOrderItem = ({value}) => {
         return value.map((ele, index) => {
-            const order = ele;
-            let {state, id, table_number, items, ordered_time, price} = order;
+            let {state, id, table_number, items, ordered_time, price} = ele;
             return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} />)
         })
     };
@@ -97,6 +100,6 @@ const WaiterDashboard = (props) => {
             </React.Fragment>
 
         );
-}
+};
 
 export default withStyles(useStyles)(WaiterDashboard);
