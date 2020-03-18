@@ -42,7 +42,7 @@ def validate(request):
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
-	customer = request.json.get("customer") 
+	customer = request.json.get("customer")
 
 	if not isinstance(items, (list)):
 		error_msg = "expected 'items' to be list"
@@ -110,7 +110,7 @@ def validate_order_event(request):
 	return None
 
 
-def validate_get_order(request):
+def validate_get_orders(request):
 	if request.json is None:
 		error_msg = "Expected json object, was not found"
 		return jsonify({"success": False, "message": error_msg})
@@ -126,5 +126,42 @@ def validate_get_order(request):
 			error_msg = "given event is not a valid event type, see this objects 'valid_states'"
 			error_msg += " for a list of valid events"
 			return jsonify({"success" : False, "message" : error_msg, "valid_states" : valid_states})
+
+	return None
+
+def validate_get_cust_order(request):
+	if request.json is None:
+		error_msg = "Expected json object, was not found"
+		return jsonify({"success": False, "message": error_msg})
+
+	if "custId" not in request.json:
+		error_msg = "Expected 'custId', and was not found"
+		return jsonify({"success": False, "message": error_msg})
+
+	cust_id = request.json.get("custId")
+
+	query = "SELECT email FROM customer where email = %s"
+	result = connector.execute_query(query, (cust_id,))
+	if result is None or result == []:
+		error_msg = "No customer with id = " + cust_id
+		return jsonify({"success":False, "message": error_msg})
+	return None
+
+def validate_get_order(request):
+	error = validate_get_cust_order(request)
+	if error != None:
+		return error
+
+	if "orderId" not in request.json:
+		error_msg = "Expected 'orderId', and was not found"
+		return jsonify({"success": False, "message": error_msg})
+
+	order_id = request.json.get("orderId")
+
+	query = "SELECT id from orders where id = %s"
+	result = connector.execute_query(query, (order_id,))
+	if result is None or result == []:
+		error_msg = "No order exists with id = " + order_id
+		return ({"success": False, "message": error_msg})
 
 	return None
