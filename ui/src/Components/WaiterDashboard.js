@@ -26,10 +26,11 @@ const useStyles = theme => ({
     }
 });
 
+const _ = require('lodash');
+
 const WaiterDashboard = (props) => {
     const {classes} = props;
     const [state, setState] = useState({requested: [], cooking: [], ready_to_deliver: []});
-    const _ = require('lodash');
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -57,7 +58,7 @@ const WaiterDashboard = (props) => {
         }, 1000);
 
         return () => clearInterval(interval);
-    }, [state, useState]);
+    }, [state]);
 
     const MapOrderItem = ({value}) => {
         return value.map((ele, index) => {

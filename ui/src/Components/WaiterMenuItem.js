@@ -54,10 +54,10 @@ const WaiterMenuItem = ( props ) => {
             <Card className={classes.orderCard}>
                 <CardHeader title={value}
                 titleTypographyProps={
-                    {variant:'display1',noWrap:'true'}
+                    {variant:'body1', noWrap:true}
                 }/>
 
-                <Divider variant="horizontal" />
+                <Divider />
 
                 <Typography gutterBottom variant="subtitle1">
                     ID {id}

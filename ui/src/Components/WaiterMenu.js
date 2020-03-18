@@ -53,16 +53,16 @@ const useStyles = makeStyles(theme => ({
  * Each dish will show a drop-down menu with availability choices, selected dishes will be updated once the submit button is pressed to submit the states.
  */
 
-const WaiterMenu = () => {
+const WaiterMenu = (props) => {
     const [items, setItems] = useState([]);
-    const [vegan, setVegan] = useState(false);
-    const [vegetarian, setVegetarian] = useState(false);
-    const [glutenFree, setGlutenFree] = useState(false);
+    const [vegan] = useState(false);
+    const [vegetarian] = useState(false);
+    const [glutenFree] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [severity, setSeverity] = React.useState("");
     const [message, setMessage] = React.useState("");
     const [updatedItems,setUpdatedItems] = useState([]);
-    const classes = useStyles();
+    const {classes} = props;
 
 
     // Calls the API to get the current menu items.
@@ -76,7 +76,7 @@ const WaiterMenu = () => {
         }).then((data) => {
             setItems(data.data.items);
         });
-    }
+    };
     useEffect(() => {
         getMenu()
     }, []);
@@ -162,7 +162,6 @@ const WaiterMenu = () => {
                     <div className={classes.paper}>
                     <Grid spacing={2}
                           container
-                          maxWidth={"xs"}
                           className={classes.grid}
                     >
                         <Grid item xs>
@@ -181,12 +180,10 @@ const WaiterMenu = () => {
                             <MapWaiterMenuItem value={"dessert"} className={classes.itemCard} />
                         </Grid>
                     </Grid>
-
                         <Grid
                             container
                             spacing={4}
                             className={classes.grid}
-                            maxWidth={"xs"}
                         >
                             <Grid item xs>
                                 <form className={classes.form} onSubmit={handleReset}>
