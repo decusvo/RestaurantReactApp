@@ -11,10 +11,11 @@ import SignUp from "./Components/SignUp";
 import WaiterDashboard from "./Components/WaiterDashboard";
 import {useDispatch, useSelector} from "react-redux";
 import Order from "./Components/Order";
-import Checkout from "./Components/Payment/Checkout";
 import Tracking from "./Components/Payment/Tracking";
 import WaiterMenu from "./Components/WaiterMenu";
 import userActions from "./actions/userActions";
+import OrderSummary from "./Components/Payment/OrderSummary";
+import PaymentForm from "./Components/Payment/PaymentForm";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -58,6 +59,7 @@ const App = () => {
                                 <Route path="/WaiterMenu">
                                     <WaiterMenu />
                                 </Route>
+
                             </>
                             :
                             <>
@@ -79,8 +81,11 @@ const App = () => {
                                 <Route path="/Tracking">
                                     <Tracking/>
                                 </Route>
-                                <Route path="/Checkout">
-                                    <Checkout/>
+                                <Route path="/PaymentForm">
+                                    <PaymentForm/>
+                                </Route>
+                                <Route path="/OrderSummary">
+                                    <OrderSummary/>
                                 </Route>
                             </>
                             :

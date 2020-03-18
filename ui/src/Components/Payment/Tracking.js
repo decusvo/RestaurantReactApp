@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
   grid: {
     flexGrow: 0
   }
-}))
+}));
 
 
 // TODO: Pass order information to global state.
@@ -32,7 +32,6 @@ const Tracking = () => {
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [paymentState, setPaymentState] = React.useState(false);
-  const [orderID,setOrderID] = React.useState();
   const dispatch = useDispatch();
 
   function Alert(props) {
@@ -88,11 +87,10 @@ const Tracking = () => {
       });
   };
 
-  function paymentRedirection(
-    orderID,
-  ) {
+  function paymentRedirection(orderID) {
     setOrderID(orderID);
     setPaymentState(true);
+    dispatch(allActions.orderActions.setOrder(orderID));
   }
 
   const MapOrderItem = ({ value }) => {
@@ -116,18 +114,11 @@ const Tracking = () => {
   };
 
 
-  useEffect(() => {
-    if (paymentState === true){
-      dispatch(allActions.orderActions.setOrder(orderID,currentUser.user.name));
-    }
-    // eslint-disable-next-line
-  }, [orderID]);
-
   return (
     <React.Fragment>
       <CssBaseline />
       {paymentState ? (
-        <Redirect to="/Checkout" />
+        <Redirect to="/OrderSummary" />
       ) : null}
       <Typography variant="h3" className={classes.title}>
         Your orders
