@@ -1,5 +1,5 @@
-import React from 'react';
-import {AppBar, Button, Toolbar, Typography, useScrollTrigger, Slide, CssBaseline} from '@material-ui/core';
+import React, {useState} from 'react';
+import {AppBar, Button, CssBaseline, Slide, Toolbar, Typography, useScrollTrigger,} from '@material-ui/core';
 import Logo from '../Images/Logo_new.png';
 import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
@@ -17,6 +17,9 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import Notification from "./Notification";
 import NotificationsIcon from '@material-ui/icons/Notifications';
+import {Badge, MuiThemeProvider} from "material-ui";
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {red} from '@material-ui/core/colors';
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -59,11 +62,11 @@ export default function NavBar(props) {
     }
 
     return(
-        <ThemeProvider theme={theme}>
-            <div className={classes.root}>
+        <div className={classes.root}>
+            <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <HideOnScroll {...props}>
-                    <AppBar style={{background: '#68a4a7'}}>
+                    <AppBar style={{height: "8%"}} color={"secondary"}>
                         <Toolbar>
                             <Button onClick={() => History.push("/Home")}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
                             <Button onClick={() => History.push("/About")} color={"inherit"}>About</Button>
@@ -72,6 +75,13 @@ export default function NavBar(props) {
                             </Button>
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
+                            <MuiThemeProvider muiTheme={getMuiTheme()}>
+                                <Badge badgeContent={4} badgeStyle={{top: 20, right: 5, backgroundColor: red.A400}}>
+                                <IconButton style={{bottom: 5, left: 15}} onClick={() => setNotificationOpen(true)} edge={"start"} color={"inherit"} tooltip={"notifications"} aria-label={"notification"}>
+                                        <NotificationsIcon />
+                                </IconButton>
+                                </Badge>
+                            </MuiThemeProvider>
 
                             {currentUser.loggedIn ?
                                 <>
@@ -100,7 +110,6 @@ export default function NavBar(props) {
                                     </IconButton>
                                     <Button onClick={() => History.push("/Register")} color={"inherit"}>Register</Button>
                                     <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
-                                    <Button onClick={() => History.push("/WaiterDashboard")} color={"inherit"}>Waiter </Button>
                                 </>}
 
                         </Toolbar>
@@ -114,8 +123,7 @@ export default function NavBar(props) {
                     open={true}
                     message={"Total price: " + total}
                 /> : null}
-
-            </div>
-        </ThemeProvider>
+            </ThemeProvider>
+        </div>
         );
 }
