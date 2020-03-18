@@ -1,5 +1,13 @@
 import React, {useState} from 'react';
-import {AppBar, Button, CssBaseline, Slide, Toolbar, Typography, useScrollTrigger,} from '@material-ui/core';
+import {
+    AppBar,
+    Button,
+    Toolbar,
+    Typography,
+    useScrollTrigger,
+    Slide,
+    CssBaseline,
+} from '@material-ui/core';
 import Logo from '../Images/Logo_new.png';
 import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
@@ -19,7 +27,7 @@ import Notification from "./Notification";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Badge, MuiThemeProvider} from "material-ui";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {red} from '@material-ui/core/colors';
+import { red } from '@material-ui/core/colors';
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -41,6 +49,23 @@ const useStyles = makeStyles(({
     },
     blank: {
         flexGrow: 1,
+    },
+    size: {
+        [theme.breakpoints.only("xl")]: {
+            height: "5%"
+        },
+        [theme.breakpoints.only("lg")]: {
+            height: "8%"
+        },
+        [theme.breakpoints.only("md")]: {
+            height: "10%"
+        },
+        [theme.breakpoints.only("sm")]: {
+            height: "10%"
+        },
+        [theme.breakpoints.only("xs")]: {
+            height: "10%"
+        }
     }
 }));
 
@@ -52,6 +77,7 @@ export default function NavBar(props) {
     const vertical = "bottom";
     const horizontal = "right";
     const [notificationOpen, setNotificationOpen] = useState(false);
+    const [notificationCount, setCount] = useState(0);
 
     function logOut() {
         dispatch(userActions.logOut())
@@ -61,12 +87,16 @@ export default function NavBar(props) {
         })
     }
 
+    const handleNumberOfNotifications = (number) => {
+        setCount(number)
+    };
+
     return(
         <div className={classes.root}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <HideOnScroll {...props}>
-                    <AppBar style={{height: "8%"}} color={"secondary"}>
+                    <AppBar className={classes.size} color={"secondary"}>
                         <Toolbar>
                             <Button onClick={() => History.push("/Home")}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
                             <Button onClick={() => History.push("/About")} color={"inherit"}>About</Button>
@@ -76,7 +106,7 @@ export default function NavBar(props) {
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
                             <MuiThemeProvider muiTheme={getMuiTheme()}>
-                                <Badge badgeContent={4} badgeStyle={{top: 20, right: 5, backgroundColor: red.A400}}>
+                                <Badge badgeContent={notificationCount} badgeStyle={{top: 20, right: 5, backgroundColor: red.A400}}>
                                 <IconButton style={{bottom: 5, left: 15}} onClick={() => setNotificationOpen(true)} edge={"start"} color={"inherit"} tooltip={"notifications"} aria-label={"notification"}>
                                         <NotificationsIcon />
                                 </IconButton>
@@ -115,7 +145,7 @@ export default function NavBar(props) {
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>
-                <Notification open={notificationOpen} setOpen={setNotificationOpen}/>
+                <Notification numberOfNotifications={handleNumberOfNotifications} open={notificationOpen} setOpen={setNotificationOpen}/>
                 <Toolbar />
                 {total>0? <Snackbar
                     anchorOrigin={{ vertical, horizontal }}

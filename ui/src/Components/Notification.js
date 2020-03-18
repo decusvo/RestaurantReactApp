@@ -7,7 +7,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import {useSelector} from "react-redux";
-import MuiDialogActions from "@material-ui/core/DialogActions";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const styles = theme => ({
@@ -23,66 +22,14 @@ const styles = theme => ({
 });
 
 const MapNotifications = (props) => {
-    const {notification} = props;
-    console.log(notification);
-    const notifications = [{"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"},
-        {"waiter":"deniz", "message":"ready"},
-        {"waiter":"deniz", "message":"get-order"},
-        {"waiter":"deniz", "message":"customer-calls"}];
-
-    return notifications.map(function (notification, index) {
-        return(<Typography key={index}>{notification.message}</Typography>)
-    })
+    const {notifications} = props;
+    if (notifications !== []) {
+        return notifications.map(function (notification, index) {
+            return (<Typography key={index}>{notification[3]}</Typography>)
+        })
+    } else {
+        return (<div> </div>)
+    }
 };
 
 const DialogTitle = withStyles(styles)(props => {
@@ -102,27 +49,22 @@ const DialogContent = withStyles(theme => ({
     },
 }))(MuiDialogContent);
 
-const DialogActions = withStyles(theme => ({
-    root: {
-        margin: 0,
-        padding: theme.spacing(1),
-    },
-}))(MuiDialogActions);
 
 const Notification = (props) => {
-    const {open, setOpen} = props;
+    const {numberOfNotifications, open, setOpen} = props;
     const [notifications, setNotifications] = useState([]);
     const waiter_id = useSelector(state => state.currentUser.name);
 
     useEffect(() => {
         fetch("//127.0.0.1:5000/get_waiter_notifications", {method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"waiter_id": waiter_id})}).then((response) => {
+            body: JSON.stringify({"waiter_id": 1})}).then((response) => {
             return response.json();
         }).then((data) => {
-            setNotifications(data.data);
+            setNotifications(data.data.notifications);
+            numberOfNotifications(notifications.length)
         });
-    }, [waiter_id]);
+    }, [notifications]);
 
     function handleClose() {
         setOpen(false)
