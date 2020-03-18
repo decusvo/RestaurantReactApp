@@ -1,9 +1,18 @@
-const setOrder = (orderID, customerID) => {
+const setOrder = (orderID) => {
   return {
     type: "SET_ORDER",
     payload: {
-      order: orderID,
-      customer: customerID
+      order: orderID
+    }
+  };
+};
+
+const setResponse = (response,name) => {
+  return {
+    type: "SET_RESPONSE",
+    payload: {
+      response: response,
+      name:name
     }
   };
 };
@@ -17,4 +26,5 @@ const resetOrderID = () => {
 export default {
   setOrder,
   resetOrderID,
+  setResponse
 };
