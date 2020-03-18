@@ -19,7 +19,7 @@ const App = () => {
 
     const dispatch = useDispatch();
     useEffect(() => dispatch(userActions.autoLogIn()),
-        []);
+        [dispatch]);
 
     return (
             <div className="App">

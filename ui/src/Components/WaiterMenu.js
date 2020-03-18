@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import withStyles from "@material-ui/core/styles/withStyles";
 import {Container} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -53,7 +52,7 @@ const useStyles = makeStyles(theme => ({
  * Each dish will show a drop-down menu with availability choices, selected dishes will be updated once the submit button is pressed to submit the states.
  */
 
-const WaiterMenu = (props) => {
+const WaiterMenu = () => {
     const [items, setItems] = useState([]);
     const [vegan] = useState(false);
     const [vegetarian] = useState(false);
@@ -62,7 +61,7 @@ const WaiterMenu = (props) => {
     const [severity, setSeverity] = React.useState("");
     const [message, setMessage] = React.useState("");
     const [updatedItems,setUpdatedItems] = useState([]);
-    const {classes} = props;
+    const classes = useStyles();
 
 
     // Calls the API to get the current menu items.
@@ -101,9 +100,7 @@ const WaiterMenu = (props) => {
                 }else if (!vegan && !vegetarian && !glutenFree) {
                     return (<WaiterMenuItem  sendState={handleState} key={index} id={dish.id} value={dish.name} state={dish.available}/>)
                 }
-            } else {
-                return (<div key={index}> </div>);
-            }
+            } return null;
         });
     };
 
@@ -129,7 +126,7 @@ const WaiterMenu = (props) => {
     };
 
     const handleSubmit = event => {
-       {/*API call to update state of dish list is not yet implemented.*/}
+       // API call to update state of dish list is not yet implemented.
        event.preventDefault();
        updatedItems.forEach(item => {
            let state = (item[1] === "Available");
@@ -231,4 +228,4 @@ const WaiterMenu = (props) => {
     )
 };
 
-export default withStyles(useStyles)(WaiterMenu);
+export default WaiterMenu;
