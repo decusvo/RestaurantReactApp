@@ -49,23 +49,6 @@ const useStyles = makeStyles(({
     },
     blank: {
         flexGrow: 1,
-    },
-    size: {
-        [theme.breakpoints.only("xl")]: {
-            height: "5%"
-        },
-        [theme.breakpoints.only("lg")]: {
-            height: "8%"
-        },
-        [theme.breakpoints.only("md")]: {
-            height: "10%"
-        },
-        [theme.breakpoints.only("sm")]: {
-            height: "10%"
-        },
-        [theme.breakpoints.only("xs")]: {
-            height: "10%"
-        }
     }
 }));
 

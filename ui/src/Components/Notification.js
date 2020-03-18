@@ -71,7 +71,7 @@ const Notification = (props) => {
     }
 
     function handleClearNotifications() {
-        // TODO call clear notifications endpoint
+        fetch()
     }
 
     const actions = [

@@ -9,6 +9,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import {useSelector} from "react-redux";
+import {func} from "prop-types";
 
 const useStyles = ({
     typography: {
@@ -23,12 +24,18 @@ const FoodMenu = (props) => {
     const [glutenFree, setGlutenFree] = useState(false);
 
     useEffect(() => {
-        fetch("//127.0.0.1:5000/menu", {method: 'POST'}).then((response) => {
+        const abortController = new AbortController();
+        fetch("//127.0.0.1:5000/menu", {signal: abortController.signal, method: 'POST'}).then((response) => {
             return response.json();
         }).then((data) => {
             setItems(data.data.items);
         });
-    }, []);
+
+        return function cleanup() {
+            abortController.abort()
+        }
+    }, [items]);
+
 
     const {classes} = props;
         const {handlerPlus, handlerMinus} = props;

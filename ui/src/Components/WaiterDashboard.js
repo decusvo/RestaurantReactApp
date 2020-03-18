@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {CssBaseline, Typography, withStyles} from '@material-ui/core';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
@@ -26,29 +26,12 @@ const useStyles = theme => ({
     }
 });
 
-class WaiterDashboard extends React.Component {
+const WaiterDashboard = (props) => {
+    const {classes} = props;
+    const [state, setState] = useState({requested: [], cooking: [], ready_to_deliver: []});
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          requested: [],
-          cooking: [],
-          ready_to_deliver: []
-        };
-    }
-
-    async componentDidMount(){
-      this.refresh();
-    };
-
-    refresh = () => {
-        var orderStates = ["requested", "ready_to_deliver", "cooking"];
-
-        this.setState(this.state.requested = []);
-        this.setState(this.state.cooking = []);
-        this.setState(this.state.ready_to_deliver = []);
-
-
+    useEffect(() => {
+        const orderStates = ["requested", "ready_to_deliver", "cooking"];
         fetch("//127.0.0.1:5000/get_orders", {method:'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({"states": orderStates})
@@ -58,29 +41,29 @@ class WaiterDashboard extends React.Component {
             // if the array is not null
             let orders = data.data.orders;
             // eslint-disable-next-line
+            const changedState = {"requested": [], "ready_to_deliver": [], "cooking": []}
             if(orders){
                 orders.forEach(ele => {
-                    let change = {};
-                    change[ele.state] = this.state[ele.state].concat(ele);
-                    this.setState(change)
+                    changedState[ele.state].push(ele)
                 })
+            }
+            console.log(state !== changedState)
+            if (state !== changedState) {
+                setState(changedState)
             }
             // else do nothing
         })
-    };
+    }, []);
 
-    render() {
-        const {classes} = this.props;
-
-        const MapOrderItem = ({value}) => {
-          return value.map((ele, index) => {
+    const MapOrderItem = ({value}) => {
+        return value.map((ele, index) => {
             const order = ele;
             let {state, id, table_number, items, ordered_time, price} = order;
-            return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} refreshHandler={this.refresh} />)
-          })
-        };
+            return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} />)
+        })
+    };
 
-        return (
+    return (
             <React.Fragment>
                 <CssBaseline />
 
@@ -90,21 +73,21 @@ class WaiterDashboard extends React.Component {
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                             To Be Confirmed
                         </Typography>
-                        <MapOrderItem value={this.state.requested}/>
+                        <MapOrderItem value={state.requested}/>
                       </Grid>
 
                     <Grid item xs>
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                             In Progress
                         </Typography>
-                        <MapOrderItem value={this.state.cooking}/>
+                        <MapOrderItem value={state.cooking}/>
                     </Grid>
 
                     <Grid item xs>
                         <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
                             To Be Served
                         </Typography>
-                        <MapOrderItem value={this.state.ready_to_deliver}/>
+                        <MapOrderItem value={state.ready_to_deliver}/>
                     </Grid>
                 </Grid>
 
@@ -113,8 +96,7 @@ class WaiterDashboard extends React.Component {
                     </Box>
             </React.Fragment>
 
-        )
-    }
+        );
 }
 
 export default withStyles(useStyles)(WaiterDashboard);
