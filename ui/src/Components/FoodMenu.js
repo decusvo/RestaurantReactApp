@@ -23,16 +23,21 @@ const FoodMenu = (props) => {
     const [glutenFree, setGlutenFree] = useState(false);
 
     useEffect(() => {
-        const abortController = new AbortController();
-        fetch("//127.0.0.1:5000/menu", {signal: abortController.signal, method: 'POST'}).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setItems(data.data.items);
-        });
+        const interval = setInterval(() => {
+            const abortController = new AbortController();
+            fetch("//127.0.0.1:5000/menu", {signal: abortController.signal, method: 'POST'}).then((response) => {
+                return response.json();
+            }).then((data) => {
+                setItems(data.data.items);
+            });
 
-        return function cleanup() {
-            abortController.abort()
-        }
+            return function cleanup() {
+                abortController.abort()
+            }
+        }, 1000);
+
+        return () => clearInterval(interval)
+
     }, [items]);
 
 

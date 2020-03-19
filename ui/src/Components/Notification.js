@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Dialog, FlatButton, MuiThemeProvider} from "material-ui";
+import {Dialog, Divider, FlatButton, MuiThemeProvider} from "material-ui";
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -24,11 +24,15 @@ const styles = theme => ({
 const MapNotifications = (props) => {
     const {notifications} = props;
     if (notifications !== []) {
-        return notifications.map(function (notification, index) {
-            return (<Typography key={index}>{notification[3]}</Typography>)
+        return notifications.reverse().map(function (notification, index) {
+            return (<div key={index}>
+                    <Typography >{notification[3]}</Typography>
+                    <Divider />
+                </div>
+                )
         })
     } else {
-        return (<div> </div>)
+        return null;
     }
 };
 
@@ -58,20 +62,28 @@ const Notification = (props) => {
     useEffect(() => {
         fetch("//127.0.0.1:5000/get_waiter_notifications", {method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"waiter_id": 1})}).then((response) => {
+            body: JSON.stringify({"waiter_id": 1})
+        }).then((response) => {
             return response.json();
         }).then((data) => {
             setNotifications(data.data.notifications);
             numberOfNotifications(notifications.length)
         });
-    }, [notifications, numberOfNotifications]);
+    }, [notifications, open]);
 
     function handleClose() {
         setOpen(false)
     }
 
     function handleClearNotifications() {
-        // TODO clear notifications
+        fetch("//127.0.0.1:5000/clear_waiter_notifications", {method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({"waiter_id": 1})
+        }).then((response) => {
+            return response.json();
+            }).then(data => {
+            console.log(data)
+        })
     }
 
     const actions = [
@@ -90,7 +102,7 @@ const Notification = (props) => {
                     onRequestClose={handleClose}
                     autoScrollBodyContent={true}>
                 <DialogTitle id={"customized-dialog-title"} onClose={handleClose}> </DialogTitle>
-                <DialogContent>
+                <DialogContent dividers>
                     <MapNotifications notifications={notifications}/>
                 </DialogContent>
             </Dialog>
