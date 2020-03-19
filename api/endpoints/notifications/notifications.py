@@ -19,13 +19,13 @@ def add_waiter_notification():
 		return(error)
 	
 	message = request.json.get("message")
-	waiter_id = request.json.get("waiter_id")
-	customer_id = request.json.get("customer_id")
+	waiter_email = request.json.get("waiter_email")
+	customer_email = request.json.get("customer_email")
 
-	query = "INSERT INTO waiter_notifications(waiter_id, customer_id, message) VALUES(%s, %s, %s)"
-	connector.execute_insert_query(query, (waiter_id, customer_id, message))
+	query = "INSERT INTO waiter_notifications(waiter_email, customer_email, message) VALUES(%s, %s, %s)"
+	connector.execute_insert_query(query, (waiter_email, customer_email, message))
 
-	return jsonify(data={"success" : True})
+	return jsonify(data={"added_message" : message, "from" : waiter_email, "to" : customer_email, "success" : True})
 
 
 
@@ -35,10 +35,10 @@ def get_waiter_notifications():
 	if error:
 		return(error)
 
-	waiter_id = request.json.get("waiter_id")
+	waiter_email = request.json.get("waiter_email")
 
-	query = "SELECT * FROM waiter_notifications WHERE waiter_id=%s"
-	notifications = connector.execute_query(query, (waiter_id,))
+	query = "SELECT * FROM waiter_notifications WHERE waiter_email=%s"
+	notifications = connector.execute_query(query, (waiter_email,))
 	
 	return jsonify(data={"notifications" : notifications, "success" : True})
 	
@@ -51,9 +51,9 @@ def clear_waiter_notifications():
 	if error:
 		return(error)
 
-	waiter = request.json.get("waiter_id")
+	waiter = request.json.get("waiter_email")
 
-	query = "DELETE FROM waiter_notifications WHERE waiter_id=%s"
+	query = "DELETE FROM waiter_notifications WHERE waiter_email=%s"
 	connector.execute_insert_query(query, (waiter,))
 
 	return jsonify(data={"success" : True})
