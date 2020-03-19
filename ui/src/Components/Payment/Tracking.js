@@ -1,14 +1,13 @@
 import React, {useEffect} from "react";
 import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 import TrackingItem from "./TrackingItem";
 import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Redirect} from "react-router";
-import allActions from "../../actions";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,7 +31,6 @@ const Tracking = () => {
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [paymentState, setPaymentState] = React.useState(false);
-  const dispatch = useDispatch();
 
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -76,7 +74,6 @@ const Tracking = () => {
     })
       .then(response => {
         getTracking();
-        console.log("updated");
         return response.json();
       })
       .catch(error => {
@@ -88,9 +85,8 @@ const Tracking = () => {
   };
 
   function paymentRedirection(orderID) {
-    setOrderID(orderID);
     setPaymentState(true);
-    dispatch(allActions.orderActions.setOrder(orderID));
+    localStorage.setItem('ProcessedOrderID', orderID);
   }
 
   const MapOrderItem = ({ value }) => {

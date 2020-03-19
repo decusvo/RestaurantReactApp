@@ -52,12 +52,12 @@ const useStyles = makeStyles(theme => ({
 
 export default function OrderSummary() {
   const classes = useStyles();
-  const orderToProcess = useSelector(state => state.orderToProcess);
   const currentUser = useSelector(state => state.currentUser);
   const [currentOrder, setCurrentOrder] = React.useState();
   const [redirectToTracking, setRedirectToTracking] = React.useState(false);
   const [redirectToPayment, setRedirectToPayment] = React.useState(false);
   const [loadedOrders, setLoadedOrders] = React.useState(false);
+  const orderID = localStorage.getItem('ProcessedOrderID');
 
   const handleBack = () => {
     setRedirectToTracking(true);
@@ -85,7 +85,7 @@ export default function OrderSummary() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         custId: currentUser.user.name,
-        orderId: orderToProcess.order
+        orderId: orderID
       })
     })
       .then(response => {
@@ -113,7 +113,6 @@ export default function OrderSummary() {
             Order Summary
           </Typography>
           {loadedOrders ? (
-            // console.log(currentOrder[0].items)
             <List disablePadding>
               <MapOrderItem value={currentOrder[0].items} />
               <ListItem className={classes.listItem}>
