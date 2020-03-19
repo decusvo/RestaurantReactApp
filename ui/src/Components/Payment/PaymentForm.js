@@ -7,6 +7,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
 
+// TODO: Update order state upon success.
+// TODO: Upon failure, give customer an alert to retry with a useful error message.
 
 const useStyles = makeStyles(theme => ({
   listItem: {
