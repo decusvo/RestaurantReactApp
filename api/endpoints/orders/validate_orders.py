@@ -165,3 +165,22 @@ def validate_get_order(request):
 		return ({"success": False, "message": error_msg})
 
 	return None
+
+def validate_get_waiters_orders(request):
+	error = validate_get_orders(request)
+	if error != None:
+		return error
+
+	if "waiter_id" not in request.json:
+		error_msg = "Expected 'waiter_id', and was not found"
+		return jsonify({"success": False, "message": error_msg})
+
+	waiter_id = request.json.get("waiter_id")
+
+	query = "SELECT email from waiter where email = %s"
+	result = connector.execute_query(query, (waiter_id,))
+	if len(result) is 0:
+		error_msg = "Given waiter email was not found in the table"
+		return jsonify({"success":False, "message":error_msg})
+
+	return None
