@@ -65,7 +65,7 @@ def get_order():
 				"FROM orders, total_order_price, ordered_item_array " \
 				"WHERE orders.id = total_order_price.order_id " \
 				"AND orders.id = ordered_item_array.order_id " \
-				"AND orders.cust_id = %s"\
+				"AND orders.cust_id = %s "\
 				"AND orders.id = %s) " \
 			"AS order_list;"
 	result = connector.execute_query(query, (cust_id, order_id))
@@ -86,7 +86,7 @@ def get_orders():
 					"FROM orders, total_order_price, ordered_item_array " \
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id) " \
-					"ORDER BY ordered_time" \
+					"ORDER BY ordered_time " \
 				"AS order_list;"
 		result = connector.execute_query(query)
 	else:
@@ -96,7 +96,7 @@ def get_orders():
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id " \
 					"AND state = ANY('{"
-		query += ", ".join(states) + "}')"
+		query += ", ".join(states) + "}') "
 		query += "ORDER BY ordered_time) AS order_list;"
 		result = connector.execute_query(query)
 	return jsonify(data={"orders" : result[0][0]})
@@ -129,7 +129,7 @@ def get_waiter_orders():
 					"AND waiter_id = %s "\
 					"AND state = ANY('{"
 		query += ", ".join(states) + "}') "
-		query += "ORDER BY ordered_time )"
+		query += "ORDER BY ordered_time ) "
 		query += "AS order_list;"
 		result = connector.execute_query(query, (waiter_id,))
 	return jsonify(data={"orders" : result[0][0]})
@@ -149,7 +149,7 @@ def get_cust_order():
 				"WHERE orders.id = total_order_price.order_id " \
 				"AND orders.id = ordered_item_array.order_id " \
 				"AND orders.cust_id = %s" \
-				"ORDER BY ordered_time" \
+				"ORDER BY ordered_time " \
 			"AS order_list;"
 	result = connector.execute_query(query, (id,))
 	return jsonify(data={"orders":result[0][0]})
