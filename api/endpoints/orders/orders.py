@@ -86,6 +86,7 @@ def get_orders():
 					"FROM orders, total_order_price, ordered_item_array " \
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id) " \
+					"ORDER BY ordered_time" \
 				"AS order_list;"
 		result = connector.execute_query(query)
 	else:
@@ -95,7 +96,8 @@ def get_orders():
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id " \
 					"AND state = ANY('{"
-		query += ", ".join(states) + "}')) AS order_list;"
+		query += ", ".join(states) + "}')"
+		query += "ORDER BY ordered_time) AS order_list;"
 		result = connector.execute_query(query)
 	return jsonify(data={"orders" : result[0][0]})
 
@@ -146,7 +148,8 @@ def get_cust_order():
 				"FROM orders, total_order_price, ordered_item_array " \
 				"WHERE orders.id = total_order_price.order_id " \
 				"AND orders.id = ordered_item_array.order_id " \
-				"AND orders.cust_id = %s) " \
+				"AND orders.cust_id = %s" \
+				"ORDER BY ordered_time" \
 			"AS order_list;"
 	result = connector.execute_query(query, (id,))
 	return jsonify(data={"orders":result[0][0]})
