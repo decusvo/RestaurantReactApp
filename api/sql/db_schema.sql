@@ -41,8 +41,8 @@ CREATE TABLE waiter(
 
 CREATE TABLE waiter_notifications(
 	notification_id serial PRIMARY KEY,
-	waiter_id integer REFERENCES waiter(waiter_id),
-	customer_id varchar(128) REFERENCES customer(email),
+	waiter_email varchar(128) REFERENCES waiter(email),
+	customer_email varchar(128) REFERENCES customer(email),
 	message varchar(256)
 );
 
