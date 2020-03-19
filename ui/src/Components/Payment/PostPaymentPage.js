@@ -3,9 +3,8 @@ import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
-import { useSelector } from "react-redux";
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
     title: {
         marginTop: theme.spacing(2),
         variant: "h2",
@@ -29,22 +28,27 @@ const useStyles = makeStyles(() => ({
 const PostPaymentPage = () => {
   const classes = useStyles();
   const [buttonClicked, setButtonClicked] = React.useState(false);
-  const orderToProcess = useSelector(state => state.orderToProcess);
+  let firstName = localStorage.getItem('CustomerName');
+  let response = localStorage.getItem('paymentResponse') === true ? "successful" : "unsuccessful";
 
-  let firstName = orderToProcess.name;
+  const handleRedirection = () => {
+      setButtonClicked(true);
+  };
+
   const lastIndex = firstName.lastIndexOf(" ");
   firstName = firstName.substring(0, lastIndex);
 
   return (
     <React.Fragment>
       {buttonClicked ? <Redirect to={"/Menu"} /> : null}
+
       <Typography variant="h3" className={classes.title}>
-        Thanks {firstName}!, The order has been a {orderToProcess.response}.
+        Thanks {firstName}.The order has been a {response}.
       </Typography>
       <Button
         variant="contained"
         color="primary"
-        onClick={setButtonClicked(true)}
+        onClick={handleRedirection}
         className={classes.button}
       >
         Menu

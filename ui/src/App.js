@@ -16,6 +16,7 @@ import WaiterMenu from "./Components/WaiterMenu";
 import userActions from "./actions/userActions";
 import OrderSummary from "./Components/Payment/OrderSummary";
 import PaymentForm from "./Components/Payment/PaymentForm";
+import PostPaymentPage from "./Components/Payment/PostPaymentPage";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -86,6 +87,9 @@ const App = () => {
                                 </Route>
                                 <Route path="/OrderSummary">
                                     <OrderSummary/>
+                                </Route>
+                                <Route path="/PostPaymentPage">
+                                    <PostPaymentPage/>
                                 </Route>
                             </>
                             :

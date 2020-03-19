@@ -6,8 +6,7 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
-import { useDispatch } from "react-redux";
-import allActions from "../../actions";
+
 
 const useStyles = makeStyles(theme => ({
   listItem: {
@@ -58,7 +57,6 @@ export default function PaymentForm() {
   const [cardCVV, setCardCVV] = React.useState("");
   const [cardSortCode, setCardSortCode] = React.useState("");
   const [payConfirmed, setPayConfirmed] = React.useState(false);
-  const dispatch = useDispatch();
 
   const submitPayment = () => {
     fetch("//127.0.0.1:5000/verify_payment", {
@@ -75,9 +73,12 @@ export default function PaymentForm() {
         return response.json();
       })
       .then(data => {
+        console.log(data);
+        localStorage.setItem('paymentResponse',data.data.success);
+        localStorage.setItem('CustomerName',cardName);
         setPayConfirmed(true);
-        dispatch(allActions.orderActions.setResponse(data, cardName));
-      });
+
+      }).catch(error => console.log(error));
   };
 
   const handleSortCode = event => {
