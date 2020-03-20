@@ -31,6 +31,8 @@ const PostPaymentPage = () => {
   let firstName = localStorage.getItem('CustomerName');
   let orderID = localStorage.getItem('ProcessedOrderID');
   let response = (localStorage.getItem('paymentResponse') === "true") ? "successful" : "unsuccessful";
+localStorage.setItem('ProcessedOrderID','');
+localStorage.setItem('paymentResponse','');
 
   const handleRedirection = () => {
       setButtonClicked(true);

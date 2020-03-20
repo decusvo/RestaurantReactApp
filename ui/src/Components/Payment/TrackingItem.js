@@ -31,7 +31,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TrackingItem = props => {
-  let button = null;
+  let button;
   const classes = useStyles();
   const textCardContentStyles = useN01TextInfoContentStyles();
   const shadowStyles = useBouncyShadowStyles();
@@ -59,13 +59,10 @@ const TrackingItem = props => {
     orderID,
     tableID,
     allItems,
-    quantity,
     totalPrice,
     orderState
   } = props;
 
-  // TODO : Pass customer ID from the tracking item to Tracking.js and then update reducers/actions to support them.
-  // TODO : Pass customer ID and order ID to Review, then fetch the specific order information and render it.
 
   if (orderState === "delivered") {
     button = (

@@ -80,19 +80,39 @@ export default function PaymentForm() {
       })
       .then(data => {
         console.log(data);
-        localStorage.setItem('paymentResponse',data.data.success);
-        localStorage.setItem('CustomerName',cardName);
+        localStorage.setItem("paymentResponse", data.data.success);
+        localStorage.setItem("CustomerName", cardName);
         if (data.data.success === true) {
           setPayConfirmed(true);
         } else {
           invalidPayment();
         }
+      })
+      .catch(error => console.log(error));
+  };
 
-      }).catch(error => console.log(error));
+  const updateOrder = () => {
+    fetch("//127.0.0.1:5000/order_event", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        "order_id": localStorage.getItem("ProcessedOrderID"),
+        "order_event": "pay"
+      })
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
+      })
+      .catch(error => {
+        console.log(error);
+      });
   };
 
   const invalidPayment = () => {
-    setMessage("There has been a problem validating your payment. Please check if information entered is correct.");
+    setMessage(
+      "There has been a problem validating your payment. Please check if information entered is correct."
+    );
     setOpenAlert(true);
   };
 
@@ -124,10 +144,18 @@ export default function PaymentForm() {
   const handleBack = () => {
     setRedirectToSummary(true);
   };
+
+  const uponConfirmation = () => {
+    console.log("Order being updated.");
+    updateOrder();
+
+    return <Redirect to="/PostPaymentPage" />;
+  };
+
   return (
     <React.Fragment>
       {redirectToSummary ? <Redirect to="/OrderSummary" /> : null}
-      {payConfirmed ? <Redirect to="/PostPaymentPage" /> : null}
+      {payConfirmed ? uponConfirmation() : null}
 
       <main className={classes.layout}>
         <Paper className={classes.paper}>
@@ -188,10 +216,10 @@ export default function PaymentForm() {
           </div>
           <div className={classes.buttons}>
             <Button
-                variant="contained"
-                color="primary"
-                onClick={handleBack}
-                className={classes.button}
+              variant="contained"
+              color="primary"
+              onClick={handleBack}
+              className={classes.button}
             >
               Back
             </Button>
