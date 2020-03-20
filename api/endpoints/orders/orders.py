@@ -51,29 +51,9 @@ def order_event():
 
 	return jsonify({"success" : True})
 
-@bp.route("/get_order", methods=["POST"])
-def get_order():
-	error = validate_orders.validate_get_order(request)
-	if error:
-		return (error)
-
-	order_id = request.json.get("orderId")
-	cust_id = request.json.get("custId")
-
-	query = "SELECT json_agg (order_list) FROM " \
-				"(SELECT id, table_number, state, ordered_time, price, items " \
-				"FROM orders, total_order_price, ordered_item_array " \
-				"WHERE orders.id = total_order_price.order_id " \
-				"AND orders.id = ordered_item_array.order_id " \
-				"AND orders.cust_id = %s "\
-				"AND orders.id = %s) " \
-			"AS order_list;"
-	result = connector.execute_query(query, (cust_id, order_id))
-	return jsonify(data = {"order": result[0][0]})
-
 @bp.route("/get_orders", methods=["POST"])
 def get_orders():
-	error = validate_orders.validate_get_orders(request)
+	error = validate_orders.validate_get_order(request)
 	if error:
 		return (error)
 
@@ -86,7 +66,6 @@ def get_orders():
 					"FROM orders, total_order_price, ordered_item_array " \
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id) " \
-					"ORDER BY ordered_time " \
 				"AS order_list;"
 		result = connector.execute_query(query)
 	else:
@@ -96,51 +75,13 @@ def get_orders():
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id " \
 					"AND state = ANY('{"
-		query += ", ".join(states) + "}') "
-		query += "ORDER BY ordered_time) AS order_list;"
+		query += ", ".join(states) + "}')) AS order_list;"
 		result = connector.execute_query(query)
-	return jsonify(data={"orders" : result[0][0]})
-
-@bp.route("/get_waiters_orders", methods=["POST"])
-def get_waiter_orders():
-	error = validate_orders.validate_get_waiters_orders(request)
-	if error:
-		return error
-
-	states = request.json.get("states")
-	waiter_id = request.json.get("waiter_id")
-
-	# handles case for getting all orders:
-	if len(states) == 0:
-		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, all_order_details.table_number, state, ordered_time, price, items " \
-					"FROM all_order_details, table_details " \
-					"WHERE all_order_details.table_number = table_details.table_number "\
-					"AND waiter_id = %s "\
-					"ORDER BY ordered_time) "\
-				"AS order_list;"
-
-		result = connector.execute_query(query, (waiter_id,))
-	else:
-		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, all_order_details.table_number, state, ordered_time, price, items " \
-					"FROM all_order_details, table_details " \
-					"WHERE all_order_details.table_number = table_details.table_number "\
-					"AND waiter_id = %s "\
-					"AND state = ANY('{"
-		query += ", ".join(states) + "}') "
-		query += "ORDER BY ordered_time ) "
-		query += "AS order_list;"
-		result = connector.execute_query(query, (waiter_id,))
 	return jsonify(data={"orders" : result[0][0]})
 
 
 @bp.route("/get_cust_order", methods=["POST"])
-def get_cust_order():
-	error = validate_orders.validate_get_cust_order(request)
-	if error:
-		return (error)
-
+def get_customer_order():
 	id = request.json.get("custId")
 
 	query = "SELECT json_agg (order_list) FROM " \
@@ -148,8 +89,7 @@ def get_cust_order():
 				"FROM orders, total_order_price, ordered_item_array " \
 				"WHERE orders.id = total_order_price.order_id " \
 				"AND orders.id = ordered_item_array.order_id " \
-				"AND orders.cust_id = %s" \
-				"ORDER BY ordered_time " \
+				"AND orders.cust_id = %s) " \
 			"AS order_list;"
 	result = connector.execute_query(query, (id,))
 	return jsonify(data={"orders":result[0][0]})
