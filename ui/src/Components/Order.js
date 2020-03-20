@@ -93,6 +93,7 @@ const Order = () => {
   const [orderButtonClicked, setOrderButtonClicked] = React.useState(false);
   const items = currentItems.items;
   const dispatch = useDispatch();
+  const table = localStorage.getItem("table");
 
   const handleClick = () => {
     const apiItems = [];
@@ -106,9 +107,9 @@ const Order = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        table_num: 1,
+        table_num: table,
         items: apiItems,
-        custId: currentUser.user.name
+        customer: currentUser.user.name
       })
     })
       .then(response => {
