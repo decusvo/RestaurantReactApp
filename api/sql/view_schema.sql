@@ -24,3 +24,9 @@ CREATE VIEW ordered_item_array AS
     ) AS items
   FROM ordered_item_and_quantity
   GROUP BY order_id;
+
+CREATE VIEW all_order_details AS
+	SELECT id, table_number, state, ordered_time, price, items
+	FROM orders, total_order_price, ordered_item_array
+	WHERE orders.id = total_order_price.order_id
+	AND orders.id = ordered_item_array.order_id;

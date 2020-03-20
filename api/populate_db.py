@@ -10,16 +10,16 @@ import csv
 from common import connector
 
 # initialise new connectoin
-connection = connector.get_connection() 
+connection = connector.get_connection()
 cursor = connection.cursor()
 verbose = False
 
 def get_column_names(table_name):
 	col_names = []
-	
+
 	# Get the column names for the table from given tables info schema
-	cursor.execute("""SELECT column_name 
-					FROM INFORMATION_SCHEMA.COLUMNS 
+	cursor.execute("""SELECT column_name
+					FROM INFORMATION_SCHEMA.COLUMNS
 					WHERE table_name=%s""", (table_name,))
 	results = cursor.fetchall()
 
@@ -30,7 +30,7 @@ def get_column_names(table_name):
 	return col_names
 
 def insert_many(table_name, col_names, csv_file):
-	# Open a new csv.reader object, very handy package that reads lines of csv 
+	# Open a new csv.reader object, very handy package that reads lines of csv
 	# straight in as iterable objects
 	reader = csv.reader(csv_file)
 
@@ -56,10 +56,10 @@ def insert_many(table_name, col_names, csv_file):
 			connection.commit()
 
 	connection.commit()
-		
+
 
 def insert_from_csv(data_location, table_name=None, serial_id=False):
-	try: 
+	try:
 		# Open the csv file
 		source = open(data_location)
 
@@ -73,11 +73,11 @@ def insert_from_csv(data_location, table_name=None, serial_id=False):
 
 		# i
 		if serial_id == False:
-			insert_many(table_name, col_names, source)	
+			insert_many(table_name, col_names, source)
 		else:
 			# TODO Implement alternative to ignore first column of col_names during insert
-			return	
-	
+			return
+
 	except FileNotFoundError:
 		print("ERROR\nCOULD NOT FIND: %s" % data_location)
 
@@ -89,7 +89,7 @@ def populate():
 	print("Initialising schema for database...")
 	cursor.execute(open("sql/db_schema.sql").read())
 	print("DB schema inserted")
-	
+
 	print("Initialising function schema for database...")
 	cursor.execute(open("sql/func_schema.sql").read())
 	print("Function schema inserted")
@@ -97,16 +97,22 @@ def populate():
 	print("Initialising view schema for database...")
 	cursor.execute(open("sql/view_schema.sql").read())
 	print("View schema inserted")
-	
+
 	# FOR EACH file in the source folder, pass it to insert_from_csv to decompose and insert
 	# TODO Currently no validation to check if files in source are .csv
 	print("INSERTING FILES FROM %s INTO DATABASE: %s" % (db_data_loc, connector.db_name))
 	for data_file in os.listdir(db_data_loc):
-		print("FOUND FILE: %s" % data_file)
-		insert_from_csv(db_data_loc + data_file)
-		print("%s INSERTED INTO DATABASE" % data_file)
-	
+		if data_file != "table_details.csv":
+			print("FOUND FILE: %s" % data_file)
+			insert_from_csv(db_data_loc + data_file)
+			print("%s INSERTED INTO DATABASE" % data_file)
+
+	# temporary fix to allow for email being PK on waiter table
+	print("FOUND FILE: %s" % "table_details.csv")
+	insert_from_csv("./sql/db_data/" + "table_details.csv")
+	print("%s INSERTED INTO DATABASE" % "table_details.csv")
+
 	print("FINISHED...")
-	
+
 if __name__ == "__main__":
 	populate()

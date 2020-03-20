@@ -211,72 +211,38 @@ RETURNS: JSON object describing success
 ## Notifications:
 
 ### add\_waiter\_notification
-EXPECTS: JSON object containing the id of the waiter, customer email and notificiation message:
+EXPECTS: JSON object containing the email of the waiter, customer email and notificiation message:
 
   ```json
   	{
-	  "waiter_id" : 1,
-	  "customer_id" : "example@example.com",
+	  "waiter_email" : waiter@waiter.com,
+	  "customer_email" : "example@example.com",
 	  "message" : "notif. message"
   	}
   ```
 
-RETURNS: JSON object describing success
-
-	or an error object
-
-### add\_customer\_notification
-EXPECTS: JSON object containing the id of the waiter, customer email and notificiation message:
-
-  ```json
-  	{
-	  "waiter_id" : 1,
-	  "customer_id" : "example@example.com",
-	  "message" : "notif. message"
-  	}
-  ```
-
-RETURNS: JSON object describing success
-
-	or an error object
-
-### get\_customer\_notifications
-EXPECTS: JSON object containing the customer email:
-
-  ```json
-  	{
-	  "customer" : "example@example.com",
-  	}
-  ```
-
-RETURNS: JSON object containing list of their notifications:
-  
-  ```json
-  {
-  "data": {
-    "notifications": [
-      [
-        2, 
-        "example@example.com", 
-        1, 
-        "notification message for customer"
-      ]
-    ], 
-    "success": true
-    }
-  }
-
-  ```
+RETURNS: Data object outlining the notification which was added:
+	
+	```json
+	{
+	  "data" : {
+		"added_message" : "notif. message",
+		"from" : "customer email",
+		"to" : waiter email",
+		"success" : true
+	  }
+	}
+	```
 
 	or an error object
 
 
 ### get\_waiter\_notifications
-EXPECTS: JSON object containing the waiter\_id:
+EXPECTS: JSON object containing the waiter\_email:
 
   ```json
   	{
-	  "waiter_id" : 1,
+	  "waiter_email" : "waiter@waiter.com",
   	}
   ```
 
@@ -289,7 +255,7 @@ RETURNS: JSON object containing list of their notifications:
       [
         2, 
         "example@example.com", 
-        1, 
+        "waiter@waiter.com", 
         "notification message for waiter"
       ]
     ], 
@@ -301,27 +267,20 @@ RETURNS: JSON object containing list of their notifications:
 
 	or an error object
 
-### clear\_customer\_notifications
-EXPECTS: JSON object containing the customer email:
-
-  ```json
-  	{
-	  "customer" : "example@example.com",
-  	}
-  ```
-
-RETURNS: JSON object describing success:
-
 ### clear\_waiter\_notifications
-EXPECTS: JSON object containing the waiter\_id:
+Clears all notifications from a waiter.
+EXPECTS: JSON object containing the waiter\_email:
 
   ```json
   	{
-	  "waiter_id" : 1,
+	  "waiter_email" : "waiter@waiter.com",
   	}
   ```
 
-RETURNS: JSON object describing success:
+RETURNS: JSON object describing success
+
+	or an error object
+
 ## Sessions:
 
 ### /create\_session
