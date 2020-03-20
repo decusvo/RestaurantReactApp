@@ -1,13 +1,5 @@
 import React, {useState} from 'react';
-import {
-    AppBar,
-    Button,
-    Toolbar,
-    Typography,
-    useScrollTrigger,
-    Slide,
-    CssBaseline,
-} from '@material-ui/core';
+import {AppBar, Button, CssBaseline, Slide, Toolbar, Typography, useScrollTrigger,} from '@material-ui/core';
 import Logo from '../Images/Logo_new.png';
 import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
@@ -27,7 +19,8 @@ import Notification from "./Notification";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Badge, MuiThemeProvider} from "material-ui";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { red } from '@material-ui/core/colors';
+import {red} from '@material-ui/core/colors';
+import PanToolIcon from '@material-ui/icons/PanTool';
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -74,6 +67,29 @@ export default function NavBar(props) {
         setCount(number)
     };
 
+    function callWaiter(called, waiter={}) {
+        if (called === "button") {
+            fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"table_id": 2})
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                const waiter_email = data.data.waiter_id;
+                callWaiter("function", waiter_email)
+            });
+        } else if (called === "function") {
+            fetch("//127.0.0.1:5000/add_waiter_notification", {method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"waiter_email": waiter, "message": "Customer at table " + 2 + " needs help", "customer_email":currentUser.name})
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                console.log(data)
+            });
+        }
+    }
+
     return(
         <div className={classes.root}>
             <ThemeProvider theme={theme}>
@@ -88,25 +104,28 @@ export default function NavBar(props) {
                             </Button>
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
-                            <MuiThemeProvider muiTheme={getMuiTheme()}>
-                                <Badge badgeContent={notificationCount} badgeStyle={{top: 20, right: 5, backgroundColor: red.A400}}>
-                                <IconButton style={{bottom: 5, left: 15}} onClick={() => setNotificationOpen(true)} edge={"start"} color={"inherit"} tooltip={"notifications"} aria-label={"notification"}>
-                                        <NotificationsIcon />
-                                </IconButton>
-                                </Badge>
-                            </MuiThemeProvider>
+
+                            <IconButton onClick={() => callWaiter("button")} edge={"start"} color={"inherit"} aria-label={"notify"}>
+                                <PanToolIcon />
+                            </IconButton>
 
                             {currentUser.loggedIn ?
                                 <>
                                     {currentUser.staff ?
                                         <>
+                                            <MuiThemeProvider muiTheme={getMuiTheme()}>
+                                                <Badge badgeContent={notificationCount} badgeStyle={{top: 20, right: 15, backgroundColor: red.A400}}>
+                                                    <IconButton style={{bottom: 5}} onClick={() => setNotificationOpen(true)} edge={"start"} color={"inherit"} tooltip={"notifications"} aria-label={"notification"}>
+                                                        <NotificationsIcon />
+                                                    </IconButton>
+                                                </Badge>
+                                            </MuiThemeProvider>
                                             <IconButton onClick={() => History.push("/WaiterDashboard")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
                                                 <DashboardIcon />
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
                                                 <RestaurantMenuIcon />
                                             </IconButton>
-
                                         </>
                                         :
                                         <>
