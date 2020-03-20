@@ -50,34 +50,35 @@ def execute_query(query_string, args=None):
 # this is necessary because insert querys return None on mosts occasions
 # we also need to handle insert statement failures differently
 def execute_insert_query(query_string, args=None):
-    global connection
-    if not connection:
-        connection = get_connection()
-    cursor = connection.cursor()
-    try:
-        if args:
-            cursor.execute(query_string, args)
-        else:
-            cursor.execute(query_string)
-        connection.commit()
-    except (Exception, psycopg2.Error) as error:
-        print("Query failed")
-        cursor.execute("ROLLBACK")
-        connection.commit()
-        return False
-    finally:
-        cursor.close()
+	global connection
+	if not connection:
+		connection = get_connection()
+	cursor = connection.cursor()
+	try:
+		if args:
+			cursor.execute(query_string, args)
+		else:
+			cursor.execute(query_string)
+		connection.commit()
+	except (Exception, psycopg2.Error) as error:
+		print("Query failed")
+		cursor.execute("ROLLBACK")
+		raise
+		connection.commit()
+		return False
+	finally:
+		cursor.close()
 
-    return True
+	return True
 
 def json_select(query, args=None):
-    global connection
-    connection = get_connection()
-    cursor = connection.cursor()
-    # cant use %s and pass the query as an arugment to execute_query
-    # because it thinks its an sql injection
-    json_query = "SELECT TO_JSON(json_result) FROM ({})json_result;".format(query)
-    return execute_query(json_query)
+	global connection
+	connection = get_connection()
+	cursor = connection.cursor()
+	# cant use %s and pass the query as an arugment to execute_query
+	# because it thinks its an sql injection
+	json_query = "SELECT TO_JSON(json_result) FROM ({})json_result;".format(query)
+	return execute_query(json_query)
 
 def get_connection():
 	global connection

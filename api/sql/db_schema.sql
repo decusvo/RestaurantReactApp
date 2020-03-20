@@ -31,8 +31,7 @@ CREATE TABLE customer(
 );
 
 CREATE TABLE waiter(
-	waiter_id integer PRIMARY KEY,
-	email varchar(128) UNIQUE,
+	email varchar(128) PRIMARY KEY,
 	firstname varchar(64),
 	lastname varchar(64),
 	phone_number integer,
@@ -41,21 +40,14 @@ CREATE TABLE waiter(
 
 CREATE TABLE waiter_notifications(
 	notification_id serial PRIMARY KEY,
-	waiter_id integer REFERENCES waiter(waiter_id),
-	customer_id varchar(128) REFERENCES customer(email),
-	message varchar(256)
-);
-
-CREATE TABLE customer_notifications(
-	notification_id serial PRIMARY KEY,
-	customer_id varchar(128) REFERENCES customer(email),
-	waiter_id integer REFERENCES waiter(waiter_id),
+	waiter_email varchar(128) REFERENCES waiter(email),
+	customer_email varchar(128) REFERENCES customer(email),
 	message varchar(256)
 );
 
 CREATE TABLE table_details(
 	table_number integer PRIMARY KEY,
-	waiter_id integer
+	waiter_id varchar(128) REFERENCES waiter(email)
 );
 
 CREATE TABLE item_type(
