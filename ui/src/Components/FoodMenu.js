@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+    import React, {useEffect, useState} from 'react';
 import {Container, CssBaseline, Typography, withStyles} from '@material-ui/core';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
@@ -9,6 +9,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import {useSelector} from "react-redux";
+    import {ConfirmProvider} from "material-ui-confirm";
 
 const useStyles = ({
     typography: {
@@ -58,6 +59,7 @@ const FoodMenu = (props) => {
         };
 
     return (
+        <ConfirmProvider>
             <React.Fragment>
                 <CssBaseline />
                 <Container maxWidth={"xl"}>
@@ -125,7 +127,7 @@ const FoodMenu = (props) => {
 
                 </Container>
             </React.Fragment>
-
+        </ConfirmProvider>
         )
 };
 
