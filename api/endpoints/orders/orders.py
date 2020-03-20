@@ -81,7 +81,7 @@ def get_orders():
 
 
 @bp.route("/get_cust_order", methods=["POST"])
-def get_cust_order():
+def get_customer_order():
 	id = request.json.get("custId")
 
 	query = "SELECT json_agg (order_list) FROM " \
