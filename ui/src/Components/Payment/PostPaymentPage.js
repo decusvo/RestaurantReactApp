@@ -29,7 +29,8 @@ const PostPaymentPage = () => {
   const classes = useStyles();
   const [buttonClicked, setButtonClicked] = React.useState(false);
   let firstName = localStorage.getItem('CustomerName');
-  let response = localStorage.getItem('paymentResponse') === true ? "successful" : "unsuccessful";
+  let orderID = localStorage.getItem('ProcessedOrderID');
+  let response = (localStorage.getItem('paymentResponse') === "true") ? "successful" : "unsuccessful";
 
   const handleRedirection = () => {
       setButtonClicked(true);
@@ -43,7 +44,7 @@ const PostPaymentPage = () => {
       {buttonClicked ? <Redirect to={"/Menu"} /> : null}
 
       <Typography variant="h3" className={classes.title}>
-        Thanks {firstName}.The order has been a {response}.
+        Thanks {firstName}.The order no. {orderID} has been {response}.
       </Typography>
       <Button
         variant="contained"

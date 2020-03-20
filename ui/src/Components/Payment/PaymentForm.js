@@ -6,6 +6,8 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
+import Snackbar from "@material-ui/core/Snackbar";
+import Alert from "@material-ui/lab/Alert";
 
 // TODO: Update order state upon success.
 // TODO: Upon failure, give customer an alert to retry with a useful error message.
@@ -59,6 +61,8 @@ export default function PaymentForm() {
   const [cardCVV, setCardCVV] = React.useState("");
   const [cardSortCode, setCardSortCode] = React.useState("");
   const [payConfirmed, setPayConfirmed] = React.useState(false);
+  const [message, setMessage] = React.useState("");
+  const [open, setOpenAlert] = React.useState(false);
 
   const submitPayment = () => {
     fetch("//127.0.0.1:5000/verify_payment", {
@@ -78,9 +82,26 @@ export default function PaymentForm() {
         console.log(data);
         localStorage.setItem('paymentResponse',data.data.success);
         localStorage.setItem('CustomerName',cardName);
-        setPayConfirmed(true);
+        if (data.data.success === true) {
+          setPayConfirmed(true);
+        } else {
+          invalidPayment();
+        }
 
       }).catch(error => console.log(error));
+  };
+
+  const invalidPayment = () => {
+    setMessage("There has been a problem validating your payment. Please check if information entered is correct.");
+    setOpenAlert(true);
+  };
+
+  const handleClose = (event, reason) => {
+    // Handles the closing of a notification.
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenAlert(false);
   };
 
   const handleSortCode = event => {
@@ -183,6 +204,12 @@ export default function PaymentForm() {
               Pay
             </Button>
           </div>
+
+          <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity={"info"}>
+              {message}
+            </Alert>
+          </Snackbar>
         </Paper>
       </main>
     </React.Fragment>
