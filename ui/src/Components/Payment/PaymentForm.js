@@ -9,9 +9,6 @@ import { Redirect } from "react-router";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 
-// TODO: Update order state upon success.
-// TODO: Upon failure, give customer an alert to retry with a useful error message.
-
 const useStyles = makeStyles(theme => ({
   listItem: {
     padding: theme.spacing(1, 0)
