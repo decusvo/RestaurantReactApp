@@ -45,12 +45,6 @@ const App = () => {
                         <Route path="/Menu">
                             <FoodMenu />
                         </Route>
-                        <Route path="/Login">
-                            <SignIn />
-                        </Route>
-                        <Route path="/Register">
-                            <SignUp />
-                        </Route>
 
                         {currentUser.staff ?
                             <>
@@ -75,6 +69,12 @@ const App = () => {
 
                         {currentUser.loggedIn ?
                             <>
+                                <Route path="/Login">
+                                    <FoodMenu />
+                                </Route>
+                                <Route path="/Register">
+                                    <FoodMenu />
+                                </Route>
                                 <Route path="/Order">
                                     <Order />
                                 </Route>
@@ -93,6 +93,12 @@ const App = () => {
                             </>
                             :
                             <>
+                                <Route path="/Login">
+                                    <SignIn />
+                                </Route>
+                                <Route path="/Register">
+                                    <SignUp />
+                                </Route>
                                 <Route path="/Order">
                                     <SignIn />
                                 </Route>

@@ -65,7 +65,7 @@ const Login = (props) => {
     setPassword(event.target.value)
   };
 
-  const handleStaff = event => {
+  const handleStaff = () => {
 	  setStaff(!staff)
   };
 
@@ -128,7 +128,7 @@ const Login = (props) => {
 		<ThemeProvider theme={theme}>
 		<Container component="main" maxWidth="xs">
 				<CssBaseline />
-				{loggedIn ? staff ? <Redirect to='/WaiterMenu' /> : <Redirect to='/Menu' /> : null}
+				{loggedIn ? staff ? <Redirect to='/WaiterMenu' /> : History.push(-1) : null}
 				<div className={classes.paper}>
 						<Typography component="h1" variant="h5">
 								Sign in

@@ -109,7 +109,7 @@ const Order = () => {
     } else if (called === "function") {
       fetch("//127.0.0.1:5000/add_waiter_notification", {method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"waiter_email": waiter, "message": "Customer at table " + table + " ordered food", "customer_email": currentUser.user.name})
+        body: JSON.stringify({"waiter_email": waiter, "message": "Table " + table + " ordered food", "customer_email": currentUser.user.name})
       }).then((response) => {
         return response.json();
       }).then((data) => {
@@ -139,6 +139,7 @@ const Order = () => {
         return response.json();
       })
       .then(data => {
+        console.log(data);
         callWaiter("outside");
         dispatch(allActions.itemActions.resetItems());
         setOrderButtonClicked(true);

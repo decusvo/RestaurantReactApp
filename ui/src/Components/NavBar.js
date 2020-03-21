@@ -82,7 +82,7 @@ export default function NavBar(props) {
         } else if (called === "function") {
             fetch("//127.0.0.1:5000/add_waiter_notification", {method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({"waiter_email": waiter, "message": "Customer at table " + table + " needs help", "customer_email": currentUser.user.name})
+                body: JSON.stringify({"waiter_email": waiter, "message": "Table " + table + " needs help", "customer_email": currentUser.user.name})
             }).then((response) => {
                 return response.json();
             }).then((data) => {
@@ -147,7 +147,7 @@ export default function NavBar(props) {
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>
-                {/*<Notification numberOfNotifications={handleNumberOfNotifications} open={notificationOpen} setOpen={setNotificationOpen}/>*/}
+                <Notification numberOfNotifications={handleNumberOfNotifications} open={notificationOpen} setOpen={setNotificationOpen}/>
                 <Toolbar />
                 {total>0? <Snackbar
                     anchorOrigin={{ vertical, horizontal }}
