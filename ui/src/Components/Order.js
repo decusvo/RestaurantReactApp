@@ -116,7 +116,6 @@ const Order = () => {
         return response.json();
       })
       .then(data => {
-        console.log(data);
         dispatch(allActions.itemActions.resetItems());
         setOrderButtonClicked(true);
       })

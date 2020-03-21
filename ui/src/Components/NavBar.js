@@ -54,6 +54,7 @@ export default function NavBar(props) {
     const horizontal = "right";
     const [notificationOpen, setNotificationOpen] = useState(false);
     const [notificationCount, setCount] = useState(0);
+    const table = localStorage.getItem("table");
 
     function logOut() {
         dispatch(userActions.logOut());
@@ -67,11 +68,11 @@ export default function NavBar(props) {
         setCount(number)
     };
 
-    function callWaiter(called, waiter={}) {
+    const callWaiter = (called, waiter={}) => {
         if (called === "button") {
             fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({"table_id": 2})
+                body: JSON.stringify({"table_id": table})
             }).then((response) => {
                 return response.json();
             }).then((data) => {
@@ -81,14 +82,14 @@ export default function NavBar(props) {
         } else if (called === "function") {
             fetch("//127.0.0.1:5000/add_waiter_notification", {method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({"waiter_email": waiter, "message": "Customer at table " + 2 + " needs help", "customer_email":currentUser.name})
+                body: JSON.stringify({"waiter_email": waiter, "message": "Customer at table " + table + " needs help", "customer_email": currentUser.user.name})
             }).then((response) => {
                 return response.json();
             }).then((data) => {
                 console.log(data)
             });
         }
-    }
+    };
 
     return(
         <div className={classes.root}>
@@ -104,10 +105,6 @@ export default function NavBar(props) {
                             </Button>
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
-
-                            <IconButton onClick={() => callWaiter("button")} edge={"start"} color={"inherit"} aria-label={"notify"}>
-                                <PanToolIcon />
-                            </IconButton>
 
                             {currentUser.loggedIn ?
                                 <>
@@ -129,6 +126,9 @@ export default function NavBar(props) {
                                         </>
                                         :
                                         <>
+                                            <IconButton onClick={() => callWaiter("button")} edge={"start"} color={"inherit"} aria-label={"notify"}>
+                                                <PanToolIcon />
+                                            </IconButton>
                                             <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
                                                 <ShoppingBasket />
                                             </IconButton>
@@ -147,7 +147,7 @@ export default function NavBar(props) {
                         </Toolbar>
                     </AppBar>
                 </HideOnScroll>
-                <Notification numberOfNotifications={handleNumberOfNotifications} open={notificationOpen} setOpen={setNotificationOpen}/>
+                {/*<Notification numberOfNotifications={handleNumberOfNotifications} open={notificationOpen} setOpen={setNotificationOpen}/>*/}
                 <Toolbar />
                 {total>0? <Snackbar
                     anchorOrigin={{ vertical, horizontal }}
