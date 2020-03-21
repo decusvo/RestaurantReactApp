@@ -95,6 +95,29 @@ const Order = () => {
   const dispatch = useDispatch();
   const table = localStorage.getItem("table");
 
+  const callWaiter = (called, waiter={}) => {
+    if (called === "outside") {
+      fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"table_id": table})
+      }).then((response) => {
+        return response.json();
+      }).then((data) => {
+        const waiter_email = data.data.waiter_id;
+        callWaiter("function", waiter_email)
+      });
+    } else if (called === "function") {
+      fetch("//127.0.0.1:5000/add_waiter_notification", {method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"waiter_email": waiter, "message": "Customer at table " + table + " ordered food", "customer_email": currentUser.user.name})
+      }).then((response) => {
+        return response.json();
+      }).then((data) => {
+        console.log(data)
+      });
+    }
+  };
+
   const handleClick = () => {
     const apiItems = [];
     items.map(function(dish) {
@@ -116,6 +139,7 @@ const Order = () => {
         return response.json();
       })
       .then(data => {
+        callWaiter("outside");
         dispatch(allActions.itemActions.resetItems());
         setOrderButtonClicked(true);
       })
