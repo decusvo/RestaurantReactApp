@@ -13,6 +13,30 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 const OrderItem = (props) => {
 
+    const notifyWaiter = (called, waiter={}) => {
+        const table = props.tableID;
+        if (called === "button"){
+            fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"table_id": table})
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                const waiter_email = data.data.waiter_id;
+                notifyWaiter("function", waiter_email)
+            });
+        } else if (called === "function") {
+            fetch("//127.0.0.1:5000/add_waiter_notification", {method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"waiter_email": waiter, "message": "Table " + table + "'s food is ready to be served", "customer_email": "example@example.com"})
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                console.log(data)
+            });
+        }
+    };
+
     const NextStateHandler = (orderState, orderID) => {
         //check if order state is "cooking"
         if (orderState === "cooking") {
@@ -99,7 +123,7 @@ const OrderItem = (props) => {
 
                         <Typography style={{marginRight: "auto", marginLeft: "auto"}}/> {/*separates the Fab components from each other*/}
 
-                        <Fab color="primary" aria-label="next" disabled={isFabDisabled(orderState)} onClick={() => {NextStateHandler(orderState, orderID);}}>
+                        <Fab color="primary" aria-label="next" disabled={isFabDisabled(orderState)} onClick={() => {notifyWaiter("button");NextStateHandler(orderState, orderID);}}>
                             <ArrowForwardIosIcon />
                         </Fab>
 
