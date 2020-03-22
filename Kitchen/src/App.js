@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {CssBaseline, Typography, withStyles} from '@material-ui/core';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import OrderItem from "./OrderItem";
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
@@ -33,108 +32,90 @@ const useStyles = theme => ({
     }
 });
 
-class WaiterDashboard extends React.Component {
+const _ = require('lodash');
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          cooking: [],
-          ready_to_deliver: []
-        };
-    }
+const WaiterDashboard = (props) => {
+    const {classes} = props;
+    const [state, setState] = useState({cooking: [], ready_to_deliver: []});
 
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const orderStates = ["requested", "ready_to_deliver", "cooking"];
+            fetch("//127.0.0.1:5000/get_orders", {method:'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"states": orderStates})
+            }).then(response => {
+                return response.json()
+            }).then(data => {
+                // if the array is not null
+                let orders = data.data.orders;
+                // eslint-disable-next-line
+                const changedState = {"requested": [], "ready_to_deliver": [], "cooking": []};
+                if(orders){
+                    orders.forEach(ele => {
+                        changedState[ele.state].push(ele)
+                    })
+                }
+                if (!_.isEqual(state, changedState)) {
+                    setState(changedState)
+                }
+                // else do nothing
+            });
+        }, 1000);
 
+        return () => clearInterval(interval);
+    }, [state]);
 
-    getOrders = () => {
-        var orderStates = ["ready_to_deliver", "cooking"];
-        console.log("tag");
-
-        this.setState(this.state.cooking = []);
-        this.setState(this.state.ready_to_deliver = []);
-
-
-        fetch("//127.0.0.1:5000/get_orders", {method:'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"states": orderStates})
-        }).then(response => {
-            return response.json()
-        }).then(data => {
-            // if the array is not null
-            let orders = data.data.orders;
-            // eslint-disable-next-line
-            if(orders){
-                orders.forEach(ele => {
-                    let change = {};
-                    change[ele.state] = this.state[ele.state].concat(ele);
-                    this.setState(change)
-                })
-            }
-            // else do nothing
+    const MapOrderItem = ({value, reverse=false}) => {
+        if (reverse){
+            value.reverse()
+        }
+        return value.map((ele, index) => {
+            let {state, id, table_number, items, ordered_time, price} = ele;
+            return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} />)
         })
     };
 
+    return (
+        <React.Fragment>
+            <CssBaseline />
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography variant="h6" className={classes.title}>
+                        OAXHACA
+                    </Typography>
+                    <Button color="inherit">
+                        Past Orders
+                    </Button>
+                </Toolbar>
+            </AppBar>
 
-
-    async componentDidMount(){
-      this.getOrders()
-    }
-
-
-
-    render() {
-        const {classes} = this.props;
-
-        const MapOrderItem = ({value}) => {
-          return value.map((ele, index) => {
-            const order = ele
-            let {state, id, table_number} = order
-            return (
-              <OrderItem orderState={state} tableID={table_number} orderID={id} index={index}/>)
-          })
-        }
-
-        return (
-            <React.Fragment>
-                <CssBaseline />
-
-                <AppBar position="static">
-                    <Toolbar>
-                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                            <MenuIcon/>
-                        </IconButton>
-                        <Typography variant="h6" className={classes.title}>
-                            OAXHACA
-                        </Typography>
-                        <Button color="inherit">
-                            Past Orders
-                        </Button>
-                    </Toolbar>
-                </AppBar>
-
-                <Grid container spacing={3}>
-                    {/*Grid for the to be confirmed, order objects will later be loaded in dynamically*/}
-                    <Grid item xs>
-                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            Currently Cooking
-                        </Typography>
-                        <MapOrderItem value={this.state.cooking}/>
-                      </Grid>
-
-                    <Grid item xs>
-                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            Ready to deliver
-                        </Typography>
-                        <MapOrderItem value={this.state.ready_to_deliver}/>
-                    </Grid>
+            <Grid container spacing={3}>
+                {/*Grid for the to be confirmed, order objects will later be loaded in dynamically*/}
+                <Grid item xs>
+                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                        To be cooked
+                    </Typography>
+                    <MapOrderItem value={state.cooking}/>
                 </Grid>
 
-                    <Box mt={5}>
-                        <Copyright />
-                    </Box>
-            </React.Fragment>
+                <Grid item xs>
+                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                        Cooked
+                    </Typography>
+                    <MapOrderItem value={state.ready_to_deliver} reverse={true}/>
+                </Grid>
+            </Grid>
 
-        )
-    }
-}
+            <Box mt={5}>
+                <Copyright />
+            </Box>
+        </React.Fragment>
+
+    );
+};
 
 export default withStyles(useStyles)(WaiterDashboard);
