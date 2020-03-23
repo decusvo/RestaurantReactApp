@@ -31,15 +31,21 @@ const PostPaymentPage = () => {
   let firstName = localStorage.getItem('CustomerName');
   let orderID = localStorage.getItem('ProcessedOrderID');
   let response = (localStorage.getItem('paymentResponse') === "true") ? "successful" : "unsuccessful";
-localStorage.setItem('ProcessedOrderID','');
-localStorage.setItem('paymentResponse','');
+  localStorage.setItem('ProcessedOrderID','');
+  localStorage.setItem('paymentResponse','');
+
+  // handleRedirection is responsible for changing the state responsible for redirecting the customer back to the menu.
 
   const handleRedirection = () => {
       setButtonClicked(true);
   };
 
+  // The two lines below retrieve the first name of the cardholder. This is used to give a friendlier response to the customer upon success.
+
   const lastIndex = firstName.lastIndexOf(" ");
   firstName = firstName.substring(0, lastIndex);
+
+  // The react clause renders the response to the customer and directs him to go back to the main menu.
 
   return (
     <React.Fragment>
