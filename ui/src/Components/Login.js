@@ -12,7 +12,8 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Box from "@material-ui/core/Box";
 import Copyright from "./Copyright";
 
-import hash from 'hash.js'
+
+import hash from 'hash.js';
 
 // Code copied and modified from material-ui website
 // https://material-ui.com/components/snackbars/
@@ -36,13 +37,15 @@ const Login = (props) => {
     const {classes} = props;
 	const dispatch = useDispatch();
 
-	const [email, setEmail] = useState('');
+	let [email, setEmail] = useState('');
+	email = localStorage.getItem('email') || "";
 	const [password, setPassword] = useState('');
 	const [staff, setStaff] = useState(false);
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [open, setOpen] = React.useState(false);
 	const [severity, setSeverity] = React.useState("success");
 	const [message, setMessage] = React.useState("You've logged in successfully");
+	const [rememberMe,setRememberMe] = React.useState(false);
 
   const handleEmailInput = event => {
     setEmail(event.target.value)
@@ -59,11 +62,16 @@ const Login = (props) => {
     setPassword(event.target.value)
   };
 
-  const handleStaff = event => {
+  const handleStaff = () => {
 	  setStaff(!staff)
   };
 
   const handleSubmit = event => {
+
+  	if (rememberMe === true) {
+  		localStorage.setItem("email",email);
+	}
+
     event.preventDefault();
     let hashedPassword = hash.sha512().update(password).digest('hex');
     fetch("//127.0.0.1:5000/login", {method: 'POST',
@@ -98,6 +106,12 @@ const Login = (props) => {
 	// eslint-disable-next-line
 		}, [loggedIn, email]);
 
+	const setRemember = (event) => {
+		if (event.target.checked === true) {
+			setRememberMe(true);
+		}
+	};
+
 	return (
 		<ThemeProvider theme={theme}>
 		<Container component="main" maxWidth="xs">
@@ -123,6 +137,7 @@ const Login = (props) => {
 										autoFocus
 										color="primary"
 										onChange={handleEmailInput}
+										defaultValue={email}
 								/>
 										</Grid>
 										<Grid item xs={12}>
@@ -142,7 +157,7 @@ const Login = (props) => {
 										</Grid>
 								</Grid>
 								<FormControlLabel
-										control={<Checkbox value="remember" color="primary" />}
+										control={<Checkbox onChange={setRemember} value="remember" color="primary" />}
 										label="Remember me."
 								/>
 								<FormControlLabel
