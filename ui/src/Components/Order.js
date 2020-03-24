@@ -1,5 +1,5 @@
 import React from "react";
-import {List, ListItem} from "@material-ui/core";
+import { List, ListItem } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import ListItemText from "@material-ui/core/ListItemText";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -8,6 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import allActions from "../actions";
 import { Redirect } from "react-router";
+import {useMaterialListItemStyles} from "@mui-treasury/styles/listItem/material";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,13 +44,15 @@ const useStyles = makeStyles(theme => ({
 const MapOrderItem = () => {
   const currentItems = useSelector(state => state.currentItems);
   const items = currentItems.items;
+  const treasuryStyle = useMaterialListItemStyles();
+
   if (items.length !== 0) {
     return items.map(function(dish, index) {
       const itemName = dish.name;
       const itemQuantity = dish.q;
       if (itemQuantity > 0) {
         return (
-          <ListItem key={index}>
+          <ListItem key={index} classes={treasuryStyle}>
             <ListItemText
               primary={
                 <React.Fragment>
