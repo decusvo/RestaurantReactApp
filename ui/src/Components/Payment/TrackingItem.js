@@ -36,6 +36,8 @@ const TrackingItem = props => {
   const textCardContentStyles = useN01TextInfoContentStyles();
   const shadowStyles = useBouncyShadowStyles();
 
+  // The MapOrderItem function takes order information and renders the information on the card.
+
   const MapOrderItem = ({ items }) => {
     return items.map((dish, index) => {
       let { name, cumulative_price } = dish;
@@ -55,14 +57,13 @@ const TrackingItem = props => {
     });
   };
 
-  const {
-    orderID,
-    tableID,
-    allItems,
-    totalPrice,
-    orderState
-  } = props;
+  // The information passed as props from the Tracking.js is initialized as variables for later use.
 
+  const { orderID, tableID, allItems, totalPrice, orderState } = props;
+
+  // Conditional rendering. If an order has been delivered, a Pay button has been rendered instead of Cancel.
+  // The user is no longer able to cancel the particular order as it has been now delivered.
+  // Upon clicking the Pay button, the order ID is passed up to Tracking.js parent component and used to redirect the customer to OrderSummary.js
 
   if (orderState === "delivered") {
     button = (
@@ -77,12 +78,16 @@ const TrackingItem = props => {
         Pay
       </Button>
     );
+
+    // If the order has been paid or cancelled, the customer can no longer modify the order card.
   } else if (orderState === "paid" || orderState === "cancelled") {
     button = (
       <Button disabled={true} fullWidth className={classes.cta}>
         Done
       </Button>
     );
+
+    // If the user presses cancel, an alert is rendered on-screen for the user. The state is also sent back up to Tracking.js to cancel the particular order.
   } else {
     button = (
       <Button
@@ -99,6 +104,33 @@ const TrackingItem = props => {
     );
   }
 
+  // renderOrderSubMenu function is responsible for rendering the panel of each card containing a minimal order summary for that particular order.
+
+  const renderOrderSubMenu = () => {
+    return (
+      <ExpansionPanel color={"primary"}>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.typography}>Read more</Typography>
+        </ExpansionPanelSummary>
+
+        <ExpansionPanelDetails>
+          <Grid
+            container
+            direction="column"
+            justify="space-evenly"
+            alignItems="stretch"
+          >
+            <Divider variant="middle" />
+
+            <MapOrderItem items={allItems} />
+          </Grid>
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+    );
+  };
+
+  // The return clause renders one order card onto the Tracking.js page.
+
   return (
     <Grid item xs={12} sm={6} md={3} lg={2}>
       <Card className={cx(classes.root, shadowStyles.root)}>
@@ -112,24 +144,7 @@ const TrackingItem = props => {
           {button}
         </CardContent>
 
-        <ExpansionPanel color={"primary"}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.typography}>Read more</Typography>
-          </ExpansionPanelSummary>
-
-          <ExpansionPanelDetails>
-            <Grid
-              container
-              direction="column"
-              justify="space-evenly"
-              alignItems="stretch"
-            >
-              <Divider variant="middle" />
-
-              <MapOrderItem items={allItems} />
-            </Grid>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+        {renderOrderSubMenu}
       </Card>
     </Grid>
   );
