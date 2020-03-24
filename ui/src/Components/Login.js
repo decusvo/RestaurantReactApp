@@ -12,8 +12,7 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Box from "@material-ui/core/Box";
 import Copyright from "./Copyright";
 
-
-import hash from 'hash.js';
+import hash from 'hash.js'
 
 // Code copied and modified from material-ui website
 // https://material-ui.com/components/snackbars/
@@ -27,6 +26,9 @@ import {Redirect} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import allActions from "../actions";
 import History from "../utils/history";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -46,6 +48,9 @@ const Login = (props) => {
 	const [severity, setSeverity] = React.useState("success");
 	const [message, setMessage] = React.useState("You've logged in successfully");
 	const [rememberMe,setRememberMe] = React.useState(false);
+	const [tables, setTables]  = React.useState([]);
+	const [table, setTable] = React.useState(1);
+	localStorage.setItem("table", table.toLocaleString());
 
   const handleEmailInput = event => {
     setEmail(event.target.value)
@@ -112,15 +117,47 @@ const Login = (props) => {
 		}
 	};
 
+	useEffect(() => {
+		loadTables();
+	}, []);
+
+	const loadTables = () => {
+		fetch("//127.0.0.1:5000/get_tables", {
+			method: 'POST'
+		}).then(response => {
+			return response.json()
+		}).then(data => {
+			setTables(data.data.tables);
+		}).catch(err => {
+			console.log(err)
+		});
+
+	};
+
+	const handleTableChange = event => {
+		setTable(event.target.value);
+	};
 	return (
 		<ThemeProvider theme={theme}>
 		<Container component="main" maxWidth="xs">
 				<CssBaseline />
-				{loggedIn ? staff ? <Redirect to='/WaiterMenu' /> : <Redirect to='/Menu' /> : null}
+				{loggedIn ? staff ? <Redirect to='/WaiterMenu' /> : History.push(-1) : null}
 				<div className={classes.paper}>
 						<Typography component="h1" variant="h5">
 								Sign in
 						</Typography>
+						<FormControl>
+							<Select
+								value={table}
+								onChange={handleTableChange}>
+
+								{
+									tables.map((ele, index) => {
+										return(<MenuItem key={index} value={ele}> Table {ele} </MenuItem>)
+									})}
+
+							</Select>
+						</FormControl>
 						<form className={classes.form} onSubmit={handleSubmit} method = "post">
 								<Grid container spacing={1}>
 										<Grid item xs={12}>

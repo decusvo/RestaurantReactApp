@@ -15,7 +15,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 
-import hash from 'hash.js';
+import {hash} from 'hash.js';
 
 import React from 'react';
 import {Redirect} from "react-router-dom";
@@ -43,7 +43,7 @@ const SignUp = (props) => {
     const [message, setMessage] = React.useState("You've registered successfully");
 
     // Redirect variables
-    const [signedUp, setSignedUp] = React.useState(false)
+    const [signedUp, setSignedUp] = React.useState(false);
 
 
     const handleTAndCChange = () => {
@@ -117,8 +117,8 @@ const SignUp = (props) => {
         }
       } else {
         // display warning message not agreeing to Terms and Condtions
-        setSeverity("warning")
-        setMessage("Please agree to the Terms and Conditions")
+        setSeverity("warning");
+        setMessage("Please agree to the Terms and Conditions");
         setOpen(true)
       }
     };

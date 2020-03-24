@@ -96,6 +96,30 @@ const Order = () => {
   const [orderButtonClicked, setOrderButtonClicked] = React.useState(false);
   const items = currentItems.items;
   const dispatch = useDispatch();
+  const table = localStorage.getItem("table");
+
+  const callWaiter = (called, waiter={}) => {
+    if (called === "outside") {
+      fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"table_id": table})
+      }).then((response) => {
+        return response.json();
+      }).then((data) => {
+        const waiter_email = data.data.waiter_id;
+        callWaiter("function", waiter_email)
+      });
+    } else if (called === "function") {
+      fetch("//127.0.0.1:5000/add_waiter_notification", {method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({"waiter_email": waiter, "message": "Table " + table + " ordered food", "customer_email": currentUser.user.name})
+      }).then((response) => {
+        return response.json();
+      }).then((data) => {
+        console.log(data)
+      });
+    }
+  };
 
   const handleClick = () => {
     const apiItems = [];
@@ -109,9 +133,9 @@ const Order = () => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        table_num: 1,
+        table_num: table,
         items: apiItems,
-        custId: currentUser.user.name
+        customer: currentUser.user.name
       })
     })
       .then(response => {
@@ -119,6 +143,7 @@ const Order = () => {
       })
       .then(data => {
         console.log(data);
+        callWaiter("outside");
         dispatch(allActions.itemActions.resetItems());
         setOrderButtonClicked(true);
       })

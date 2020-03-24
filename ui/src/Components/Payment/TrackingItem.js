@@ -42,8 +42,8 @@ const TrackingItem = props => {
     return items.map((dish, index) => {
       let { name, cumulative_price } = dish;
       return (
-        <Grid item xs>
-          <Card key={index} className={classes.root}>
+        <Grid key={index} item xs>
+          <Card className={classes.root}>
             <CardContent className={classes.content}>
               <TextInfoContent
                 classes={textCardContentStyles}

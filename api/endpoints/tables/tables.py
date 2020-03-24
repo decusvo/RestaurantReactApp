@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, Blueprint
 import json
 import psycopg2
 from common import connector
+from . import validate_tables
 
 
 bp = Blueprint("tables blueprint", __name__)
@@ -23,3 +24,14 @@ def get_tables_and_waiters():
     result = connector.json_select(query)
 
     return jsonify(data={"tables":result})
+
+@bp.route("/get_waiter_assinged_to_table", methods=["POST"])
+def get_waiter_assinged_to_table():
+    error = validate_tables.validate_table(request)
+    if error:
+        return error
+
+    table_id = request.json.get("table_id")
+    query = "SELECT waiter_id FROM table_details WHERE table_number = %s;"
+    result = connector.execute_query(query, (table_id,))
+    return jsonify(data = {"waiter_id":result[0][0]})

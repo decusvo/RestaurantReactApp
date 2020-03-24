@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import withStyles from "@material-ui/core/styles/withStyles";
 import {Container} from "@material-ui/core";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -55,9 +54,9 @@ const useStyles = makeStyles(theme => ({
 
 const WaiterMenu = () => {
     const [items, setItems] = useState([]);
-    const [vegan, setVegan] = useState(false);
-    const [vegetarian, setVegetarian] = useState(false);
-    const [glutenFree, setGlutenFree] = useState(false);
+    const [vegan] = useState(false);
+    const [vegetarian] = useState(false);
+    const [glutenFree] = useState(false);
     const [open, setOpen] = React.useState(false);
     const [severity, setSeverity] = React.useState("");
     const [message, setMessage] = React.useState("");
@@ -76,7 +75,7 @@ const WaiterMenu = () => {
         }).then((data) => {
             setItems(data.data.items);
         });
-    }
+    };
     useEffect(() => {
         getMenu()
     }, []);
@@ -101,9 +100,7 @@ const WaiterMenu = () => {
                 }else if (!vegan && !vegetarian && !glutenFree) {
                     return (<WaiterMenuItem  sendState={handleState} key={index} id={dish.id} value={dish.name} state={dish.available}/>)
                 }
-            } else {
-                return (<div key={index}> </div>);
-            }
+            } return null;
         });
     };
 
@@ -129,7 +126,7 @@ const WaiterMenu = () => {
     };
 
     const handleSubmit = event => {
-       {/*API call to update state of dish list is not yet implemented.*/}
+       // API call to update state of dish list is not yet implemented.
        event.preventDefault();
        updatedItems.forEach(item => {
            let state = (item[1] === "Available");
@@ -162,7 +159,6 @@ const WaiterMenu = () => {
                     <div className={classes.paper}>
                     <Grid spacing={2}
                           container
-                          maxWidth={"xs"}
                           className={classes.grid}
                     >
                         <Grid item xs>
@@ -181,12 +177,10 @@ const WaiterMenu = () => {
                             <MapWaiterMenuItem value={"dessert"} className={classes.itemCard} />
                         </Grid>
                     </Grid>
-
                         <Grid
                             container
                             spacing={4}
                             className={classes.grid}
-                            maxWidth={"xs"}
                         >
                             <Grid item xs>
                                 <form className={classes.form} onSubmit={handleReset}>
@@ -234,4 +228,4 @@ const WaiterMenu = () => {
     )
 };
 
-export default withStyles(useStyles)(WaiterMenu);
+export default WaiterMenu;

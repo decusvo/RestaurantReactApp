@@ -7,20 +7,40 @@ import Divider from "@material-ui/core/Divider";
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import {blue, red} from "@material-ui/core/colors";
 import ClearIcon from '@material-ui/icons/Clear';
 
 const OrderItem = (props) => {
 
+    const notifyWaiter = (called, waiter={}) => {
+        const table = props.tableID;
+        if (called === "button"){
+            fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"table_id": table})
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                const waiter_email = data.data.waiter_id;
+                notifyWaiter("function", waiter_email)
+            });
+        } else if (called === "function") {
+            fetch("//127.0.0.1:5000/add_waiter_notification", {method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"waiter_email": waiter, "message": "Table " + table + "'s food is ready to be served", "customer_email": "example@example.com"})
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                console.log(data)
+            });
+        }
+    };
+
     const NextStateHandler = (orderState, orderID) => {
-        //check if order state is "requested" or "readytoDeliver"
-        if (orderState === "requested") {
-            let newState = "start_cook";
-            updateState(orderID, newState);
-        } else if (orderState === "ready_to_deliver") {
-            let newState = "deliver";
+        //check if order state is "cooking"
+        if (orderState === "cooking") {
+            let newState = "cooked";
             updateState(orderID, newState);
         }
 
@@ -47,7 +67,7 @@ const OrderItem = (props) => {
     const MapOrderItem = ({items}) => {
         return items.map((dish, index) => {
 
-            let {quantity, name, cumulative_price} = dish;
+            let {quantity, name} = dish;
 
             return(
                 <Card style={{backgroundColor: "#fcc01a",
@@ -55,7 +75,6 @@ const OrderItem = (props) => {
                     marginBottom: theme.spacing(2)}} key={index}>
 
                     <Typography style={{textAlign:"middle"}}>Name: {name}</Typography>
-                    <Typography style={{textAlign:"middle"}}>Price: {cumulative_price}</Typography>
                     <Typography style={{textAlign:"middle"}}>Quantity: {quantity}</Typography>
 
                 </Card>
@@ -65,7 +84,7 @@ const OrderItem = (props) => {
 
     //checks if order is in the cooking state or not
     const isFabDisabled = (orderState) => {
-        return orderState === "cooking";
+        return orderState === "ready_to_deliver";
     };
 
     const theme = createMuiTheme({
@@ -75,7 +94,7 @@ const OrderItem = (props) => {
         }
     });
 
-    const {orderID, tableID, orderState, allItems, time, totalPrice} = props;
+    const {orderID, tableID, orderState, allItems, time} = props;
 
     return (
             <Grid container item xs justify={"center"} alignItems={"stretch"}>
@@ -91,7 +110,6 @@ const OrderItem = (props) => {
                     <CardContent>
 
                         <Typography style={{textAlign:"middle"}}>Table: {tableID}</Typography>
-                        <Typography style={{textAlign:"middle"}}>Price: {totalPrice}</Typography>
                         <Typography style={{textAlign:"middle"}}>Time: {time}</Typography>
 
                     </CardContent>
@@ -99,24 +117,22 @@ const OrderItem = (props) => {
 
                     <CardActions disableSpacing>
 
-                        <Fab color="secondary" aria-label="cancel" onClick={() => {CancelOrderHandler(orderID);}}>
+                        <Fab color="secondary" aria-label="cancel" disabled={isFabDisabled(orderState)} onClick={() => {CancelOrderHandler(orderID);}}>
                             <ClearIcon />
                         </Fab>
 
                         <Typography style={{marginRight: "auto", marginLeft: "auto"}}/> {/*separates the Fab components from each other*/}
 
-                        <Fab color="primary" aria-label="next" disabled={isFabDisabled(orderState)} onClick={() => {NextStateHandler(orderState, orderID);}}>
+                        <Fab color="primary" aria-label="next" disabled={isFabDisabled(orderState)} onClick={() => {notifyWaiter("button");NextStateHandler(orderState, orderID);}}>
                             <ArrowForwardIosIcon />
                         </Fab>
 
 
                     </CardActions>
 
-                    <ExpansionPanel color={"primary"}>
-                        <ExpansionPanelSummary
-                            expandIcon={<ExpandMoreIcon />}
-                        >
-                            <Typography style={{textAlign:"middle"}}>MoreInfo</Typography>
+                    <ExpansionPanel expanded color={"primary"}>
+                        <ExpansionPanelSummary>
+                            <Typography style={{textAlign:"middle"}}>Ordered Items</Typography>
                         </ExpansionPanelSummary>
                         <ExpansionPanelDetails>
 

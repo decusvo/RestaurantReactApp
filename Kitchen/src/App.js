@@ -4,6 +4,12 @@ import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import OrderItem from "./OrderItem";
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+
 
 //basic styles
 const useStyles = theme => ({
@@ -30,7 +36,7 @@ const _ = require('lodash');
 
 const WaiterDashboard = (props) => {
     const {classes} = props;
-    const [state, setState] = useState({requested: [], cooking: [], ready_to_deliver: []});
+    const [state, setState] = useState({cooking: [], ready_to_deliver: []});
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -60,7 +66,10 @@ const WaiterDashboard = (props) => {
         return () => clearInterval(interval);
     }, [state]);
 
-    const MapOrderItem = ({value}) => {
+    const MapOrderItem = ({value, reverse=false}) => {
+        if (reverse){
+            value.reverse()
+        }
         return value.map((ele, index) => {
             let {state, id, table_number, items, ordered_time, price} = ele;
             return (<OrderItem key={index} orderState={state} tableID={table_number} orderID={id} allItems={items} time={ordered_time} totalPrice={price} />)
@@ -68,39 +77,45 @@ const WaiterDashboard = (props) => {
     };
 
     return (
-            <React.Fragment>
-                <CssBaseline />
+        <React.Fragment>
+            <CssBaseline />
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <MenuIcon/>
+                    </IconButton>
+                    <Typography variant="h6" className={classes.title}>
+                        OAXHACA
+                    </Typography>
+                    <Button color="inherit">
+                        Past Orders
+                    </Button>
+                </Toolbar>
+            </AppBar>
 
-                <Grid container spacing={3}>
-                    {/*Grid for the to be confirmed, order objects will later be loaded in dynamically*/}
-                    <Grid item xs>
-                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            To Be Confirmed
-                        </Typography>
-                        <MapOrderItem value={state.requested}/>
-                      </Grid>
-
-                    <Grid item xs>
-                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            In Progress
-                        </Typography>
-                        <MapOrderItem value={state.cooking}/>
-                    </Grid>
-
-                    <Grid item xs>
-                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            To Be Served
-                        </Typography>
-                        <MapOrderItem value={state.ready_to_deliver}/>
-                    </Grid>
+            <Grid container spacing={3}>
+                {/*Grid for the to be confirmed, order objects will later be loaded in dynamically*/}
+                <Grid item xs>
+                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                        To be cooked
+                    </Typography>
+                    <MapOrderItem value={state.cooking}/>
                 </Grid>
 
-                    <Box mt={5}>
-                        <Copyright />
-                    </Box>
-            </React.Fragment>
+                <Grid item xs>
+                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                        Cooked
+                    </Typography>
+                    <MapOrderItem value={state.ready_to_deliver} reverse={true}/>
+                </Grid>
+            </Grid>
 
-        );
+            <Box mt={5}>
+                <Copyright />
+            </Box>
+        </React.Fragment>
+
+    );
 };
 
 export default withStyles(useStyles)(WaiterDashboard);
