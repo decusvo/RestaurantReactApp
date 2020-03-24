@@ -15,7 +15,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Copyright from "./Copyright";
 import Box from "@material-ui/core/Box";
 
-import {hash} from 'hash.js';
+import hash from 'hash.js';
 
 import React from 'react';
 import {Redirect} from "react-router-dom";
