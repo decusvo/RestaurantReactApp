@@ -52,10 +52,8 @@ const FoodMenuItem = props => {
   };
 
   const cardStyle = {
-    display: "block",
-    width: "30vw",
-    transitionDuration: "0.3s",
-    height: "25vw"
+    minHeight: "20vw",
+    minWidth:"20vw"
   };
 
   const PlusButtonHandler = (id, value, price) => {
@@ -74,7 +72,7 @@ const FoodMenuItem = props => {
   const [itemQuantity, setItemQuantity] = useState(quantity);
 
   return (
-    <Grid item lg={3} xs={12} sm={4}>
+    <Grid item lg={3} xs={12} sm={6}>
       <Card className={cx(classes.root, shadowStyles.root)} style={cardStyle}>
         <CardMedia classes={mediaStyles} image={image} />
         <CardContent className={classes.content}>
