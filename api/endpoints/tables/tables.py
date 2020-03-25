@@ -29,7 +29,7 @@ def get_tables_and_waiters():
 
 @bp.route("/table_assignment_event", methods=["POST"])
 def table_assignment_event():
-    error = validate_table.validate_event(request)
+    error = validate_tables.validate_event(request)
     if error:
         return error
     return jsonify(data = {"success":True})

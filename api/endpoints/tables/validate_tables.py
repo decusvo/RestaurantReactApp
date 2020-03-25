@@ -18,4 +18,19 @@ def validate_table(request):
     return None
 
 def validate_event(request):
+    error = validate_table(request)
+    if error:
+        return error
+
+    if "waiter_id" not in request.json:
+        error_msg = "Expected 'waiter_id' argument, none was given"
+        return jsonify(error={"success" : False, "message" : error_msg})
+
+    waiter = request.json.get("waiter_id")
+
+    result = connector.execute_query("SELECT * FROM waiter WHERE email=%s", (waiter,))
+    if len(result) == 0:
+        error_msg = "Given waiter email does not appear in waiter table"
+        return jsonify(error={"success" : False, "message" : error_msg})
+
     return None
