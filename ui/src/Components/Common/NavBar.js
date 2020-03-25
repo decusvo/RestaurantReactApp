@@ -15,6 +15,7 @@ import userActions from "../../actions/userActions";
 import Snackbar from "@material-ui/core/Snackbar";
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
+import DeckIcon from '@material-ui/icons/Deck';
 import Notification from "../Notification/Notification";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Badge, MuiThemeProvider} from "material-ui";
@@ -105,7 +106,6 @@ export default function NavBar(props) {
                             </Button>
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
-                            <Button onClick={() => History.push("/TableAssignment")}>Table</Button>
 
                             {currentUser.loggedIn ?
                                 <>
@@ -123,6 +123,9 @@ export default function NavBar(props) {
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
                                                 <RestaurantMenuIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => History.push("/TableAssignment")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                                <DeckIcon />
                                             </IconButton>
                                         </>
                                         :
