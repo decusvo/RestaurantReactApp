@@ -16,3 +16,6 @@ def validate_table(request):
         return jsonify(error = {"success":False, "message": error_msg})
 
     return None
+
+def validate_event(request):
+    return None
