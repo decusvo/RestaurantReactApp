@@ -105,6 +105,7 @@ export default function NavBar(props) {
                             </Button>
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
+                            <Button onClick={() => History.push("/TableAssignment")}>Table</Button>
 
                             {currentUser.loggedIn ?
                                 <>
