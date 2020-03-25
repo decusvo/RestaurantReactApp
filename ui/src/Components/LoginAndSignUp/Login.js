@@ -7,10 +7,10 @@ import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import theme from "../Styling/theme";
+import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Box from "@material-ui/core/Box";
-import Copyright from "./Copyright";
+import Copyright from "../Common/Copyright";
 
 import hash from 'hash.js'
 
@@ -19,13 +19,13 @@ import hash from 'hash.js'
 import Snackbar from '@material-ui/core/Snackbar';
 
 import React, {useEffect, useState} from 'react';
-import '../Styling/LoginMenu.css'
+import '../../Styling/LoginMenu.css'
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiAlert from "@material-ui/lab/Alert";
 import {Redirect} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import allActions from "../actions";
-import History from "../utils/history";
+import allActions from "../../actions";
+import History from "../../utils/history";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";

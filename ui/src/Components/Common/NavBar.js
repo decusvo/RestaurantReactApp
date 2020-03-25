@@ -1,21 +1,21 @@
 import React, {useState} from 'react';
 import {AppBar, Button, CssBaseline, Slide, Toolbar, Typography, useScrollTrigger,} from '@material-ui/core';
-import Logo from '../Images/Logo_new.png';
+import Logo from '../../Images/Logo_new.png';
 import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import {ShoppingBasket} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
-import theme from "../Styling/theme";
+import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import {useDispatch, useSelector} from "react-redux";
-import History from "../utils/history"
+import History from "../../utils/history"
 import Avatar from "@material-ui/core/Avatar";
-import userActions from "../actions/userActions";
+import userActions from "../../actions/userActions";
 import Snackbar from "@material-ui/core/Snackbar";
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
-import Notification from "./Notification";
+import Notification from "../Notification/Notification";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Badge, MuiThemeProvider} from "material-ui";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';

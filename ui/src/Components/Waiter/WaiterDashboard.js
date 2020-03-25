@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {CssBaseline, Typography, withStyles} from '@material-ui/core';
-import Copyright from "./Copyright";
+import Copyright from "../Common/Copyright";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
-import OrderItem from "./OrderItem";
+import OrderItem from "../Order/OrderItem";
 
 //basic styles
 const useStyles = theme => ({

@@ -8,11 +8,11 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import theme from "../Styling/theme";
+import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Copyright from "./Copyright";
+import Copyright from "../Common/Copyright";
 import Box from "@material-ui/core/Box";
 
 import {hash} from 'hash.js';
@@ -250,7 +250,7 @@ const SignUp = (props) => {
       );
 };
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
     paper: {
         marginTop: theme.spacing(8),
         display: 'flex',
@@ -275,6 +275,6 @@ const useStyles = makeStyles(theme => ({
         padding: '0 30px',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     },
-}));
+});
 
 export default withStyles(useStyles)(SignUp);
