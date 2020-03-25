@@ -147,6 +147,10 @@ const Order = () => {
       .catch(error => console.log(error));
   };
 
+  const canOrder = () => {
+    return items.length === 0
+  }
+
   return (
     <React.Fragment>
       {orderButtonClicked ? <Redirect to={"/Tracking"} /> : null}
@@ -161,6 +165,7 @@ const Order = () => {
       <Grid container>
         <Grid item xs={12}>
           <Button
+            disabled={canOrder()}
             onClick={() => handleClick()}
             type="submit"
             variant="contained"
