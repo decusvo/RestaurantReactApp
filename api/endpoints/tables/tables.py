@@ -18,12 +18,14 @@ def get_tables():
 
 @bp.route("/get_tables_and_waiters", methods=["POST"])
 def get_tables_and_waiters():
-    query = "SELECT table_number, email, firstname, lastname "\
-            "FROM table_details, waiter "\
-            "WHERE waiter.email = waiter_id "
-    result = connector.json_select(query)
+    query = "SELECT json_agg (order_list) FROM "\
+                "(SELECT table_number, email, firstname, lastname "\
+                "FROM table_details, waiter "\
+                "WHERE waiter.email = waiter_id)"\
+            "AS order_list;"
+    result = connector.execute_query(query)
 
-    return jsonify(data={"tables":result})
+    return jsonify(data={"tables":result[0][0]})
 
 @bp.route("/get_waiter_assinged_to_table", methods=["POST"])
 def get_waiter_assinged_to_table():
