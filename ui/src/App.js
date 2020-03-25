@@ -17,6 +17,7 @@ import userActions from "./actions/userActions";
 import OrderSummary from "./Components/Payment/OrderSummary";
 import PaymentForm from "./Components/Payment/PaymentForm";
 import PostPaymentPage from "./Components/Payment/PostPaymentPage";
+import TableAssignment from "./Components/Waiter/TableAssignment"
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -54,6 +55,9 @@ const App = () => {
                                 <Route path="/WaiterMenu">
                                     <WaiterMenu />
                                 </Route>
+                                <Route path="/TableAssignment">
+                                    <TableAssignment />
+                                </Route>
 
                             </>
                             :
@@ -63,6 +67,9 @@ const App = () => {
                                 </Route>
                                 <Route path="/WaiterMenu">
                                     <FoodMenu />
+                                </Route>
+                                <Route path="/TableAssignment">
+                                    <TableAssignment />
                                 </Route>
                             </>
                         }
