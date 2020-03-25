@@ -32,6 +32,16 @@ def table_assignment_event():
     error = validate_tables.validate_event(request)
     if error:
         return error
+
+    waiter = request.json.get("waiter_id")
+    table = request.json.get("table_id")
+
+    query = "UPDATE table_details SET waiter_id = %s WHERE table_number = %s"
+    result = connector.execute_insert_query(query, (waiter, table))
+    if not result:
+        error_msg = "Error executing query"
+        return jsonify(data = {"success":False, "message":error_msg})
+
     return jsonify(data = {"success":True})
 
 @bp.route("/get_waiter_assinged_to_table", methods=["POST"])

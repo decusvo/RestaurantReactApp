@@ -9,6 +9,10 @@ def validate_table(request):
         return jsonify(error = {"success":False, "message": error_msg})
 
     table_id = request.json.get("table_id")
+    if len(table_id) == 0:
+        error_msg = "Nothing was given as the value of table_id"
+        return jsonify(error = {"success":False, "message": error_msg})
+
     query = "SELECT table_number FROM table_details WHERE table_number = %s"
     result = connector.execute_query(query, (table_id,))
     if len(result) == 0:
