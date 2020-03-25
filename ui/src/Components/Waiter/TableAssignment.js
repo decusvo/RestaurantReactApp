@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {List} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
+import TableWaiterCard from "./TableWaiterCard"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,14 +24,30 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const MapTables = () => {
-  return null
-};
-
-
 const TableAssignment = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser);
+  const [tables, setTables] = useState([])
+
+  const getWaiterToTable = () => {
+    fetch("//127.0.0.1:5000/get_tables_and_waiters", {
+        method: 'POST'
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        setTables(data.data.tables);
+    });
+  }
+
+  useEffect(() => {
+    getWaiterToTable()
+  }, [])
+
+  const MapTables = () => {
+    return tables.map((item, index) => {
+      return <TableWaiterCard key={index} id={item.table_number} item={item} state={item.email===currentUser.user.name} />
+    });
+  };
 
   return (
     <React.Fragment>
