@@ -128,7 +128,6 @@ const TableAssignment = () => {
                 <Typography variant="h3" className={classes.title}>
                     Table Assignment
                 </Typography>
-                {console.log(unassingedTables === null)}
                 {
                   unassingedTables === null ?
                     <div></div>
