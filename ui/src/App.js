@@ -58,7 +58,7 @@ const App = () => {
                                 <Route path="/TableAssignment">
                                     <TableAssignment />
                                 </Route>
-                                <Route path="/Register">
+                                <Route path="/RegisterWaiter">
                                     <SignUp />
                                 </Route>
 
