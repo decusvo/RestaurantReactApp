@@ -91,16 +91,19 @@ const SignUp = (props) => {
     const handleSubmit = (event) => {
       event.preventDefault() ;   // prevenets post trying to redirect to another page
       if (tAndC) {
-        if(checkPhoneNumber()){
+        if(checkPhoneNumber() || !currentUser.staff){   // if they are not staff then it will pass
           if (checkPasswords()){
           // hash password
           let hashedPassword = hash.sha512().update(password).digest('hex');
-          fetch("//127.0.0.1:5000/signup", {method: 'POST',
+          const url = (currentUser.staff ? "//127.0.0.1:5000/waiter_signup":"//127.0.0.1:5000/signup")
+          fetch(url, {method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({"firstname": firstName,
                                 "lastname": lastName,
                                 "email": email,
-                                "password": hashedPassword})
+                                "password": hashedPassword,
+                                "phone_number": phoneNumber 
+                              })
           }).then(response => {
             return response.json()
           }).then(data => {
