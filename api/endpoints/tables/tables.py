@@ -21,7 +21,8 @@ def get_tables_and_waiters():
     query = "SELECT json_agg (order_list) FROM "\
                 "(SELECT table_number, email, firstname, lastname "\
                 "FROM table_details, waiter "\
-                "WHERE waiter.email = waiter_id)"\
+                "WHERE waiter.email = waiter_id "\
+                "ORDER BY table_number)"\
             "AS order_list;"
     result = connector.execute_query(query)
 
