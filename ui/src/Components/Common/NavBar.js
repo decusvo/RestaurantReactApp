@@ -111,7 +111,7 @@ export default function NavBar(props) {
                                 <>
                                     {currentUser.staff ?
                                         <>
-                                            <Button onClick={() => History.push("/Register")} edge={"start"} color={"inherit"}>
+                                            <Button onClick={() => History.push("/RegisterWaiter")} edge={"start"} color={"inherit"}>
                                                 Register New Waiter
                                             </Button>
                                             <MuiThemeProvider muiTheme={getMuiTheme()}>
