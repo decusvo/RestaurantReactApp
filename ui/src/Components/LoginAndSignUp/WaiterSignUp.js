@@ -5,4 +5,4 @@ const WaiterSignUp = () => {
     return <SignUp />
 }
 
-export default (WaiterSignUp)
+export default WaiterSignUp
