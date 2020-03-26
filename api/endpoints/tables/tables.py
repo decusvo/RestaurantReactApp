@@ -28,6 +28,18 @@ def get_tables_and_waiters():
 
     return jsonify(data={"tables":result[0][0]})
 
+@bp.route("/get_unassinged_tables", methods=["POST"])
+def get_unassinged_tables():
+    query = "SELECT json_agg (order_list) FROM "\
+                "(SELECT table_number "\
+                "FROM table_details "\
+                "WHERE waiter_id IS NULL "\
+                "ORDER BY table_number)"\
+            "AS order_list;"
+    result = connector.execute_query(query)
+
+    return jsonify(data={"tables":result[0][0]})
+
 @bp.route("/table_assignment_event", methods=["POST"])
 def table_assignment_event():
     error = validate_tables.validate_event(request)
