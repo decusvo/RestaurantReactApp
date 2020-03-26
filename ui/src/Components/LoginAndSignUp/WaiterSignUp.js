@@ -1,9 +1,8 @@
 import React from 'react';
+import SignUp from "./SignUp";
 
 const WaiterSignUp = () => {
-    return (
-        <div><h1>This is where the waiter version of the signup page will be displayed</h1></div>
-    )
+    return <SignUp />
 }
 
 export default (WaiterSignUp)

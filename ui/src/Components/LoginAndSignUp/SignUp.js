@@ -1,7 +1,5 @@
 import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-import CustomerSignUp from "./CustomerSignUp"
-import WaiterSignUp from "./WaiterSignUp";
 
 import hash from 'hash.js';
 
@@ -15,6 +13,15 @@ import Box from "@material-ui/core/Box";
 import Copyright from "../Common/Copyright";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import Avatar from "@material-ui/core/Avatar";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import TextField from "@material-ui/core/TextField";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
+import Button from "@material-ui/core/Button";
+import Link from "@material-ui/core/Link";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -29,6 +36,7 @@ const SignUp = (props) => {
     const [password, setPassword] = React.useState('');
     const [confirmPassword, setConfirmPassword] = React.useState('');
     const [tAndC, setTAndC] = React.useState(false);
+    const [phoneNumber, setPhoneNumber] = React.useState('');
 
     // Snackbar variables
     const [open, setOpen] = React.useState(false);
@@ -40,6 +48,11 @@ const SignUp = (props) => {
 
     // gets the details of the current user
     const currentUser = useSelector(state => state.currentUser);
+
+    const checkPhoneNumber = () => {
+        const pattern = /(07)[0-9]{9}/
+        return pattern.test(phoneNumber);
+    }
 
     const handleTAndCChange = () => {
         const new_tAndC = !tAndC;
@@ -70,45 +83,54 @@ const SignUp = (props) => {
             setPassword(value);
         } else if (name === "confirmPassword") {
             setConfirmPassword(value);
+        } else if (name === "phoneNumber") {
+            setPhoneNumber(value);
         }
     };
 
     const handleSubmit = (event) => {
       event.preventDefault() ;   // prevenets post trying to redirect to another page
       if (tAndC) {
-        if (checkPasswords()){
-        // hash password
-        let hashedPassword = hash.sha512().update(password).digest('hex');
-        fetch("//127.0.0.1:5000/signup", {method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({"firstname": firstName,
-                              "lastname": lastName,
-                              "email": email,
-                              "password": hashedPassword})
-        }).then(response => {
-          return response.json()
-        }).then(data => {
-          if (data.data !== undefined) {
-              //display success message
-              setSeverity("success");
-              setMessage("You've registered successfully");
-              setOpen(true);
-              setTimeout(function () {
-                setSignedUp(data.data.success)
-              }, 1000)
-          }else {
-            // display failure message
-              setSeverity("error");
-              setMessage("Email already in use");
+        if(checkPhoneNumber()){
+          if (checkPasswords()){
+          // hash password
+          let hashedPassword = hash.sha512().update(password).digest('hex');
+          fetch("//127.0.0.1:5000/signup", {method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({"firstname": firstName,
+                                "lastname": lastName,
+                                "email": email,
+                                "password": hashedPassword})
+          }).then(response => {
+            return response.json()
+          }).then(data => {
+            if (data.data !== undefined) {
+                //display success message
+                setSeverity("success");
+                setMessage("You've registered successfully");
+                setOpen(true);
+                setTimeout(function () {
+                  setSignedUp(data.data.success)
+                }, 1000)
+            }else {
+              // display failure message
+                setSeverity("error");
+                setMessage("Email already in use");
+                setOpen(true)
+            }
+          }).catch(error => console.log(error))
+
+          } else{
+            // display warning message passwords not equal
+              setSeverity("warning");
+              setMessage("Passwords weren't the same");
               setOpen(true)
           }
-        }).catch(error => console.log(error))
-
         } else{
-          // display warning message passwords not equal
-            setSeverity("warning");
-            setMessage("Passwords weren't the same");
-            setOpen(true)
+          // display warning the phone number is not valid
+          setSeverity("warning")
+          setMessage("Phone number not of the correct format 11 digits starting with 07")
+          setOpen(true)
         }
       } else {
         // display warning message not agreeing to Terms and Condtions
@@ -124,16 +146,130 @@ const SignUp = (props) => {
             {signedUp ? <Redirect to='/Login' /> : null}
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
-                {currentUser.staff ?
-                  <WaiterSignUp />
-                  :
-                  <CustomerSignUp
-                    classes={classes}
-                    handleSubmit={handleSubmit}
-                    handleTextChange={handleTextChange}
-                    handleTAndCChange={handleTAndCChange}
-                    tAndC={tAndC}
-                  /> }
+                <div className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5">
+                        Sign up
+                    </Typography>
+                    <form className={classes.form} onSubmit={handleSubmit} method = "post">
+                        <Grid container spacing={2}>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    autoComplete="fname"
+                                    name="firstName"
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="firstName"
+                                    placeholder="First Name"
+                                    autoFocus
+                                    onChange={handleTextChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="lastName"
+                                    placeholder="Last Name"
+                                    name="lastName"
+                                    autoComplete="lname"
+                                    onChange={handleTextChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    type = 'email'
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    placeholder="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    onChange={handleTextChange}
+                                />
+                            </Grid>
+                            {currentUser.staff ?
+                                <Grid item xs={12}>
+                                    <TextField
+                                        variant="outlined"
+                                        required
+                                        fullWidth
+                                        name="phoneNumber"
+                                        placeholder="Phone Number"
+                                        id="phoneNumber"
+                                        type="tel"
+                                        onChange={handleTextChange}
+                                    />
+                                </Grid>
+                                :
+                                <div></div>
+                            }
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    placeholder="Password"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="current-password"
+                                    onChange={handleTextChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    required
+                                    fullWidth
+                                    name="confirmPassword"
+                                    placeholder="Confirm Password"
+                                    type="password"
+                                    id="passwordConfirmation"
+                                    onChange={handleTextChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControlLabel
+                                    control={<Checkbox value={tAndC}
+                                                       color="primary"
+                                                       onChange={handleTAndCChange} />}
+                                    label="I have read Terms & Conditions"
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submit}
+                        >
+                            Sign Up
+                        </Button>
+                        <Grid container direction={'row'}>
+                            <Grid container justify="flex-end" >
+                                <Grid item >
+                                    <Link href="#" variant="body1">
+                                        Read Terms & conditions
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                            <Grid container justify="flex-end">
+                                <Grid item >
+                                    <Link href="#" variant="body1">
+                                        Already have an account? Sign in
+                                    </Link>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </form>
+                </div>
                 <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
                     <Alert onClose={handleClose} severity={severity}>
                         {message}
