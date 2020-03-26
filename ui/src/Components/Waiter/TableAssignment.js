@@ -4,6 +4,11 @@ import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import TableWaiterCard from "./TableWaiterCard"
+import {Container} from "@material-ui/core";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Grid from "@material-ui/core/Grid";
+import theme from "../../Styling/theme";
+import ThemeProvider from "@material-ui/styles/ThemeProvider/ThemeProvider";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -45,20 +50,30 @@ const TableAssignment = () => {
 
   const MapTables = () => {
     return tables.map((item, index) => {
-      return <TableWaiterCard key={index} id={item.table_number} item={item} state={item.email===currentUser.user.name} />
+      const {table_number, id, email} = item
+      return <TableWaiterCard key={index} id={item.table_number} item={item} state={email===currentUser.user.name} />
     });
   };
 
   return (
     <React.Fragment>
-      <Typography variant="h3" className={classes.title}>
-        Table Assignment
-      </Typography>
-
-      <List className={classes.root}>
-        <MapTables />
-      </List>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+                <Container component="main">
+                <Typography variant="h3" className={classes.title}>
+                    Table Assignment
+                </Typography>
+                <div className={classes.paper}>
+                  <Grid spacing={2} container className={classes.grid} >
+                      <Grid item xs>
+                          <MapTables />
+                      </Grid>
+                  </Grid>
+                </div>
+            </Container>
+        </ThemeProvider>
     </React.Fragment>
+
   );
 };
 

@@ -5,9 +5,8 @@ import CardActions from "@material-ui/core/CardActions";
 import FormControl from "@material-ui/core/FormControl";
 import Card from "@material-ui/core/Card";
 import {makeStyles} from "@material-ui/core/styles";
+import Button from '@material-ui/core/Button';
 import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -15,10 +14,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 
 const useStyles = makeStyles(theme => ({
-    form: {
-        width: '100%',
-        marginTop: theme.spacing(1),
-
+    button: {
+        align: "center",
+        justify: "center",
     },
     paper: {
         marginTop: theme.spacing(8),
@@ -38,6 +36,11 @@ const useStyles = makeStyles(theme => ({
 const TableWaiterCard = ( props ) => {
     const classes = useStyles();
     const {id, item, state} = props;
+    const {firstname, lastname} = item
+
+    const handleClick = () => {
+      return null
+    }
 
     return (
         <div className={classes.paper} >
@@ -51,15 +54,12 @@ const TableWaiterCard = ( props ) => {
                 <Divider />
 
                 <Typography gutterBottom variant="subtitle1">
-                    ID {id}
+                    Assigned to: {firstname} {lastname}
                 </Typography>
                 <CardActions >
-                    <FormControl component="fieldset" className={classes.form}>
-                        <RadioGroup aria-label="Availability" name="dishState"  defaultValue={ (state===true) ? "Available":"Unavailable"}>
-                            <FormControlLabel value="Available" control={<Radio color={'primary'} />} label="Available" />
-                            <FormControlLabel value="Unavailable" control={<Radio color={'primary'}/>} label="Unavailable" />
-                        </RadioGroup>
-                    </FormControl>
+                    <Button variant="contained" color="primary" onClick={() => handleClick()}>
+                      {state ? "Unassign":"Assign"}
+                    </Button>
                 </CardActions>
             </Card>
         </div>
