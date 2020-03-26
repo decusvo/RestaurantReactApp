@@ -58,6 +58,9 @@ const App = () => {
                                 <Route path="/TableAssignment">
                                     <TableAssignment />
                                 </Route>
+                                <Route path="/Register">
+                                    <SignUp />
+                                </Route>
 
                             </>
                             :

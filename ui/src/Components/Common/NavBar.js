@@ -111,6 +111,9 @@ export default function NavBar(props) {
                                 <>
                                     {currentUser.staff ?
                                         <>
+                                            <Button onClick={() => History.push("/Register")} edge={"start"} color={"inherit"}>
+                                                Register New Waiter
+                                            </Button>
                                             <MuiThemeProvider muiTheme={getMuiTheme()}>
                                                 <Badge badgeContent={notificationCount} badgeStyle={{top: 20, right: 15, backgroundColor: red.A400}}>
                                                     <IconButton style={{bottom: 5}} onClick={() => setNotificationOpen(true)} edge={"start"} color={"inherit"} tooltip={"notifications"} aria-label={"notification"}>
