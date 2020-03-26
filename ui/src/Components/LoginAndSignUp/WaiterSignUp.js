@@ -6,4 +6,4 @@ const WaiterSignUp = () => {
     )
 }
 
-export default (WaiterSignUp)
+export default WaiterSignUp

@@ -11,28 +11,25 @@ import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider/ThemeProvider";
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    width: "100%",
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper,
-    alignItems: "center",
-    justify: "center",
-    marginLeft: theme.spacing(2)
-  },
+
   title: {
     marginTop: theme.spacing(2),
     variant: "h2",
     color: "textSecondary"
   },
-  inline: {
-    display: "inline"
-  }
+    paper: {
+        marginTop: theme.spacing(8),
+        alignItems: 'center',
+    },
+    grid: {
+      flexGrow: 1
+    }
 }));
 
 const TableAssignment = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser);
-  const [tables, setTables] = useState([])
+  const [tables, setTables] = useState([]);
 
   const getWaiterToTable = () => {
     fetch("//127.0.0.1:5000/get_tables_and_waiters", {
@@ -42,16 +39,16 @@ const TableAssignment = () => {
     }).then((data) => {
         setTables(data.data.tables);
     });
-  }
+  };
 
   useEffect(() => {
     getWaiterToTable()
-  }, [])
+  }, []);
 
   const MapTables = () => {
     return tables.map((item, index) => {
-      const {table_number, id, email} = item
-      return <TableWaiterCard key={index} id={item.table_number} item={item} state={email===currentUser.user.name} />
+      const {table_number, id, email} = item;
+      return <Grid item><TableWaiterCard key={index} id={item.table_number} item={item} state={email===currentUser.user.name} /></Grid>
     });
   };
 
@@ -64,10 +61,8 @@ const TableAssignment = () => {
                     Table Assignment
                 </Typography>
                 <div className={classes.paper}>
-                  <Grid spacing={2} container className={classes.grid} >
-                      <Grid item xs>
-                          <MapTables />
-                      </Grid>
+                  <Grid spacing={10} container className={classes.grid} >
+                      <MapTables />
                   </Grid>
                 </div>
             </Container>

@@ -15,15 +15,16 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles(theme => ({
     button: {
-        align: "center",
-        justify: "center",
+        margin: "auto",
+        justifyContent: "center",
+        marginBottom: "1.5em",
     },
     paper: {
         marginTop: theme.spacing(8),
-        flexGrow: 1,
+        flexGrow: 1
     },
     cardTitle : {
-        fontSize:'1.1rem'
+        fontSize:'1.1rem',
     },
     orderCard: {
         margin: theme.spacing(3, 0, 2),
@@ -53,11 +54,11 @@ const TableWaiterCard = ( props ) => {
 
                 <Divider />
 
-                <Typography gutterBottom variant="subtitle1">
+                <Typography gutterBottom variant="subtitle1" style={{marginLeft: "2.5em", marginRight: "2.5em"}}>
                     Assigned to: {firstname} {lastname}
                 </Typography>
                 <CardActions >
-                    <Button variant="contained" color="primary" onClick={() => handleClick()}>
+                    <Button className={classes.button} variant="contained" color="primary" onClick={() => handleClick()}>
                       {state ? "Unassign":"Assign"}
                     </Button>
                 </CardActions>
