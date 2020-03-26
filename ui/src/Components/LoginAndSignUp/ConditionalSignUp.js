@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import React from 'react';
 
 const CustomerSignUp = (props) => {
-  const {classes, handleSubmit, handleTextChange, handleTAndCChange, tAndC} = props
+  const {classes, handleSubmit, handleTextChange, handleTAndCChange, tAndC, staffpage} = props
   return (
     <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -60,6 +60,21 @@ const CustomerSignUp = (props) => {
                         onChange={handleTextChange}
                     />
                 </Grid>
+                {staffpage ?
+                    <Grid item xs={12}>
+                        <TextField
+                            variant="outlined"
+                            required
+                            fullWidth
+                            name="phoneNumber"
+                            placeholder="Phone Number"
+                            id="phoneNumber"
+                            onChange={handleTextChange}
+                        />
+                    </Grid>
+                    :
+                    <>
+                }
                 <Grid item xs={12}>
                     <TextField
                         variant="outlined"
