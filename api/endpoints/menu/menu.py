@@ -13,7 +13,7 @@ def menu():
 	#try and get the variable from the json
 	try:
 		getAll = request.json.get("getAll")
-		if getAll != False or getAll != True:
+		if type(getAll) == type(True):
 			jsonify(error={"success":False, "message":"getAll was not a boolean"})
 	except AttributeError as error:	# if getAll not provided handle error thrown
 		getAll = None
@@ -33,7 +33,8 @@ def menu():
 		result = connector.json_select("SELECT menu.id, name, description, vegan, " +
 			"gluten_free, vegetarian, calories, price, available, type, image " +
 				"FROM menu, item_type " +
-				"WHERE item_type.id = menu.food_type ")
+				"WHERE item_type.id = menu.food_type "+
+				"ORDER BY menu.id")
 		return jsonify(data={"items" : result})
 
 @bp.route("/menu_item_availability", methods=["POST"])
