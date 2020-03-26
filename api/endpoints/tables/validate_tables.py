@@ -9,7 +9,7 @@ def validate_table(request):
         return jsonify(error = {"success":False, "message": error_msg})
 
     table_id = request.json.get("table_id")
-    if len(table_id) == 0:
+    if table_id is None:
         error_msg = "Nothing was given as the value of table_id"
         return jsonify(error = {"success":False, "message": error_msg})
 
@@ -32,9 +32,10 @@ def validate_event(request):
 
     waiter = request.json.get("waiter_id")
 
-    result = connector.execute_query("SELECT * FROM waiter WHERE email=%s", (waiter,))
-    if len(result) == 0:
-        error_msg = "Given waiter email does not appear in waiter table"
-        return jsonify(error={"success" : False, "message" : error_msg})
+    if waiter is not None:
+        result = connector.execute_query("SELECT * FROM waiter WHERE email=%s", (waiter,))
+        if len(result) == 0:
+            error_msg = "Given waiter email does not appear in waiter table"
+            return jsonify(error={"success" : False, "message" : error_msg})
 
     return None
