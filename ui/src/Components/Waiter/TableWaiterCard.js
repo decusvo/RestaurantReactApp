@@ -11,8 +11,6 @@ import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 
-
-
 const useStyles = makeStyles(theme => ({
     button: {
         margin: "auto",
@@ -36,11 +34,35 @@ const useStyles = makeStyles(theme => ({
 
 const TableWaiterCard = ( props ) => {
     const classes = useStyles();
-    const {id, item, state} = props;
-    const {firstname, lastname} = item
+    const {id, item, state, setOpen, setSeverity, setMessage, getAssignedTables, getUnassignedTables, currentUser} = props;
+    const {firstname, lastname, email} = item
 
     const handleClick = () => {
-      return null
+      const waiter_id = (email ? null : currentUser.user.name)
+      fetch("//127.0.0.1:5000/table_assignment_event", {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({"waiter_id": waiter_id, "table_id": id})
+      }).then((response) => {
+          return response.json();
+      }).then((data) => {
+          if (data.data !== undefined) {
+            setSeverity("success");
+        		setMessage("Success!");
+        		setOpen(true);
+          } else {
+            // display failure message
+      		  setSeverity("error");
+      		  setMessage("Something went wrong");
+      		  setOpen(true)
+          }
+          getAssignedTables()
+          getUnassignedTables()
+      }).catch((error) => {
+        setSeverity("error");
+        setMessage("Something went wrong");
+        setOpen(true)
+      });
     }
 
     return (
@@ -53,14 +75,31 @@ const TableWaiterCard = ( props ) => {
                 }/>
 
                 <Divider />
+                {email === false ?
+                    <Typography gutterBottom variant="subtitle1" style={{marginLeft: "2.5em", marginRight: "2.5em"}}>
+                        This table needs a waiter!
+                    </Typography>
+                  :
+                    <Typography gutterBottom variant="subtitle1" style={{marginLeft: "2.5em", marginRight: "2.5em"}}>
+                        Assigned to: {firstname} {lastname}
+                    </Typography>
+                }
 
-                <Typography gutterBottom variant="subtitle1" style={{marginLeft: "2.5em", marginRight: "2.5em"}}>
-                    Assigned to: {firstname} {lastname}
-                </Typography>
                 <CardActions >
+                {state ?
                     <Button className={classes.button} variant="contained" color="primary" onClick={() => handleClick()}>
-                      {state ? "Unassign":"Assign"}
+                      Unassign
                     </Button>
+                    :
+                    email === false ?
+                    <Button className={classes.button} variant="contained" color="primary" onClick={() => handleClick()}>
+                      Assign
+                    </Button>
+                    :
+                    <Button className={classes.button} variant="contained" color="primary" disabled>
+                      Cannot Change
+                    </Button>
+                }
                 </CardActions>
             </Card>
         </div>

@@ -9,6 +9,12 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider/ThemeProvider";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from '@material-ui/core/Snackbar';
+
+function Alert(props) {
+	return <MuiAlert elevation={6} variant="filled" {...props} />
+}
 
 const useStyles = makeStyles(theme => ({
 
@@ -30,8 +36,21 @@ const TableAssignment = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser);
   const [tables, setTables] = useState([]);
+  const [unassingedTables, setUnassingedTables] = useState([]);
 
-  const getWaiterToTable = () => {
+  // snackbar values
+  const [open, setOpen] = useState(false);
+	const [severity, setSeverity] = useState("success");
+	const [message, setMessage] = useState("You've logged in successfully");
+
+  const handleClose = (event, reason) => {
+		if (reason === 'clickaway') {
+			return
+		}
+		setOpen(false)
+	};
+
+  const getAssignedTables = () => {
     fetch("//127.0.0.1:5000/get_tables_and_waiters", {
         method: 'POST'
     }).then((response) => {
@@ -41,15 +60,64 @@ const TableAssignment = () => {
     });
   };
 
+  const getUnassignedTables = () => {
+    fetch("//127.0.0.1:5000/get_unassinged_tables", {
+        method: 'POST'
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        setUnassingedTables(data.data.tables);
+    });
+  };
+
   useEffect(() => {
-    getWaiterToTable()
+    getAssignedTables()
+    getUnassignedTables()
   }, []);
 
-  const MapTables = () => {
-    return tables.map((item, index) => {
-      const {table_number, id, email} = item;
-      return <Grid item><TableWaiterCard key={index} id={item.table_number} item={item} state={email===currentUser.user.name} /></Grid>
-    });
+  const MapTables = ({value}) => {
+    if (value === true){
+      return tables.map((item, index) => {
+        const {table_number, id, email} = item;
+        return (
+              <React.Fragment key={index}>
+                <Grid item>
+                  <TableWaiterCard
+                    key={index}
+                    id={item.table_number}
+                    item={item}
+                    state={email===currentUser.user.name}
+                    currentUser={currentUser}
+                    getAssignedTables={getAssignedTables}
+                    getUnassignedTables={getUnassignedTables}
+                    setOpen={setOpen}
+                    setSeverity={setSeverity}
+                    setMessage={setMessage}
+                  />
+                </Grid>
+              </React.Fragment>)
+      });
+    } else {
+      return unassingedTables.map((item, index) => {
+        return (
+              <React.Fragment key={index}>
+                <Grid item>
+                  <TableWaiterCard
+                    key={index}
+                    id={item.table_number}
+                    item={{email:false}}
+                    currentUser={currentUser}
+                    getAssignedTables={getAssignedTables}
+                    getUnassignedTables={getUnassignedTables}
+                    setOpen={setOpen}
+                    setSeverity={setSeverity}
+                    setMessage={setMessage}
+                  />
+                </Grid>
+              </React.Fragment>)
+      })
+    }
+
   };
 
   return (
@@ -60,13 +128,44 @@ const TableAssignment = () => {
                 <Typography variant="h3" className={classes.title}>
                     Table Assignment
                 </Typography>
-                <div className={classes.paper}>
-                  <Grid spacing={10} container className={classes.grid} >
-                      <MapTables />
-                  </Grid>
-                </div>
+                {console.log(unassingedTables === null)}
+                {
+                  unassingedTables === null ?
+                    <div></div>
+                  :
+                  <Container>
+                      <Typography variant="h5" className={classes.title}>
+                          Unassigned Tables
+                      </Typography>
+                      <div className={classes.paper}>
+                        <Grid spacing={10} container className={classes.grid} >
+                            <MapTables value={false}/>
+                        </Grid>
+                      </div>
+                  </Container>
+                }
+                {
+                  tables === null ?
+                    <div></div>
+                  :
+                  <Container>
+                      <Typography variant="h5" className={classes.title}>
+                          Assigned Tables
+                      </Typography>
+                      <div className={classes.paper}>
+                        <Grid spacing={10} container className={classes.grid} >
+                            <MapTables value={true}/>
+                        </Grid>
+                      </div>
+                  </Container>
+                }
             </Container>
         </ThemeProvider>
+        <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+					<Alert onClose={handleClose} severity={severity}>
+						{message}
+					</Alert>
+				</Snackbar>
     </React.Fragment>
 
   );
