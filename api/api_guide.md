@@ -36,9 +36,9 @@ should be a valid sha256 hash:
 
   ```json
   	{
-	  "email" : "example@example.com",
+  	  "email" : "example@example.com",
   	  "password" : "sha256hash",
-	  "staff_login" : true
+  	  "staff_login" : true
   	}
   ```
 
@@ -188,9 +188,9 @@ EXPECTS: JSON object containing the email of the waiter, customer email and noti
 
   ```json
   	{
-	  "waiter_email" : waiter@waiter.com,
-	  "customer_email" : "example@example.com",
-	  "message" : "notif. message"
+  	  "waiter_email" : "waiter@waiter.com",
+  	  "customer_email" : "example@example.com",
+  	  "message" : "notif. message"
   	}
   ```
 
@@ -215,7 +215,7 @@ EXPECTS: JSON object containing the waiter\_email:
 
   ```json
   	{
-	  "waiter_email" : "waiter@waiter.com",
+  	  "waiter_email" : "waiter@waiter.com",
   	}
   ```
 
@@ -246,7 +246,7 @@ EXPECTS: JSON object containing the waiter\_email:
 
   ```json
   	{
-	  "waiter_email" : "waiter@waiter.com",
+  	  "waiter_email" : "waiter@waiter.com",
   	}
   ```
 
@@ -285,10 +285,10 @@ EXPECTS: JSON object containing an order id and an event in the form, the given 
 be added to the database if it passes the event validation:
 
   ```json
-  {
-	"order_id" : 1,
-	"order_event" : "request"
-  }
+    {
+	  "order_id" : 1,
+	  "order_event" : "request"
+    }
   ```
 
 RETURNS: JSON object containing whether or not event was successfully performed:
@@ -388,8 +388,8 @@ retrieve all orders, then pass an empty array, and the waiter id:
 
   ```json
   {
-  "states": ["start", "cooking", "requested"],
-  "waiter_id" : "waiter@waiter.com"
+    "states": ["start", "cooking", "requested"],
+    "waiter_id" : "waiter@waiter.com"
   }
   ```
 
@@ -425,7 +425,7 @@ EXPECTS: JSON object containing the email of the customer:
 
   ```json
   {
-  "cust_id" : "customer@example.com"
+    "cust_id" : "customer@example.com"
   }
   ```
 
@@ -463,10 +463,10 @@ nothing separating the month and year
 
   ```json
   	{
-	  "card_num" : "123456789123456",
-	  "cvv" : "123",
-	  "sort_num" : "123456",
-	  "expiry_date" : "0821"
+  	  "card_num" : "123456789123456",
+  	  "cvv" : "123",
+  	  "sort_num" : "123456",
+  	  "expiry_date" : "0821"
   	}
   ```
 
@@ -490,8 +490,8 @@ EXPECTS: JSON object containing the email and staff:
 
   ```json
   	{
-	  "email" : "example@example.com",
-	  "staff" : false
+  	  "email" : "example@example.com",
+  	  "staff" : false
   	}
   ```
 
@@ -501,7 +501,7 @@ RETURNS: JSON object describing success
   {
     "data": {
       "session_id": "example@example.com",
-	  "staff":  false
+      "staff":  false
     }
   }
 
@@ -529,8 +529,8 @@ EXPECTS: Does not expect any data but will return error if no session is active
 RETURNS: JSON
   ```json
   	{
-	  "data" : {
-	    "staff" : true
+  	  "data" : {
+  	    "staff" : true
   	  }
 	}
   ```
@@ -543,9 +543,9 @@ EXPECTS: Does not expect any data but will return error if no session is active
 RETURNS: JSON
   ```json
   	{
-	  "data" : {
-	    "removed_session_id" : "example@example.com",
-		"success" : true
+  	  "data" : {
+  	    "removed_session_id" : "example@example.com",
+  	    "success" : true
   	  }
 	}
   ```
@@ -561,7 +561,7 @@ RETURNS: JSON with an array of every table in order
   ```json
   	{
 	  "data" : {
-	    "tables" : {
+	    "tables" : [
 	      1,
 	      2,
 	      3,
@@ -572,7 +572,7 @@ RETURNS: JSON with an array of every table in order
 	      8,
 	      9,
 	      10
-	    }
+	    ]
   	  }
 	}
   ```
@@ -589,8 +589,6 @@ RETURNS: JSON with an object containing the email, firstname, lastname and table
             "firstname": "test",
             "lastname": "user",
             "table_number": 1
-          },
-          {...},
 	    }
   	  }
 	}
@@ -603,8 +601,8 @@ EXPECTS: Does not expect any data
 RETURNS: JSON with an array of every table that does not have a waiter assigned to it
   ```json
   	{
-	  "data" : {
-	    "tables" : [
+  	  "data" : {
+  	    "tables" : [
 	      {
 	        "table_number" : 2
 	      },{
