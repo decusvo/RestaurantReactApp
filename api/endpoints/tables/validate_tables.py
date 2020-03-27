@@ -1,12 +1,12 @@
 from flask import Flask, request, jsonify, Blueprint
 import json
 import psycopg2
-from common import connector
+from common import connector, validate_functions as vf
 
 def validate_table(request):
-    if "table_id" not in request.json:
-        error_msg = "Expected 'table_id' and was not found"
-        return jsonify(error = {"success":False, "message": error_msg})
+    error = vf.sent_expected_values(["table_id"], request)
+    if error:
+        return error
 
     table_id = request.json.get("table_id")
     if table_id is None:
@@ -26,9 +26,9 @@ def validate_event(request):
     if error:
         return error
 
-    if "waiter_id" not in request.json:
-        error_msg = "Expected 'waiter_id' argument, none was given"
-        return jsonify(error={"success" : False, "message" : error_msg})
+    error = vf.sent_expected_values(["waiter_id"], request)
+    if error:
+        return error
 
     waiter = request.json.get("waiter_id")
 

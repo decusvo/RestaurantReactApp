@@ -1,25 +1,12 @@
 from flask import Flask, request, jsonify, Blueprint
 import json
 import psycopg2
-from common import connector
+from common import connector, validate_functions as vf
 
 def validate_user(request):
-    if "email" not in request.json:
-        error_msg = "Expected 'email' and was not found"
-        return jsonify(error = {"success":False, "message": error_msg})
-
-    if "firstname" not in request.json:
-        error_msg = "Expected 'firstname' and was not found"
-        return jsonify(error = {"success":False, "message": error_msg})
-
-    if "lastname" not in request.json:
-        error_msg = "Expected 'lastname' and was not found"
-        return jsonify(error = {"success":False, "message": error_msg})
-
-    if "password" not in request.json:
-        error_msg = "Expected 'password' and was not found"
-        return jsonify(error = {"success":False, "message": error_msg})
-
+    error = vf.sent_expected_values(["email", "firstname", "lastname", "password"], request)
+    if error:
+        return error
     return None
 
 def validate_customer(request):
@@ -43,9 +30,9 @@ def validate_waiter(request):
     if error:
         return error
 
-    if "phone_number" not in request.json:
-        error_msg = "Expected 'phone_number' and was not found"
-        return jsonify(error = {"success":False, "message": error_msg})
+    error = vf.sent_expected_values(["phone_number"], request)
+    if error:
+        return error
 
     phone_number = request.json.get('phone_number')
     # if the phone number is not an integer and of length 11

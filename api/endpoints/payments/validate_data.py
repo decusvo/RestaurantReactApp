@@ -1,26 +1,14 @@
 from flask import Flask, request, jsonify, Blueprint
 import json
 import psycopg2
-from common import connector
+from common import connector, validate_functions as vf
 import datetime
 
 
 def validate_payments(request):
-    if "card_num" not in request.json:
-        error_msg = "Expected 'card_num' but was not found"
-        return jsonify({"success": False, "message": error_msg})
-
-    if "cvv" not in request.json:
-        error_msg = "Expected 'cvv' but was not found"
-        return jsonify({"success": False, "message":error_msg})
-
-    if "sort_num" not in request.json:
-        error_msg = "Expected 'sort_num' but was not found"
-        return jsonify({"success": False, "message": error_msg})
-
-    if "expiry_date" not in request.json:
-        error_msg = "Expected 'expiry_date' but was not found"
-        return jsonify({"success": False, "message":error_msg})
+    error = vf.sent_expected_values(["card_num", "cvv", "sort_num", "expiry_date"], request)
+    if error:
+        return error
 
     # checks if its of a valid length
     credit_card_num = request.json.get("card_num")
