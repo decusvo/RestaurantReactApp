@@ -245,9 +245,9 @@ Clears all notifications from a waiter.
 EXPECTS: JSON object containing the waiter\_email:
 
   ```json
-  	{
-  	  "waiter_email" : "waiter@waiter.com",
-  	}
+    {
+      "waiter_email" : "waiter@waiter.com",
+    }
   ```
 
 RETURNS: JSON object describing success
@@ -308,8 +308,8 @@ EXPECTS: JSON object containing the order id and the customer id (their email)
 
   ```json
   {
-  "orderId": 1,
-  "custId": "customer@example.com"
+    "orderId": 1,
+    "custId": "customer@example.com"
   }
   ```
 
@@ -349,7 +349,7 @@ retrieve all orders, then pass an empty array:
 
   ```json
   {
-  "states": ["start", "cooking", "requested"]
+    "states": ["start", "cooking", "requested"]
   }
   ```
 
@@ -462,12 +462,12 @@ EXPECTS: JSON object containing the card number, CVV, sort number and the expiry
 nothing separating the month and year
 
   ```json
-  	{
-  	  "card_num" : "123456789123456",
-  	  "cvv" : "123",
-  	  "sort_num" : "123456",
-  	  "expiry_date" : "0821"
-  	}
+    {
+      "card_num" : "123456789123456",
+      "cvv" : "123",
+      "sort_num" : "123456",
+      "expiry_date" : "0821"
+    }
   ```
 
 RETURNS: JSON object describing success
@@ -489,10 +489,10 @@ RETURNS: JSON object describing success
 EXPECTS: JSON object containing the email and staff:
 
   ```json
-  	{
-  	  "email" : "example@example.com",
-  	  "staff" : false
-  	}
+    {
+      "email" : "example@example.com",
+      "staff" : false
+    }
   ```
 
 RETURNS: JSON object describing success
@@ -514,11 +514,11 @@ EXPECTS: Does not expect any data but will return error if no session is active
 
 RETURNS: JSON
   ```json
-  	{
-	  "data" : {
-	    "session_id" : "example@example.com"
-  	  }
-	}
+    {
+      "data" : {
+        "session_id" : "example@example.com"
+      }
+    }
   ```
 
 	or an error object
@@ -528,11 +528,11 @@ EXPECTS: Does not expect any data but will return error if no session is active
 
 RETURNS: JSON
   ```json
-  	{
-  	  "data" : {
-  	    "staff" : true
-  	  }
-	}
+    {
+      "data" : {
+        "staff" : true
+      }
+    }
   ```
 
 	or an error object
@@ -542,12 +542,12 @@ EXPECTS: Does not expect any data but will return error if no session is active
 
 RETURNS: JSON
   ```json
-  	{
-  	  "data" : {
-  	    "removed_session_id" : "example@example.com",
-  	    "success" : true
-  	  }
-	}
+    {
+      "data" : {
+        "removed_session_id" : "example@example.com",
+        "success" : true
+      }
+    }
   ```
 
 	or an error object
@@ -559,22 +559,22 @@ EXPECTS: Does not expect any data
 
 RETURNS: JSON with an array of every table in order
   ```json
-  	{
-	  "data" : {
-	    "tables" : [
-	      1,
-	      2,
-	      3,
-	      4,
-	      5,
-	      6,
-	      7,
-	      8,
-	      9,
-	      10
-	    ]
-  	  }
-	}
+    {
+    "data" : {
+      "tables" : [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ]
+      }
+    }
   ```
 
 ### /get\_tables\_and\_waiters
@@ -582,16 +582,16 @@ EXPECTS: Does not expect any data
 
 RETURNS: JSON with an object containing the email, firstname, lastname and table number the waiter is assigned to
   ```json
-  	{
-	  "data" : {
-	    "tables" : {
-            "email": "test@waiter.com",
-            "firstname": "test",
-            "lastname": "user",
-            "table_number": 1
-	    }
-  	  }
-	}
+    {
+      "data" : {
+        "tables" : {
+          "email": "test@waiter.com",
+          "firstname": "test",
+          "lastname": "user",
+           "table_number": 1
+        }
+      }
+    }
   ```
   
   
@@ -600,17 +600,17 @@ EXPECTS: Does not expect any data
 
 RETURNS: JSON with an array of every table that does not have a waiter assigned to it
   ```json
-  	{
-  	  "data" : {
-  	    "tables" : [
-	      {
-	        "table_number" : 2
-	      },{
-	        "table_number" : 6
-	      }
-	    ]
-  	  }
-	}
+    {
+      "data" : {
+        "tables" : [
+          {
+            "table_number" : 2
+          },{
+            "table_number" : 6
+          }
+        ]
+      }
+    }
   ```
   
 ### /table\_assignment\_event
@@ -627,11 +627,11 @@ EXPECTS: JSON object containing the waiter email and the table number which the 
 
 RETURNS: JSON with an array of every table that does not have a waiter assigned to it
   ```json
-  	{
-	  "data" : {
-	    "success" : true
-  	  }
-	}
+    {
+      "data" : {
+        "success" : true
+      }
+    }
   ```
   
   	or an error object
@@ -649,13 +649,11 @@ EXPECTS: JSON object containing the table number to get the waiter associated wi
 
 RETURNS: JSON with an array of every table that does not have a waiter assigned to it
   ```json
-  	{
-	  "data" : {
-	    "waiter_id" : "waiter@example.com"
-  	  }
-	}
+    {
+      "data" : {
+        "waiter_id" : "waiter@example.com"
+      }
+    }
   ```
   
-  	or an error object
-  	
-  	  	
+  	or an error object 	
