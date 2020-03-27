@@ -66,7 +66,7 @@ def get_waiter_assinged_to_table():
     table_id = request.json.get("table_id")
 
     # assignes a waiter to the table if there is none
-    vf.auto_assign_waiter(table_number)
+    vf.auto_assign_waiter(table_id)
 
     query = "SELECT waiter_id FROM table_details WHERE table_number = %s;"
     result = connector.execute_query(query, (table_id,))
