@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, Blueprint
 import json
 import psycopg2
-from common import connector
+from common import connector, validate_functions as vf
 from . import validate_tables
 
 
@@ -64,6 +64,10 @@ def get_waiter_assinged_to_table():
         return error
 
     table_id = request.json.get("table_id")
+
+    # assignes a waiter to the table if there is none
+    vf.auto_assign_waiter(table_number)
+
     query = "SELECT waiter_id FROM table_details WHERE table_number = %s;"
     result = connector.execute_query(query, (table_id,))
     return jsonify(data = {"waiter_id":result[0][0]})
