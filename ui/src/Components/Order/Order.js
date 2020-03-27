@@ -97,7 +97,7 @@ const Order = () => {
 
   const callWaiter = (called, waiter={}) => {
     if (called === "outside") {
-      fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+      fetch("//127.0.0.1:5000/get_waiter_assigned_to_table", {method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"table_id": table})
       }).then((response) => {

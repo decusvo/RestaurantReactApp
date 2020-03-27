@@ -35,7 +35,7 @@ const TableAssignment = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser);
   const [tables, setTables] = useState([]);
-  const [unassingedTables, setUnassingedTables] = useState([]);
+  const [unassignedTables, setunassignedTables] = useState([]);
 
   // snackbar values
   const [open, setOpen] = useState(false);
@@ -60,12 +60,12 @@ const TableAssignment = () => {
   };
 
   const getUnassignedTables = () => {
-    fetch("//127.0.0.1:5000/get_unassinged_tables", {
+    fetch("//127.0.0.1:5000/get_unassigned_tables", {
         method: 'POST'
     }).then((response) => {
         return response.json();
     }).then((data) => {
-        setUnassingedTables(data.data.tables);
+        setunassignedTables(data.data.tables);
     });
   };
 
@@ -97,7 +97,7 @@ const TableAssignment = () => {
               </React.Fragment>)
       });
     } else {
-      return unassingedTables.map((item, index) => {
+      return unassignedTables.map((item, index) => {
         return (
               <React.Fragment key={index}>
                 <Grid item>
@@ -128,7 +128,7 @@ const TableAssignment = () => {
                     Table Assignment
                 </Typography>
                 {
-                  unassingedTables === null ?
+                  unassignedTables === null ?
                     <div></div>
                   :
                   <Container>

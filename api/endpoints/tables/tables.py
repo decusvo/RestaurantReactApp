@@ -28,8 +28,8 @@ def get_tables_and_waiters():
 
     return jsonify(data={"tables":result[0][0]})
 
-@bp.route("/get_unassinged_tables", methods=["POST"])
-def get_unassinged_tables():
+@bp.route("/get_unassigned_tables", methods=["POST"])
+def get_unassigned_tables():
     query = "SELECT json_agg (order_list) FROM "\
                 "(SELECT table_number "\
                 "FROM table_details "\
@@ -57,8 +57,8 @@ def table_assignment_event():
 
     return jsonify(data = {"success":True})
 
-@bp.route("/get_waiter_assinged_to_table", methods=["POST"])
-def get_waiter_assinged_to_table():
+@bp.route("/get_waiter_assigned_to_table", methods=["POST"])
+def get_waiter_assigned_to_table():
     error = validate_tables.validate_table(request)
     if error:
         return error
