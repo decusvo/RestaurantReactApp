@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {List} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { useSelector } from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -78,13 +77,13 @@ const TableAssignment = () => {
   const MapTables = ({value}) => {
     if (value === true){
       return tables.map((item, index) => {
-        const {table_number, id, email} = item;
+        const {table_number, email} = item;
         return (
               <React.Fragment key={index}>
                 <Grid item>
                   <TableWaiterCard
                     key={index}
-                    id={item.table_number}
+                    id={table_number}
                     item={item}
                     state={email===currentUser.user.name}
                     currentUser={currentUser}
