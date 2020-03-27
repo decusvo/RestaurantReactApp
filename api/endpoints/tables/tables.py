@@ -9,7 +9,7 @@ bp = Blueprint("tables blueprint", __name__)
 
 @bp.route("/get_tables", methods=["POST"])
 def get_tables():
-    query = "SELECT table_number AS table_numbers FROM table_details"
+    query = "SELECT table_number AS table_numbers FROM table_details ORDER BY table_number"
     result = connector.execute_query(query)
     output = []
     for ele in result:
