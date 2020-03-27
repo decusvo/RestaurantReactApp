@@ -18,12 +18,12 @@
 - ALMOST every endpoint will return an error object of the following form if it fails:
 
   ```json
-  {
-	"error" : {
-	  "success" : false,
-	  "message" : "A description of the error"
-	}
-  }
+    {
+      "error" : {
+        "success" : false,
+        "message" : "A description of the error"
+      }
+    }
   ```
 - This object describes the nature of the error (a call could succeed but still give a warning), and a brief description.
 
@@ -35,11 +35,11 @@ EXPECTS: JSON object containing username:password pair, and whether or not it is
 should be a valid sha256 hash:
 
   ```json
-  	{
-  	  "email" : "example@example.com",
-  	  "password" : "sha256hash",
-  	  "staff_login" : true
-  	}
+    {
+      "email" : "example@example.com",
+      "password" : "sha256hash",
+      "staff_login" : true
+    }
   ```
 
 RETURNS: JSON object containing username of the account that was logged in and a boolean for success
@@ -72,15 +72,15 @@ RETURNS: JSON object describing success and a message:
 ### /signup
 EXPECTS: JSON object containing the email, password, firstname and lastname
 
-    ```json
-      {
-       "email" : "test@customer.com",
-       "firstname" : "John",
-       "lastname" : "Doe",
-       "password" : "super secret password"
-      }
+```json
+  {
+    "email" : "test@customer.com",
+    "firstname" : "John",
+    "lastname" : "Doe",
+    "password" : "super secret password"
+   }
 
-      ```
+```
 
 RETURNS: JSON object describing success
 
@@ -90,7 +90,6 @@ RETURNS: JSON object describing success
       "success": true
     }
   }
-
   ```
 
 	or an error object
@@ -98,16 +97,15 @@ RETURNS: JSON object describing success
 ### /waiter_signup
 EXPECTS: JSON object containing the email, password, firstname, lastname and phone number
 
-    ```json
-          {
-           "email" : "test@waiter.com",
-           "firstname" : "Foo",
-           "lastname" : "Bar",
-           "password" : "super extra secret password",
-           "phone_number" : "07123456789"
-          }
-
-    ```
+```json
+    {
+      "email" : "test@waiter.com",
+      "firstname" : "Foo",
+      "lastname" : "Bar",
+      "password" : "super extra secret password",
+      "phone_number" : "07123456789"
+    }
+```
 
 RETURNS: JSON object describing success
 
@@ -130,7 +128,7 @@ available menu items
 
   ```json
   {
-  "getAll" : true
+    "getAll" : true
   }
   ```
 
@@ -152,10 +150,9 @@ available menu items
           "type": "dessert",
           "vegan": false,
           "vegetarian": true
-        },
-        {"..."}
+        }
       ]
-	   }
+	}
   }
   ```
 	or an error object, error object will contain a list valid_events if a bad event argument is given.
@@ -187,25 +184,25 @@ available menu items
 EXPECTS: JSON object containing the email of the waiter, customer email and notificiation message:
 
   ```json
-  	{
-  	  "waiter_email" : "waiter@waiter.com",
-  	  "customer_email" : "example@example.com",
-  	  "message" : "notif. message"
-  	}
+{
+    "waiter_email" : "waiter@waiter.com",
+    "customer_email" : "example@example.com",
+    "message" : "notif. message"
+}
   ```
 
 RETURNS: Data object outlining the notification which was added:
 
-	```json
-	{
-	  "data" : {
-		"added_message" : "notif. message",
-		"from" : "customer email",
-		"to" : "waiter email",
-		"success" : true
-	  }
-	}
-	```
+```json
+{
+  "data" : {
+    "added_message" : "notif. message",
+    "from" : "customer email",
+    "to" : "waiter email",
+    "success" : true
+  }
+}
+```
 
 	or an error object
 
@@ -215,7 +212,7 @@ EXPECTS: JSON object containing the waiter\_email:
 
   ```json
   	{
-  	  "waiter_email" : "waiter@waiter.com",
+  	  "waiter_email" : "waiter@waiter.com"
   	}
   ```
 
@@ -246,7 +243,7 @@ EXPECTS: JSON object containing the waiter\_email:
 
   ```json
     {
-      "waiter_email" : "waiter@waiter.com",
+      "waiter_email" : "waiter@waiter.com"
     }
   ```
 
@@ -616,14 +613,14 @@ RETURNS: JSON with an array of every table that does not have a waiter assigned 
 ### /table\_assignment\_event
 EXPECTS: JSON object containing the waiter email and the table number which the waiter is going to be assigned to
 
-    ```json
-        {
-          "data" : {
-            "waiter_id" : "waiter@example.com",
-            "table_id" : "1"
-          }
-        }
-    ```
+```json
+{
+  "data" : {
+    "waiter_id" : "waiter@example.com",
+    "table_id" : "1"
+  }
+}
+```
 
 RETURNS: JSON with an array of every table that does not have a waiter assigned to it
   ```json
@@ -639,21 +636,21 @@ RETURNS: JSON with an array of every table that does not have a waiter assigned 
 ### /get\_waiter\_assigned_to_table
 EXPECTS: JSON object containing the table number to get the waiter associated with it
 
-    ```json
-        {
-          "data" : {
-            "table_id" : "1"
-          }
-        }
-    ```
+```json
+{
+  "data" : {
+    "table_id" : "1"
+  }
+}
+```
 
 RETURNS: JSON with an array of every table that does not have a waiter assigned to it
   ```json
-    {
-      "data" : {
-        "waiter_id" : "waiter@example.com"
-      }
+{
+  "data" : {
+    "waiter_id" : "waiter@example.com"
     }
+}
   ```
   
   	or an error object 	
