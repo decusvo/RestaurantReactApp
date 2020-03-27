@@ -17,14 +17,14 @@
 - ALMOST every endpoint will return a JSON object describing the result, or the requested data.
 - ALMOST every endpoint will return an error object of the following form if it fails:
 
-  ```json
-    {
-      "error" : {
-        "success" : false,
-        "message" : "A description of the error"
-      }
-    }
-  ```
+```json
+{
+  "error" : {
+    "success" : false,
+    "message" : "A description of the error"
+  }
+}
+```
 - This object describes the nature of the error (a call could succeed but still give a warning), and a brief description.
 
 ## API endpoints:
@@ -34,24 +34,24 @@
 EXPECTS: JSON object containing username:password pair, and whether or not it is a staff account password
 should be a valid sha256 hash:
 
-  ```json
-    {
-      "email" : "example@example.com",
-      "password" : "sha256hash",
-      "staff_login" : true
-    }
-  ```
+```json
+{
+  "email" : "example@example.com",
+  "password" : "sha256hash",
+  "staff_login" : true
+}
+```
 
 RETURNS: JSON object containing username of the account that was logged in and a boolean for success
 
-  ```json
-  {
-	"data" : {
-	  "username" : "example_username",
-	  "valid_credentials" : true
-	}
+```json
+{
+  "data" : {
+    "username" : "example_username",
+    "valid_credentials" : true
   }
-  ```
+}
+```
 
 	or an error object
 
@@ -73,13 +73,12 @@ RETURNS: JSON object describing success and a message:
 EXPECTS: JSON object containing the email, password, firstname and lastname
 
 ```json
-  {
-    "email" : "test@customer.com",
-    "firstname" : "John",
-    "lastname" : "Doe",
-    "password" : "super secret password"
-   }
-
+{
+  "email" : "test@customer.com",
+  "firstname" : "John",
+  "lastname" : "Doe",
+  "password" : "super secret password"
+}
 ```
 
 RETURNS: JSON object describing success
@@ -98,13 +97,13 @@ RETURNS: JSON object describing success
 EXPECTS: JSON object containing the email, password, firstname, lastname and phone number
 
 ```json
-    {
-      "email" : "test@waiter.com",
-      "firstname" : "Foo",
-      "lastname" : "Bar",
-      "password" : "super extra secret password",
-      "phone_number" : "07123456789"
-    }
+{
+  "email" : "test@waiter.com",
+  "firstname" : "Foo",
+  "lastname" : "Bar",
+  "password" : "super extra secret password",
+  "phone_number" : "07123456789"
+}
 ```
 
 RETURNS: JSON object describing success
@@ -210,29 +209,28 @@ RETURNS: Data object outlining the notification which was added:
 ### get\_waiter\_notifications
 EXPECTS: JSON object containing the waiter\_email:
 
-  ```json
-  	{
-  	  "waiter_email" : "waiter@waiter.com"
-  	}
-  ```
+```json
+{
+  "waiter_email" : "waiter@waiter.com"
+}
+```
 
 RETURNS: JSON object containing list of their notifications:
 
   ```json
   {
-  "data": {
-    "notifications": [
-      [
-        2,
-        "example@example.com",
-        "waiter@waiter.com",
-        "notification message for waiter"
-      ]
-    ],
-    "success": true
+    "data": {
+      "notifications": [
+        [
+          2,
+          "example@example.com",
+          "waiter@waiter.com",
+          "notification message for waiter"
+        ]
+      ],
+      "success": true
     }
   }
-
   ```
 
 	or an error object
@@ -241,11 +239,11 @@ RETURNS: JSON object containing list of their notifications:
 Clears all notifications from a waiter.
 EXPECTS: JSON object containing the waiter\_email:
 
-  ```json
-    {
-      "waiter_email" : "waiter@waiter.com"
-    }
-  ```
+```json
+{
+  "waiter_email" : "waiter@waiter.com"
+}
+```
 
 RETURNS: JSON object describing success
 
@@ -255,13 +253,13 @@ RETURNS: JSON object describing success
 ### /create\_order:
 EXPECTS: JSON object containing a table number, customer email and a list of item ids in the form:
 
-  ```json
-  {
-	"table_num" : 1,
-	"items" : [1, 2, 3],
-	"customer" : "example@example.com"
-  }
-  ```
+```json
+{
+  "table_num" : 1,
+  "items" : [1, 2, 3],
+  "customer" : "example@example.com"
+}
+```
 
 RETURNS: JSON object
 
@@ -281,34 +279,34 @@ RETURNS: JSON object
 EXPECTS: JSON object containing an order id and an event in the form, the given event will
 be added to the database if it passes the event validation:
 
-  ```json
-    {
-	  "order_id" : 1,
-	  "order_event" : "request"
-    }
-  ```
+```json
+{
+  "order_id" : 1,
+  "order_event" : "request"
+}
+```
 
 RETURNS: JSON object containing whether or not event was successfully performed:
 
-  ```json
-  {
-	"data" : {
-	  "success" : true
-	}
+```json
+{
+  "data" : {
+    "success" : true
   }
-  ```
+}
+```
 
 	or an error object
 
 ### /get\_order:
 EXPECTS: JSON object containing the order id and the customer id (their email)
 
-  ```json
-  {
-    "orderId": 1,
-    "custId": "customer@example.com"
-  }
-  ```
+```json
+{
+  "orderId": 1,
+  "custId": "customer@example.com"
+}
+```
 
 RETURNS: JSON object containing the data requested, if no data exists an empty array will be returned
 It also returns the ordered items in a json object containing the quantity ordered and
@@ -354,8 +352,8 @@ RETURNS: JSON object containing the data requested, if no data exists an empty a
 It also returns the ordered items in a json object containing the quantity ordered and
 the price of each item times the quantity
 
-  ```json
-  {
+```json
+{
   "data": {
     "orders": [
       {
@@ -371,11 +369,11 @@ the price of each item times the quantity
         "price": "$10.50",
         "state": "start",
         "table_number": 1
-        }
-      ]
-    }
+      }
+    ]
   }
-  ```
+}
+```
 
 	or an error object
 
@@ -458,14 +456,14 @@ RETURNS: JSON object containing the data requested, for that specific customer
 EXPECTS: JSON object containing the card number, CVV, sort number and the expiry date of the form month year with
 nothing separating the month and year
 
-  ```json
-    {
-      "card_num" : "123456789123456",
-      "cvv" : "123",
-      "sort_num" : "123456",
-      "expiry_date" : "0821"
-    }
-  ```
+```json
+{
+  "card_num" : "123456789123456",
+  "cvv" : "123",
+  "sort_num" : "123456",
+  "expiry_date" : "0821"
+}
+```
 
 RETURNS: JSON object describing success
 
@@ -485,12 +483,12 @@ RETURNS: JSON object describing success
 ### /create\_session
 EXPECTS: JSON object containing the email and staff:
 
-  ```json
-    {
-      "email" : "example@example.com",
-      "staff" : false
-    }
-  ```
+```json
+{
+  "email" : "example@example.com",
+  "staff" : false
+}
+```
 
 RETURNS: JSON object describing success
 
@@ -510,13 +508,13 @@ RETURNS: JSON object describing success
 EXPECTS: Does not expect any data but will return error if no session is active
 
 RETURNS: JSON
-  ```json
-    {
-      "data" : {
-        "session_id" : "example@example.com"
-      }
-    }
-  ```
+```json
+{
+  "data" : {
+    "session_id" : "example@example.com"
+  }
+}
+```
 
 	or an error object
 
@@ -524,13 +522,13 @@ RETURNS: JSON
 EXPECTS: Does not expect any data but will return error if no session is active
 
 RETURNS: JSON
-  ```json
-    {
-      "data" : {
-        "staff" : true
-      }
-    }
-  ```
+```json
+{
+  "data" : {
+    "staff" : true
+  }
+}
+```
 
 	or an error object
 
@@ -538,14 +536,14 @@ RETURNS: JSON
 EXPECTS: Does not expect any data but will return error if no session is active
 
 RETURNS: JSON
-  ```json
-    {
-      "data" : {
-        "removed_session_id" : "example@example.com",
-        "success" : true
-      }
-    }
-  ```
+```json
+{
+  "data" : {
+    "removed_session_id" : "example@example.com",
+    "success" : true
+  }
+}
+```
 
 	or an error object
 
@@ -555,60 +553,60 @@ RETURNS: JSON
 EXPECTS: Does not expect any data
 
 RETURNS: JSON with an array of every table in order
-  ```json
-    {
-    "data" : {
-      "tables" : [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8,
-          9,
-          10
-        ]
-      }
-    }
-  ```
+```json
+{
+  "data" : {
+    "tables" : [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  }
+}
+```
 
 ### /get\_tables\_and\_waiters
 EXPECTS: Does not expect any data
 
 RETURNS: JSON with an object containing the email, firstname, lastname and table number the waiter is assigned to
-  ```json
-    {
-      "data" : {
-        "tables" : {
-          "email": "test@waiter.com",
-          "firstname": "test",
-          "lastname": "user",
-           "table_number": 1
-        }
-      }
+```json
+{
+  "data" : {
+    "tables" : {
+      "email": "test@waiter.com",
+      "firstname": "test",
+      "lastname": "user",
+       "table_number": 1
     }
-  ```
+  }
+}
+```
   
   
 ### /get\_unassigned\_tables
 EXPECTS: Does not expect any data
 
 RETURNS: JSON with an array of every table that does not have a waiter assigned to it
-  ```json
-    {
-      "data" : {
-        "tables" : [
-          {
-            "table_number" : 2
-          },{
-            "table_number" : 6
-          }
-        ]
+```json
+{
+  "data" : {
+    "tables" : [
+      {
+        "table_number" : 2
+      },{
+        "table_number" : 6
       }
-    }
-  ```
+    ]
+  }
+}
+```
   
 ### /table\_assignment\_event
 EXPECTS: JSON object containing the waiter email and the table number which the waiter is going to be assigned to
@@ -645,12 +643,12 @@ EXPECTS: JSON object containing the table number to get the waiter associated wi
 ```
 
 RETURNS: JSON with an array of every table that does not have a waiter assigned to it
-  ```json
+```json
 {
   "data" : {
     "waiter_id" : "waiter@example.com"
-    }
+  }
 }
-  ```
+```
   
   	or an error object 	
