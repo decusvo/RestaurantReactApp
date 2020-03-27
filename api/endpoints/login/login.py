@@ -6,15 +6,12 @@ from common import connector
 
 bp = Blueprint("login blueprint", __name__)
 
-def get_table(val):
-	return "waiter" if val else "customer"
-
 
 @bp.route("/login", methods=["POST"])
 def login():
 	if "username" in session:
 		return jsonify(error={"valid_credentials" : False, "message" : "Already in session, user must logout"})
-	
+
 	# Get the email and password from a post request as a json
 	email = request.json.get('email')
 	password = request.json.get('password')
@@ -25,7 +22,7 @@ def login():
 		query = "SELECT email, password FROM waiter WHERE email = %s AND password = %s"
 	else:
 		query = "SELECT email, password FROM customer WHERE email = %s AND password = %s"
-		
+
 	result = connector.execute_query(query, (email, password))
 
 	# if the result retruns nothing return invalid response
@@ -42,4 +39,3 @@ def logout():
 		return jsonify(error={"success" : False, "message" : "No active session"})
 	sessions.session.remove_session()
 	return jsonify(data={"success" : True, "message" : "session ended"})
-
