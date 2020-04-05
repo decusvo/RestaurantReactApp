@@ -60,12 +60,16 @@ const TrackingItem = props => {
   // The information passed as props from the Tracking.js is initialized as variables for later use.
 
   const { orderID, tableID, allItems, totalPrice, orderState } = props;
+  let renderedState = orderState;
+  if (renderedState === "ready_To_Deliver") {
+    renderedState = "coming";
+  }
 
   // Conditional rendering. If an order has been delivered, a Pay button has been rendered instead of Cancel.
   // The user is no longer able to cancel the particular order as it has been now delivered.
   // Upon clicking the Pay button, the order ID is passed up to Tracking.js parent component and used to redirect the customer to OrderSummary.js
 
-  if (orderState === "delivered") {
+  if (renderedState === "delivered") {
     button = (
       <Button
         color={"primary"}
@@ -80,7 +84,7 @@ const TrackingItem = props => {
     );
 
     // If the order has been paid or cancelled, the customer can no longer modify the order card.
-  } else if (orderState === "paid" || orderState === "cancelled") {
+  } else if (renderedState === "paid" || renderedState === "cancelled") {
     button = (
       <Button disabled={true} fullWidth className={classes.cta}>
         Done
@@ -143,7 +147,6 @@ const TrackingItem = props => {
           />
           {button}
         </CardContent>
-
         {renderOrderSubMenu}
       </Card>
     </Grid>
