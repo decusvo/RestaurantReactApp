@@ -6,7 +6,7 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useDispatch, useSelector } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import allActions from "../actions";
+import allActions from "../../actions";
 import { Redirect } from "react-router";
 import {useMaterialListItemStyles} from "@mui-treasury/styles/listItem/material";
 
@@ -100,7 +100,7 @@ const Order = () => {
 
   const callWaiter = (called, waiter={}) => {
     if (called === "outside") {
-      fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+      fetch("//127.0.0.1:5000/get_waiter_assigned_to_table", {method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({"table_id": table})
       }).then((response) => {
@@ -150,6 +150,10 @@ const Order = () => {
       .catch(error => console.log(error));
   };
 
+  const canOrder = () => {
+    return items.length === 0
+  };
+
   return (
     <React.Fragment>
       {orderButtonClicked ? <Redirect to={"/Tracking"} /> : null}
@@ -164,6 +168,7 @@ const Order = () => {
       <Grid container>
         <Grid item xs={12}>
           <Button
+            disabled={canOrder()}
             onClick={() => handleClick()}
             type="submit"
             variant="contained"

@@ -6,7 +6,6 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiDialogContent from "@material-ui/core/DialogContent";
-// import {useSelector} from "react-redux";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 const styles = theme => ({
@@ -57,7 +56,6 @@ const DialogContent = withStyles(theme => ({
 const Notification = (props) => {
     const {numberOfNotifications, open, setOpen} = props;
     const [notifications, setNotifications] = useState([]);
-    // const waiter_id = useSelector(state => state.currentUser.name);
 
     useEffect(() => {
         fetch("//127.0.0.1:5000/get_waiter_notifications", {method: 'POST',

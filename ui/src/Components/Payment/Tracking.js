@@ -48,6 +48,7 @@ const Tracking = () => {
         return response.json();
       })
       .then(data => {
+        console.log(data);
         setCurrentOrders(data.data.orders);
       });
   };

@@ -34,7 +34,7 @@ CREATE TABLE waiter(
 	email varchar(128) PRIMARY KEY,
 	firstname varchar(64),
 	lastname varchar(64),
-	phone_number integer,
+	phone_number char(11),
 	password varchar(256)
 );
 

@@ -1,6 +1,6 @@
     import React, {useEffect, useState} from 'react';
 import {Container, CssBaseline, Typography, withStyles} from '@material-ui/core';
-import Copyright from "./Copyright";
+import Copyright from "../Common/Copyright";
 import Box from "@material-ui/core/Box";
 import FoodMenuItem from "./FoodMenuItem";
 import Grid from "@material-ui/core/Grid";

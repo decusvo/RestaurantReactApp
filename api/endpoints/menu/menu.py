@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Blueprint
 from flask_cors import CORS
 import json
 import psycopg2
-from common import connector
+from common import connector, validate_functions as vf
 
 
 bp = Blueprint("menu blueprint", __name__)
@@ -13,7 +13,7 @@ def menu():
 	#try and get the variable from the json
 	try:
 		getAll = request.json.get("getAll")
-		if getAll != False or getAll != True:
+		if type(getAll) == type(True):
 			jsonify(error={"success":False, "message":"getAll was not a boolean"})
 	except AttributeError as error:	# if getAll not provided handle error thrown
 		getAll = None
@@ -33,17 +33,22 @@ def menu():
 		result = connector.json_select("SELECT menu.id, name, description, vegan, " +
 			"gluten_free, vegetarian, calories, price, available, type, image " +
 				"FROM menu, item_type " +
-				"WHERE item_type.id = menu.food_type ")
+				"WHERE item_type.id = menu.food_type "+
+				"ORDER BY menu.id")
 		return jsonify(data={"items" : result})
 
 @bp.route("/menu_item_availability", methods=["POST"])
 def changeAvailablty():
-    newState = request.json.get("newState")
-    menuId = request.json.get("menuId")
-    query = "UPDATE menu SET available = %s WHERE id = (%s)"
-    result=connector.execute_insert_query(query,(newState,menuId))
-    if result == False:
-        return jsonify(error={"success":False, "message":"Error MenuId does not exist"})
-    return jsonify(data={"success":True})
+	error = vf.sent_expected_values(["newState", "menuId"], request)
+	if error:
+		return error
+
+	newState = request.json.get("newState")
+	menuId = request.json.get("menuId")
+	query = "UPDATE menu SET available = %s WHERE id = (%s)"
+	result=connector.execute_insert_query(query,(newState,menuId))
+	if result == False:
+		return jsonify(error={"success":False, "message":"Error MenuId does not exist"})
+	return jsonify(data={"success":True})
 # to Test this endpoint use
 # curl -X POST -H "Content-Type: application/json" -d '{"menuId": "1","newState":"False"}' 127.0.0.1:5000/menu_item_availability

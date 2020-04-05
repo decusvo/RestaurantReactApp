@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, Blueprint
 import json
 import psycopg2
-from common import connector
+from common import connector, validate_functions as vf
 
 
 # Fetch list of valid states/events from DB.
@@ -28,17 +28,9 @@ for enum_val in enum_list:
 
 
 def validate(request):
-	if "table_num" not in request.json:
-		error_msg = "Expected 'table_num' argument, none was given"
-		return jsonify(error={"success" : False, "message" : error_msg})
-
-	if "items" not in request.json:
-		error_msg = "Expected 'items' field, non was given"
-		return jsonify(error={"success" : False, "message" : error_msg})
-
-	if "customer" not in request.json:
-		error_msg = "Expected customer argument, none was given"
-		return jsonify(error={"success" : False, "message" : error_msg})
+	error = vf.sent_expected_values(["customer", "items", "table_num"], request)
+	if error:
+		return error
 
 	table_num = int(request.json.get("table_num"))
 	items = request.json.get("items")
@@ -71,14 +63,9 @@ def validate(request):
 	return None
 
 def validate_order_event(request):
-
-	if "order_id" not in request.json:
-		error_msg = "Expected 'order_id', was not found"
-		return jsonify({"success" : False, "message" : error_msg})
-
-	if "order_event" not in request.json:
-		error_msg = "Expected 'order_event', was not found"
-		return jsonify({"success" : False, "message" : error_msg})
+	error = vf.sent_expected_values(["order_id", "order_event"], request)
+	if error:
+		return error
 
 	order_id = request.json.get("order_id")
 	event = request.json.get("order_event")
@@ -111,13 +98,9 @@ def validate_order_event(request):
 
 
 def validate_get_orders(request):
-	if request.json is None:
-		error_msg = "Expected json object, was not found"
-		return jsonify({"success": False, "message": error_msg})
-
-	if "states" not in request.json:
-		error_msg = "Expected 'states', and was not found"
-		return jsonify({"success": False, "message": error_msg})
+	error = vf.sent_expected_values(["states"], request)
+	if error:
+		return error
 
 	states =  request.json.get("states")
 
@@ -130,13 +113,9 @@ def validate_get_orders(request):
 	return None
 
 def validate_get_cust_order(request):
-	if request.json is None:
-		error_msg = "Expected json object, was not found"
-		return jsonify({"success": False, "message": error_msg})
-
-	if "custId" not in request.json:
-		error_msg = "Expected 'custId', and was not found"
-		return jsonify({"success": False, "message": error_msg})
+	error = vf.sent_expected_values(["custId"], request)
+	if error:
+		return error
 
 	cust_id = request.json.get("custId")
 
@@ -152,9 +131,9 @@ def validate_get_order(request):
 	if error != None:
 		return error
 
-	if "orderId" not in request.json:
-		error_msg = "Expected 'orderId', and was not found"
-		return jsonify({"success": False, "message": error_msg})
+	error = vf.sent_expected_values(["orderId"], request)
+	if error:
+		return error
 
 	order_id = request.json.get("orderId")
 
@@ -171,9 +150,9 @@ def validate_get_waiters_orders(request):
 	if error != None:
 		return error
 
-	if "waiter_id" not in request.json:
-		error_msg = "Expected 'waiter_id', and was not found"
-		return jsonify({"success": False, "message": error_msg})
+	error = vf.sent_expected_values(["waiter_id"], request)
+	if error:
+		return error
 
 	waiter_id = request.json.get("waiter_id")
 

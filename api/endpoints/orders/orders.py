@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify, Blueprint
 import json
 import psycopg2
 from . import validate_orders
-from common import connector
+from common import connector, validate_functions as vf
 import datetime
 
 
@@ -16,6 +16,9 @@ def create_order():
 		return(error)
 
 	table_num = int(request.json.get("table_num"))
+	# Assign waiter to table if no one is assigned
+	vf.auto_assign_waiter(table_num)
+
 	items = request.json.get("items")
 	customer = request.json.get("customer")
 	time = datetime.datetime.now().strftime("%H:%M:%S")

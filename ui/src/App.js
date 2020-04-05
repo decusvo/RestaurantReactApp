@@ -1,22 +1,23 @@
 import React, {useEffect} from 'react';
 import './App.css';
-import Home from "./Components/Home";
-import FoodMenu from "./Components/FoodMenu";
-import About from "./Components/About";
+import Home from "./Components/Common/Home";
+import FoodMenu from "./Components/Menu/FoodMenu";
+import About from "./Components/Common/About";
 import {Route, Router} from "react-router-dom";
 import history from "./utils/history";
-import NavBar from "./Components/NavBar";
-import SignIn from "./Components/Login";
-import SignUp from "./Components/SignUp";
-import WaiterDashboard from "./Components/WaiterDashboard";
+import NavBar from "./Components/Common/NavBar";
+import SignIn from "./Components/LoginAndSignUp/Login";
+import SignUp from "./Components/LoginAndSignUp/SignUp";
+import WaiterDashboard from "./Components/Waiter/WaiterDashboard";
 import {useDispatch, useSelector} from "react-redux";
-import Order from "./Components/Order";
+import Order from "./Components/Order/Order";
 import Tracking from "./Components/Payment/Tracking";
-import WaiterMenu from "./Components/WaiterMenu";
+import WaiterMenu from "./Components/Waiter/WaiterMenu";
 import userActions from "./actions/userActions";
 import OrderSummary from "./Components/Payment/OrderSummary";
 import PaymentForm from "./Components/Payment/PaymentForm";
 import PostPaymentPage from "./Components/Payment/PostPaymentPage";
+import TableAssignment from "./Components/Waiter/TableAssignment"
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -54,6 +55,12 @@ const App = () => {
                                 <Route path="/WaiterMenu">
                                     <WaiterMenu />
                                 </Route>
+                                <Route path="/TableAssignment">
+                                    <TableAssignment />
+                                </Route>
+                                <Route path="/RegisterWaiter">
+                                    <SignUp />
+                                </Route>
 
                             </>
                             :
@@ -63,6 +70,9 @@ const App = () => {
                                 </Route>
                                 <Route path="/WaiterMenu">
                                     <FoodMenu />
+                                </Route>
+                                <Route path="/TableAssignment">
+                                    <TableAssignment />
                                 </Route>
                             </>
                         }

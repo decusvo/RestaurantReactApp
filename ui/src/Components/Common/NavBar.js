@@ -1,21 +1,22 @@
 import React, {useState} from 'react';
 import {AppBar, Button, CssBaseline, Slide, Toolbar, Typography, useScrollTrigger,} from '@material-ui/core';
-import Logo from '../Images/Logo_new.png';
+import Logo from '../../Images/Logo_new.png';
 import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import {ShoppingBasket} from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
-import theme from "../Styling/theme";
+import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import {useDispatch, useSelector} from "react-redux";
-import History from "../utils/history"
+import History from "../../utils/history"
 import Avatar from "@material-ui/core/Avatar";
-import userActions from "../actions/userActions";
+import userActions from "../../actions/userActions";
 import Snackbar from "@material-ui/core/Snackbar";
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
-import Notification from "./Notification";
+import DeckIcon from '@material-ui/icons/Deck';
+import Notification from "../Notification/Notification";
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import {Badge, MuiThemeProvider} from "material-ui";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -70,7 +71,7 @@ export default function NavBar(props) {
 
     const callWaiter = (called, waiter={}) => {
         if (called === "button") {
-            fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+            fetch("//127.0.0.1:5000/get_waiter_assigned_to_table", {method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({"table_id": table})
             }).then((response) => {
@@ -110,6 +111,9 @@ export default function NavBar(props) {
                                 <>
                                     {currentUser.staff ?
                                         <>
+                                            <Button onClick={() => History.push("/RegisterWaiter")} edge={"start"} color={"inherit"}>
+                                                Register New Waiter
+                                            </Button>
                                             <MuiThemeProvider muiTheme={getMuiTheme()}>
                                                 <Badge badgeContent={notificationCount} badgeStyle={{top: 20, right: 15, backgroundColor: red.A400}}>
                                                     <IconButton style={{bottom: 5}} onClick={() => setNotificationOpen(true)} edge={"start"} color={"inherit"} tooltip={"notifications"} aria-label={"notification"}>
@@ -122,6 +126,9 @@ export default function NavBar(props) {
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
                                                 <RestaurantMenuIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => History.push("/TableAssignment")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                                <DeckIcon />
                                             </IconButton>
                                         </>
                                         :

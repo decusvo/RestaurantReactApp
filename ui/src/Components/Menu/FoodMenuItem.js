@@ -5,7 +5,7 @@ import MinusIcon from "@material-ui/icons/Remove";
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
 import { useDispatch } from "react-redux";
-import allActions from "../actions";
+import allActions from "../../actions";
 import { CardMedia } from "@material-ui/core";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import { useN01TextInfoContentStyles } from "@mui-treasury/styles/textInfoContent/n01";
@@ -52,8 +52,7 @@ const FoodMenuItem = props => {
   };
 
   const cardStyle = {
-    minHeight: "20vw",
-    minWidth:"20vw"
+    height: "100%"
   };
 
   const PlusButtonHandler = (id, value, price) => {
