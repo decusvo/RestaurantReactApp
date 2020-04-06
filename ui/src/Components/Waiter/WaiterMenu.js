@@ -91,8 +91,7 @@ const WaiterMenu = () => {
     };
 
     const MapWaiterMenuItem = ({value}) => {
-        return items.map(function (dishes, index) {
-            const dish = dishes["0"];
+        return items.map((dish, index) => {
             const type = dish.type;
             if(type === value){
                 if ((vegan && dish.vegan === vegan) || (vegetarian && dish.vegetarian === vegetarian) || (glutenFree && dish.gluten_free === glutenFree)){

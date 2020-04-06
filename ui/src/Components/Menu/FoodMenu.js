@@ -46,8 +46,7 @@ const FoodMenu = (props) => {
         const MapMenuItem = ({value}) => {
             const item = useSelector(state => state.currentItems.items);
 
-            return items.map(function (dishes, index) {
-                const dish = dishes["0"];
+            return items.map((dish, index) => {
                 const type = dish.type;
                 let q = 0;
                 item.forEach(ele => {

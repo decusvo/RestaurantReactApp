@@ -71,15 +71,6 @@ def execute_insert_query(query_string, args=None):
 
 	return True
 
-def json_select(query, args=None):
-	global connection
-	connection = get_connection()
-	cursor = connection.cursor()
-	# cant use %s and pass the query as an arugment to execute_query
-	# because it thinks its an sql injection
-	json_query = "SELECT TO_JSON(json_result) FROM ({})json_result;".format(query)
-	return execute_query(json_query)
-
 def get_connection():
 	global connection
 	if connection:
