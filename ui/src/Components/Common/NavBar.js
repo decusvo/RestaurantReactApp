@@ -22,6 +22,8 @@ import {Badge, MuiThemeProvider} from "material-ui";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {red} from '@material-ui/core/colors';
 import PanToolIcon from '@material-ui/icons/PanTool';
+import MoneyOffIcon from '@material-ui/icons/MoneyOff';
+import PaymentIcon from '@material-ui/icons/Payment';
 
 function HideOnScroll(props) {
     const {children, window} = props;
@@ -123,6 +125,8 @@ export default function NavBar(props) {
                                             </MuiThemeProvider>
                                             <IconButton onClick={() => History.push("/WaiterDashboard")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
                                                 <DashboardIcon />
+                                            </IconButton><IconButton onClick={() => History.push("/PaymentInfo")} edge={"start"} color={"inherit"} aria-label={"payment"}>
+                                                <MoneyOffIcon />
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
                                                 <RestaurantMenuIcon />
@@ -135,6 +139,9 @@ export default function NavBar(props) {
                                         <>
                                             <IconButton onClick={() => callWaiter("button")} edge={"start"} color={"inherit"} aria-label={"notify"}>
                                                 <PanToolIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => History.push("/Tracking")} edge={"start"} color={"inherit"} aria-label={"payment"}>
+                                                <PaymentIcon />
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
                                                 <ShoppingBasket />
