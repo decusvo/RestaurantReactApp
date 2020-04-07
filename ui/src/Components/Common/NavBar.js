@@ -133,6 +133,9 @@ export default function NavBar(props) {
                                         </>
                                         :
                                         <>
+                                            <IconButton onClick={() => History.push("/Tracking")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
+                                                <DashboardIcon />
+                                            </IconButton>
                                             <IconButton onClick={() => callWaiter("button")} edge={"start"} color={"inherit"} aria-label={"notify"}>
                                                 <PanToolIcon />
                                             </IconButton>
