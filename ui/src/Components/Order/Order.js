@@ -13,17 +13,22 @@ import {useMaterialListItemStyles} from "@mui-treasury/styles/listItem/material"
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    maxWidth: 360,
+    maxWidth: 250,
     backgroundColor: theme.palette.background.paper,
     alignItems: "center",
     justify: "center",
-    marginLeft: theme.spacing(2)
   },
   inline: {
     display: "inline"
   },
+  spacing: {
+    marginTop : "2%",
+    marginBottom: "2%",
+    marginLeft : "15%",
+    marginRight : "15%"
+  },
   title: {
-    marginTop: theme.spacing(2),
+    marginTop: "2%",
     variant: "h2",
     color: "textSecondary"
   },
@@ -72,7 +77,7 @@ const MapOrderItem = () => {
                     variant="body2"
                     color="textSecondary"
                   >
-                    Q : {itemQuantity}
+                    X {itemQuantity}
                   </Typography>
                 </React.Fragment>
               }
@@ -84,8 +89,12 @@ const MapOrderItem = () => {
       }
     });
   } else {
-    console.log("No items");
-    return <div> </div>;
+
+    return <div >
+      <Typography variant={"body1"} color={"inherit"} align={"center"}>
+        You have not placed any dishes into the basket.
+      </Typography>
+    </div>;
   }
 };
 
@@ -158,10 +167,10 @@ const Order = () => {
     <React.Fragment>
       {orderButtonClicked ? <Redirect to={"/Tracking"} /> : null}
       <Typography variant="h3" className={classes.title}>
-        Your order list
+        Review your order
       </Typography>
 
-      <List className={classes.root}>
+      <List className={classes.spacing}>
         <MapOrderItem />
       </List>
 
