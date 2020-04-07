@@ -21,14 +21,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 
-// TODO: Pass order information to global state.
+const _ = require('lodash');
 
 
 const Tracking = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser); // Get username.
   const [currentOrders, setCurrentOrders] = React.useState([]);
-  const [oldOrders, setOldOrders] = React.useState(undefined);
+  const [oldOrders, setOldOrders] = React.useState([]);
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [paymentState, setPaymentState] = React.useState(false);
@@ -47,7 +47,9 @@ const Tracking = () => {
           return response.json();
         })
         .then(data => {
-          setCurrentOrders(data.data.orders);
+          if (!_.isEqual(currentOrders, data.data.orders)) {
+            setCurrentOrders(data.data.orders);
+          }
         });
   };
 
@@ -61,6 +63,7 @@ const Tracking = () => {
           return response.json();
         })
         .then(data => {
+          if (data.data.orders)
           setOldOrders(data.data.orders);
         });
   };
@@ -137,15 +140,20 @@ const Tracking = () => {
       {paymentState ? (
         <Redirect to="/OrderSummary" />
       ) : null}
-      <Typography variant="h3" className={classes.title}>
-        Your orders
-      </Typography>
 
-      <Grid spacing={2} container className={classes.grid}>
-        <MapOrderItem value={currentOrders} />
-      </Grid>
+      {currentOrders ?
+          <div>
+            <Typography variant="h3" className={classes.title}>
+              Your orders
+            </Typography>
+            <Grid spacing={2} container className={classes.grid}>
+              <MapOrderItem value={currentOrders} />
+            </Grid>
+          </div>
+          :null
+      }
 
-      {oldOrders !== undefined ?
+      {oldOrders ?
           <div>
             <Typography variant="h3" className={classes.title}>
               Past orders
