@@ -303,8 +303,8 @@ EXPECTS: JSON object containing the order id and the customer id (their email)
 
 ```json
 {
-  "orderId": 1,
-  "custId": "customer@example.com"
+  "order_id": 1,
+  "cust_id": "customer@example.com"
 }
 ```
 
@@ -325,7 +325,7 @@ the price of each item times the quantity
               "quantity": 4
             }
           ],
-          "ordered_time": "13:00:03",
+          "ordered_time": "13:00",
           "price": "$21.00",
           "state": "requested",
           "table_number": 3
@@ -350,7 +350,9 @@ retrieve all orders, then pass an empty array:
 
 RETURNS: JSON object containing the data requested, if no data exists an empty array will be returned
 It also returns the ordered items in a json object containing the quantity ordered and
-the price of each item times the quantity
+the price of each item times the quantity. 
+
+**NOTE** - this will only return orders from that day, if you want to get older orders see [get_old_cust_orders](#get_old_cust_orders)
 
 ```json
 {
@@ -365,7 +367,7 @@ the price of each item times the quantity
             "quantity": 2
           }
         ],
-        "ordered_time": "20:46:54",
+        "ordered_time": "20:46",
         "price": "$10.50",
         "state": "start",
         "table_number": 1
@@ -374,6 +376,82 @@ the price of each item times the quantity
   }
 }
 ```
+
+	or an error object
+
+### /get\_waiter\_orders:
+EXPECTS: JSON object containing the list of states you'd like to get orders for. If you want to
+retrieve all orders, then pass an empty array, and the waiter id:  
+
+  ```json
+  {
+    "states": ["start", "cooking", "requested"],
+    "waiter_id" : "waiter@waiter.com"
+  }
+  ```
+
+RETURNS: JSON object containing the data requested, for that specific waiter
+
+  ```json
+  {
+  "data": {
+    "orders": [
+      {
+        "id": 1,
+        "items": [
+          {
+            "cumulative_price": "$10.50",
+            "name": "Veggie nachos",
+            "quantity": 2
+          }
+        ],
+        "ordered_time": "20:46",
+        "price": "$10.50",
+        "state": "start",
+        "table_number": 1
+        }
+      ]
+    }
+  }
+  ```
+
+	or an error object
+
+### /get\_cust\_orders:
+EXPECTS: JSON object containing the email of the customer:
+
+**NOTE** - this will only return orders from that day, if you want to get older orders see [get_old_cust_orders](#get_old_cust_orders)
+
+  ```json
+  {
+    "cust_id" : "customer@example.com"
+  }
+  ```
+
+RETURNS: JSON object containing all the orders for that customer
+
+  ```json
+  {
+  "data": {
+    "orders": [
+      {
+        "id": 1,
+        "items": [
+          {
+            "cumulative_price": "$10.50",
+            "name": "Veggie nachos",
+            "quantity": 2
+          }
+        ],
+        "ordered_time": "20:46",
+        "price": "$10.50",
+        "state": "start",
+        "table_number": 1
+        }
+      ]
+    }
+  }
+  ```
 
 	or an error object
 
@@ -403,7 +481,7 @@ RETURNS: JSON object containing the data requested, for that specific waiter
             "quantity": 2
           }
         ],
-        "ordered_time": "20:46:54",
+        "ordered_time": "20:46",
         "price": "$10.50",
         "state": "start",
         "table_number": 1
@@ -415,7 +493,8 @@ RETURNS: JSON object containing the data requested, for that specific waiter
 
 	or an error object
 
-### /get\_cust\_order:
+
+### /get\_old\_cust\_orders:
 EXPECTS: JSON object containing the email of the customer:
 
   ```json
@@ -424,7 +503,10 @@ EXPECTS: JSON object containing the email of the customer:
   }
   ```
 
-RETURNS: JSON object containing the data requested, for that specific customer
+RETURNS: JSON object containing all the orders for that customer ever. 
+
+**NOTE** - this will get all orders that are not from the current day related to the customer, 
+to get orders from today see all other order endpoints
 
   ```json
   {
@@ -450,6 +532,7 @@ RETURNS: JSON object containing the data requested, for that specific customer
   ```
 
 	or an error object
+
 
 ## Payments
 ### /verify\_payment
