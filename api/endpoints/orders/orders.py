@@ -36,6 +36,7 @@ def create_order():
 
 	return jsonify(data={"success" : True, "order_id" : order_id, "items_added" : items_added})
 
+
 @bp.route("/order_event", methods=["POST"])
 def order_event():
 	error =	validate_orders.validate_order_event(request)
@@ -50,6 +51,7 @@ def order_event():
 
 	return jsonify({"success" : True})
 
+
 @bp.route("/get_order", methods=["POST"])
 def get_order():
 	error = validate_orders.validate_get_order(request)
@@ -59,6 +61,8 @@ def get_order():
 	order_id = request.json.get("order_id")
 	cust_id = request.json.get("cust_id")
 
+	# Selects all relevant information about the order including the quantity of each item and the total price
+	# where the order id and customer id are equal to values given above
 	query = "SELECT json_agg (order_list) FROM " \
 				"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') as ordered_time, price, items " \
 				"FROM orders, total_order_price, ordered_item_array " \
@@ -70,6 +74,7 @@ def get_order():
 	result = connector.execute_query(query, (cust_id, order_id))
 	return jsonify(data = {"order": result[0][0]})
 
+
 @bp.route("/get_orders", methods=["POST"])
 def get_orders():
 	error = validate_orders.validate_get_orders(request)
@@ -80,6 +85,7 @@ def get_orders():
 
 	# handles case for getting all orders:
 	if len(states) == 0:
+		# Selects all relevant information about the order including the quantity of each item and the total price
 		query = "SELECT json_agg (order_list) FROM " \
 					"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') as ordered_time, price, items " \
 					"FROM orders, total_order_price, ordered_item_array " \
@@ -97,10 +103,12 @@ def get_orders():
 					"AND orders.id = ordered_item_array.order_id " \
 					"AND DATE(ordered_time) = DATE(NOW()) " \
 				"AND state = ANY('{"
+		# adds all order states so it selects orders that are in any of those states
 		query += ", ".join(states) + "}') "
 		query += "ORDER BY ordered_time) AS order_list;"
 		result = connector.execute_query(query)
 	return jsonify(data={"orders" : result[0][0]})
+
 
 @bp.route("/get_waiters_orders", methods=["POST"])
 def get_waiter_orders():
@@ -113,6 +121,8 @@ def get_waiter_orders():
 
 	# handles case for getting all orders:
 	if len(states) == 0:
+		# Selects all relevant information about the order including the quantity of each item and the total price
+		# where the waiter id are equal to value given above
 		query = "SELECT json_agg (order_list) FROM " \
 					"(SELECT id, all_order_details.table_number, state, to_char(ordered_time, 'HH:MI') AS ordered_time, price, items " \
 					"FROM all_order_details, table_details " \
@@ -146,6 +156,7 @@ def get_cust_orders():
 
 	id = request.json.get("cust_id")
 
+	# Selects all orders for a specific customer that happened today
 	query = "SELECT json_agg (order_list) FROM " \
 				"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') AS ordered_time, price, items " \
 				"FROM orders, total_order_price, ordered_item_array " \
@@ -167,6 +178,7 @@ def get_old_cust_orders():
 
 	id = request.json.get("cust_id")
 
+	# Select all orders for a customer from the past
 	query = "SELECT json_agg (order_list) FROM " \
 				"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') AS ordered_time, price, items " \
 				"FROM orders, total_order_price, ordered_item_array " \
