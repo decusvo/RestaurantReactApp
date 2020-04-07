@@ -70,7 +70,7 @@ const TableAssignment = () => {
   };
 
   useEffect(() => {
-    getAssignedTables()
+    getAssignedTables();
     getUnassignedTables()
   }, []);
 
@@ -129,7 +129,7 @@ const TableAssignment = () => {
                 </Typography>
                 {
                   unassignedTables === null ?
-                    <div></div>
+                    null
                   :
                   <Container>
                       <Typography variant="h5" className={classes.title}>
@@ -144,7 +144,7 @@ const TableAssignment = () => {
                 }
                 {
                   tables === null ?
-                    <div></div>
+                    null
                   :
                   <Container>
                       <Typography variant="h5" className={classes.title}>
