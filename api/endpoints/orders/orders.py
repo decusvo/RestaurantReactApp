@@ -56,8 +56,8 @@ def get_order():
 	if error:
 		return (error)
 
-	order_id = request.json.get("orderId")
-	cust_id = request.json.get("custId")
+	order_id = request.json.get("order_id")
+	cust_id = request.json.get("cust_id")
 
 	query = "SELECT json_agg (order_list) FROM " \
 				"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') as ordered_time, price, items " \
@@ -85,7 +85,8 @@ def get_orders():
 					"FROM orders, total_order_price, ordered_item_array " \
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id) " \
-					"ORDER BY ordered_time " \
+					"AND DATE(ordered_time) = DATE(NOW()) " \
+				"ORDER BY ordered_time " \
 				"AS order_list;"
 		result = connector.execute_query(query)
 	else:
@@ -94,7 +95,8 @@ def get_orders():
 					"FROM orders, total_order_price, ordered_item_array " \
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id " \
-					"AND state = ANY('{"
+					"AND DATE(ordered_time) = DATE(NOW()) " \
+				"AND state = ANY('{"
 		query += ", ".join(states) + "}') "
 		query += "ORDER BY ordered_time) AS order_list;"
 		result = connector.execute_query(query)
@@ -112,21 +114,23 @@ def get_waiter_orders():
 	# handles case for getting all orders:
 	if len(states) == 0:
 		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, all_order_details.table_number, state, ordered_time, price, items " \
+					"(SELECT id, all_order_details.table_number, state, to_char(ordered_time, 'HH:MI') AS ordered_time, price, items " \
 					"FROM all_order_details, table_details " \
 					"WHERE all_order_details.table_number = table_details.table_number "\
-					"AND waiter_id = %s "\
-					"ORDER BY ordered_time) "\
+					"AND waiter_id = %s " \
+					"AND DATE(ordered_time) = DATE(NOW()) " \
+				"ORDER BY ordered_time) "\
 				"AS order_list;"
 
 		result = connector.execute_query(query, (waiter_id,))
 	else:
 		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, all_order_details.table_number, state, ordered_time, price, items " \
+					"(SELECT id, all_order_details.table_number, state, to_char(ordered_time, 'HH:MI') AS ordered_time, price, items " \
 					"FROM all_order_details, table_details " \
 					"WHERE all_order_details.table_number = table_details.table_number "\
-					"AND waiter_id = %s "\
-					"AND state = ANY('{"
+					"AND waiter_id = %s " \
+					"AND DATE(ordered_time) = DATE(NOW()) " \
+				"AND state = ANY('{"
 		query += ", ".join(states) + "}') "
 		query += "ORDER BY ordered_time ) "
 		query += "AS order_list;"
@@ -134,20 +138,42 @@ def get_waiter_orders():
 	return jsonify(data={"orders" : result[0][0]})
 
 
-@bp.route("/get_cust_order", methods=["POST"])
-def get_cust_order():
+@bp.route("/get_cust_orders", methods=["POST"])
+def get_cust_orders():
 	error = validate_orders.validate_get_cust_order(request)
 	if error:
 		return (error)
 
-	id = request.json.get("custId")
+	id = request.json.get("cust_id")
 
 	query = "SELECT json_agg (order_list) FROM " \
-				"(SELECT id, table_number, state, ordered_time, price, items " \
+				"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') AS ordered_time, price, items " \
 				"FROM orders, total_order_price, ordered_item_array " \
 				"WHERE orders.id = total_order_price.order_id " \
 				"AND orders.id = ordered_item_array.order_id " \
-				"AND orders.cust_id = %s" \
+				"AND orders.cust_id = %s " \
+				"AND DATE(ordered_time) = DATE(NOW())"\
+				"ORDER BY ordered_time) " \
+			"AS order_list;"
+	result = connector.execute_query(query, (id,))
+	return jsonify(data={"orders":result[0][0]})
+
+
+@bp.route("/get_old_cust_orders", methods=["POST"])
+def get_old_cust_orders():
+	error = validate_orders.validate_get_cust_order(request)
+	if error:
+		return (error)
+
+	id = request.json.get("cust_id")
+
+	query = "SELECT json_agg (order_list) FROM " \
+				"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') AS ordered_time, price, items " \
+				"FROM orders, total_order_price, ordered_item_array " \
+				"WHERE orders.id = total_order_price.order_id " \
+				"AND orders.id = ordered_item_array.order_id " \
+				"AND orders.cust_id = %s " \
+				"AND DATE(ordered_time) < DATE(NOW())"\
 				"ORDER BY ordered_time) " \
 			"AS order_list;"
 	result = connector.execute_query(query, (id,))

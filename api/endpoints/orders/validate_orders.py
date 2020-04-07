@@ -113,11 +113,11 @@ def validate_get_orders(request):
 	return None
 
 def validate_get_cust_order(request):
-	error = vf.sent_expected_values(["custId"], request)
+	error = vf.sent_expected_values(["cust_id"], request)
 	if error:
 		return error
 
-	cust_id = request.json.get("custId")
+	cust_id = request.json.get("cust_id")
 
 	query = "SELECT email FROM customer where email = %s"
 	result = connector.execute_query(query, (cust_id,))
@@ -131,11 +131,11 @@ def validate_get_order(request):
 	if error != None:
 		return error
 
-	error = vf.sent_expected_values(["orderId"], request)
+	error = vf.sent_expected_values(["order_id"], request)
 	if error:
 		return error
 
-	order_id = request.json.get("orderId")
+	order_id = request.json.get("order_id")
 
 	query = "SELECT id from orders where id = %s"
 	result = connector.execute_query(query, (order_id,))
