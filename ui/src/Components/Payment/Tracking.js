@@ -66,8 +66,12 @@ const Tracking = () => {
   };
 
   useEffect(() => {
-    getTracking();
-    getOldTracking();
+    const interval = setInterval(() => {
+      getTracking();
+      getOldTracking();
+    }, 1000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const userAlert = () => {
@@ -144,7 +148,7 @@ const Tracking = () => {
       {oldOrders !== undefined ?
           <div>
             <Typography variant="h3" className={classes.title}>
-              Your orders
+              Past orders
             </Typography>
             <Grid spacing={2} container className={classes.grid}>
               <MapOrderItem value={oldOrders} />
