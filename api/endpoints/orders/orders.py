@@ -1,9 +1,6 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 from . import validate_orders
 from common import connector, validate_functions as vf
-import datetime
 
 
 bp = Blueprint("order blueprint", __name__)
@@ -21,10 +18,9 @@ def create_order():
 
 	items = request.json.get("items")
 	customer = request.json.get("customer")
-	time = datetime.datetime.now().strftime("%H:%M:%S")
 
-	query = "INSERT INTO orders (table_number, ordered_time, cust_id) VALUES (%s, %s, %s) RETURNING id"
-	result = connector.execute_query(query, (int(table_num), time, customer))
+	query = "INSERT INTO orders (table_number, ordered_time, cust_id) VALUES (%s, NOW(), %s) RETURNING id"
+	result = connector.execute_query(query, (int(table_num), customer))
 	order_id = result[0]
 
 	items_added = []
@@ -64,7 +60,7 @@ def get_order():
 	cust_id = request.json.get("custId")
 
 	query = "SELECT json_agg (order_list) FROM " \
-				"(SELECT id, table_number, state, ordered_time, price, items " \
+				"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') as ordered_time, price, items " \
 				"FROM orders, total_order_price, ordered_item_array " \
 				"WHERE orders.id = total_order_price.order_id " \
 				"AND orders.id = ordered_item_array.order_id " \
@@ -85,7 +81,7 @@ def get_orders():
 	# handles case for getting all orders:
 	if len(states) == 0:
 		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, table_number, state, ordered_time, price, items " \
+					"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') as ordered_time, price, items " \
 					"FROM orders, total_order_price, ordered_item_array " \
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id) " \
@@ -94,7 +90,7 @@ def get_orders():
 		result = connector.execute_query(query)
 	else:
 		query = "SELECT json_agg (order_list) FROM " \
-					"(SELECT id, table_number, state, ordered_time, price, items " \
+					"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') as ordered_time, price, items " \
 					"FROM orders, total_order_price, ordered_item_array " \
 					"WHERE orders.id = total_order_price.order_id " \
 					"AND orders.id = ordered_item_array.order_id " \
