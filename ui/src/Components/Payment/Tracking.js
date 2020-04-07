@@ -41,7 +41,7 @@ const Tracking = () => {
     fetch("//127.0.0.1:5000/get_cust_orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ custId: currentUser.user.name })
+      body: JSON.stringify({ cust_id: currentUser.user.name })
     })
         .then(response => {
           return response.json();
@@ -55,7 +55,7 @@ const Tracking = () => {
     fetch("//127.0.0.1:5000/get_old_cust_orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ custId: currentUser.user.name })
+      body: JSON.stringify({ cust_id: currentUser.user.name })
     })
         .then(response => {
           return response.json();

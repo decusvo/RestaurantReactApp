@@ -84,8 +84,8 @@ export default function OrderSummary() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        custId: currentUser.user.name,
-        orderId: orderID
+        cust_id: currentUser.user.name,
+        order_id: orderID
       })
     })
       .then(response => {
