@@ -18,6 +18,7 @@ import OrderSummary from "./Components/Payment/OrderSummary";
 import PaymentForm from "./Components/Payment/PaymentForm";
 import PostPaymentPage from "./Components/Payment/PostPaymentPage";
 import TableAssignment from "./Components/Waiter/TableAssignment"
+import PaymentInformation from "./Components/Payment/PaymentInformation";
 
 const App = () => {
     const currentUser = useSelector(state => state.currentUser);
@@ -45,6 +46,9 @@ const App = () => {
                         </Route>
                         <Route path="/Menu">
                             <FoodMenu />
+                        </Route>
+                        <Route path="/PaymentInfo">
+                            <PaymentInformation/>
                         </Route>
 
                         {currentUser.staff ?
