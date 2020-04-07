@@ -70,8 +70,12 @@ const TableAssignment = () => {
   };
 
   useEffect(() => {
-    getAssignedTables();
-    getUnassignedTables()
+      const interval = setInterval(() => {
+          getAssignedTables();
+          getUnassignedTables()
+      }, 1000);
+
+      return () => clearInterval(interval);
   }, []);
 
   const MapTables = ({value}) => {

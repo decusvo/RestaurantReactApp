@@ -28,6 +28,7 @@ const Tracking = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser); // Get username.
   const [currentOrders, setCurrentOrders] = React.useState([]);
+  const [oldOrders, setOldOrders] = React.useState(undefined);
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [paymentState, setPaymentState] = React.useState(false);
@@ -42,15 +43,31 @@ const Tracking = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ custId: currentUser.user.name })
     })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        setCurrentOrders(data.data.orders);
-      });
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setCurrentOrders(data.data.orders);
+        });
   };
+
+  const getOldTracking = () => {
+    fetch("//127.0.0.1:5000/get_old_cust_orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ custId: currentUser.user.name })
+    })
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          setOldOrders(data.data.orders);
+        });
+  };
+
   useEffect(() => {
     getTracking();
+    getOldTracking();
   }, []);
 
   const userAlert = () => {
@@ -123,6 +140,18 @@ const Tracking = () => {
       <Grid spacing={2} container className={classes.grid}>
         <MapOrderItem value={currentOrders} />
       </Grid>
+
+      {oldOrders !== undefined ?
+          <div>
+            <Typography variant="h3" className={classes.title}>
+              Your orders
+            </Typography>
+            <Grid spacing={2} container className={classes.grid}>
+              <MapOrderItem value={oldOrders} />
+            </Grid>
+          </div>
+          :null
+      }
 
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
         <Alert onClose={handleClose} severity={"info"}>

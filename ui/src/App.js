@@ -76,7 +76,10 @@ const App = () => {
                                     <FoodMenu />
                                 </Route>
                                 <Route path="/TableAssignment">
-                                    <TableAssignment />
+                                    <FoodMenu />
+                                </Route>
+                                <Route path="/RegisterWaiter">
+                                    <FoodMenu />
                                 </Route>
                             </>
                         }
