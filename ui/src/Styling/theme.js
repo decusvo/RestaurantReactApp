@@ -14,19 +14,10 @@ const theme = createMuiTheme({
       main: red.A400
     },
     background: {
-      default: "#fff"
+      default: "#dcdde1"
     }
   },
-
-  overrides: {
-    MuiCssBaseline: {
-      "@global": {
-        body: {
-          backgroundColor: "#f5f6fa"
-        }
-      }
-    }
-  }
+  
 });
 
 export default theme;
