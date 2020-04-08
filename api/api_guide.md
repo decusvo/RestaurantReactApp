@@ -1,5 +1,46 @@
 # GUIDE TO USING THE API
 
+## Contents
+
+* [Starting the API](#starting-the-api)
+* [Outline of usage](#outline-of-usage)
+* [API Endpoints](#api-endpoints)
+    * [User Authentication & User Creation](#user-authentication--user-creation)
+        * [/login](#login)
+        * [/logout](#logout)
+        * [/signup](#signup)
+        * [/waiter_signup](#waiter_signup)
+    * [Menu](#menu)
+        * [/menu](#menu)
+        * [/menu_item_availability](#menu_item_availability)
+    * [Notifications](#notifications)
+        * [/add_waiter_notification](#add_waiter_notification)
+        * [/get_waiter_notifications](#get_waiter_notifications)
+        * [/clear_waiter_notifications](#clear_waiter_notifications)
+    * [Orders](#orders)
+        * [/create_order](#create_order)
+        * [/order_event](#order_event)
+        * [/get_order](#get_order)
+        * [/get_orders](#get_orders)
+        * [/get_waiter_orders](#get_waiter_orders)
+        * [/get_cust_orders](#get_cust_orders)
+        * [/get_old_cust_orders](#get_old_cust_orders)
+    * [Payments](#payments)
+        * [/verify_payment](#verify_payment)
+    * [Sessions](#sessions)
+        * [/create_session](#create_session)
+        * [/get_session_id](#get_session_id)
+        * [/get_session_is_staff](#get_session_is_staff)
+        * [/remove_session](#remove_session)
+    * [Tables](#tables)
+        * [/get_tables](#get_tables)
+        * [/get_tables_and_waiters](#get_tables_and_waiters)
+        * [/get_unassigned_tables](#get_unassigned_tables)
+        * [/table_assignment_event](#table_assignment_event)
+        * [/get_waiter_assigned_to_table](#get_waiter_assigned_to_table)
+         
+        
+        
 ## Starting the api
 
 - In order to start the api, you'll first need all the related python packages.
@@ -29,7 +70,8 @@
 
 ## API endpoints:
 
-## User Authentication & User Creation
+## User Authentication & User Creation:
+
 ### /login
 EXPECTS: JSON object containing username:password pair, and whether or not it is a staff account password
 should be a valid sha256 hash:
@@ -120,6 +162,7 @@ RETURNS: JSON object describing success
 	or an error object
 
 ## Menu:
+
 ### /menu:
 +EXPECTS: JSON object containing true or false value for getAll, which determines
 if it returns all available items or not respectively. If getAll is not specified it returns only
@@ -249,7 +292,8 @@ RETURNS: JSON object describing success
 
 	or an error object
 
-## Orders
+## Orders:
+
 ### /create\_order:
 EXPECTS: JSON object containing a table number, customer email and a list of item ids in the form:
 
@@ -455,44 +499,6 @@ RETURNS: JSON object containing all the orders for that customer
 
 	or an error object
 
-### /get\_waiter\_orders:
-EXPECTS: JSON object containing the list of states you'd like to get orders for. If you want to
-retrieve all orders, then pass an empty array, and the waiter id:
-
-  ```json
-  {
-    "states": ["start", "cooking", "requested"],
-    "waiter_id" : "waiter@waiter.com"
-  }
-  ```
-
-RETURNS: JSON object containing the data requested, for that specific waiter
-
-  ```json
-  {
-  "data": {
-    "orders": [
-      {
-        "id": 1,
-        "items": [
-          {
-            "cumulative_price": "$10.50",
-            "name": "Veggie nachos",
-            "quantity": 2
-          }
-        ],
-        "ordered_time": "20:46",
-        "price": "$10.50",
-        "state": "start",
-        "table_number": 1
-        }
-      ]
-    }
-  }
-  ```
-
-	or an error object
-
 
 ### /get\_old\_cust\_orders:
 EXPECTS: JSON object containing the email of the customer:
@@ -534,7 +540,8 @@ to get orders from today see all other order endpoints
 	or an error object
 
 
-## Payments
+## Payments:
+
 ### /verify\_payment
 EXPECTS: JSON object containing the card number, CVV, sort number and the expiry date of the form month year with
 nothing separating the month and year
@@ -630,7 +637,7 @@ RETURNS: JSON
 
 	or an error object
 
-### Tables
+## Tables:
 
 ### /get\_tables
 EXPECTS: Does not expect any data
