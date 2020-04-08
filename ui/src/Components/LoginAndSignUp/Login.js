@@ -13,6 +13,7 @@ import Box from "@material-ui/core/Box";
 import Copyright from "../Common/Copyright";
 import hash from "hash.js";
 import buttonStyles from "../../Styling/buttonStyles";
+import LoginSignupStyles from "../../Styling/LoginSignupStyles";
 
 // Code copied and modified from material-ui website
 // https://material-ui.com/components/snackbars/
@@ -277,17 +278,8 @@ const Login = props => {
 };
 
 const useStyles = theme => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
-  },
-  ...buttonStyles()
+  ...LoginSignupStyles(theme),
+  ...buttonStyles(theme)
 });
 
 export default withStyles(useStyles)(Login);

@@ -21,6 +21,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
 import buttonStyles from "../../Styling/buttonStyles";
+import LoginSignupStyles from "../../Styling/LoginSignupStyles";
+
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -286,31 +288,12 @@ const SignUp = (props) => {
 };
 
 const useStyles = theme => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: '#87D333'
     },
-    form: {
-        width: '100%',
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        background: 'linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 40,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    },
-    ...buttonStyles()
+    ...LoginSignupStyles(theme),
+    ...buttonStyles(theme)
 });
 
 export default withStyles(useStyles)(SignUp);
