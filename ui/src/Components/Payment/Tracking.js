@@ -20,10 +20,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
-const _ = require('lodash');
-
-
 const Tracking = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser); // Get username.
@@ -47,9 +43,7 @@ const Tracking = () => {
           return response.json();
         })
         .then(data => {
-          if (!_.isEqual(currentOrders, data.data.orders)) {
-            setCurrentOrders(data.data.orders);
-          }
+          setCurrentOrders(data.data.orders);
         });
   };
 
@@ -69,12 +63,9 @@ const Tracking = () => {
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      getTracking();
-      getOldTracking();
-    }, 1000);
+    getTracking();
+    getOldTracking();
 
-    return () => clearInterval(interval);
   }, []);
 
   const userAlert = () => {
@@ -98,6 +89,7 @@ const Tracking = () => {
     })
       .then(response => {
         getTracking();
+        getOldTracking();
         return response.json();
       })
       .catch(error => {
