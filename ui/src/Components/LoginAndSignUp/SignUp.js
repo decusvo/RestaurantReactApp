@@ -1,8 +1,6 @@
 import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-
 import hash from 'hash.js';
-
 import React from 'react';
 import { useSelector } from "react-redux";
 import {Redirect} from "react-router-dom";
@@ -22,6 +20,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
+import buttonStyles from "../../Styling/buttonStyles";
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -251,7 +250,7 @@ const SignUp = (props) => {
                             fullWidth
                             variant="contained"
                             color="primary"
-                            className={classes.submit}
+                            className={classes.button}
                         >
                             Sign Up
                         </Button>
@@ -311,6 +310,7 @@ const useStyles = theme => ({
         padding: '0 30px',
         boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     },
+    ...buttonStyles()
 });
 
 export default withStyles(useStyles)(SignUp);

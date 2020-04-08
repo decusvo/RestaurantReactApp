@@ -12,6 +12,7 @@ import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Box from "@material-ui/core/Box";
 import Copyright from "../Common/Copyright";
 import hash from "hash.js";
+import buttonStyles from "../../Styling/buttonStyles";
 
 // Code copied and modified from material-ui website
 // https://material-ui.com/components/snackbars/
@@ -31,7 +32,6 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-// custom styles defined here.
 const Login = props => {
   const { classes } = props;
   const dispatch = useDispatch();
@@ -238,7 +238,7 @@ const Login = props => {
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className={classes.button}
             >
               Sign In
             </Button>
@@ -287,17 +287,7 @@ const useStyles = theme => ({
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(1)
   },
-  submit: {
-    margin: theme.spacing(1, 0, 0),
-    background:
-      "linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)",
-    borderRadius: 3,
-    border: 0,
-    color: "white",
-    height: 40,
-    padding: "0 30px",
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)"
-  }
+  ...buttonStyles()
 });
 
 export default withStyles(useStyles)(Login);

@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import allActions from "../../actions";
 import { Redirect } from "react-router";
 import {useMaterialListItemStyles} from "@mui-treasury/styles/listItem/material";
+import buttonStyles from "../../Styling/buttonStyles";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,18 +33,7 @@ const useStyles = makeStyles(theme => ({
     variant: "h2",
     color: "textSecondary"
   },
-  order: {
-    margin: theme.spacing(3, 0, 2),
-    background:
-      "linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)",
-    borderRadius: 3,
-    border: 0,
-    color: "white",
-    height: 40,
-    padding: "0 30px",
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    minWidth: 200
-  }
+  ...buttonStyles()
 }));
 
 const MapOrderItem = () => {
@@ -182,7 +172,7 @@ const Order = () => {
             type="submit"
             variant="contained"
             color="primary"
-            className={classes.order}
+            className={classes.button}
           >
             Order
           </Button>
