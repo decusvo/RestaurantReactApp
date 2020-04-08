@@ -1,79 +1,21 @@
 # Team Project (CS2810) Group 16
+### Running the Project as a Whole
+* To run the whole project, follow guides for the API, Kitchen and Customer/Waiter and
+run each in their own terminal. 
 
 ### RESTful Flask API:
-	- The API can be found in api/
-	- The guide/documentation for the api can be found at api/api_guide.md
-	- to populate a database, modify api/common/connector.py to target your database
-	- then run populate_db.py, if you get filenotfound errors it's likely because the relative location
+* The API can be found in api/
+* The guide/documentation for the api can be found at [api/api_guide.md](/api/api_guide.md) 
+* To populate a database, modify api/common/connector.py to target your database
+    * Then run populate_db.py "python3 populate_db.py"
+    * if you get filenotfound errors it's likely because the relative location
 	to the .csv data files is wrong from where you're executing.
 
+### Customer/Waiter UI:
+* The main application that is used by both customers and waiters can be found in ui/
+* The guide to start the application can also be found in [ui/ui_guide.md](/ui/ui_guide.md)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
-=======
+### Kitchen Staff App:
+* This is the Kitchen staff application, it is completely separate to the customer and waiter
+app however uses the same api.
+* The guide to start the application can also be found in [kitchen/kitchen_guide.md](/Kitchen/kitchen_guide.md)
