@@ -23,7 +23,7 @@ CREATE TYPE order_state AS ENUM (
 -- Credit for order events and function:
 -- https://felixge.de/2017/07/27/implementing-state-machines-in-postgresql.html
 
-SET timezone = 'America/New_York';
+SET timezone = 'GMT';
 
 CREATE TABLE customer(
 	email varchar(128) PRIMARY KEY,
