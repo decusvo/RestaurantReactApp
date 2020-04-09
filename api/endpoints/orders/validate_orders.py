@@ -73,12 +73,12 @@ def validate_order_event(request):
 	if event not in valid_events:
 		error_msg = "given event is not a valid event type, see this objects 'valid_events'"
 		error_msg += " for a list of valid events"
-		return jsonify({"success" : False, "message" : error_msg, "valid_events" : valid_events})
+		return jsonify(error={"success" : False, "message" : error_msg, "valid_events" : valid_events})
 
 	result = connector.execute_query("SELECT * FROM orders WHERE id=%s", (order_id,))
 	if not result:
 		error_msg = "Invalid order_id, given order_id is not in orders table"
-		return jsonify({"success" : False, "message" : error_msg})
+		return jsonify(error={"success" : False, "message" : error_msg})
 
 	query = "SELECT state FROM orders WHERE id = %s"
 	result = connector.execute_query(query, (order_id,))
@@ -92,7 +92,7 @@ def validate_order_event(request):
 	if result[0][0] == "error":
 		print("ERROR FOUND")
 		error_msg = "Given event cannot be performed on this order."
-		return jsonify({"success" : False, "message" : error_msg})
+		return jsonify(error={"success" : False, "message" : error_msg})
 
 	return None
 
@@ -108,7 +108,7 @@ def validate_get_orders(request):
 		if state not in valid_states:
 			error_msg = "given event is not a valid event type, see this objects 'valid_states'"
 			error_msg += " for a list of valid events"
-			return jsonify({"success" : False, "message" : error_msg, "valid_states" : valid_states})
+			return jsonify(error={"success" : False, "message" : error_msg, "valid_states" : valid_states})
 
 	return None
 
@@ -141,7 +141,7 @@ def validate_get_order(request):
 	result = connector.execute_query(query, (order_id,))
 	if result is None or result == []:
 		error_msg = "No order exists with id = " + order_id
-		return ({"success": False, "message": error_msg})
+		return jsonify(error={"success": False, "message": error_msg})
 
 	return None
 
@@ -160,6 +160,6 @@ def validate_get_waiters_orders(request):
 	result = connector.execute_query(query, (waiter_id,))
 	if len(result) is 0:
 		error_msg = "Given waiter email was not found in the table"
-		return jsonify({"success":False, "message":error_msg})
+		return jsonify(error={"success":False, "message":error_msg})
 
 	return None
