@@ -90,9 +90,9 @@ def get_orders():
 					"(SELECT id, table_number, state, to_char(ordered_time, 'HH:MI') as ordered_time, price, items " \
 					"FROM orders, total_order_price, ordered_item_array " \
 					"WHERE orders.id = total_order_price.order_id " \
-					"AND orders.id = ordered_item_array.order_id) " \
+					"AND orders.id = ordered_item_array.order_id " \
 					"AND DATE(ordered_time) = DATE(NOW()) " \
-				"ORDER BY ordered_time " \
+					"ORDER BY ordered_time )" \
 				"AS order_list;"
 		result = connector.execute_query(query)
 	else:
