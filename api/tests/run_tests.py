@@ -1,4 +1,4 @@
-from . import login_test, session_test, menu_test, order_test, notification_test, table_test
+from . import login_test, session_test, menu_test, order_test, notification_test, table_test, payment_test
 from . import tester
 import sys
 
@@ -16,7 +16,8 @@ all_tests = [
 			menu_test,
 			order_test,
 			notification_test,
-			table_test
+			table_test,
+			payment_test
 			]
 
 total = 0
