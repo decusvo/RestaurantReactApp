@@ -8,9 +8,9 @@ from . import validate_data
 bp = Blueprint("payments blueprint", __name__)
 
 @bp.route("/verify_payment", methods=["POST"])
-def get_tables():
+def verify_payment():
     error = validate_data.validate_payments(request)
     if error:
-        return (error)
+        return error
 
-    return jsonify(data={"success":True})
+    return jsonify(data={"success": True})
