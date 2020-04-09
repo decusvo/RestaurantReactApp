@@ -8,8 +8,10 @@ def run_tests(test_array, total, passed, failed):
 		request, code = test()
 		if code // 100 == 2 or code // 100 == 3:
 			print("\033[92mSUCCESSFUL REQUEST, HTML STATUS CODE:" + str(code) + "\033[0m")
+			if should_pass is None:  # this is when the test just tests if the api is up, a ping request
+				passed += 1
 
-			if not should_pass and "error" not in request.json():  # if there is supposed to be an error message but none found
+			elif not should_pass and "error" not in request.json():  # if there is supposed to be an error message but none found
 				failed.append(test.__name__.upper())
 
 			elif should_pass and "data" not in request.json():  # if there is supposed to be data but none found
