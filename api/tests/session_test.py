@@ -43,6 +43,10 @@ def test_remove_session():
 		print(req.text)
 	return req, req.status_code
 
+
+# the test are ran in a specific way
+# the true/false values correspond to whether it should pass or fail
+# true meaning it should pass, and false it should fail
 tests = [
 		[test_server, None],
 		[test_create_session, True],

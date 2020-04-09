@@ -19,6 +19,9 @@ def test_get_menu():
 
 # TODO add tests for selecting specific menu groups (allergy etc.)
 
+# the test are ran in a specific way
+# the true/false values correspond to whether it should pass or fail
+# true meaning it should pass, and false it should fail
 tests = [
 		[test_get_menu, True],
 		]

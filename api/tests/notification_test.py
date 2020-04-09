@@ -35,6 +35,9 @@ def test_clear_waiter_notifications():
 	return req, req.status_code
 
 
+# the test are ran in a specific way
+# the true/false values correspond to whether it should pass or fail
+# true meaning it should pass, and false it should fail
 tests = [
 		[test_add_waiter_notification, True],
 		[test_get_waiter_notifications, True],

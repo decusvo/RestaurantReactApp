@@ -74,6 +74,10 @@ def test_get_requested_and_cooking_orders():
 		print(req.text)
 	return req, req.status_code
 
+
+# the test are ran in a specific way
+# the true/false values correspond to whether it should pass or fail
+# true meaning it should pass, and false it should fail
 tests = [
 		[test_create_order_without_table_num, False],
 		[test_create_order_without_items, False],

@@ -77,6 +77,10 @@ def test_order_event_cancel():
 		print(req.text)
 	return req, req.status_code
 
+
+# the test are ran in a specific way
+# the true/false values correspond to whether it should pass or fail
+# true meaning it should pass, and false it should fail
 tests = [
 	[test_order_event_no_id, False],
 	[test_order_event_no_event, False],
