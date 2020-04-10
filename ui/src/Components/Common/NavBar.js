@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
 import {AppBar, Button, CssBaseline, Slide, Toolbar, Typography, useScrollTrigger,} from '@material-ui/core';
-import Logo from '../../Images/Logo_new.png';
-import Img from 'react-image'
 import {makeStyles} from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import {ShoppingBasket} from "@material-ui/icons";
@@ -25,6 +23,7 @@ import PanToolIcon from '@material-ui/icons/PanTool';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
 import PaymentIcon from '@material-ui/icons/Payment';
 
+
 function HideOnScroll(props) {
     const {children, window} = props;
 
@@ -45,7 +44,19 @@ const useStyles = makeStyles(({
     },
     blank: {
         flexGrow: 1,
-    }
+    },
+    header : {
+        textAlign: 'center',
+        fontSize: 24,
+        lineHeight: 2,
+        fontWeight: 350,
+        fontFamily:
+        // eslint-disable-next-line max-len
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+    },
+    largeIcon: {
+        fontSize: "3em"
+    },
 }));
 
 export default function NavBar(props) {
@@ -101,11 +112,9 @@ export default function NavBar(props) {
                 <HideOnScroll {...props}>
                     <AppBar className={classes.size} color={"secondary"}>
                         <Toolbar>
-                            <Button onClick={() => History.push("/Home")}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
-                            <Button onClick={() => History.push("/About")} color={"inherit"}>About</Button>
-                            <Button onClick={() => History.push("/Menu")} color={"inherit"}>
-                                Menu
-                            </Button>
+                            <Button onClick={() => History.push("/Home")} className={classes.header} color={"inherit"}>Home</Button>
+                            <Button onClick={() => History.push("/About")} className={classes.header} color={"inherit"}>About</Button>
+                            <Button onClick={() => History.push("/Menu")} className={classes.header} color={"inherit"}>Menu</Button>
 
                             <Typography variant="h6" className={classes.blank}> </Typography>
 
@@ -124,27 +133,27 @@ export default function NavBar(props) {
                                                 </Badge>
                                             </MuiThemeProvider>
                                             <IconButton onClick={() => History.push("/WaiterDashboard")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
-                                                <DashboardIcon />
+                                                <DashboardIcon fontSize="large" />
                                             </IconButton><IconButton onClick={() => History.push("/PaymentInfo")} edge={"start"} color={"inherit"} aria-label={"payment"}>
-                                                <MoneyOffIcon />
+                                                <MoneyOffIcon fontSize="large" />
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/WaiterMenu")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
-                                                <RestaurantMenuIcon />
+                                                <RestaurantMenuIcon  fontSize="large"/>
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/TableAssignment")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
-                                                <DeckIcon />
+                                                <DeckIcon  fontSize="large"/>
                                             </IconButton>
                                         </>
                                         :
                                         <>
                                             <IconButton onClick={() => callWaiter("button")} edge={"start"} color={"inherit"} aria-label={"notify"}>
-                                                <PanToolIcon />
+                                                <PanToolIcon  fontSize="large"/>
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/Tracking")} edge={"start"} color={"inherit"} aria-label={"payment"}>
-                                                <PaymentIcon />
+                                                <PaymentIcon  fontSize="large"/>
                                             </IconButton>
                                             <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
-                                                <ShoppingBasket />
+                                                <ShoppingBasket fontSize="large" />
                                             </IconButton>
                                         </>}
                                     <Avatar className={classes.yellow} onClick={() => logOut()}>{currentUser.user.name[0]}</Avatar>
@@ -152,10 +161,10 @@ export default function NavBar(props) {
                                 :
                                 <>
                                     <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
-                                        <ShoppingBasket />
+                                        <ShoppingBasket fontSize="large" />
                                     </IconButton>
-                                    <Button onClick={() => History.push("/Register")} color={"inherit"}>Register</Button>
-                                    <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
+                                    <Button onClick={() => History.push("/Register")} color={"inherit"} className={classes.header}>Register</Button>
+                                    <Button onClick={() => History.push("/Login")} color={"inherit"} className={classes.header}>Login</Button>
                                 </>}
 
                         </Toolbar>

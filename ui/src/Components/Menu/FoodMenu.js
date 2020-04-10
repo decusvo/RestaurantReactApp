@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Container, CssBaseline, Typography, withStyles} from '@material-ui/core';
+    import React, {useEffect, useState} from 'react';
+import {Container, CssBaseline} from '@material-ui/core';
 import Copyright from "../Common/Copyright";
 import Box from "@material-ui/core/Box";
 import FoodMenuItem from "./FoodMenuItem";
@@ -9,12 +9,10 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import {useSelector} from "react-redux";
+    import {ConfirmProvider} from "material-ui-confirm";
+    import TextInfoContent from "@mui-treasury/components/content/textInfo";
+    import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
-const useStyles = ({
-    typography: {
-        marginTop: 10, fontSize: 25
-    }
-});
 
 const FoodMenu = (props) => {
     const [items, setItems] = useState([]);
@@ -41,7 +39,6 @@ const FoodMenu = (props) => {
     }, [items]);
 
 
-    const {classes} = props;
         const {handlerPlus, handlerMinus} = props;
         const MapMenuItem = ({value}) => {
             const item = useSelector(state => state.currentItems.items);
@@ -68,13 +65,10 @@ const FoodMenu = (props) => {
         };
 
     return (
+        <ConfirmProvider>
             <React.Fragment>
                 <CssBaseline />
                 <Container maxWidth={"xl"}>
-                    <Typography style={{marginTop: 10, fontSize: 30}} color="textPrimary" gutterBottom>
-                        Our Menu
-                    </Typography>
-
                     <FormControl component="fieldset">
                       <FormGroup aria-label="position" row>
                         <FormControlLabel
@@ -101,30 +95,35 @@ const FoodMenu = (props) => {
                       </FormGroup>
                     </FormControl>
 
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Starters
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Starters'}
+                    />
                     <Grid container spacing={2}>
                         <MapMenuItem value={"starter"}/>
                     </Grid>
 
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Sides
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Sides'}
+                    />
+
                     <Grid container spacing={2}>
                         <MapMenuItem value={"side"} />
                     </Grid>
 
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Mains
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Mains'}
+                    />
                     <Grid container spacing={2}>
                         <MapMenuItem value={"main"} />
                     </Grid>
 
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Desserts
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Desserts'}
+                    />
                     <Grid container spacing={2}>
                         <MapMenuItem value={"dessert"} />
                     </Grid>
@@ -135,8 +134,8 @@ const FoodMenu = (props) => {
 
                 </Container>
             </React.Fragment>
-
+        </ConfirmProvider>
         )
 };
 
-export default withStyles(useStyles)(FoodMenu);
+export default (FoodMenu);
