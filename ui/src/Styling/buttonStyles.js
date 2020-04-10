@@ -16,7 +16,7 @@ export default () => ({
         boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)"
     },
     buttonTwo: {
-            margin: theme.spacing(3, 0, 2),
+            margin: theme.spacing(1, 0, 2),
             background: 'linear-gradient( 109.6deg,  rgba(227,236,62,0.68) 11.2%, rgba(230,29,58,0.78) 91.3% )',
             borderRadius: 3,
             border: 0,
