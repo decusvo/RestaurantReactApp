@@ -20,7 +20,18 @@ import PostPaymentPage from "./Components/Payment/PostPaymentPage";
 import TableAssignment from "./Components/Waiter/TableAssignment"
 import PaymentInformation from "./Components/Payment/PaymentInformation";
 
+/**
+ * Component that renders NavBar to all pages and creates routes to pages
+ *
+ * @component
+ * @example
+ * const currentUser = {user: {name: "example@example.com, staff: false}, loggedIn: true, staff: false}
+ * return (<App />)
+ */
 const App = () => {
+    /**
+     * User that is logged in
+     */
     const currentUser = useSelector(state => state.currentUser);
 
     const dispatch = useDispatch();
@@ -120,7 +131,6 @@ const App = () => {
                                     <SignIn />
                                 </Route>
                             </>}
-
                     </div>
                 </Router>
             </div>
