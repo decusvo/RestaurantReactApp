@@ -10,6 +10,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import {useSelector} from "react-redux";
     import {ConfirmProvider} from "material-ui-confirm";
+    import TextInfoContent from "@mui-treasury/components/content/textInfo";
+    import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
 const useStyles = ({
     typography: {
@@ -73,9 +75,10 @@ const FoodMenu = (props) => {
             <React.Fragment>
                 <CssBaseline />
                 <Container maxWidth={"xl"}>
-                    <Typography style={{marginTop: 10, fontSize: 30}} color="textPrimary" gutterBottom>
-                        Our Menu
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Our Menu'}
+                    />
 
                     <FormControl component="fieldset">
                       <FormGroup aria-label="position" row>

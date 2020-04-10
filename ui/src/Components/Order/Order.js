@@ -10,6 +10,8 @@ import allActions from "../../actions";
 import { Redirect } from "react-router";
 import {useMaterialListItemStyles} from "@mui-treasury/styles/listItem/material";
 import buttonStyles from "../../Styling/buttonStyles";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
+import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -156,9 +158,10 @@ const Order = () => {
   return (
     <React.Fragment>
       {orderButtonClicked ? <Redirect to={"/Tracking"} /> : null}
-      <Typography variant="h3" className={classes.title}>
-        Review your order
-      </Typography>
+      <TextInfoContent
+          useStyles={useN04TextInfoContentStyles}
+          heading={'Review your order'}
+      />
 
       <List className={classes.spacing}>
         <MapOrderItem />

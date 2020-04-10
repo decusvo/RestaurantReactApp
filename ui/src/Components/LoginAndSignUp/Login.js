@@ -5,7 +5,6 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
@@ -28,6 +27,8 @@ import History from "../../utils/history";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
+import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -163,9 +164,10 @@ const Login = props => {
           )
         ) : null}
         <div className={classes.paper}>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
+          <TextInfoContent
+              useStyles={useN04TextInfoContentStyles}
+              heading={'Sign in'}
+          />
           <FormControl>
             <Select value={table} onChange={handleTableChange}>
               {tables.map((ele, index) => {

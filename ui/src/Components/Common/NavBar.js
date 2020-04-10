@@ -105,8 +105,8 @@ export default function NavBar(props) {
                     <AppBar className={classes.size} color={"secondary"}>
                         <Toolbar>
                             <Button onClick={() => History.push("/Home")}><Img src={Logo} style={{width:"50px",height:"50px"}}/></Button>
-                            <Button onClick={() => History.push("/About")} color={"inherit"}>About</Button>
-                            <Button onClick={() => History.push("/Menu")} color={"inherit"}>
+                            <Button onClick={() => History.push("/About")} className={classes.header} color={"inherit"}>About</Button>
+                            <Button onClick={() => History.push("/Menu")} className={classes.header} color={"inherit"}>
                                 Menu
                             </Button>
 
