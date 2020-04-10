@@ -13,7 +13,6 @@ import History from "../../utils/history"
 import Avatar from "@material-ui/core/Avatar";
 import userActions from "../../actions/userActions";
 import Snackbar from "@material-ui/core/Snackbar";
-import DashboardIcon from '@material-ui/icons/Dashboard';
 import RestaurantMenuIcon from '@material-ui/icons/RestaurantMenu';
 import DeckIcon from '@material-ui/icons/Deck';
 import Notification from "../Notification/Notification";
@@ -140,9 +139,6 @@ export default function NavBar(props) {
                                         </>
                                         :
                                         <>
-                                            <IconButton onClick={() => History.push("/Tracking")} edge={"start"} color={"inherit"} aria-label={"dashboard"}>
-                                                <DashboardIcon />
-                                            </IconButton>
                                             <IconButton onClick={() => callWaiter("button")} edge={"start"} color={"inherit"} aria-label={"notify"}>
                                                 <PanToolIcon />
                                             </IconButton>
