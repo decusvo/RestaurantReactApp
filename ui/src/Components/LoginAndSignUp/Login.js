@@ -11,6 +11,7 @@ import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
 import Box from "@material-ui/core/Box";
 import Copyright from "../Common/Copyright";
+import InputLabel from '@material-ui/core/InputLabel';
 
 import hash from 'hash.js'
 
@@ -47,7 +48,7 @@ const Login = (props) => {
 	const [severity, setSeverity] = React.useState("success");
 	const [message, setMessage] = React.useState("You've logged in successfully");
 	const [tables, setTables]  = React.useState([]);
-	const [table, setTable] = React.useState(1);
+	const [table, setTable] = React.useState(-1);
 	localStorage.setItem("table", table.toLocaleString());
 
   const handleEmailInput = event => {
@@ -71,29 +72,36 @@ const Login = (props) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    let hashedPassword = hash.sha512().update(password).digest('hex');
-    fetch("//127.0.0.1:5000/login", {method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({"email": email, "password": hashedPassword, "staff_login": staff})
-    }).then(response => {
-      return response.json()
-    }).then(data => {
-      if (data.data !== undefined) {
-      	setTimeout(function () {
-			setLoggedIn(data.data.valid_credentials);
-		}, 1000);
-        // display success message
-		setSeverity("success");
-		setMessage("You've logged in successfully");
-		setOpen(true);
-      } else {
-        // display failure message using data.data.message
-		  setSeverity("error");
-		  setMessage("Password or email incorrect");
-		  setOpen(true)
-      }
+    console.log(table)
+	if(table === -1 & !staff){
+		setSeverity("warning");
+		setMessage("You have not selected a table!");
+		setOpen(true)
+	} else {
+		let hashedPassword = hash.sha512().update(password).digest('hex');
+		fetch("//127.0.0.1:5000/login", {method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({"email": email, "password": hashedPassword, "staff_login": staff})
+		}).then(response => {
+			return response.json()
+		}).then(data => {
+			if (data.data !== undefined) {
+				setTimeout(function () {
+					setLoggedIn(data.data.valid_credentials);
+				}, 1000);
+				// display success message
+				setSeverity("success");
+				setMessage("You've logged in successfully");
+				setOpen(true);
+			} else {
+				// display failure message using data.data.message
+				setSeverity("error");
+				setMessage("Password or email incorrect");
+				setOpen(true)
+			}
 
-    }).catch(error => console.log(error))
+		}).catch(error => console.log(error))
+	}
   };
 
 	useEffect(() => {
@@ -133,15 +141,17 @@ const Login = (props) => {
 						<Typography component="h1" variant="h5">
 								Sign in
 						</Typography>
-						<FormControl>
+						<FormControl className={classes.formControl}>
+							<InputLabel id="label">Select Table</InputLabel>
 							<Select
-								value={table}
-								onChange={handleTableChange}>
-
+								labelId="label"
+								onChange={handleTableChange}
+							>
 								{
 									tables.map((ele, index) => {
 										return(<MenuItem key={index} value={ele}> Table {ele} </MenuItem>)
-									})}
+									})
+								}
 
 							</Select>
 						</FormControl>
@@ -238,6 +248,13 @@ const useStyles = theme => ({
 				width: '100%', // Fix IE 11 issue.
 				marginTop: theme.spacing(1),
 
+		},
+		formControl: {
+			margin: theme.spacing(1),
+			minWidth: 120,
+		},
+		selectEmpty: {
+			marginTop: theme.spacing(2),
 		},
 		submit: {
 				margin: theme.spacing(1, 0, 0),
