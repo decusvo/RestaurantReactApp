@@ -1,5 +1,5 @@
     import React, {useEffect, useState} from 'react';
-import {Container, CssBaseline, Typography, withStyles} from '@material-ui/core';
+import {Container, CssBaseline} from '@material-ui/core';
 import Copyright from "../Common/Copyright";
 import Box from "@material-ui/core/Box";
 import FoodMenuItem from "./FoodMenuItem";
@@ -13,11 +13,6 @@ import {useSelector} from "react-redux";
     import TextInfoContent from "@mui-treasury/components/content/textInfo";
     import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
-const useStyles = ({
-    typography: {
-        marginTop: 10, fontSize: 25
-    }
-});
 
 const FoodMenu = (props) => {
     const [items, setItems] = useState([]);
@@ -44,7 +39,6 @@ const FoodMenu = (props) => {
     }, [items]);
 
 
-    const {classes} = props;
         const {handlerPlus, handlerMinus} = props;
         const MapMenuItem = ({value}) => {
             const item = useSelector(state => state.currentItems.items);
@@ -75,11 +69,6 @@ const FoodMenu = (props) => {
             <React.Fragment>
                 <CssBaseline />
                 <Container maxWidth={"xl"}>
-                    <TextInfoContent
-                        useStyles={useN04TextInfoContentStyles}
-                        heading={'Our Menu'}
-                    />
-
                     <FormControl component="fieldset">
                       <FormGroup aria-label="position" row>
                         <FormControlLabel
@@ -106,30 +95,35 @@ const FoodMenu = (props) => {
                       </FormGroup>
                     </FormControl>
 
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Starters
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Starters'}
+                    />
                     <Grid container spacing={2}>
                         <MapMenuItem value={"starter"}/>
                     </Grid>
 
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Sides
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Sides'}
+                    />
+
                     <Grid container spacing={2}>
                         <MapMenuItem value={"side"} />
                     </Grid>
 
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Mains
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Mains'}
+                    />
                     <Grid container spacing={2}>
                         <MapMenuItem value={"main"} />
                     </Grid>
 
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Desserts
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Desserts'}
+                    />
                     <Grid container spacing={2}>
                         <MapMenuItem value={"dessert"} />
                     </Grid>
@@ -144,4 +138,4 @@ const FoodMenu = (props) => {
         )
 };
 
-export default withStyles(useStyles)(FoodMenu);
+export default (FoodMenu);
