@@ -23,6 +23,8 @@ CREATE TYPE order_state AS ENUM (
 -- Credit for order events and function:
 -- https://felixge.de/2017/07/27/implementing-state-machines-in-postgresql.html
 
+SET timezone = 'GMT';
+
 CREATE TABLE customer(
 	email varchar(128) PRIMARY KEY,
 	firstname varchar(64),
@@ -74,7 +76,7 @@ CREATE TABLE orders(
 	cust_id varchar(128) REFERENCES customer(email) NOT NULL,
 	table_number integer REFERENCES table_details(table_number),
 	state order_state DEFAULT 'requested',
-	ordered_time TIME
+	ordered_time TIMESTAMP
 );
 
 CREATE TABLE ordered_items(

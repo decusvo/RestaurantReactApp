@@ -16,7 +16,7 @@ const OrderItem = (props) => {
     const notifyWaiter = (called, waiter={}) => {
         const table = props.tableID;
         if (called === "button"){
-            fetch("//127.0.0.1:5000/get_waiter_assinged_to_table", {method: 'POST',
+            fetch("//127.0.0.1:5000/get_waiter_assigned_to_table", {method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({"table_id": table})
             }).then((response) => {
@@ -31,9 +31,7 @@ const OrderItem = (props) => {
                 body: JSON.stringify({"waiter_email": waiter, "message": "Table " + table + "'s food is ready to be served", "customer_email": "example@example.com"})
             }).then((response) => {
                 return response.json();
-            }).then((data) => {
-                console.log(data)
-            });
+            })
         }
     };
 

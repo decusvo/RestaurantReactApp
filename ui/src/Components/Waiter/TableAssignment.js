@@ -70,8 +70,12 @@ const TableAssignment = () => {
   };
 
   useEffect(() => {
-    getAssignedTables();
-    getUnassignedTables()
+      const interval = setInterval(() => {
+          getAssignedTables();
+          getUnassignedTables()
+      }, 1000);
+
+      return () => clearInterval(interval);
   }, []);
 
   const MapTables = ({value}) => {
@@ -129,7 +133,7 @@ const TableAssignment = () => {
                 </Typography>
                 {
                   unassignedTables === null ?
-                    <div> </div>
+                    null
                   :
                   <Container>
                       <Typography variant="h5" className={classes.title}>
@@ -144,7 +148,7 @@ const TableAssignment = () => {
                 }
                 {
                   tables === null ?
-                    <div> </div>
+                    null
                   :
                   <Container>
                       <Typography variant="h5" className={classes.title}>

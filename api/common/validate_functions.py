@@ -2,6 +2,7 @@ from flask import request, jsonify
 from common import connector
 import json
 
+
 # This takes a table number and ensures there is a waiter assigned to it
 # otherwise it will assign the waiter with the smallest amount of tables
 def auto_assign_waiter(table_num):
@@ -36,9 +37,15 @@ def auto_assign_waiter(table_num):
 		query = "UPDATE table_details SET waiter_id = %s WHERE table_number = %s"
 		connector.execute_insert_query(query,(waiter_email, table_num))
 
+
 def sent_expected_values(expected_values, request):
-    for value in expected_values:
-        if value not in request.json:
-            error_msg = "Expected '" + value + "' argument, but was not given"
-            return jsonify(error = {"success":False, "message": error_msg})
-    return None
+	if request.json is None:
+		error_msg = "Nothing given in json, Expected "
+		error_msg += ", ".join(expected_values)
+		return jsonify(error={"success": False, "message": error_msg})
+
+	for value in expected_values:
+		if value not in request.json:
+			error_msg = "Expected '" + value + "' argument, but was not given"
+			return jsonify(error = {"success":False, "message": error_msg})
+	return None
