@@ -9,6 +9,7 @@ import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider/ThemeProvider";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from "@material-ui/lab/Alert";
+import buttonStyles from "../../Styling/buttonStyles";
 
 const useStyles = makeStyles(theme => ({
 
@@ -18,33 +19,13 @@ const useStyles = makeStyles(theme => ({
 
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%',
         marginTop: theme.spacing(1),
-
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        background: 'linear-gradient( 109.6deg,  rgba(98,210,141,0.88) 11.2%, rgba(234,245,45,0.79) 88% )',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 40,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    },
-    reset: {
-        margin: theme.spacing(3, 0, 2),
-        background: 'linear-gradient( 109.6deg,  rgba(227,236,62,0.68) 11.2%, rgba(230,29,58,0.78) 91.3% )',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 40,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
     },
     grid :{
         flexGrow:1
-    }
+    },
+    ...buttonStyles(theme)
 }));
 
 /*
@@ -78,7 +59,7 @@ const WaiterMenu = () => {
     };
     useEffect(() => {
         getMenu()
-    }, []);
+    }, );
 
 
     // Updates array of items that need a state update. Function is passed as a prop to be called back by child component.
@@ -87,7 +68,6 @@ const WaiterMenu = () => {
         let tempArray = updatedItems;
         tempArray.push(item);
         setUpdatedItems(tempArray);
-        console.log(tempArray);
     };
 
     const MapWaiterMenuItem = ({value}) => {
@@ -125,7 +105,6 @@ const WaiterMenu = () => {
     };
 
     const handleSubmit = event => {
-       // API call to update state of dish list is not yet implemented.
        event.preventDefault();
        updatedItems.forEach(item => {
            let state = (item[1] === "Available");
@@ -188,7 +167,7 @@ const WaiterMenu = () => {
                                         fullWidth
                                         variant="contained"
                                         color="primary"
-                                        className={classes.reset}
+                                        className={classes.buttonTwo}
                                     >
                                         Reset
                                     </Button>
@@ -202,7 +181,7 @@ const WaiterMenu = () => {
                                         fullWidth
                                         variant="contained"
                                         color="primary"
-                                        className={classes.submit}
+                                        className={classes.button}
                                     >
                                         Submit
                                     </Button>

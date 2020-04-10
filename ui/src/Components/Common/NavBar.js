@@ -45,6 +45,9 @@ const useStyles = makeStyles(({
     },
     blank: {
         flexGrow: 1,
+    },
+    header : {
+        fontSize : 18
     }
 }));
 
@@ -157,8 +160,8 @@ export default function NavBar(props) {
                                     <IconButton onClick={() => History.push("/Order")} edge="start" color={"inherit"} aria-label={"basket"}>
                                         <ShoppingBasket />
                                     </IconButton>
-                                    <Button onClick={() => History.push("/Register")} color={"inherit"}>Register</Button>
-                                    <Button onClick={() => History.push("/Login")} color={"inherit"}>Login</Button>
+                                    <Button onClick={() => History.push("/Register")} color={"inherit"} className={classes.header}>Register</Button>
+                                    <Button onClick={() => History.push("/Login")} color={"inherit"} className={classes.header}>Login</Button>
                                 </>}
 
                         </Toolbar>
