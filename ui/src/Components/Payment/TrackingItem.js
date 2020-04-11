@@ -51,13 +51,13 @@ const TrackingItem = props => {
   const shadowStyles = useBouncyShadowStyles();
 
   /**
-   * The MapOrderItem function takes order information and renders the information on the card.
+   * The MapOrderInfo function takes order information and renders the information on the card.
    * @param item - an array containing order information.
    *
    * @returns A container to be rendered
    */
 
-  const MapOrderItem = ({ items }) => {
+  const MapOrderInfo = ({ items }) => {
     return items.map((dish, index) => {
       let { name, cumulative_price } = dish;
       return (
@@ -127,7 +127,10 @@ const TrackingItem = props => {
     );
   }
 
-  // renderOrderSubMenu function is responsible for rendering the panel of each card containing a minimal order summary for that particular order.
+  /**
+   * renderOrderSubMenu function is responsible for rendering the panel of each card containing a minimal order summary for that particular order.
+   * @returns a container with a collapsible panel.
+   */
 
   const renderOrderSubMenu = () => {
     return (
@@ -145,7 +148,7 @@ const TrackingItem = props => {
           >
             <Divider variant="middle" />
 
-            <MapOrderItem items={allItems} />
+            <MapOrderInfo items={allItems} />
           </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>

@@ -5,14 +5,25 @@ import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
 import buttonStyles from "../../Styling/buttonStyles";
 
+/**
+ * useStyles contains CSS styling for the PostPaymentPage.js
+ *
+ */
+
 const useStyles = makeStyles((theme) => ({
     title: {
         marginTop: theme.spacing(2),
         variant: "h2",
         color: "textSecondary"
     },
-    ...buttonStyles()
+    ...buttonStyles(theme),
 }));
+
+
+/**
+ * PostPaymentPage is a page shown to the customer after paying for the order. The customer is shown feedback depending on their success/failure of payment.
+ * @returns {*} - A container holding all content
+ */
 
 const PostPaymentPage = () => {
   const classes = useStyles();
@@ -23,7 +34,9 @@ const PostPaymentPage = () => {
   localStorage.setItem('ProcessedOrderID','');
   localStorage.setItem('paymentResponse','');
 
-  // handleRedirection is responsible for changing the state responsible for redirecting the customer back to the menu.
+    /**
+     * handleRedirection is responsible for changing the state responsible for redirecting the customer back to the menu.
+     */
 
   const handleRedirection = () => {
       setButtonClicked(true);
