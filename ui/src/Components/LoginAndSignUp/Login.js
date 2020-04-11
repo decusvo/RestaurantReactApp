@@ -45,7 +45,6 @@ function Alert(props) {
 /**
  * Login component is responsible for signing in the users.
  *
- * @param props
  * @returns {*} - A rendered container with the respective content.
  */
 const Login = (props) => {
@@ -325,3 +324,8 @@ const useStyles = theme => ({
 });
 
 export default withStyles(useStyles)(Login);
+
+/**
+ * Used a material UI template as inspiration.
+ * https://material-ui.com/getting-started/templates/sign-in/
+ */

@@ -23,9 +23,21 @@ import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
 
+/**
+ * Alert function responsible for creating a Material UI alert to be displayed to the user.
+ *
+ * @returns A Material UI alert element instance.
+ */
+
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />
 }
+
+/**
+ * SignUp component is responsible for registering new users and saving the credentials in the API.
+ *
+ * @returns {*} - A rendered container with the respective content.
+ */
 
 const SignUp = (props) => {
     const {classes} = props;
@@ -49,19 +61,38 @@ const SignUp = (props) => {
     // gets the details of the current user
     const currentUser = useSelector(state => state.currentUser);
 
+    /**
+     * checkPhoneNumber function is responsible for verifying the format of the phone number.
+     */
     const checkPhoneNumber = () => {
         const pattern = /(07)[0-9]{9}/;
         return pattern.test(phoneNumber);
     };
 
+    /**
+     * handleTAndCChange function is responsible for checking user's selection of Terms and Conditions choice.
+     */
     const handleTAndCChange = () => {
         const new_tAndC = !tAndC;
       setTAndC(new_tAndC);
     };
 
+    /**
+     * checkPasswords function verifies if both password entries are identical.
+     * */
+
     const checkPasswords = () => {
       return password === confirmPassword
     };
+
+    /**
+     *
+     * The handleClose function is responsible for handling the closing of the alert notification.
+     *
+     * @param event - Event information passed from a user's action.
+     * @param reason - Reason of the event
+     */
+
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -69,6 +100,12 @@ const SignUp = (props) => {
         }
         setOpen(false)
     };
+
+    /**
+     *
+     * handleTextChange function is responsible for handling the change of text fields in the sign up form.
+     * @param event - Event information passed from user's entry into text fields.
+     * */
 
     const handleTextChange = (event) => {
         const name = event.target.name;
@@ -88,8 +125,14 @@ const SignUp = (props) => {
         }
     };
 
+    /**
+     * handleSubmit function is responsible for submitting new user credentials for registration to the API.
+     *
+     * @param event - user's action of pressing the submit button.
+     * */
+
     const handleSubmit = (event) => {
-      event.preventDefault() ;   // prevenets post trying to redirect to another page
+      event.preventDefault() ;   // prevents post trying to redirect to another page
       if (tAndC) {
         if(checkPhoneNumber() || !currentUser.staff){   // if they are not staff then it will pass
           if (checkPasswords()){
@@ -284,6 +327,12 @@ const SignUp = (props) => {
       );
 };
 
+/**
+ * Custome CCS styling for SignUp.js
+ *
+ * @param theme - The global MUI theme made in theme.js
+ */
+
 const useStyles = theme => ({
     avatar: {
         margin: theme.spacing(1),
@@ -294,3 +343,8 @@ const useStyles = theme => ({
 });
 
 export default withStyles(useStyles)(SignUp);
+
+/**
+ * Used a material UI template as inspiration.
+ * https://material-ui.com/getting-started/templates/sign-up/
+ */

@@ -148,3 +148,7 @@ export default function OrderSummary() {
     </React.Fragment>
   );
 }
+
+/**
+ * Used https://material-ui.com/getting-started/templates/checkout/ template as inspiration.
+ */
