@@ -31,11 +31,23 @@ import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import InputLabel from "@material-ui/core/InputLabel";
 
+/**
+ * Alert function responsible for creating a Material UI alert to be displayed to the user.
+ *
+ * @returns A Material UI alert element instance.
+ */
+
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-// custom styles defined here.
+
+/**
+ * Login component is responsible for signing in the users.
+ *
+ * @param props
+ * @returns {*} - A rendered container with the respective content.
+ */
 const Login = (props) => {
     const {classes} = props;
 	const dispatch = useDispatch();
@@ -57,9 +69,25 @@ const Login = (props) => {
   const [table, setTable] = React.useState(-1);
   localStorage.setItem("table", table.toLocaleString());
 
-  const handleEmailInput = event => {
+	/**
+	 * handleEmailInput handles the user's email input.
+	 *
+	 * @param event - user's input for the email.
+	 */
+
+	const handleEmailInput = event => {
     setEmail(event.target.value)
   };
+
+
+	/**
+	 *
+	 * The handleClose function is responsible for handling the closing of the alert notification.
+	 *
+	 * @param event - Event information passed from a user's action.
+	 * @param reason - Reason of the event
+	 */
+
 
 	const handleClose = (event, reason) => {
 		if (reason === 'clickaway') {
@@ -68,15 +96,32 @@ const Login = (props) => {
 		setOpen(false)
 	};
 
-  const handlePasswordInput = event => {
+	/**
+	 * handlePasswordInput handles the user's password input.
+	 *
+	 * @param event - user's input for the password.
+	 */
+
+
+	const handlePasswordInput = event => {
     setPassword(event.target.value)
   };
+
+	/**
+	 * HandleStaff checks if the user selected the staff member option before signing in.
+	 */
 
   const handleStaff = () => {
 	  setStaff(!staff)
   };
 
-  const handleSubmit = event => {
+	/**
+	 * handleSubmit function is responsible for communicating with the API to sign the user in to the web application if their credentials match.
+	 *
+	 * @param event- user's action of pressing the button.
+	 */
+
+	const handleSubmit = event => {
     if (rememberMe === true) {
       localStorage.setItem("email", email);
       localStorage.setItem("rememberEmail", "true");
@@ -122,6 +167,11 @@ const Login = (props) => {
 	// eslint-disable-next-line
 		}, [loggedIn, email]);
 
+	/**
+	 * setRemember function is responsible for setting the "Remember me" option.
+	 * @param event - action recorded by user's selection of the box.
+	 */
+
   const setRemember = event => {
     if (event.target.checked === true) {
       setRememberMe(true);
@@ -131,6 +181,11 @@ const Login = (props) => {
   useEffect(() => {
     loadTables();
   }, []);
+
+
+	/**
+	 * loadTables fetches available tables and presents them to the user.
+	 */
 
 	const loadTables = () => {
 		fetch("//127.0.0.1:5000/get_tables", {
@@ -144,7 +199,11 @@ const Login = (props) => {
 		});
 
 	};
-
+	/**
+	 * handleTableChange updates the state of the current table chosen.
+	 *
+	 * @param event - user's action of choosing a table.
+	 */
 	const handleTableChange = event => {
 		setTable(event.target.value);
 	};
@@ -256,6 +315,10 @@ const Login = (props) => {
 	)
 };
 
+/**
+ * Custom CSS styling for Login.js.
+ * @param theme - The global MUI theme created in theme.js
+ */
 const useStyles = theme => ({
   ...LoginSignupStyles(theme),
   ...buttonStyles(theme)
