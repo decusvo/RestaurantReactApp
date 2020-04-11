@@ -14,6 +14,10 @@ import { useBouncyShadowStyles } from "@mui-treasury/styles/shadow/bouncy";
 import cx from "clsx";
 import Button from "@material-ui/core/Button";
 
+/**
+ * Custom styling for the order item.
+ *
+ */
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
@@ -27,8 +31,18 @@ const useStyles = makeStyles(() => ({
   cta: {
     marginTop: 24,
     textTransform: "initial"
+  },
+  typography: {
+    marginTop: 10, fontSize: 16
   }
 }));
+
+/**
+ * TrackingItem is a component responsible for rendering a card containing an order's information and buttons to  cancel , pay for the order.
+ *
+ * @returns A container of an order card.
+
+ */
 
 const TrackingItem = props => {
   let button;
@@ -36,7 +50,12 @@ const TrackingItem = props => {
   const textCardContentStyles = useN01TextInfoContentStyles();
   const shadowStyles = useBouncyShadowStyles();
 
-  // The MapOrderItem function takes order information and renders the information on the card.
+  /**
+   * The MapOrderItem function takes order information and renders the information on the card.
+   * @param item - an array containing order information.
+   *
+   * @returns A container to be rendered
+   */
 
   const MapOrderItem = ({ items }) => {
     return items.map((dish, index) => {
@@ -147,7 +166,7 @@ const TrackingItem = props => {
           />
           {button}
         </CardContent>
-        {renderOrderSubMenu}
+        {renderOrderSubMenu()}
       </Card>
     </Grid>
   );
