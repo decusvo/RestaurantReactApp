@@ -4,6 +4,12 @@ import {Card, MuiThemeProvider} from "material-ui";
 import {makeStyles} from "@material-ui/core/styles";
 import {useSelector} from "react-redux";
 
+
+/**
+ * useStyles contains CSS styling for the PaymentInformation.js
+ *
+ */
+
 const useStyles = makeStyles(theme => ({
    card: {
        padding: theme.spacing(6),

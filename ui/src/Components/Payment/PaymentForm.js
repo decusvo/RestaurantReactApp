@@ -10,9 +10,20 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
 import formStyles from "../../Styling/formStyles";
 
+/**
+ * useStyles contains CSS styling for the PaymentForm.js
+ *
+ */
+
 const useStyles = makeStyles(theme => ({
   ...formStyles(theme)
 }));
+
+
+/**
+ * PaymentForm lets the customer enter payment and pay for the particular order that they have chosen in Tracking.js
+ * @returns {*} - A container holding all content
+ */
 
 export default function PaymentForm() {
   const classes = useStyles();
@@ -26,8 +37,10 @@ export default function PaymentForm() {
   const [message, setMessage] = React.useState("");
   const [open, setOpenAlert] = React.useState(false);
 
-  // submitPayment is a function which sends customer details to be verified by the API which were collected from the respective textfields.
-  // The API response is saved locally, as well as the customers name.
+  /**
+   *   submitPayment is a function which sends customer details to be verified by the API which were collected from the respective text fields.
+   *   The API response is saved locally, as well as the customers name.
+   */
 
   const submitPayment = () => {
     fetch("//127.0.0.1:5000/verify_payment", {
@@ -56,8 +69,9 @@ export default function PaymentForm() {
       .catch(error => console.log(error));
   };
 
-  // updateOrder is a function which sends a call to the API endpoint. Upon successful verification, the function tells the API that the particular order ID has been paid.
-
+  /**
+   *  updateOrder is a function which sends a call to the API endpoint. Upon successful verification, the function tells the API that the particular order ID has been paid.
+   */
   const updateOrder = () => {
     fetch("//127.0.0.1:5000/order_event", {
       method: "POST",
@@ -76,7 +90,9 @@ export default function PaymentForm() {
       });
   };
 
-  // invalidPayment is a function which gives the user a notification if the API cannot successfully verify details.
+  /**
+   * invalidPayment is a function which gives the user a notification if the API cannot successfully verify details.
+   */
 
   const invalidPayment = () => {
     setMessage(
@@ -85,7 +101,13 @@ export default function PaymentForm() {
     setOpenAlert(true);
   };
 
-  // handleClose is responsible for closing the alert that notifies the user of an issue with verifying the payment.
+  /**
+   *
+   * The handleClose function is responsible for handling the closing of the alert notification.
+   *
+   * @param event - Event information passed from a user's action.
+   * @param reason - Reason of the event
+   */
 
   const handleClose = (event, reason) => {
     // Handles the closing of a notification.
@@ -95,43 +117,66 @@ export default function PaymentForm() {
     setOpenAlert(false);
   };
 
-  // handleSortCode function takes the value entered in the sort code text field and updates the value of the CardSortCode( state accordingly.
+
+  /**
+   *  handleSortCode function takes the value entered in the sort code text field and updates the value of the CardSortCode state accordingly.
+   * @param event - User's action of entering into the sort code text field.
+   */
 
   const handleSortCode = event => {
     setCardSortCode(event.target.value);
   };
 
-  // handleName function takes the value entered in the cardholder name text field and updates the values of the CardName state.
+  /**
+   *  handleName function takes the value entered in the cardholder name text field and updates the values of the CardName state.
+   * @param event - User's action of entering into the cardholder's name text field.
+   */
 
   const handleName = event => {
     setCardName(event.target.value);
   };
 
-  // handleNumber function takes the value entered in the cardholder name text field and updates the values of the CardNumber state.
+
+  /**
+   *  handleNumber function takes the value entered in the cardholder name text field and updates the values of the CardNumber state.
+   * @param event - User's action of entering into the cardholder's card number text field.
+   */
 
   const handleNumber = event => {
     setCardNumber(event.target.value);
   };
 
-  // handleExpiry function takes the value entered in the cardholder name text field and updates the values of the CardExpiry state.
+  /**
+   * handleExpiry function takes the value entered in the cardholder name text field and updates the values of the CardExpiry state.
+   * @param event - User's action of entering into the card's expiry date text field.
+   */
+
 
   const handleExpiry = event => {
     setCardExpiry(event.target.value);
   };
 
-  // handleCVV function takes the value entered in the cardholder name text field and updates the values of the CardCVV state.
+  /**
+   * handleCVV function takes the value entered in the cardholder name text field and updates the values of the CardCVV state.
+   * @param event - User's action of entering into the card's CVV text field.
+   */
 
   const handleCVV = event => {
     setCardCVV(event.target.value);
   };
 
-  // handleBack is responsible for changing the state of RedirectToSummary. Once set to true, a ternary expression redirects the user to OrderSummary page.
+  /**
+   *  handleBack is responsible for changing the state of RedirectToSummary. Once set to true, a ternary expression redirects the user to OrderSummary page.
+   */
 
   const handleBack = () => {
     setRedirectToSummary(true);
   };
 
-  // uponConfirmation function is responsible for calling the function to update the order and then redirect the customer to the post payment page.
+  /**
+   * uponConfirmation function is responsible for calling the function to update the order and then redirect the customer to the post payment page.
+   * @returns {*} - A redirection to PostPaymentPage.js
+   */
 
   const uponConfirmation = () => {
     updateOrder();
@@ -139,9 +184,11 @@ export default function PaymentForm() {
     return <Redirect to="/PostPaymentPage" />;
   };
 
-  // The return clause renders a React element with a payment form to fill out for the customer.
-  // Upon paying, a response is given. If the response is successful the customer is redirected.
-  // If the API response is not a success, then the customer is notified via an on-screen alert.
+  /**
+   * The return clause renders a React element with a payment form to fill out for the customer.
+   * Upon paying, a response is given. If the response is successful the customer is redirected.
+   * If the API response is not a success, then the customer is notified via an on-screen alert.
+   */
 
   return (
     <React.Fragment>
