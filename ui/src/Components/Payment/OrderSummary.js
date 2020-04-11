@@ -11,9 +11,21 @@ import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
 import formStyles from "../../Styling/formStyles";
 
+
+/**
+ * useStyles contains CSS styling for the OrderSummary.js
+ *
+ */
+
 const useStyles = makeStyles(theme => ({
   ...formStyles(theme)
 }));
+
+/**
+ * OrderSummary page is responsible for rendering the dish information for the particular order the customer chose to pay for.
+ *
+ * @returns {*} - A container with the content to be rendered.
+ */
 
 export default function OrderSummary() {
   const classes = useStyles();
@@ -24,19 +36,27 @@ export default function OrderSummary() {
   const [loadedOrders, setLoadedOrders] = React.useState(false);
   const orderID = localStorage.getItem("ProcessedOrderID");
 
-  // handleBack function is responsible for changing the state of RedirectToTracking. Once it is true, a ternary expression in the return clause triggers a redirection to Tracking.js
+  /**
+   * handleBack function is responsible for changing the state of RedirectToTracking. Once it is true, a ternary expression in the return clause triggers a redirection to Tracking.js
+   */
 
   const handleBack = () => {
     setRedirectToTracking(true);
   };
 
-  // handleNext function is responsible for changing the state of RedirectToPayment. Once it is true, a ternary expression in the return clause triggers a redirection to PaymentForm.js
+  /**
+   * handleNext function is responsible for changing the state of RedirectToPayment. Once it is true, a ternary expression in the return clause triggers a redirection to PaymentForm.js
+   */
 
   const handleNext = () => {
     setRedirectToPayment(true);
   };
 
-  // MapOrderItem takes an array of item arrays. It uses the elements in the array to render a list of dishes for a particular order the customer wants to pay.
+  /**
+   * MapOrderItem takes an array of item arrays. It uses the elements in the array to render a list of dishes for a particular order the customer wants to pay.
+   * @param value - an array containing order information.
+   * @returns A list of dishes with their quantities and prices.
+   */
 
   const MapOrderItem = ({ value }) => {
     return value.map((ele, index) => {
@@ -50,8 +70,10 @@ export default function OrderSummary() {
     });
   };
 
-  // getSummary is a function which fetches the particular order relating to the customer. The response is stored in a state.
-  // The order information is then mapped onto the screen.
+
+  /**
+   *  getSummary is a function which fetches the particular order relating to the customer. The response is stored in a state. The orderSummary component is notified via LoadedOrders to render the content.
+   */
 
   const getSummary = () => {
     fetch("//127.0.0.1:5000/get_order", {
@@ -75,8 +97,9 @@ export default function OrderSummary() {
     getSummary();
   }, []);
 
-  // The return clause renders a container which lists the items within the particular order customer chose to pay.
-  // While loadedOrders are false, "loading ... " is displayed. Once they are successfully fetched , the state is changed and orders are then rendered.
+  /** The return clause renders a container which lists the items within the particular order customer chose to pay.
+  * While loadedOrders are false, "loading ... " is displayed. Once they are successfully fetched , the state is changed and orders are then rendered.
+  */
 
   return (
     <React.Fragment>
