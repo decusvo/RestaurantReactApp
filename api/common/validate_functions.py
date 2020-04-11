@@ -40,7 +40,8 @@ def auto_assign_waiter(table_num):
 
 def sent_expected_values(expected_values, request):
 	if request.json is None:
-		error_msg = "Nothing given in json, Expected ".join(expected_values)
+		error_msg = "Nothing given in json, Expected "
+		error_msg += ", ".join(expected_values)
 		return jsonify(error={"success": False, "message": error_msg})
 
 	for value in expected_values:

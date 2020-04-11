@@ -44,7 +44,6 @@ const WaiterMenuItem = ( props ) => {
         let itemID = id;
         let state = event.target.value;
         let element = [itemID,state];
-        console.log(element);
         props.sendState(element);
     };
 

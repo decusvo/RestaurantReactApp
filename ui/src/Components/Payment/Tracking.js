@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import Typography from "@material-ui/core/Typography";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import {useSelector} from "react-redux";
 import TrackingItem from "./TrackingItem";
@@ -8,6 +7,8 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Redirect} from "react-router";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
+import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -135,9 +136,10 @@ const Tracking = () => {
 
       {currentOrders ?
           <div>
-            <Typography variant="h3" className={classes.title}>
-              Your orders
-            </Typography>
+            <TextInfoContent
+                useStyles={useN04TextInfoContentStyles}
+                heading={'Current Orders'}
+            />
             <Grid spacing={2} container className={classes.grid}>
               <MapOrderItem value={currentOrders} />
             </Grid>
@@ -147,9 +149,10 @@ const Tracking = () => {
 
       {oldOrders ?
           <div>
-            <Typography variant="h3" className={classes.title}>
-              Past orders
-            </Typography>
+            <TextInfoContent
+                useStyles={useN04TextInfoContentStyles}
+                heading={'Past Orders'}
+            />
             <Grid spacing={2} container className={classes.grid}>
               <MapOrderItem value={oldOrders} />
             </Grid>

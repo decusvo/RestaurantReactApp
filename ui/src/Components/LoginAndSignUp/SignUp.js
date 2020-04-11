@@ -1,8 +1,6 @@
 import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider";
-
 import hash from 'hash.js';
-
 import React from 'react';
 import { useSelector } from "react-redux";
 import {Redirect} from "react-router-dom";
@@ -13,15 +11,17 @@ import Box from "@material-ui/core/Box";
 import Copyright from "../Common/Copyright";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import Avatar from "@material-ui/core/Avatar";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
 import Link from "@material-ui/core/Link";
+import buttonStyles from "../../Styling/buttonStyles";
+import LoginSignupStyles from "../../Styling/LoginSignupStyles";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
+import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
+
 
 function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />
@@ -50,9 +50,9 @@ const SignUp = (props) => {
     const currentUser = useSelector(state => state.currentUser);
 
     const checkPhoneNumber = () => {
-        const pattern = /(07)[0-9]{9}/
+        const pattern = /(07)[0-9]{9}/;
         return pattern.test(phoneNumber);
-    }
+    };
 
     const handleTAndCChange = () => {
         const new_tAndC = !tAndC;
@@ -95,7 +95,7 @@ const SignUp = (props) => {
           if (checkPasswords()){
           // hash password
           let hashedPassword = hash.sha512().update(password).digest('hex');
-          const url = (currentUser.staff ? "//127.0.0.1:5000/waiter_signup":"//127.0.0.1:5000/signup")
+          const url = (currentUser.staff ? "//127.0.0.1:5000/waiter_signup":"//127.0.0.1:5000/signup");
           fetch(url, {method: 'POST',
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({"firstname": firstName,
@@ -131,8 +131,8 @@ const SignUp = (props) => {
           }
         } else{
           // display warning the phone number is not valid
-          setSeverity("warning")
-          setMessage("Phone number not of the correct format 11 digits starting with 07")
+          setSeverity("warning");
+          setMessage("Phone number not of the correct format 11 digits starting with 07");
           setOpen(true)
         }
       } else {
@@ -150,12 +150,10 @@ const SignUp = (props) => {
             <Container component="main" maxWidth="xs">
                 <CssBaseline />
                 <div className={classes.paper}>
-                    <Avatar className={classes.avatar}>
-                        <LockOutlinedIcon />
-                    </Avatar>
-                    <Typography component="h1" variant="h5">
-                        Sign up
-                    </Typography>
+                    <TextInfoContent
+                        useStyles={useN04TextInfoContentStyles}
+                        heading={'Sign up'}
+                    />
                     <form className={classes.form} onSubmit={handleSubmit} method = "post">
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={6}>
@@ -210,7 +208,7 @@ const SignUp = (props) => {
                                     />
                                 </Grid>
                                 :
-                                <div></div>
+                                <div> </div>
                             }
                             <Grid item xs={12}>
                                 <TextField
@@ -251,7 +249,7 @@ const SignUp = (props) => {
                             fullWidth
                             variant="contained"
                             color="primary"
-                            className={classes.submit}
+                            className={classes.button}
                         >
                             Sign Up
                         </Button>
@@ -287,30 +285,12 @@ const SignUp = (props) => {
 };
 
 const useStyles = theme => ({
-    paper: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: '#87D333'
     },
-    form: {
-        width: '100%',
-        marginTop: theme.spacing(3),
-    },
-    submit: {
-        margin: theme.spacing(3, 0, 2),
-        background: 'linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)',
-        borderRadius: 3,
-        border: 0,
-        color: 'white',
-        height: 40,
-        padding: '0 30px',
-        boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-    },
+    ...LoginSignupStyles(theme),
+    ...buttonStyles(theme)
 });
 
 export default withStyles(useStyles)(SignUp);

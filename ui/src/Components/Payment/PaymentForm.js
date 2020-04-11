@@ -8,45 +8,10 @@ import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
 import Snackbar from "@material-ui/core/Snackbar";
 import Alert from "@material-ui/lab/Alert";
+import formStyles from "../../Styling/formStyles";
 
 const useStyles = makeStyles(theme => ({
-  listItem: {
-    padding: theme.spacing(1, 0)
-  },
-  total: {
-    fontWeight: 700
-  },
-  title: {
-    marginTop: theme.spacing(2)
-  },
-  layout: {
-    width: "auto",
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
-      width: 600,
-      marginLeft: "auto",
-      marginRight: "auto"
-    }
-  },
-  paper: {
-    marginTop: theme.spacing(3),
-    marginBottom: theme.spacing(3),
-    padding: theme.spacing(2),
-    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
-      marginTop: theme.spacing(6),
-      marginBottom: theme.spacing(6),
-      padding: theme.spacing(3)
-    }
-  },
-  buttons: {
-    display: "flex",
-    justifyContent: "flex-end"
-  },
-  button: {
-    marginTop: theme.spacing(3),
-    marginLeft: theme.spacing(1)
-  }
+  ...formStyles(theme)
 }));
 
 export default function PaymentForm() {
@@ -60,6 +25,9 @@ export default function PaymentForm() {
   const [payConfirmed, setPayConfirmed] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [open, setOpenAlert] = React.useState(false);
+
+  // submitPayment is a function which sends customer details to be verified by the API which were collected from the respective textfields.
+  // The API response is saved locally, as well as the customers name.
 
   const submitPayment = () => {
     fetch("//127.0.0.1:5000/verify_payment", {
@@ -88,13 +56,15 @@ export default function PaymentForm() {
       .catch(error => console.log(error));
   };
 
+  // updateOrder is a function which sends a call to the API endpoint. Upon successful verification, the function tells the API that the particular order ID has been paid.
+
   const updateOrder = () => {
     fetch("//127.0.0.1:5000/order_event", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        "order_id": localStorage.getItem("ProcessedOrderID"),
-        "order_event": "pay"
+        order_id: localStorage.getItem("ProcessedOrderID"),
+        order_event: "pay"
       })
     })
       .then(response => {
@@ -106,12 +76,16 @@ export default function PaymentForm() {
       });
   };
 
+  // invalidPayment is a function which gives the user a notification if the API cannot successfully verify details.
+
   const invalidPayment = () => {
     setMessage(
       "There has been a problem validating your payment. Please check if information entered is correct."
     );
     setOpenAlert(true);
   };
+
+  // handleClose is responsible for closing the alert that notifies the user of an issue with verifying the payment.
 
   const handleClose = (event, reason) => {
     // Handles the closing of a notification.
@@ -121,33 +95,53 @@ export default function PaymentForm() {
     setOpenAlert(false);
   };
 
+  // handleSortCode function takes the value entered in the sort code text field and updates the value of the CardSortCode( state accordingly.
+
   const handleSortCode = event => {
     setCardSortCode(event.target.value);
   };
+
+  // handleName function takes the value entered in the cardholder name text field and updates the values of the CardName state.
+
   const handleName = event => {
     setCardName(event.target.value);
   };
+
+  // handleNumber function takes the value entered in the cardholder name text field and updates the values of the CardNumber state.
+
   const handleNumber = event => {
     setCardNumber(event.target.value);
   };
+
+  // handleExpiry function takes the value entered in the cardholder name text field and updates the values of the CardExpiry state.
+
   const handleExpiry = event => {
     setCardExpiry(event.target.value);
   };
+
+  // handleCVV function takes the value entered in the cardholder name text field and updates the values of the CardCVV state.
 
   const handleCVV = event => {
     setCardCVV(event.target.value);
   };
 
+  // handleBack is responsible for changing the state of RedirectToSummary. Once set to true, a ternary expression redirects the user to OrderSummary page.
+
   const handleBack = () => {
     setRedirectToSummary(true);
   };
 
+  // uponConfirmation function is responsible for calling the function to update the order and then redirect the customer to the post payment page.
+
   const uponConfirmation = () => {
-    console.log("Order being updated.");
     updateOrder();
 
     return <Redirect to="/PostPaymentPage" />;
   };
+
+  // The return clause renders a React element with a payment form to fill out for the customer.
+  // Upon paying, a response is given. If the response is successful the customer is redirected.
+  // If the API response is not a success, then the customer is notified via an on-screen alert.
 
   return (
     <React.Fragment>

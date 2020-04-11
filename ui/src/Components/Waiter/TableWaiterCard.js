@@ -33,10 +33,10 @@ const useStyles = makeStyles(theme => ({
 const TableWaiterCard = ( props ) => {
     const classes = useStyles();
     const {id, item, state, setOpen, setSeverity, setMessage, getAssignedTables, getUnassignedTables, currentUser} = props;
-    const {firstname, lastname, email} = item
+    const {firstname, lastname, email} = item;
 
     const handleClick = () => {
-      const waiter_id = (email ? null : currentUser.user.name)
+      const waiter_id = (email ? null : currentUser.user.name);
       fetch("//127.0.0.1:5000/table_assignment_event", {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
@@ -54,14 +54,14 @@ const TableWaiterCard = ( props ) => {
       		  setMessage("Something went wrong");
       		  setOpen(true)
           }
-          getAssignedTables()
+          getAssignedTables();
           getUnassignedTables()
-      }).catch((error) => {
+      }).catch(() => {
         setSeverity("error");
         setMessage("Something went wrong");
         setOpen(true)
       });
-    }
+    };
 
     return (
         <div className={classes.paper} >

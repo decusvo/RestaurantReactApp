@@ -1,5 +1,5 @@
 import React from "react";
-import {List, ListItem} from "@material-ui/core";
+import { List, ListItem } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import ListItemText from "@material-ui/core/ListItemText";
 import makeStyles from "@material-ui/core/styles/makeStyles";
@@ -8,48 +8,48 @@ import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import allActions from "../../actions";
 import { Redirect } from "react-router";
+import {useMaterialListItemStyles} from "@mui-treasury/styles/listItem/material";
+import buttonStyles from "../../Styling/buttonStyles";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
+import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
 const useStyles = makeStyles(theme => ({
   root: {
     width: "100%",
-    maxWidth: 360,
+    maxWidth: 250,
     backgroundColor: theme.palette.background.paper,
     alignItems: "center",
     justify: "center",
-    marginLeft: theme.spacing(2)
   },
   inline: {
     display: "inline"
   },
+  spacing: {
+    marginTop : "2%",
+    marginBottom: "2%",
+    marginLeft : "15%",
+    marginRight : "15%"
+  },
   title: {
-    marginTop: theme.spacing(2),
+    marginTop: "2%",
     variant: "h2",
     color: "textSecondary"
   },
-  order: {
-    margin: theme.spacing(3, 0, 2),
-    background:
-      "linear-gradient(144deg, rgba(252,192,26,1) 0%, rgba(135,211,51,1) 90%)",
-    borderRadius: 3,
-    border: 0,
-    color: "white",
-    height: 40,
-    padding: "0 30px",
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    minWidth: 200
-  }
+  ...buttonStyles()
 }));
 
 const MapOrderItem = () => {
   const currentItems = useSelector(state => state.currentItems);
   const items = currentItems.items;
+  const treasuryStyle = useMaterialListItemStyles();
+
   if (items.length !== 0) {
     return items.map(function(dish, index) {
       const itemName = dish.name;
       const itemQuantity = dish.q;
       if (itemQuantity > 0) {
         return (
-          <ListItem key={index}>
+          <ListItem key={index} classes={treasuryStyle}>
             <ListItemText
               primary={
                 <React.Fragment>
@@ -69,7 +69,7 @@ const MapOrderItem = () => {
                     variant="body2"
                     color="textSecondary"
                   >
-                    Q : {itemQuantity}
+                    X {itemQuantity}
                   </Typography>
                 </React.Fragment>
               }
@@ -81,8 +81,12 @@ const MapOrderItem = () => {
       }
     });
   } else {
-    console.log("No items");
-    return <div> </div>;
+
+    return <div >
+      <Typography variant={"body1"} color={"inherit"} align={"center"}>
+        You have not placed any dishes into the basket.
+      </Typography>
+    </div>;
   }
 };
 
@@ -149,16 +153,17 @@ const Order = () => {
 
   const canOrder = () => {
     return items.length === 0
-  }
+  };
 
   return (
     <React.Fragment>
       {orderButtonClicked ? <Redirect to={"/Tracking"} /> : null}
-      <Typography variant="h3" className={classes.title}>
-        Your order list
-      </Typography>
+      <TextInfoContent
+          useStyles={useN04TextInfoContentStyles}
+          heading={'Review your order'}
+      />
 
-      <List className={classes.root}>
+      <List className={classes.spacing}>
         <MapOrderItem />
       </List>
 
@@ -170,7 +175,7 @@ const Order = () => {
             type="submit"
             variant="contained"
             color="primary"
-            className={classes.order}
+            className={classes.button}
           >
             Order
           </Button>
