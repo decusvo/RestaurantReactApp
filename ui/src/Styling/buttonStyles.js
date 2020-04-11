@@ -1,6 +1,8 @@
 import theme from "./theme";
 
-// This file contains the styling for the button that is used across the web application such that it can be re-used.
+/**
+ * Contains generalized CSS styling for two button types.
+ */
 
 
 export default () => ({

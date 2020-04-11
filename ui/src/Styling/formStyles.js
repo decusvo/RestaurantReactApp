@@ -1,5 +1,10 @@
 import theme from "./theme";
 
+/**
+ * Contains generalized CSS styling for a paper layout used in OrderSummary and PaymentForm.js - used from Material UI Samples showcase.
+ */
+
+
 export default () => ({
     listItem: {
         padding: theme.spacing(1, 0)

@@ -1,6 +1,9 @@
 import theme from "./theme";
 
-// This file contains the styling for log in and sign up that is used across the web application such that it can be re-used for multiple components.
+/**
+ * Generalized styling that's used for log in and Sign Up components.
+ *
+ */
 
 
 export default () => ({
@@ -11,7 +14,7 @@ export default () => ({
         flexDirection: "column",
     },
     form: {
-        width: "100%", // Fix IE 11 issue.
+        width: "100%",
         marginTop: theme.spacing(1)
     },
 });
