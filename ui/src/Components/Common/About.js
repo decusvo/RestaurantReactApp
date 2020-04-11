@@ -1,5 +1,10 @@
 import React from 'react';
 
+/**
+ * The About  component renders information describing the restaurant.
+ *
+ * @returns A container with information about the restaurant.
+ */
 const About = () => {
 
     return (

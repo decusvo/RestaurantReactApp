@@ -42,6 +42,7 @@ HideOnScroll.propTypes = {
 const useStyles = makeStyles(({
     root: {
         flexGrow: 1,
+        marginBottom: "10%"
     },
     blank: {
         flexGrow: 1,

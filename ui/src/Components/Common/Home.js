@@ -1,5 +1,11 @@
 import React from 'react';
 
+/**
+ * The Home  component renders the landing page content.
+ *
+ * @returns A container with information to be rendered.
+ */
+
 const Home = () => {
 
     return (
