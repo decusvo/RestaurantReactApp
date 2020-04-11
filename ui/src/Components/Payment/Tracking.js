@@ -10,6 +10,12 @@ import {Redirect} from "react-router";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
+
+/**
+ * Custom styling for the tracking page.
+ *
+ */
+
 const useStyles = makeStyles(theme => ({
   root: {
     marginTop: theme.spacing(8),
@@ -21,6 +27,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+/**
+ * Tracking is responsible for rendering current and old order cards for that particular customer.
+ *
+ * @returns a container with a list of TrackingItem instances.
+ */
+
 const Tracking = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser); // Get username.
@@ -30,9 +42,19 @@ const Tracking = () => {
   const [open, setOpen] = React.useState(false);
   const [paymentState, setPaymentState] = React.useState(false);
 
+  /**
+   * Alert function responsible for creating a Material UI alert to be displayed to the user.
+   *
+   * @returns A Material UI alert element instance.
+   */
+
   function Alert(props) {
     return <MuiAlert elevation={6} variant="filled" {...props} />;
   }
+
+  /**
+   *  getTracking is a function which fetches from the API the list of current orders associated to that particular customer.
+   */
 
   const getTracking = () => {
     fetch("//127.0.0.1:5000/get_cust_orders", {
@@ -47,6 +69,10 @@ const Tracking = () => {
           setCurrentOrders(data.data.orders);
         });
   };
+
+  /**
+   *  getOldTracking is a function which fetches from the API the list of past orders associated to that particular customer.
+   */
 
   const getOldTracking = () => {
     fetch("//127.0.0.1:5000/get_old_cust_orders", {
@@ -63,24 +89,46 @@ const Tracking = () => {
         });
   };
 
+  /**
+   *  This effect hook is responsible for re-rendering current and past orders when there's a change, such that the latest orders can be rendered.
+   */
   useEffect(() => {
     getTracking();
     getOldTracking();
 
   }, []);
 
+  /**
+   * userAlert is a function responsible for updating the alert message and opening the alert message.
+   */
+
   const userAlert = () => {
     setMessage("Order has been cancelled");
     setOpen(true);
   };
 
+  /**
+   *
+   * The handleClose function is responsible for handling the closing of the alert notification.
+   *
+   * @param event - Event information passed from a user's action.
+   * @param reason - Reason of the event
+   */
+
   const handleClose = (event, reason) => {
-    // Handles the closing of a notification.
     if (reason === "clickaway") {
       return;
     }
     setOpen(false);
   };
+
+  /**
+   *
+   * updateState function is responsible for updating the state of an order when cancelled.
+   *
+   * @param id - The ID of an order being updated.
+   * @param state - The current state of the order.
+   */
 
   const updateState = (id, state) => {
     fetch("//127.0.0.1:5000/order_event", {
@@ -101,12 +149,24 @@ const Tracking = () => {
       });
   };
 
+  /**
+   * Responsible for updating the state such that the user gets redirected to the orderSummary.js page to pay.
+   * @param orderID
+   */
+
   function paymentRedirection(orderID) {
     setPaymentState(true);
     localStorage.setItem('ProcessedOrderID', orderID);
   }
 
-  const MapOrderItem = ({ value }) => {
+  /**
+   * The MapTrackingItem function takes order information and renders the information on the card.
+   *
+   * @param value - an array containing order information.
+   * @returns A tracking item container
+   */
+
+  const MapTrackingItem = ({ value }) => {
     return value.map((ele, index) => {
       const { id, items, ordered_time, price, state, table_number } = ele;
       return (
@@ -141,7 +201,7 @@ const Tracking = () => {
                 heading={'Current Orders'}
             />
             <Grid spacing={2} container className={classes.grid}>
-              <MapOrderItem value={currentOrders} />
+              <MapTrackingItem value={currentOrders} />
             </Grid>
           </div>
           :null
@@ -154,7 +214,7 @@ const Tracking = () => {
                 heading={'Past Orders'}
             />
             <Grid spacing={2} container className={classes.grid}>
-              <MapOrderItem value={oldOrders} />
+              <MapTrackingItem value={oldOrders} />
             </Grid>
           </div>
           :null
