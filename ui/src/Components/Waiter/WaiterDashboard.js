@@ -4,11 +4,14 @@ import Copyright from "../Common/Copyright";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import OrderItem from "../Order/OrderItem";
+import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
 //basic styles
 const useStyles = theme => ({
     root: {
         flexGrow: 1,
+        marginTop: 10,
     },
 
     card: {
@@ -74,24 +77,46 @@ const WaiterDashboard = (props) => {
                 <Grid container spacing={3}>
                     {/*Grid for the to be confirmed, order objects will later be loaded in dynamically*/}
                     <Grid item xs>
-                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            To Be Confirmed
-                        </Typography>
-                        <MapOrderItem value={state.requested}/>
+                        <TextInfoContent
+                            useStyles={useN04TextInfoContentStyles}
+                            heading={'To Be Confirmed'}
+                        />
+                        { state.requested.length === 0 ?
+                            <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                                Nothing has been requested!
+                            </Typography>
+                            :
+                            <MapOrderItem value={state.requested}/>
+                        }
+
                       </Grid>
 
                     <Grid item xs>
-                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            In Progress
-                        </Typography>
-                        <MapOrderItem value={state.cooking}/>
+                        <TextInfoContent
+                            useStyles={useN04TextInfoContentStyles}
+                            heading={'In Progress'}
+                        />
+                        { state.cooking.length === 0 ?
+                            <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                                Nothing is being cooked!
+                            </Typography>
+                            :
+                            <MapOrderItem value={state.cooking}/>
+                        }
                     </Grid>
 
                     <Grid item xs>
-                        <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                            To Be Served
-                        </Typography>
-                        <MapOrderItem value={state.ready_to_deliver}/>
+                        <TextInfoContent
+                            useStyles={useN04TextInfoContentStyles}
+                            heading={'To Be Served'}
+                        />
+                        { state.ready_to_deliver.length === 0 ?
+                            <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                                Nothing to be served yet!
+                            </Typography>
+                            :
+                            <MapOrderItem value={state.ready_to_deliver}/>
+                        }
                     </Grid>
                 </Grid>
 

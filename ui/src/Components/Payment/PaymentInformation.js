@@ -3,6 +3,8 @@ import {Grid, Typography} from "@material-ui/core";
 import {Card, MuiThemeProvider} from "material-ui";
 import {makeStyles} from "@material-ui/core/styles";
 import {useSelector} from "react-redux";
+import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
 
 /**
@@ -19,7 +21,10 @@ const useStyles = makeStyles(theme => ({
        flexDirection: 'column',
        alignItems: 'center',
        fontSize: 20
-   }
+   },
+    typography: {
+        marginTop: 10, fontSize: 25
+    }
 }));
 
 const PaymentInformation = () => {
@@ -66,9 +71,19 @@ const PaymentInformation = () => {
     return (
         <React.Fragment>
             <MuiThemeProvider>
-                <Grid container spacing={3}>
-                    <MapPaymentInformation/>
-                </Grid>
+                <TextInfoContent
+                    useStyles={useN04TextInfoContentStyles}
+                    heading={'Customer Payment Information'}
+                />
+                { info || info === null ?
+                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                        Nothing has been ordered!
+                    </Typography>
+                    :
+                    <Grid container spacing={3}>
+                        <MapPaymentInformation/>
+                    </Grid>
+                }
             </MuiThemeProvider>
         </React.Fragment>
     )
