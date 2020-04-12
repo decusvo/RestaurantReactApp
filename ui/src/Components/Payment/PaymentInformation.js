@@ -63,7 +63,11 @@ const PaymentInformation = () => {
                     </Grid> )
             })
         } else {
-            return null
+            return (
+                <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                    Nothing has been delivered!
+                </Typography>
+            )
         }
 
     };
@@ -75,15 +79,9 @@ const PaymentInformation = () => {
                     useStyles={useN04TextInfoContentStyles}
                     heading={'Customer Payment Information'}
                 />
-                { info || info === null ?
-                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                        Nothing has been ordered!
-                    </Typography>
-                    :
-                    <Grid container spacing={3}>
-                        <MapPaymentInformation/>
-                    </Grid>
-                }
+                <Grid container spacing={3}>
+                    <MapPaymentInformation/>
+                </Grid>
             </MuiThemeProvider>
         </React.Fragment>
     )

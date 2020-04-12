@@ -11,10 +11,14 @@ import buttonStyles from "../../Styling/buttonStyles";
  */
 
 const useStyles = makeStyles((theme) => ({
-    title: {
-        marginTop: theme.spacing(2),
-        variant: "h2",
-        color: "textSecondary"
+    header : {
+        textAlign: 'center',
+        fontSize: 24,
+        lineHeight: 2,
+        fontWeight: 350,
+        fontFamily:
+        // eslint-disable-next-line max-len
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
     },
     ...buttonStyles(theme),
 }));
@@ -30,7 +34,7 @@ const PostPaymentPage = () => {
   const [buttonClicked, setButtonClicked] = React.useState(false);
   let firstName = localStorage.getItem('CustomerName');
   let orderID = localStorage.getItem('ProcessedOrderID');
-  let response = (localStorage.getItem('paymentResponse') === "true") ? "successful" : "unsuccessful";
+  let response = (localStorage.getItem('paymentResponse') === "true") ? "successfully paid for" : "unsuccessful";
   localStorage.setItem('ProcessedOrderID','');
   localStorage.setItem('paymentResponse','');
 
@@ -53,7 +57,7 @@ const PostPaymentPage = () => {
     <React.Fragment>
       {buttonClicked ? <Redirect to={"/Menu"} /> : null}
 
-      <Typography variant="h3" className={classes.title}>
+      <Typography variant="h3" className={classes.header}>
         Thanks {firstName}.The order no. {orderID} has been {response}.
       </Typography>
       <Button
