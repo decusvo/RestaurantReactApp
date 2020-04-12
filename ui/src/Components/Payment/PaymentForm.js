@@ -36,6 +36,7 @@ export default function PaymentForm() {
   const [payConfirmed, setPayConfirmed] = React.useState(false);
   const [message, setMessage] = React.useState("");
   const [open, setOpenAlert] = React.useState(false);
+  const [severity, setSeverity] = React.useState("info");
 
   /**
    *   submitPayment is a function which sends customer details to be verified by the API which were collected from the respective text fields.
@@ -57,16 +58,20 @@ export default function PaymentForm() {
         return response.json();
       })
       .then(data => {
-        console.log(data);
-        localStorage.setItem("paymentResponse", data.data.success);
-        localStorage.setItem("CustomerName", cardName);
-        if (data.data.success === true) {
-          setPayConfirmed(true);
+        if (data.data !== undefined){
+          localStorage.setItem("paymentResponse", data.data.success);
+          localStorage.setItem("CustomerName", cardName);
+          if (data.data.success === true) {
+            setPayConfirmed(true);
+          }else {
+            const errMsg = "There has been a problem validating your payment. Please check if information entered is correct."
+            invalidPayment(errMsg, "info");
+          }
         } else {
-          invalidPayment();
+          invalidPayment(data.error.message, "error");
         }
       })
-      .catch(error => console.log(error));
+      .catch(() => invalidPayment());
   };
 
   /**
@@ -82,22 +87,17 @@ export default function PaymentForm() {
       })
     })
       .then(response => {
-        console.log(response);
         return response.json();
       })
-      .catch(error => {
-        console.log(error);
-      });
   };
 
   /**
    * invalidPayment is a function which gives the user a notification if the API cannot successfully verify details.
    */
 
-  const invalidPayment = () => {
-    setMessage(
-      "There has been a problem validating your payment. Please check if information entered is correct."
-    );
+  const invalidPayment = (msg, severity) => {
+    setMessage(msg);
+    setSeverity(severity)
     setOpenAlert(true);
   };
 
@@ -272,7 +272,7 @@ export default function PaymentForm() {
           </div>
 
           <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-            <Alert variant="filled" onClose={handleClose} severity={"info"}>
+            <Alert variant="filled" onClose={handleClose} severity={severity}>
               {message}
             </Alert>
           </Snackbar>
