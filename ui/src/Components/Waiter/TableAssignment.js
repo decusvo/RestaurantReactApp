@@ -8,14 +8,10 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider/ThemeProvider";
-import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/lab/Alert";
 import Snackbar from '@material-ui/core/Snackbar';
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
-
-function Alert(props) {
-	return <MuiAlert elevation={6} variant="filled" {...props} />
-}
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -170,7 +166,7 @@ const TableAssignment = () => {
             </Container>
         </ThemeProvider>
         <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-					<Alert onClose={handleClose} severity={severity}>
+					<Alert variant="filled" onClose={handleClose} severity={severity}>
 						{message}
 					</Alert>
 				</Snackbar>

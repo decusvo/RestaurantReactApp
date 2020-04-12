@@ -8,7 +8,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider/ThemeProvider";
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/lab/Alert";
 import buttonStyles from "../../Styling/buttonStyles";
 
 const useStyles = makeStyles(theme => ({
@@ -82,10 +82,6 @@ const WaiterMenu = () => {
             } return null;
         });
     };
-
-    function Alert(props) {
-        return <MuiAlert elevation={6} variant="filled" {...props} />
-    }
 
     const handleClose = (event, reason) => {
         // Handles the closing of a notification.
@@ -191,7 +187,7 @@ const WaiterMenu = () => {
                         </Grid>
                 </div>
                     <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-                        <Alert onClose={handleClose} severity={severity}>
+                        <Alert variant="filled" onClose={handleClose} severity={severity}>
                             {message}
                         </Alert>
                     </Snackbar>

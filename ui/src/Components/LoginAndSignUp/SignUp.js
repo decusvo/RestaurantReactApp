@@ -304,7 +304,7 @@ const SignUp = (props) => {
                     </form>
                 </div>
                 <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-                    <Alert onClose={handleClose} severity={severity}>
+                    <Alert variant="filled" onClose={handleClose} severity={severity}>
                         {message}
                     </Alert>
                 </Snackbar>
