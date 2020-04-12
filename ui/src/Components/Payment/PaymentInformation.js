@@ -53,23 +53,14 @@ const PaymentInformation = () => {
         ,[]);
 
     const MapPaymentInformation = () => {
-        if (info) {
-            return info.map(function ({table_number}, index) {
-                return (
-                    <Grid key={index} item xs={12} md={3}>
-                        <Card className={classes.card}>
-                            <Typography>Table {table_number} hasn't payed yet</Typography>
-                        </Card>
-                    </Grid> )
-            })
-        } else {
+        return info.map(function ({table_number}, index) {
             return (
-                <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
-                    Nothing has been delivered!
-                </Typography>
-            )
-        }
-
+                <Grid key={index} item xs={12} md={3}>
+                    <Card className={classes.card}>
+                        <Typography>Table {table_number} hasn't payed yet</Typography>
+                    </Card>
+                </Grid> )
+        })
     };
 
     return (
@@ -79,9 +70,15 @@ const PaymentInformation = () => {
                     useStyles={useN04TextInfoContentStyles}
                     heading={'Customer Payment Information'}
                 />
-                <Grid container spacing={3}>
-                    <MapPaymentInformation/>
-                </Grid>
+                {info ?
+                    <Grid container spacing={3}>
+                        <MapPaymentInformation/>
+                    </Grid>
+                    :
+                    <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+                        Nothing has been delivered!
+                    </Typography>
+                }
             </MuiThemeProvider>
         </React.Fragment>
     )
