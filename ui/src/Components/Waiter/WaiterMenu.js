@@ -59,7 +59,7 @@ const WaiterMenu = () => {
     };
     useEffect(() => {
         getMenu()
-    }, );
+    }, []);
 
 
     // Updates array of items that need a state update. Function is passed as a prop to be called back by child component.
