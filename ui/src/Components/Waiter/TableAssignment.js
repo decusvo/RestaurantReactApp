@@ -10,24 +10,29 @@ import theme from "../../Styling/theme";
 import ThemeProvider from "@material-ui/styles/ThemeProvider/ThemeProvider";
 import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from '@material-ui/core/Snackbar';
+import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
+import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
 function Alert(props) {
 	return <MuiAlert elevation={6} variant="filled" {...props} />
 }
 
 const useStyles = makeStyles(theme => ({
-
-  title: {
-    marginTop: theme.spacing(2),
-    variant: "h2",
-    color: "textSecondary"
-  },
     paper: {
-        marginTop: theme.spacing(8),
+        marginTop: theme.spacing(1),
         alignItems: 'center',
     },
     grid: {
       flexGrow: 1
+    },
+    header : {
+        textAlign: 'center',
+        fontSize: 24,
+        lineHeight: 2,
+        fontWeight: 350,
+        fontFamily:
+        // eslint-disable-next-line max-len
+            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
     }
 }));
 
@@ -84,7 +89,7 @@ const TableAssignment = () => {
         const {table_number, email} = item;
         return (
               <React.Fragment key={index}>
-                <Grid item>
+                <Grid item item xs={6} xm={4} xl={3}>
                   <TableWaiterCard
                     key={index}
                     id={table_number}
@@ -104,7 +109,7 @@ const TableAssignment = () => {
       return unassignedTables.map((item, index) => {
         return (
               <React.Fragment key={index}>
-                <Grid item>
+                <Grid item xs={6} xm={4} xl={3}>
                   <TableWaiterCard
                     key={index}
                     id={item.table_number}
@@ -128,19 +133,20 @@ const TableAssignment = () => {
         <ThemeProvider theme={theme}>
             <CssBaseline />
                 <Container component="main">
-                <Typography variant="h3" className={classes.title}>
-                    Table Assignment
-                </Typography>
+                <TextInfoContent
+                    useStyles={useN04TextInfoContentStyles}
+                    heading={'Table Assignment'}
+                />
                 {
                   unassignedTables === null ?
                     null
                   :
                   <Container>
-                      <Typography variant="h5" className={classes.title}>
+                      <Typography variant="h5" className={classes.header}>
                           Unassigned Tables
                       </Typography>
                       <div className={classes.paper}>
-                        <Grid spacing={10} container className={classes.grid} >
+                        <Grid spacing={4} container className={classes.grid} >
                             <MapTables value={false}/>
                         </Grid>
                       </div>
@@ -151,11 +157,11 @@ const TableAssignment = () => {
                     null
                   :
                   <Container>
-                      <Typography variant="h5" className={classes.title}>
+                      <Typography variant="h5" className={classes.header}>
                           Assigned Tables
                       </Typography>
                       <div className={classes.paper}>
-                        <Grid spacing={10} container className={classes.grid} >
+                        <Grid spacing={4} container className={classes.grid} >
                             <MapTables value={true}/>
                         </Grid>
                       </div>

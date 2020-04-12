@@ -258,7 +258,12 @@ const Login = (props) => {
 
 const useStyles = theme => ({
   ...LoginSignupStyles(theme),
-  ...buttonStyles(theme)
+  ...buttonStyles(theme),
+	formControl: {
+		margin: theme.spacing(0.1),
+		minWidth: 120,
+	}
+
 });
 
 export default withStyles(useStyles)(Login);

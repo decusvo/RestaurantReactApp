@@ -9,15 +9,21 @@ import Snackbar from "@material-ui/core/Snackbar";
 import {Redirect} from "react-router";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
+import {Typography} from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
+  body: {
+    overflow: "hidden"
+  },
   root: {
     marginTop: theme.spacing(8),
-    alignItems: "center"
+    alignItems: "center",
+    overflow: "hidden"
   },
   orderContainer: {},
   grid: {
-    flexGrow: 0
+    flexGrow: 0,
+    width:'99%'
   }
 }));
 
@@ -58,7 +64,7 @@ const Tracking = () => {
           return response.json();
         })
         .then(data => {
-          if (data.data.orders)
+          //if (data.data.orders)
           setOldOrders(data.data.orders);
         });
   };
@@ -144,7 +150,16 @@ const Tracking = () => {
               <MapOrderItem value={currentOrders} />
             </Grid>
           </div>
-          :null
+          :
+          <div>
+            <TextInfoContent
+                useStyles={useN04TextInfoContentStyles}
+                heading={'Current Orders'}
+            />
+            <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+              You have no current orders!
+            </Typography>
+          </div>
       }
 
       {oldOrders ?
@@ -157,7 +172,16 @@ const Tracking = () => {
               <MapOrderItem value={oldOrders} />
             </Grid>
           </div>
-          :null
+          :
+          <div>
+            <TextInfoContent
+                useStyles={useN04TextInfoContentStyles}
+                heading={'Past Orders'}
+            />
+            <Typography className={classes.typography} color={"textPrimary"} gutterBottom>
+              You have no old orders!
+            </Typography>
+          </div>
       }
 
       <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
