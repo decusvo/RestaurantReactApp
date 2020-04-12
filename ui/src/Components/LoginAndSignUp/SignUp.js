@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import {Redirect} from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Snackbar from "@material-ui/core/Snackbar";
-import MuiAlert from "@material-ui/lab/Alert";
 import Box from "@material-ui/core/Box";
 import Copyright from "../Common/Copyright";
 import Container from "@material-ui/core/Container";
@@ -21,17 +20,7 @@ import buttonStyles from "../../Styling/buttonStyles";
 import LoginSignupStyles from "../../Styling/LoginSignupStyles";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
-
-
-/**
- * Alert function responsible for creating a Material UI alert to be displayed to the user.
- *
- * @returns A Material UI alert element instance.
- */
-
-function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />
-}
+import Alert from "@material-ui/lab/Alert";
 
 /**
  * SignUp component is responsible for registering new users and saving the credentials in the API.

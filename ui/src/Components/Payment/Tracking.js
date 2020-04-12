@@ -4,7 +4,7 @@ import {useSelector} from "react-redux";
 import TrackingItem from "./TrackingItem";
 import Grid from "@material-ui/core/Grid";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import MuiAlert from "@material-ui/lab/Alert";
+import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import {Redirect} from "react-router";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
@@ -41,16 +41,6 @@ const Tracking = () => {
   const [message, setMessage] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [paymentState, setPaymentState] = React.useState(false);
-
-  /**
-   * Alert function responsible for creating a Material UI alert to be displayed to the user.
-   *
-   * @returns A Material UI alert element instance.
-   */
-
-  function Alert(props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
-  }
 
   /**
    *  getTracking is a function which fetches from the API the list of current orders associated to that particular customer.

@@ -19,7 +19,6 @@ import LoginSignupStyles from "../../Styling/LoginSignupStyles";
 import Snackbar from "@material-ui/core/Snackbar";
 import React, { useEffect, useState } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import MuiAlert from "@material-ui/lab/Alert";
 import { Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import allActions from "../../actions";
@@ -30,16 +29,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import InputLabel from "@material-ui/core/InputLabel";
-
-/**
- * Alert function responsible for creating a Material UI alert to be displayed to the user.
- *
- * @returns A Material UI alert element instance.
- */
-
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
+import Alert from "@material-ui/lab/Alert";
 
 
 /**
