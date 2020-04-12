@@ -42,6 +42,7 @@ const WaiterMenu = () => {
     const [severity, setSeverity] = React.useState("");
     const [message, setMessage] = React.useState("");
     const [updatedItems,setUpdatedItems] = useState([]);
+    const [unavailableItems,setUnavailableItems] = useState([]);
     const classes = useStyles();
 
 
@@ -55,6 +56,13 @@ const WaiterMenu = () => {
             return response.json();
         }).then((data) => {
             setItems(data.data.items);
+            const items = []
+            data.data.items.forEach( ele => {
+                if (ele.available === false){
+                    items.push([ele.id, "Available"])
+                }
+            })
+            setUnavailableItems(items)
         });
     };
     useEffect(() => {
@@ -94,15 +102,16 @@ const WaiterMenu = () => {
     const handleReset = event => {
         /* Handles the reset of availability states back to default. */
         event.preventDefault();
-        getMenu();
-        setSeverity("success");
-        setMessage("The changes made have been reset");
-        setOpen(true);
+        handleChange(unavailableItems)
     };
 
-    const handleSubmit = event => {
-       event.preventDefault();
-       updatedItems.forEach(item => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        handleChange(updatedItems)
+    }
+
+    const handleChange = items => {
+       items.forEach(item => {
            let state = (item[1] === "Available");
            fetch("//127.0.0.1:5000/menu_item_availability", {
                method: 'POST',
