@@ -19,7 +19,7 @@ def validate_payments(request):
     #checks if card number if valid using Luhn's formula
     current_index = len(credit_card_num) - 1
     while (current_index > 0):
-        index_doubled =credit_card_num(current_index) * 2
+        index_doubled =int(credit_card_num[current_index]) * 2
         if (index_doubled > 10):
             #This is done to add the 2 integers together if index_doubled is greater than 10
             #because any number greater than 10 minus 9 is equal to the 2 digits added together
