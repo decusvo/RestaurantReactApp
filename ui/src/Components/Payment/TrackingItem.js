@@ -80,9 +80,8 @@ const TrackingItem = props => {
 
   const { orderID, tableID, allItems, totalPrice, orderState } = props;
   let renderedState = orderState;
-  console.log(orderState)
   if (renderedState === "ready_to_deliver") {
-    renderedState = "coming";
+    renderedState = "Waiting to be Served";
   }
 
   // Conditional rendering. If an order has been delivered, a Pay button has been rendered instead of Cancel.
@@ -111,8 +110,14 @@ const TrackingItem = props => {
       </Button>
     );
 
-    // If the user presses cancel, an alert is rendered on-screen for the user. The state is also sent back up to Tracking.js to cancel the particular order.
-  } else {
+
+  }
+  // we want the user to pay once its delivered so this is just prevent cancelling once its cooked
+  else if (renderedState === "Waiting to be Served") {
+    button = (<Button disabled={true} fullWidth className={classes.cta}> Cannot Cancel </Button>)
+  }
+  // If the user presses cancel, an alert is rendered on-screen for the user. The state is also sent back up to Tracking.js to cancel the particular order.
+  else {
     button = (
       <Button
         color={"secondary"}

@@ -99,7 +99,7 @@ const OrderItem = (props) => {
 
                     <CardActions disableSpacing>
 
-                        <Fab color="secondary" aria-label="cancel" onClick={() => {CancelOrderHandler(orderID);}}>
+                        <Fab color="secondary" aria-label="cancel" disabled={orderState === "ready_to_deliver"} onClick={() => {CancelOrderHandler(orderID);}}>
                             <ClearIcon />
                         </Fab>
 
