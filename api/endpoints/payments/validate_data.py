@@ -15,11 +15,22 @@ def validate_payments(request):
     if(len(credit_card_num) != 15 and len(credit_card_num) != 16):
         error_msg = "Card number not a valid size, expected size 15 or 16 got " + str(len(credit_card_num))
         return jsonify(error = {"success": False, "message":error_msg})
-
-#############################################################################################
-#--------------- NEED TO IMPLEMENT CHECKSUM TEST OF CREDIT CARD NUMBER ---------------------#
-#############################################################################################
-
+    
+    #checks if card number if valid using Luhn's formula
+    current_index = len(credit_card_num) - 1
+    while (current_index > 0):
+        index_doubled =credit_card_num(current_index) * 2
+        if (index_doubled > 10):
+            #This is done to add the 2 integers together if index_doubled is greater than 10
+            #because any number greater than 10 minus 9 is equal to the 2 digits added together
+            #For example if index_doubled is 12. 12 - 9 is 3 which is the same as 1 + 2 when 12 is broken down
+            index_double = index_doubled - 9
+        total = total + index_doubled
+        current_index = current_index - 2
+    remainder = total % 10
+    if(remainder !=0):
+        error_msg ="Card number is not valid"
+        return jsonify(error = {"success": False, "message":error_msg})
 
     cvv = request.json.get("cvv")
 
