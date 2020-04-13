@@ -21,6 +21,7 @@ import LoginSignupStyles from "../../Styling/LoginSignupStyles";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import Alert from "@material-ui/lab/Alert";
+import History from "../../utils/history";
 
 /**
  * SignUp component is responsible for registering new users and saving the credentials in the API.
@@ -295,7 +296,7 @@ const SignUp = (props) => {
                             </Grid>
                             <Grid container justify="flex-end">
                                 <Grid item >
-                                    <Link href="#" variant="body1">
+                                    <Link onClick={() => History.push("/Login")} variant="body1">
                                         Already have an account? Sign in
                                     </Link>
                                 </Grid>

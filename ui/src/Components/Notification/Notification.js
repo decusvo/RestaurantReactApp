@@ -7,6 +7,8 @@ import CloseIcon from '@material-ui/icons/Close';
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import History from "../../utils/history";
+import {useSelector} from "react-redux";
 
 const styles = theme => ({
     root: {
@@ -56,17 +58,20 @@ const DialogContent = withStyles(theme => ({
 const Notification = (props) => {
     const {numberOfNotifications, open, setOpen} = props;
     const [notifications, setNotifications] = useState([]);
+    const currentUser = useSelector(state => state.currentUser);
 
     useEffect(() => {
-        fetch("//127.0.0.1:5000/get_waiter_notifications", {method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"waiter_email": "waiter@waiter.com"})
-        }).then((response) => {
-            return response.json();
-        }).then((data) => {
-            setNotifications(data.data.notifications);
-            numberOfNotifications(notifications.length)
-        });
+        if (currentUser.loggedIn && currentUser.staff){
+            fetch("//127.0.0.1:5000/get_waiter_notifications", {method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"waiter_email": currentUser.user.name})
+            }).then((response) => {
+                return response.json();
+            }).then((data) => {
+                setNotifications(data.data.notifications);
+                numberOfNotifications(notifications.length)
+            });
+        }
     }, [notifications, open]);
 
     function handleClose() {
