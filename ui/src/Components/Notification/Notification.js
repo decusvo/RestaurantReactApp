@@ -79,14 +79,15 @@ const Notification = (props) => {
     }
 
     function handleClearNotifications() {
-        fetch("//127.0.0.1:5000/clear_waiter_notifications", {method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({"waiter_email": "waiter@waiter.com"})
-        }).then((response) => {
-            return response.json();
-            }).then(data => {
-            console.log(data)
-        })
+        if (currentUser.loggedIn && currentUser.staff) {
+            fetch("//127.0.0.1:5000/clear_waiter_notifications", {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({"waiter_email": currentUser.user.name})
+            }).then((response) => {
+                return response.json();
+            })
+        }
     }
 
     const actions = [
