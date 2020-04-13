@@ -80,7 +80,8 @@ const TrackingItem = props => {
 
   const { orderID, tableID, allItems, totalPrice, orderState } = props;
   let renderedState = orderState;
-  if (renderedState === "ready_To_Deliver") {
+  console.log(orderState)
+  if (renderedState === "ready_to_deliver") {
     renderedState = "coming";
   }
 
@@ -165,7 +166,7 @@ const TrackingItem = props => {
             classes={textCardContentStyles}
             overline={"Order ".concat(orderID) + " at table ".concat(tableID)}
             heading={"Total ".concat(totalPrice)}
-            body={orderState.charAt(0).toUpperCase() + orderState.slice(1)}
+            body={renderedState.charAt(0).toUpperCase() + renderedState.slice(1)}
           />
           {button}
         </CardContent>
