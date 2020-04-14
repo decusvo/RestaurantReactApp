@@ -13,6 +13,18 @@ import Snackbar from '@material-ui/core/Snackbar';
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
+
+/**
+ * @module Waiter
+ */
+
+/**
+ * Custom CSS styling for TableAssignment.js
+ *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
+ */
+
 const useStyles = makeStyles(theme => ({
     paper: {
         marginTop: theme.spacing(1),
@@ -32,6 +44,15 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+/**
+ *
+ * TableAssignment - Responsible for allowing a waiter to assign/unassign themselves from a table.
+ *
+ * @returns {*} - a rendered container of each table card.
+ * @constructor
+ * @memberOf module:Waiter
+ */
+
 const TableAssignment = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser);
@@ -43,12 +64,28 @@ const TableAssignment = () => {
 	const [severity, setSeverity] = useState("success");
 	const [message, setMessage] = useState("You've logged in successfully");
 
-  const handleClose = (event, reason) => {
+
+    /**
+     *
+     * The handleClose function is responsible for handling the closing of the alert notification.
+     *
+     * @param event - Event information passed from a user's action.
+     * @param reason - Reason of the event
+     */
+
+
+    const handleClose = (event, reason) => {
 		if (reason === 'clickaway') {
 			return
 		}
 		setOpen(false)
 	};
+
+    /**
+     *
+     * The getAssignedTables function is responsible for fetching the assigned tables from the API and saves them in a state.
+     *
+     */
 
   const getAssignedTables = () => {
     fetch("//127.0.0.1:5000/get_tables_and_waiters", {
@@ -59,6 +96,12 @@ const TableAssignment = () => {
         setTables(data.data.tables);
     });
   };
+
+    /**
+     *
+     * The getUnassignedTables function is responsible for fetching the unassigned tables from the API and saves them in a state.
+     *
+     */
 
   const getUnassignedTables = () => {
     fetch("//127.0.0.1:5000/get_unassigned_tables", {
@@ -79,13 +122,22 @@ const TableAssignment = () => {
       return () => clearInterval(interval);
   }, []);
 
+
+    /**
+     *
+     * The getUnassignedTables function is responsible for mapping table information to the appropriate section.
+     *
+     * @param value - boolean value for mapping.
+     * @return *[] container holding TableWaiterCards for each respective table in the restaurant.
+     */
+
   const MapTables = ({value}) => {
     if (value === true){
       return tables.map((item, index) => {
         const {table_number, email} = item;
         return (
               <React.Fragment key={index}>
-                <Grid item item xs={6} xm={4} xl={3}>
+                <Grid item xs={6} xm={4} xl={3}>
                   <TableWaiterCard
                     key={index}
                     id={table_number}
