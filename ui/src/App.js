@@ -24,7 +24,7 @@ import PaymentInformation from "./Components/Payment/PaymentInformation";
 /**
  * Component that renders NavBar to all pages and creates routes to pages
  *
- * @return {string} HTML markup
+ * @return {string} HTML markup for the whole website
  * @constructor
  */
 const App = () => {
@@ -34,6 +34,10 @@ const App = () => {
     const currentUser = useSelector(state => state.currentUser);
 
     const dispatch = useDispatch();
+    /**
+     * When page is reloaded if user is logged in auto logs the user
+     * @method
+     */
     useEffect(() => dispatch(userActions.autoLogIn()),
         [dispatch]);
 

@@ -7,7 +7,6 @@ import CloseIcon from '@material-ui/icons/Close';
 import withStyles from "@material-ui/core/styles/withStyles";
 import MuiDialogContent from "@material-ui/core/DialogContent";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import History from "../../utils/history";
 import {useSelector} from "react-redux";
 
 const styles = theme => ({

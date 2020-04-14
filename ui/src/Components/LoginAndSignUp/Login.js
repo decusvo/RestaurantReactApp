@@ -30,12 +30,16 @@ import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import InputLabel from "@material-ui/core/InputLabel";
 import Alert from "@material-ui/lab/Alert";
-
+/**
+ * @module LoginAndSignUp
+ */
 
 /**
  * Login component is responsible for signing in the users.
  *
  * @returns {*} - A rendered container with the respective content.
+ * @constructor
+ * @memberOf module:LoginAndSignUp
  */
 const Login = (props) => {
     const {classes} = props;
@@ -306,6 +310,7 @@ const Login = (props) => {
 
 /**
  * Custom CSS styling for Login.js.
+ *
  * @param theme - The global MUI theme created in theme.js
  */
 const useStyles = theme => ({
@@ -315,7 +320,6 @@ const useStyles = theme => ({
 		margin: theme.spacing(0.1),
 		minWidth: 120,
 	}
-
 });
 
 export default withStyles(useStyles)(Login);

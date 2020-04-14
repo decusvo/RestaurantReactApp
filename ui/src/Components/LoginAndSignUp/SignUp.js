@@ -27,6 +27,8 @@ import History from "../../utils/history";
  * SignUp component is responsible for registering new users and saving the credentials in the API.
  *
  * @returns {*} - A rendered container with the respective content.
+ * @constructor
+ * @memberOf module:LoginAndSignUp
  */
 
 const SignUp = (props) => {
@@ -95,7 +97,7 @@ const SignUp = (props) => {
      *
      * handleTextChange function is responsible for handling the change of text fields in the sign up form.
      * @param event - Event information passed from user's entry into text fields.
-     * */
+     */
 
     const handleTextChange = (event) => {
         const name = event.target.name;
@@ -119,7 +121,7 @@ const SignUp = (props) => {
      * handleSubmit function is responsible for submitting new user credentials for registration to the API.
      *
      * @param event - user's action of pressing the submit button.
-     * */
+     */
 
     const handleSubmit = (event) => {
       event.preventDefault() ;   // prevents post trying to redirect to another page
@@ -135,7 +137,7 @@ const SignUp = (props) => {
                                 "lastname": lastName,
                                 "email": email,
                                 "password": hashedPassword,
-                                "phone_number": phoneNumber 
+                                "phone_number": phoneNumber
                               })
           }).then(response => {
             return response.json()
@@ -318,7 +320,7 @@ const SignUp = (props) => {
 };
 
 /**
- * Custome CCS styling for SignUp.js
+ * Custom CCS styling for SignUp.js
  *
  * @param theme - The global MUI theme made in theme.js
  */

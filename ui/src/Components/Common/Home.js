@@ -3,12 +3,14 @@ import logo from "../../Images/Logo.png";
 import TextInfoContent from '@mui-treasury/components/content/textInfo';
 import { useN04TextInfoContentStyles } from '@mui-treasury/styles/textInfoContent/n04';
 
+
 /**
  * The Home  component renders the landing page content.
  *
  * @returns A container with information to be rendered.
+ * @constructor
+ * @memberOf module:Common
  */
-
 const Home = () => {
 
 
