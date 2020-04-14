@@ -11,10 +11,11 @@ import Alert from "@material-ui/lab/Alert";
 import formStyles from "../../Styling/formStyles";
 
 /**
- * useStyles contains CSS styling for the PaymentForm.js
+ * Custom CSS styling for PaymentForm.js.
  *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
-
 const useStyles = makeStyles(theme => ({
   ...formStyles(theme)
 }));
@@ -23,9 +24,10 @@ const useStyles = makeStyles(theme => ({
 /**
  * PaymentForm lets the customer enter payment and pay for the particular order that they have chosen in Tracking.js
  * @returns {*} - A container holding all content
+ * @constructor
+ * @memberOf module:Payment
  */
-
-export default function PaymentForm() {
+function PaymentForm() {
   const classes = useStyles();
   const [redirectToSummary, setRedirectToSummary] = React.useState(false);
   const [cardName, setCardName] = React.useState("");
@@ -42,7 +44,6 @@ export default function PaymentForm() {
    *   submitPayment is a function which sends customer details to be verified by the API which were collected from the respective text fields.
    *   The API response is saved locally, as well as the customers name.
    */
-
   const submitPayment = () => {
     fetch("//127.0.0.1:5000/verify_payment", {
       method: "POST",
@@ -94,10 +95,9 @@ export default function PaymentForm() {
   /**
    * invalidPayment is a function which gives the user a notification if the API cannot successfully verify details.
    */
-
   const invalidPayment = (msg, severity) => {
     setMessage(msg);
-    setSeverity(severity)
+    setSeverity(severity);
     setOpenAlert(true);
   };
 
@@ -108,7 +108,6 @@ export default function PaymentForm() {
    * @param event - Event information passed from a user's action.
    * @param reason - Reason of the event
    */
-
   const handleClose = (event, reason) => {
     // Handles the closing of a notification.
     if (reason === "clickaway") {
@@ -122,7 +121,6 @@ export default function PaymentForm() {
    *  handleSortCode function takes the value entered in the sort code text field and updates the value of the CardSortCode state accordingly.
    * @param event - User's action of entering into the sort code text field.
    */
-
   const handleSortCode = event => {
     setCardSortCode(event.target.value);
   };
@@ -131,7 +129,6 @@ export default function PaymentForm() {
    *  handleName function takes the value entered in the cardholder name text field and updates the values of the CardName state.
    * @param event - User's action of entering into the cardholder's name text field.
    */
-
   const handleName = event => {
     setCardName(event.target.value);
   };
@@ -141,7 +138,6 @@ export default function PaymentForm() {
    *  handleNumber function takes the value entered in the cardholder name text field and updates the values of the CardNumber state.
    * @param event - User's action of entering into the cardholder's card number text field.
    */
-
   const handleNumber = event => {
     setCardNumber(event.target.value);
   };
@@ -150,8 +146,6 @@ export default function PaymentForm() {
    * handleExpiry function takes the value entered in the cardholder name text field and updates the values of the CardExpiry state.
    * @param event - User's action of entering into the card's expiry date text field.
    */
-
-
   const handleExpiry = event => {
     setCardExpiry(event.target.value);
   };
@@ -160,7 +154,6 @@ export default function PaymentForm() {
    * handleCVV function takes the value entered in the cardholder name text field and updates the values of the CardCVV state.
    * @param event - User's action of entering into the card's CVV text field.
    */
-
   const handleCVV = event => {
     setCardCVV(event.target.value);
   };
@@ -168,7 +161,6 @@ export default function PaymentForm() {
   /**
    *  handleBack is responsible for changing the state of RedirectToSummary. Once set to true, a ternary expression redirects the user to OrderSummary page.
    */
-
   const handleBack = () => {
     setRedirectToSummary(true);
   };
@@ -177,7 +169,6 @@ export default function PaymentForm() {
    * uponConfirmation function is responsible for calling the function to update the order and then redirect the customer to the post payment page.
    * @returns {*} - A redirection to PostPaymentPage.js
    */
-
   const uponConfirmation = () => {
     updateOrder();
 
@@ -189,7 +180,6 @@ export default function PaymentForm() {
    * Upon paying, a response is given. If the response is successful the customer is redirected.
    * If the API response is not a success, then the customer is notified via an on-screen alert.
    */
-
   return (
     <React.Fragment>
       {redirectToSummary ? <Redirect to="/OrderSummary" /> : null}
@@ -282,6 +272,8 @@ export default function PaymentForm() {
   );
 }
 
+export default PaymentForm
+
 /**
  * Used https://material-ui.com/getting-started/templates/checkout/ template as inspiration.
- */ 
+ */

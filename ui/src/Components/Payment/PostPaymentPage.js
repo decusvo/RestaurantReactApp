@@ -6,10 +6,11 @@ import { Redirect } from "react-router";
 import buttonStyles from "../../Styling/buttonStyles";
 
 /**
- * useStyles contains CSS styling for the PostPaymentPage.js
+ * Custom CSS styling for PostPaymentPage.js.
  *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
-
 const useStyles = makeStyles((theme) => ({
     header : {
         textAlign: 'center',
@@ -26,9 +27,11 @@ const useStyles = makeStyles((theme) => ({
 
 /**
  * PostPaymentPage is a page shown to the customer after paying for the order. The customer is shown feedback depending on their success/failure of payment.
+ *
  * @returns {*} - A container holding all content
+ * @constructor
+ * @memberOf module:Payment
  */
-
 const PostPaymentPage = () => {
   const classes = useStyles();
   const [buttonClicked, setButtonClicked] = React.useState(false);
@@ -41,7 +44,6 @@ const PostPaymentPage = () => {
     /**
      * handleRedirection is responsible for changing the state responsible for redirecting the customer back to the menu.
      */
-
   const handleRedirection = () => {
       setButtonClicked(true);
   };

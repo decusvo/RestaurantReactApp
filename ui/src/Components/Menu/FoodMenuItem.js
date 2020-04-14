@@ -17,6 +17,13 @@ import { useWideCardMediaStyles } from "@mui-treasury/styles/cardMedia/wide";
 import { useConfirm } from "material-ui-confirm";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 
+
+/**
+ * Custom CSS styling for FoodMenuItem.js.
+ *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
+ */
 const useStyles = makeStyles(() => ({
   root: {
     maxWidth: 304,
@@ -33,6 +40,14 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
+/**
+ * Component that displays a single dish and its information
+ *
+ * @param props properties passed in FoodMenuItem
+ * @return {*} A card that contains information about the item
+ * @constructor
+ * @memberOf module:Menu
+ */
 const FoodMenuItem = props => {
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -41,6 +56,9 @@ const FoodMenuItem = props => {
   const mediaStyles = useWideCardMediaStyles();
   const confirm = useConfirm();
 
+  /**
+   * Opens dialog for nutritional information
+   */
   const openDialog = () => {
     confirm({
       title: "Nutritional Information",
@@ -55,11 +73,24 @@ const FoodMenuItem = props => {
     height: "100%"
   };
 
+  /**
+   * Calls the redux action addItem to add item from global state
+   *
+   * @param id of the dish
+   * @param value of the dish
+   * @param price of the dish
+   */
   const PlusButtonHandler = (id, value, price) => {
     setItemQuantity(itemQuantity + 1);
     dispatch(allActions.itemActions.addItem(id, value, price));
   };
 
+  /**
+   * Calls the redux action removeItem to remove item from global state
+   *
+   * @param value of the dish
+   * @param price of the dish
+   */
   const MinusButtonHandler = (value, price) => {
     if (itemQuantity > 0) {
       setItemQuantity(itemQuantity - 1);

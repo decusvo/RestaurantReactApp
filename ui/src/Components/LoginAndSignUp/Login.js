@@ -30,12 +30,16 @@ import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import InputLabel from "@material-ui/core/InputLabel";
 import Alert from "@material-ui/lab/Alert";
-
+/**
+ * @module LoginAndSignUp
+ */
 
 /**
  * Login component is responsible for signing in the users.
  *
  * @returns {*} - A rendered container with the respective content.
+ * @constructor
+ * @memberOf module:LoginAndSignUp
  */
 const Login = (props) => {
     const {classes} = props;
@@ -56,6 +60,7 @@ const Login = (props) => {
   const [rememberMe, setRememberMe] = React.useState(false);
   const [tables, setTables] = React.useState([]);
   const [table, setTable] = React.useState(-1);
+  const [disableOptions,setDisableOptions] = React.useState(false);
   localStorage.setItem("table", table.toLocaleString());
 
 	/**
@@ -111,6 +116,7 @@ const Login = (props) => {
 	 */
 
 	const handleSubmit = event => {
+	setDisableOptions(true);
     if (rememberMe === true) {
       localStorage.setItem("email", email);
       localStorage.setItem("rememberEmail", "true");
@@ -257,11 +263,12 @@ const Login = (props) => {
 								<FormControlLabel
 										control={<Checkbox value="remember" color="primary" />}
 										label="Remember me"
+										disabled={disableOptions}
 										onChange={setRemember}
 										defaultChecked={(localStorage.getItem("rememberEmail") === "true")}
 								/>
 								<FormControlLabel
-										control={<Checkbox value={staff} color="primary" onChange={handleStaff} />}
+										control={<Checkbox value={staff} color="primary" disabled={disableOptions} onChange={handleStaff} />}
 										label="Staff member?"
 								/>
 								<Button
@@ -306,7 +313,9 @@ const Login = (props) => {
 
 /**
  * Custom CSS styling for Login.js.
+ *
  * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
 const useStyles = theme => ({
   ...LoginSignupStyles(theme),
@@ -315,7 +324,6 @@ const useStyles = theme => ({
 		margin: theme.spacing(0.1),
 		minWidth: 120,
 	}
-
 });
 
 export default withStyles(useStyles)(Login);

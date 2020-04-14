@@ -8,10 +8,11 @@ import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
 
 /**
- * useStyles contains CSS styling for the PaymentInformation.js
+ * Custom CSS styling for PaymentInformation.js.
  *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
-
 const useStyles = makeStyles(theme => ({
    card: {
        padding: theme.spacing(6),
@@ -27,6 +28,12 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+/**
+ *
+ * @return {*}
+ * @constructor
+ * @memberOf module:Payment
+ */
 const PaymentInformation = () => {
     const [info, setInfo] = useState([]);
     const classes = useStyles();

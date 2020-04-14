@@ -23,7 +23,14 @@ import PanToolIcon from '@material-ui/icons/PanTool';
 import MoneyOffIcon from '@material-ui/icons/MoneyOff';
 import PaymentIcon from '@material-ui/icons/Payment';
 
-
+/**
+ * This is used to hide the NavBar when user scrolls down
+ *
+ * @param props
+ * @return {string} HTML markup for slider object
+ * @component
+ * @ignore
+ */
 function HideOnScroll(props) {
     const {children, window} = props;
 
@@ -38,6 +45,12 @@ HideOnScroll.propTypes = {
     window: PropTypes.func,
 };
 
+/**
+ * Custom CSS styling for NavBar.js.
+ *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
+ */
 const useStyles = makeStyles(({
     root: {
         flexGrow: 1,
@@ -60,17 +73,44 @@ const useStyles = makeStyles(({
     },
 }));
 
-export default function NavBar(props) {
+/**
+ * Component that is used to navigate between pages and for different type of users renders differently
+ *
+ * @param props properties passed in NavBar
+ * @return {string} HTML markup for NavBar
+ * @constructor
+ * @memberOf module:Common
+ */
+function NavBar(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
+    /**
+     * User that is logged in
+     */
     const currentUser = useSelector(state => state.currentUser);
+    /**
+     * Total price of what the user has put in to basket
+     */
     const total = useSelector(state => state.currentItems.total);
     const vertical = "bottom";
     const horizontal = "right";
+    /**
+     * To check if notification is open
+     */
     const [notificationOpen, setNotificationOpen] = useState(false);
+    /**
+     * To check the amount of notifications
+     */
     const [notificationCount, setCount] = useState(0);
+    /**
+     * Table number of the user
+     * @type {string}
+     */
     const table = localStorage.getItem("table");
 
+    /**
+     * It logs the user out when logout button is pressed
+     */
     function logOut() {
         dispatch(userActions.logOut());
         fetch("//127.0.0.1:5000/logout", {method: 'POST'})
@@ -79,10 +119,18 @@ export default function NavBar(props) {
         })
     }
 
+    /**
+     * To set the number of notifications received from the api
+     * @param number number of notifications
+     */
     const handleNumberOfNotifications = (number) => {
         setCount(number)
     };
-
+    /**
+     * First gets waiter id from given table number then creates a new notification for the waiter that says table needs help
+     * @param called from where the function is called
+     * @param waiter the id of the waiter gotten from the api with table number
+     */
     const callWaiter = (called, waiter={}) => {
         if (called === "button") {
             fetch("//127.0.0.1:5000/get_waiter_assigned_to_table", {method: 'POST',
@@ -183,3 +231,5 @@ export default function NavBar(props) {
         </div>
         );
 }
+
+export default NavBar;

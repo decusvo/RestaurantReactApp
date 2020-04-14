@@ -9,6 +9,13 @@ import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 
+/**
+ * Custom CSS styling for TableWaiterCard.js
+ *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
+ */
+
 const useStyles = makeStyles(theme => ({
     button: {
         margin: "auto",
@@ -30,10 +37,29 @@ const useStyles = makeStyles(theme => ({
 
 }));
 
+/**
+ *
+ * TableWaiterCard - Responsible for mapping table information onto a card component.
+ *
+ * @returns {*} - a rendered container of a card.
+ * @constructor
+ * @memberOf module:Waiter
+ */
+
+
 const TableWaiterCard = ( props ) => {
     const classes = useStyles();
     const {id, item, state, setOpen, setSeverity, setMessage, getAssignedTables, getUnassignedTables, currentUser} = props;
     const {firstname, lastname, email} = item;
+
+
+    /**
+     *
+     *  handleClick function is responsible for allowing a waiter to assign/unassign themselves from a table in a restaurant.
+     *
+     * @returns success or failure notification.
+     */
+
 
     const handleClick = () => {
       const waiter_id = (email ? null : currentUser.user.name);
@@ -56,7 +82,8 @@ const TableWaiterCard = ( props ) => {
           }
           getAssignedTables();
           getUnassignedTables()
-      }).catch(() => {
+      }).catch((error) => {
+        console.log(error);
         setSeverity("error");
         setMessage("Something went wrong");
         setOpen(true)

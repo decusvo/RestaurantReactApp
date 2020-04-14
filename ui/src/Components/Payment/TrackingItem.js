@@ -15,8 +15,10 @@ import cx from "clsx";
 import Button from "@material-ui/core/Button";
 
 /**
- * Custom styling for the order item.
+ * Custom CSS styling for TrackingItem.js.
  *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
 const useStyles = makeStyles(() => ({
   root: {
@@ -40,10 +42,11 @@ const useStyles = makeStyles(() => ({
 /**
  * TrackingItem is a component responsible for rendering a card containing an order's information and buttons to  cancel , pay for the order.
  *
- * @returns A container of an order card.
-
+ * @param props
+ * @return A container of an order card.
+ * @constructor
+ * @memberOf module:Payment
  */
-
 const TrackingItem = props => {
   let button;
   const classes = useStyles();
@@ -56,7 +59,6 @@ const TrackingItem = props => {
    *
    * @returns A container to be rendered
    */
-
   const MapOrderInfo = ({ items }) => {
     return items.map((dish, index) => {
       let { name, cumulative_price } = dish;
@@ -77,7 +79,9 @@ const TrackingItem = props => {
   };
 
   // The information passed as props from the Tracking.js is initialized as variables for later use.
-
+  /**
+   * The information passed as props from the Tracking.js is initialized as variables for later use.
+   */
   const { orderID, tableID, allItems, totalPrice, orderState } = props;
   let renderedState = orderState;
   if (renderedState === "ready_to_deliver") {
@@ -137,7 +141,6 @@ const TrackingItem = props => {
    * renderOrderSubMenu function is responsible for rendering the panel of each card containing a minimal order summary for that particular order.
    * @returns a container with a collapsible panel.
    */
-
   const renderOrderSubMenu = () => {
     return (
       <ExpansionPanel color={"primary"}>

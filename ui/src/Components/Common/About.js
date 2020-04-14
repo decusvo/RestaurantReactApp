@@ -2,10 +2,13 @@ import React from 'react';
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 
+
 /**
  * The About  component renders information describing the restaurant.
  *
  * @returns A container with information about the restaurant.
+ * @class
+ * @memberOf module:Common
  */
 const About = () => {
 

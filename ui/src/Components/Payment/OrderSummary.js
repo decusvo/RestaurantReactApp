@@ -11,12 +11,16 @@ import Button from "@material-ui/core/Button";
 import { Redirect } from "react-router";
 import formStyles from "../../Styling/formStyles";
 
-
 /**
- * useStyles contains CSS styling for the OrderSummary.js
- *
+ * @module Payment
  */
 
+/**
+ * Custom CSS styling for OrderSummary.js.
+ *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
+ */
 const useStyles = makeStyles(theme => ({
   ...formStyles(theme)
 }));
@@ -25,9 +29,10 @@ const useStyles = makeStyles(theme => ({
  * OrderSummary page is responsible for rendering the dish information for the particular order the customer chose to pay for.
  *
  * @returns {*} - A container with the content to be rendered.
+ * @constructor
+ * @memberOf module:Payment
  */
-
-export default function OrderSummary() {
+function OrderSummary() {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser);
   const [currentOrder, setCurrentOrder] = React.useState();
@@ -39,7 +44,6 @@ export default function OrderSummary() {
   /**
    * handleBack function is responsible for changing the state of RedirectToTracking. Once it is true, a ternary expression in the return clause triggers a redirection to Tracking.js
    */
-
   const handleBack = () => {
     setRedirectToTracking(true);
   };
@@ -47,7 +51,6 @@ export default function OrderSummary() {
   /**
    * handleNext function is responsible for changing the state of RedirectToPayment. Once it is true, a ternary expression in the return clause triggers a redirection to PaymentForm.js
    */
-
   const handleNext = () => {
     setRedirectToPayment(true);
   };
@@ -57,7 +60,6 @@ export default function OrderSummary() {
    * @param value - an array containing order information.
    * @returns A list of dishes with their quantities and prices.
    */
-
   const MapOrderItem = ({ value }) => {
     return value.map((ele, index) => {
       const { name, cumulative_price, quantity } = ele;
@@ -74,7 +76,6 @@ export default function OrderSummary() {
   /**
    *  getSummary is a function which fetches the particular order relating to the customer. The response is stored in a state. The orderSummary component is notified via LoadedOrders to render the content.
    */
-
   const getSummary = () => {
     fetch("//127.0.0.1:5000/get_order", {
       method: "POST",
@@ -149,6 +150,7 @@ export default function OrderSummary() {
   );
 }
 
+export default OrderSummary;
 /**
  * Used https://material-ui.com/getting-started/templates/checkout/ template as inspiration.
  */

@@ -11,6 +11,14 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Alert from "@material-ui/lab/Alert";
 import buttonStyles from "../../Styling/buttonStyles";
 
+
+/**
+ * Custom CSS styling for WaiterMenu.js.
+ *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
+ */
+
 const useStyles = makeStyles(theme => ({
 
     paper: {
@@ -28,9 +36,15 @@ const useStyles = makeStyles(theme => ({
     ...buttonStyles(theme)
 }));
 
-/*
- * This menu is responsible for showing all the dishes available to the waiter.
- * Each dish will show a drop-down menu with availability choices, selected dishes will be updated once the submit button is pressed to submit the states.
+
+/**
+ *
+ * WaiterMenu - component responsible for displaying all the dishes available to the waiter.
+ * Each dish will show a drop-down menu with availability choices, selected dishes will be updated once the submit button is pressed to submit the new availability.
+ *
+ * @returns {*} - a rendered container of each menu item.
+ * @constructor
+ * @memberOf module:Waiter
  */
 
 const WaiterMenu = () => {
@@ -46,7 +60,12 @@ const WaiterMenu = () => {
     const classes = useStyles();
 
 
-    // Calls the API to get the current menu items.
+    /**
+     *
+     * GetMenu is responsible for fetching the set of items from the API.
+     *
+     * @returns {*} - A list of items with their respective availability states.
+     */
     const getMenu = () => {
         fetch("//127.0.0.1:5000/menu", {
             method: 'POST',
@@ -56,12 +75,12 @@ const WaiterMenu = () => {
             return response.json();
         }).then((data) => {
             setItems(data.data.items);
-            const items = []
+            const items = [];
             data.data.items.forEach( ele => {
                 if (ele.available === false){
                     items.push([ele.id, "Available"])
                 }
-            })
+            });
             setUnavailableItems(items)
         });
     };
@@ -70,13 +89,25 @@ const WaiterMenu = () => {
     }, []);
 
 
-    // Updates array of items that need a state update. Function is passed as a prop to be called back by child component.
+    /**
+     *
+     * handleState updates array of items that need a state update. Function is passed as a prop to be called back by child component (waiterMenuItem)
+     *
+     */
+
     const handleState = (item) => {
         // Item is the "ID,state" pair. that is added to the updatedArray state.
         let tempArray = updatedItems;
         tempArray.push(item);
         setUpdatedItems(tempArray);
     };
+
+    /**
+     * MapWaiterMenuItem uses the set of items retrieved from getMenu to map the relevant information to the WaiterMenuItem components.
+     *
+     * @param value which is the type of dish
+     * @return a list WaiterMenuItem objects
+     */
 
     const MapWaiterMenuItem = ({value}) => {
         return items.map((dish, index) => {
@@ -91,6 +122,14 @@ const WaiterMenu = () => {
         });
     };
 
+    /**
+     *
+     * The handleClose function is responsible for handling the closing of the alert notification.
+     *
+     * @param event - Event information passed from a user's action.
+     * @param reason - Reason of the event
+     */
+
     const handleClose = (event, reason) => {
         // Handles the closing of a notification.
         if (reason === 'clickaway') {
@@ -99,16 +138,37 @@ const WaiterMenu = () => {
         setOpen(false)
     };
 
+    /**
+     *
+     * handleReset function is responsible for handling the resetting of the availability states of dishes.
+     *
+     * @param event - Event information passed from a user's action , the button click.
+     */
+
     const handleReset = event => {
         /* Handles the reset of availability states back to default. */
         event.preventDefault();
         handleChange(unavailableItems)
     };
 
+    /**
+     *
+     * handleSubmit function is responsible for handling the submission of the availability states of dishes.
+     *
+     * @param event - Event information passed from a user's action , the button click.
+     */
+
     const handleSubmit = (event) => {
         event.preventDefault();
         handleChange(updatedItems)
-    }
+    };
+
+    /**
+     *
+     * handleChange function is responsible for handling the sending the updated item availabilities to the API.
+     *
+     * @param items - the list of items with their availability states.
+     */
 
     const handleChange = items => {
        items.forEach(item => {
