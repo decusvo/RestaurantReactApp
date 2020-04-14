@@ -45,6 +45,12 @@ HideOnScroll.propTypes = {
     window: PropTypes.func,
 };
 
+/**
+ * Custom CSS styling for NavBar.js.
+ *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
+ */
 const useStyles = makeStyles(({
     root: {
         flexGrow: 1,

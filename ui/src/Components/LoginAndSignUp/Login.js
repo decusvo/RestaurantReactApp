@@ -312,6 +312,7 @@ const Login = (props) => {
  * Custom CSS styling for Login.js.
  *
  * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
 const useStyles = theme => ({
   ...LoginSignupStyles(theme),

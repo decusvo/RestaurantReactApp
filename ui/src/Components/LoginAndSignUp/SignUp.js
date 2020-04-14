@@ -320,11 +320,11 @@ const SignUp = (props) => {
 };
 
 /**
- * Custom CCS styling for SignUp.js
+ * Custom CSS styling for SignUp.js.
  *
- * @param theme - The global MUI theme made in theme.js
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
-
 const useStyles = theme => ({
     avatar: {
         margin: theme.spacing(1),

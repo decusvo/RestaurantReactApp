@@ -12,9 +12,10 @@ import TextInfoContent from "@mui-treasury/components/content/textInfo";
  */
 
 /**
- * Custom CSS styling for Login.js.
+ * Custom CSS styling for WaiterDashboard.js.
  *
  * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
 const useStyles = theme => ({
     root: {
@@ -52,10 +53,15 @@ const _ = require('lodash');
 const WaiterDashboard = (props) => {
     const {classes} = props;
 
-    //state variables
+    /**
+     * State variables
+     */
     const [state, setState] = useState({requested: [], cooking: [], ready_to_deliver: []});
 
     //Function called at an interval to refresh the state and re-render the dashboard.
+    /**
+     * Function called at an interval to refresh the state and re-render the dashboard.
+     */
     useEffect(() => {
         const interval = setInterval(() => {
             const orderStates = ["requested", "ready_to_deliver", "cooking"];

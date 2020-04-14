@@ -14,10 +14,11 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 
 
 /**
- * useStyles contains CSS styling for the WaiterMenuItem.js
+ * Custom CSS styling for WaiterMenuItem.js.
  *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
-
 const useStyles = makeStyles(theme => ({
     form: {
         width: '100%',
@@ -42,6 +43,8 @@ const useStyles = makeStyles(theme => ({
 /**
  * WaiterMenuItem is a component responsible for rendering each available menu item with their respective availability states and updating them.
  * @returns {*} - A container with the respective content.
+ * @constructor
+ * @memberOf module:Waiter
  */
 
 const WaiterMenuItem = ( props ) => {
@@ -52,7 +55,6 @@ const WaiterMenuItem = ( props ) => {
      * handleChange function handles the change of radio button that updates the state of dish availability.
      * @param event - The user's action on the radio buttons.
      */
-
     const handleChange = event => {
         let itemID = id;
         let state = event.target.value;

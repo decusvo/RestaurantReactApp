@@ -13,10 +13,11 @@ import {Typography} from "@material-ui/core";
 
 
 /**
- * Custom styling for the tracking page.
+ * Custom CSS styling for Tracking.js.
  *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
  */
-
 const useStyles = makeStyles(theme => ({
   body: {
     overflow: "hidden"
@@ -37,8 +38,9 @@ const useStyles = makeStyles(theme => ({
  * Tracking is responsible for rendering current and old order cards for that particular customer.
  *
  * @returns a container with a list of TrackingItem instances.
+ * @constructor
+ * @memberOf module:Payment
  */
-
 const Tracking = () => {
   const classes = useStyles();
   const currentUser = useSelector(state => state.currentUser); // Get username.
@@ -51,7 +53,6 @@ const Tracking = () => {
   /**
    *  getTracking is a function which fetches from the API the list of current orders associated to that particular customer.
    */
-
   const getTracking = () => {
     fetch("//127.0.0.1:5000/get_cust_orders", {
       method: "POST",
@@ -69,7 +70,6 @@ const Tracking = () => {
   /**
    *  getOldTracking is a function which fetches from the API the list of past orders associated to that particular customer.
    */
-
   const getOldTracking = () => {
     fetch("//127.0.0.1:5000/get_old_cust_orders", {
       method: "POST",
@@ -97,7 +97,6 @@ const Tracking = () => {
   /**
    * userAlert is a function responsible for updating the alert message and opening the alert message.
    */
-
   const userAlert = () => {
     setMessage("Order has been cancelled");
     setOpen(true);
@@ -110,7 +109,6 @@ const Tracking = () => {
    * @param event - Event information passed from a user's action.
    * @param reason - Reason of the event
    */
-
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -125,7 +123,6 @@ const Tracking = () => {
    * @param id - The ID of an order being updated.
    * @param state - The current state of the order.
    */
-
   const updateState = (id, state) => {
     fetch("//127.0.0.1:5000/order_event", {
       method: "POST",
@@ -149,7 +146,6 @@ const Tracking = () => {
    * Responsible for updating the state such that the user gets redirected to the orderSummary.js page to pay.
    * @param orderID
    */
-
   function paymentRedirection(orderID) {
     setPaymentState(true);
     localStorage.setItem('ProcessedOrderID', orderID);
@@ -161,7 +157,6 @@ const Tracking = () => {
    * @param value - an array containing order information.
    * @returns A tracking item container
    */
-
   const MapTrackingItem = ({ value }) => {
     return value.map((ele, index) => {
       const { id, items, ordered_time, price, state, table_number } = ele;

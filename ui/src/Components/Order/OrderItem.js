@@ -16,10 +16,16 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 
 /**
+ * @module Order
+ */
+
+/**
  * Order Item component is responsible for displaying order items to the waiter.
  *
  * @param  props - orderState, tableID, orderID, allItems, time, totalPrice
  * @returns {*} - A rendered grid containing a list of orders
+ * @constructor
+ * @memberOf module:Order
  */
 
 const OrderItem = (props) => {
