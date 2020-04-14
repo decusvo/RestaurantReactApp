@@ -20,13 +20,12 @@ import PostPaymentPage from "./Components/Payment/PostPaymentPage";
 import TableAssignment from "./Components/Waiter/TableAssignment"
 import PaymentInformation from "./Components/Payment/PaymentInformation";
 
+
 /**
  * Component that renders NavBar to all pages and creates routes to pages
  *
- * @component
- * @example
- * const currentUser = {user: {name: "example@example.com, staff: false}, loggedIn: true, staff: false}
- * return (<App />)
+ * @return {string} HTML markup
+ * @constructor
  */
 const App = () => {
     /**
@@ -45,7 +44,7 @@ const App = () => {
                         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
                         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 
-                        
+
                         <NavBar />
 
                         <Route exact path="/">
