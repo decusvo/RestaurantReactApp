@@ -76,7 +76,7 @@ const useStyles = makeStyles(({
 /**
  * Component that is used to navigate between pages and for different type of users renders differently
  *
- * @param props
+ * @param props properties passed in NavBar
  * @return {string} HTML markup for NavBar
  * @constructor
  * @memberOf module:Common

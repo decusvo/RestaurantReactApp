@@ -9,6 +9,16 @@ import MuiDialogContent from "@material-ui/core/DialogContent";
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {useSelector} from "react-redux";
 
+/**
+ * @module Notification
+ */
+
+/**
+ * Custom CSS styling for Notification.js.
+ *
+ * @param theme - The global MUI theme created in theme.js
+ * @ignore
+ */
 const styles = theme => ({
     root: {
         margin: 0,
@@ -21,6 +31,13 @@ const styles = theme => ({
     },
 });
 
+/**
+ * Maps notifications to text items
+ *
+ * @param props properties passed in MapNotifications
+ * @return {*} a list of notifications
+ * @constructor
+ */
 const MapNotifications = (props) => {
     const {notifications} = props;
     if (notifications !== []) {
@@ -36,6 +53,13 @@ const MapNotifications = (props) => {
     }
 };
 
+/**
+ * Adds close button to dialog title
+ *
+ * @param props properties passed in DialogTitle
+ * @return {*} dialog title with a close button
+ * @constructor
+ */
 const DialogTitle = withStyles(styles)(props => {
     const {children, classes, onClose, ...other} = props;
     return (
@@ -47,18 +71,36 @@ const DialogTitle = withStyles(styles)(props => {
     );
 });
 
+/**
+ * Changes the style of DialogContent
+ *
+ * @return {*} styled dialog content
+ * @constructor
+ */
 const DialogContent = withStyles(theme => ({
     root: {
         padding: theme.spacing(2),
     },
 }))(MuiDialogContent);
 
-
+/**
+ * Component that shows all the notifications that waiter has in a dialog window
+ *
+ * @param props properties passed in Notification
+ * @return {*} a dialog window with all the notifications mapped
+ * @constructor
+ */
 const Notification = (props) => {
     const {numberOfNotifications, open, setOpen} = props;
     const [notifications, setNotifications] = useState([]);
+    /**
+     * User that is logged in
+     */
     const currentUser = useSelector(state => state.currentUser);
 
+    /**
+     * React hook that checks if there is a new waiter notification every second
+     */
     useEffect(() => {
         if (currentUser.loggedIn && currentUser.staff){
             fetch("//127.0.0.1:5000/get_waiter_notifications", {method: 'POST',
@@ -73,10 +115,16 @@ const Notification = (props) => {
         }
     }, [notifications, open]);
 
+    /**
+     * Closes the dialog screen
+     */
     function handleClose() {
         setOpen(false)
     }
 
+    /**
+     * Clears all the notifications that the waiter has with a button click
+     */
     function handleClearNotifications() {
         if (currentUser.loggedIn && currentUser.staff) {
             fetch("//127.0.0.1:5000/clear_waiter_notifications", {
@@ -89,6 +137,10 @@ const Notification = (props) => {
         }
     }
 
+    /**
+     * All the possible actions that can be done from the dialog screen
+     * @type {[]}
+     */
     const actions = [
         <FlatButton
             label="Clear"
