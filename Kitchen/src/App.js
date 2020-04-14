@@ -34,10 +34,21 @@ const useStyles = theme => ({
 
 const _ = require('lodash');
 
+/**
+ *
+ * WaiterDashboard - component responsible for displaying the dashboard
+ * where the kitchenstaff can change state of the orders
+ * @param props
+ * @returns {*} - a rendered container of three lists containing order from differend sates
+ * @constructor
+ */
 const WaiterDashboard = (props) => {
     const {classes} = props;
+
+    //state variables
     const [state, setState] = useState({cooking: [], ready_to_deliver: []});
 
+    //Function called at an interval to refresh the state and re-render the dashboard.
     useEffect(() => {
         const interval = setInterval(() => {
             const orderStates = ["requested", "ready_to_deliver", "cooking"];
@@ -66,6 +77,14 @@ const WaiterDashboard = (props) => {
         return () => clearInterval(interval);
     }, [state]);
 
+    /**
+     *
+     * MapOrderItem - maps all the orders as cards.
+     * called for each of three state columns.
+     * @param {value} - a list of all orders.
+     * @param {reverse} - set to false so it cant change state backwords
+     * @returns {*} - a map of orders as cards
+     * */
     const MapOrderItem = ({value, reverse=false}) => {
         if (reverse){
             value.reverse()
