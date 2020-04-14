@@ -1,6 +1,4 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 from common import connector, validate_functions as vf
 
 
@@ -62,6 +60,7 @@ def validate(request):
 
 	return None
 
+
 def validate_order_event(request):
 	error = vf.sent_expected_values(["order_id", "order_event"], request)
 	if error:
@@ -88,7 +87,8 @@ def validate_order_event(request):
 	result = connector.execute_query(query, (order_state, event))
 
 	print("PRINTING FROM VALIDATE_ORDERS: ", result[0][0])
-
+	# database will return error if there is a movement from one state to another that is not valid
+	# or if the event sent is not valid, see func_schema.sql to see the inner workings
 	if result[0][0] == "error":
 		print("ERROR FOUND")
 		error_msg = "Given event cannot be performed on this order."
@@ -112,6 +112,7 @@ def validate_get_orders(request):
 
 	return None
 
+
 def validate_get_cust_order(request):
 	error = vf.sent_expected_values(["cust_id"], request)
 	if error:
@@ -126,9 +127,11 @@ def validate_get_cust_order(request):
 		return jsonify({"success":False, "message": error_msg})
 	return None
 
+
 def validate_get_order(request):
+	# using validate functions to do common checking, if the user exists
 	error = validate_get_cust_order(request)
-	if error != None:
+	if error is not None:
 		return error
 
 	error = vf.sent_expected_values(["order_id"], request)
@@ -145,9 +148,11 @@ def validate_get_order(request):
 
 	return None
 
+
 def validate_get_waiters_orders(request):
+	# using validate functions to do common checking, here we are checking if the user exists
 	error = validate_get_orders(request)
-	if error != None:
+	if error is not None:
 		return error
 
 	error = vf.sent_expected_values(["waiter_id"], request)

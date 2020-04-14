@@ -1,6 +1,4 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 try:
 	from . import validate_notifications as vn
 except:
@@ -28,7 +26,6 @@ def add_waiter_notification():
 	return jsonify(data={"added_message" : message, "from" : waiter_email, "to" : customer_email, "success" : True})
 
 
-
 @bp.route("/get_waiter_notifications", methods=["POST"])
 def get_waiter_notifications():
 	error = vn.validate_get_waiter_notifications(request)
@@ -42,8 +39,6 @@ def get_waiter_notifications():
 	
 	return jsonify(data={"notifications" : notifications, "success" : True})
 	
-		
-
 
 @bp.route("/clear_waiter_notifications", methods=["POST"])
 def clear_waiter_notifications():

@@ -1,3 +1,5 @@
+// Code copied and modified from material-ui website
+// https://material-ui.com/components/snackbars/
 import React from 'react'
 import {Typography, Fab, CardContent, createMuiTheme} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
@@ -11,6 +13,14 @@ import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import {blue, red} from "@material-ui/core/colors";
 import ClearIcon from '@material-ui/icons/Clear';
 
+/**
+ *
+ * OrderItems - component responsible for displaying the notification to the waiter
+ * where the waiter can view the message in the notification
+ * @param props
+ * @returns {*} - returns value of the notification
+ * @constructor
+ */
 const OrderItem = (props) => {
 
     const notifyWaiter = (called, waiter={}) => {
@@ -35,6 +45,11 @@ const OrderItem = (props) => {
         }
     };
 
+    /**
+     * NextStateHandler - handles when the blue arrow to move state is clicked, calls updateState function.
+     * @param orderState - the current order state of the order that's been clicked.
+     * @param orderID - the order id of the order that's been clicked.
+     */
     const NextStateHandler = (orderState, orderID) => {
         //check if order state is "cooking"
         if (orderState === "cooking") {
@@ -44,10 +59,22 @@ const OrderItem = (props) => {
 
     };
 
+    /**
+     *
+     * CancelOrderHandler - handles when the red cross is clicked, calls updateState function.
+     * @param orderID - ID of the order to be cancelled.
+     * */
     const CancelOrderHandler = (orderID) => {
         updateState(orderID, "cancel");
     };
 
+    /**
+     *
+     * updateState - handles all cases where the state of an order needs to be changed: advanced or cancelled.
+     * @param id - ID of the order whose state needs to be updated.
+     * @param state - the new state you wish the order to take.
+     * @returns {*} - a json object of either a success or error.
+     * */
     const updateState = (id, state) => {
         fetch("//127.0.0.1:5000/order_event", {
             method: 'POST',
@@ -60,8 +87,12 @@ const OrderItem = (props) => {
         });
     };
 
-
-    //maps all items in the order
+    /**
+     *
+     * MapOrderItem - maps all the items in an order as cards.
+     * @param items - a list of all items in the order.
+     * @returns {*} - a map of cards that each contain info about a specific item in the order.
+     * */
     const MapOrderItem = ({items}) => {
         return items.map((dish, index) => {
 
@@ -80,7 +111,12 @@ const OrderItem = (props) => {
         })
     };
 
-    //checks if order is in the cooking state or not
+    /**
+     *
+     * isFabDisabled - decides whether a button should be disabled or not .
+     * @param orderState - the state of the mapped order.
+     * @returns {*} - true if it should be disabled, false if it should not.
+     * */
     const isFabDisabled = (orderState) => {
         return orderState === "ready_to_deliver";
     };

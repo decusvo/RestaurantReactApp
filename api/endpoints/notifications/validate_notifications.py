@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 from common import connector, validate_functions as vf
+
 
 def validate_notification(request):
 	error = vf.sent_expected_values(["message", "waiter_email", "customer_email"], request)

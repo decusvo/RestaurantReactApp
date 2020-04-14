@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, Blueprint
-import psycopg2
 from common import connector
 from . import validate_sign_up
 

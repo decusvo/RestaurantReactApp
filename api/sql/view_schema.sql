@@ -1,6 +1,8 @@
 DROP VIEW IF EXISTS ordered_items_and_price;
 DROP VIEW IF EXISTS total_order_price;
 DROP VIEW IF EXISTS ordered_item_and_quantity;
+DROP VIEW IF EXISTS ordered_item_array;
+DROP VIEW IF EXISTS all_order_details;
 
 CREATE VIEW ordered_items_and_price AS
 	SELECT ordered_item_id, order_id, menu_item_id, price

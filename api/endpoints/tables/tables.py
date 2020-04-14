@@ -1,20 +1,20 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 from common import connector, validate_functions as vf
 from . import validate_tables
 
 
 bp = Blueprint("tables blueprint", __name__)
 
+
 @bp.route("/get_tables", methods=["POST"])
 def get_tables():
     query = "SELECT table_number AS table_numbers FROM table_details ORDER BY table_number"
     result = connector.execute_query(query)
     output = []
-    for ele in result:
+    for ele in result:  # puts the tables in the array and sends the array as the result instead of a array of json objs
         output.append(ele[0])
-    return jsonify(data={"tables":output})
+    return jsonify(data={"tables": output})
+
 
 @bp.route("/get_tables_and_waiters", methods=["POST"])
 def get_tables_and_waiters():
@@ -26,7 +26,8 @@ def get_tables_and_waiters():
             "AS order_list;"
     result = connector.execute_query(query)
 
-    return jsonify(data={"tables":result[0][0]})
+    return jsonify(data={"tables": result[0][0]})
+
 
 @bp.route("/get_unassigned_tables", methods=["POST"])
 def get_unassigned_tables():
@@ -38,7 +39,8 @@ def get_unassigned_tables():
             "AS order_list;"
     result = connector.execute_query(query)
 
-    return jsonify(data={"tables":result[0][0]})
+    return jsonify(data={"tables": result[0][0]})
+
 
 @bp.route("/table_assignment_event", methods=["POST"])
 def table_assignment_event():
@@ -57,6 +59,7 @@ def table_assignment_event():
 
     return jsonify(data = {"success":True})
 
+
 @bp.route("/get_waiter_assigned_to_table", methods=["POST"])
 def get_waiter_assigned_to_table():
     error = validate_tables.validate_table(request)
@@ -65,7 +68,7 @@ def get_waiter_assigned_to_table():
 
     table_id = request.json.get("table_id")
 
-    # assignes a waiter to the table if there is none
+    # assigns a waiter to the table if there is none
     vf.auto_assign_waiter(table_id)
 
     query = "SELECT waiter_id FROM table_details WHERE table_number = %s;"

@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 from common import connector, validate_functions as vf
+
 
 def validate_table(request):
     error = vf.sent_expected_values(["table_id"], request)
@@ -20,6 +19,7 @@ def validate_table(request):
         return jsonify(error = {"success":False, "message": error_msg})
 
     return None
+
 
 def validate_event(request):
     error = validate_table(request)
