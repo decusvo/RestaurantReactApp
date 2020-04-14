@@ -24,7 +24,7 @@ def create_order():
 	order_id = result[0]
 
 	items_added = []
-
+	# because we are given a list of menu items we have to loop through and add them one by one
 	for menu_item_id in items:
 		try:
 			query = "INSERT INTO ordered_items (order_id, menu_item_id) VALUES (%s, %s)"

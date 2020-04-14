@@ -1,13 +1,14 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 from common import connector, validate_functions as vf
 
+
+# checks if all the essential information is provided in request
 def validate_user(request):
     error = vf.sent_expected_values(["email", "firstname", "lastname", "password"], request)
     if error:
         return error
     return None
+
 
 def validate_customer(request):
     error = validate_user(request)
@@ -25,6 +26,7 @@ def validate_customer(request):
 
     return None
 
+
 def validate_waiter(request):
     error = validate_user(request)
     if error:
@@ -36,7 +38,7 @@ def validate_waiter(request):
 
     phone_number = request.json.get('phone_number')
     # if the phone number is not an integer and of length 11
-    if len(phone_number) != 11 and type(phone_number) != type(1):
+    if len(phone_number) != 11 and isinstance(phone_number, int):
         error_msg = "Phone number was not a valid input must be 07 followed by 9 digits"
         return jsonify(error = {"success":False, "message": error_msg})
 

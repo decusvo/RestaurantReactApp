@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 from common import connector, validate_functions as vf
+
 
 def validate_table(request):
     error = vf.sent_expected_values(["table_id"], request)
@@ -9,8 +8,8 @@ def validate_table(request):
         return error
 
     table_id = request.json.get("table_id")
-    if table_id is None:
-        error_msg = "Nothing was given as the value of table_id"
+    if isinstance(table_id, int):
+        error_msg = "table id was not an int"
         return jsonify(error = {"success":False, "message": error_msg})
 
     query = "SELECT table_number FROM table_details WHERE table_number = %s"
@@ -20,6 +19,7 @@ def validate_table(request):
         return jsonify(error = {"success":False, "message": error_msg})
 
     return None
+
 
 def validate_event(request):
     error = validate_table(request)
