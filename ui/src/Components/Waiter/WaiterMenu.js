@@ -56,12 +56,12 @@ const WaiterMenu = () => {
             return response.json();
         }).then((data) => {
             setItems(data.data.items);
-            const items = []
+            const items = [];
             data.data.items.forEach( ele => {
                 if (ele.available === false){
                     items.push([ele.id, "Available"])
                 }
-            })
+            });
             setUnavailableItems(items)
         });
     };

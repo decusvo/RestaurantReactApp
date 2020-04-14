@@ -46,7 +46,6 @@ const useStyles = makeStyles(theme => ({
  * @constructor
  * @memberOf module:Waiter
  */
-
 const WaiterMenuItem = ( props ) => {
     const classes = useStyles();
     const {id,value,state} = props;
