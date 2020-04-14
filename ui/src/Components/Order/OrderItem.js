@@ -94,6 +94,7 @@ const OrderItem = (props) => {
                         <Typography style={{textAlign:"middle"}}>Table: {tableID}</Typography>
                         <Typography style={{textAlign:"middle"}}>Price: {totalPrice}</Typography>
                         <Typography style={{textAlign:"middle"}}>Time: {time}</Typography>
+                        <Typography style={{textAlign:"middle"}}>Time: {time}</Typography>
 
                     </CardContent>
                     <Divider variant="middle" />
