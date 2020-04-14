@@ -8,8 +8,8 @@ def validate_table(request):
         return error
 
     table_id = request.json.get("table_id")
-    if isinstance(table_id, int):
-        error_msg = "table id was not an int"
+    if table_id is None:
+        error_msg = "Nothing was given as the value of table_id"
         return jsonify(error = {"success":False, "message": error_msg})
 
     query = "SELECT table_number FROM table_details WHERE table_number = %s"
