@@ -13,10 +13,6 @@ import buttonStyles from "../../Styling/buttonStyles";
 
 
 /**
- * @module Waiter
- */
-
-/**
  * Custom CSS styling for WaiterMenu.js.
  *
  * @param theme - The global MUI theme created in theme.js

@@ -8,9 +8,6 @@ import Button from '@material-ui/core/Button';
 import Typography from "@material-ui/core/Typography";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
-/**
- * @module Waiter
- */
 
 /**
  * Custom CSS styling for TableWaiterCard.js

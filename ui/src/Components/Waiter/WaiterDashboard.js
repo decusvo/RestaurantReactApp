@@ -7,9 +7,6 @@ import OrderItem from "../Order/OrderItem";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
-/**
- * @module Waiter
- */
 
 /**
  * Custom CSS styling for WaiterDashboard.js.
