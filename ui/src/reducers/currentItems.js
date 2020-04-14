@@ -1,3 +1,13 @@
+/**
+ * If action type is add_item adds item to items and increments total
+ * if action type is remove_item then removes items and decrements total
+ * if action type is reset_items then resets total to 0 and makes items an empty array
+ *
+ * @param state global state of items
+ * @param action the action triggered from actions
+ * @return {{total: number, items: T[]}|{total: number, items: ([]|*[])}|{total: number, items: []}}
+ * @memberOf module:Reducers
+ */
 const currentItems = (state = {items: [], total: 0}, action) => {
     switch (action.type) {
         case "ADD_ITEM":
