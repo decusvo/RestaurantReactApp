@@ -7,7 +7,15 @@ import OrderItem from "../Order/OrderItem";
 import {useN04TextInfoContentStyles} from "@mui-treasury/styles/textInfoContent/n04";
 import TextInfoContent from "@mui-treasury/components/content/textInfo";
 
-//basic styles
+/**
+ * @module Waiter
+ */
+
+/**
+ * Custom CSS styling for Login.js.
+ *
+ * @param theme - The global MUI theme created in theme.js
+ */
 const useStyles = theme => ({
     root: {
         flexGrow: 1,
@@ -35,9 +43,11 @@ const _ = require('lodash');
  *
  * WaiterDashboard - component responsible for displaying the dashboard
  * where the waiter can change state of orders and cancel them
+ *
  * @param props
  * @returns {*} - a rendered container of three lists containing order from differend sates
  * @constructor
+ * @memberOf module:Waiter
  */
 const WaiterDashboard = (props) => {
     const {classes} = props;
