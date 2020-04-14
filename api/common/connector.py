@@ -16,12 +16,17 @@ import psycopg2
 val = None
 connection = None
 
+
+# closes the connection
 def exit():
 	global connection
 	if connection:
 		connection.close()
 		connection = None
 
+
+# performs query to the database and returns the result
+# takes arguments that are substituted for '%s' in the query
 def execute_query(query_string, args=None):
 	global connection
 	if not connection:
@@ -30,13 +35,13 @@ def execute_query(query_string, args=None):
 	result = None
 	try:
 		if args:
-			cursor.execute(query_string, args)
+			cursor.execute(query_string, args)  # flasks equivalent to prepared statement prevents sql injections
 		else:
 			cursor.execute(query_string)
 		connection.commit()
 		result = cursor.fetchall()
 
-	except:
+	except:  # catches errors in the query or connection
 		print("Query failed")
 		cursor.close()
 		raise
@@ -47,7 +52,8 @@ def execute_query(query_string, args=None):
 
 	return result
 
-# this is necessary because insert querys return None on mosts occasions
+
+# this is necessary because insert query's return None on most occasions
 # we also need to handle insert statement failures differently
 def execute_insert_query(query_string, args=None):
 	global connection
@@ -71,6 +77,8 @@ def execute_insert_query(query_string, args=None):
 
 	return True
 
+
+# makes the connection to the database
 def get_connection():
 	global connection
 	if connection:
@@ -78,6 +86,8 @@ def get_connection():
 	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)
 	return connection
 
+
+# initialises connection upon startup
 def __init__():
 	global connection
 	connection = psycopg2.connect(database=db_name, user=user, password=password, host=host)

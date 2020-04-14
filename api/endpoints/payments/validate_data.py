@@ -1,6 +1,4 @@
 from flask import Flask, request, jsonify, Blueprint
-import json
-import psycopg2
 from common import connector, validate_functions as vf
 import datetime
 

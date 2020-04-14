@@ -38,6 +38,8 @@ def auto_assign_waiter(table_num):
 		connector.execute_insert_query(query,(waiter_email, table_num))
 
 
+# goes through all expected values and checks if they exist in the request
+# returns error message if not found or if nothing was sent in the request
 def sent_expected_values(expected_values, request):
 	if request.json is None:
 		error_msg = "Nothing given in json, Expected "
