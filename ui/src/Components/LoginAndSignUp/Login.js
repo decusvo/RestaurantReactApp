@@ -60,6 +60,7 @@ const Login = (props) => {
   const [rememberMe, setRememberMe] = React.useState(false);
   const [tables, setTables] = React.useState([]);
   const [table, setTable] = React.useState(-1);
+  const [disableOptions,setDisableOptions] = React.useState(false);
   localStorage.setItem("table", table.toLocaleString());
 
 	/**
@@ -115,6 +116,7 @@ const Login = (props) => {
 	 */
 
 	const handleSubmit = event => {
+	setDisableOptions(true);
     if (rememberMe === true) {
       localStorage.setItem("email", email);
       localStorage.setItem("rememberEmail", "true");
@@ -261,11 +263,12 @@ const Login = (props) => {
 								<FormControlLabel
 										control={<Checkbox value="remember" color="primary" />}
 										label="Remember me"
+										disabled={disableOptions}
 										onChange={setRemember}
 										defaultChecked={(localStorage.getItem("rememberEmail") === "true")}
 								/>
 								<FormControlLabel
-										control={<Checkbox value={staff} color="primary" onChange={handleStaff} />}
+										control={<Checkbox value={staff} color="primary" disabled={disableOptions} onChange={handleStaff} />}
 										label="Staff member?"
 								/>
 								<Button
