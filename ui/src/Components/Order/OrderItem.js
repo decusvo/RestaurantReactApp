@@ -14,6 +14,7 @@ import ClearIcon from '@material-ui/icons/Clear';
 
 const OrderItem = (props) => {
 
+    //Changes state of order
     const NextStateHandler = (orderState, orderID) => {
         //check if order state is "requested" or "readytoDeliver"
         if (orderState === "requested") {
